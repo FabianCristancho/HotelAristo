@@ -1,0 +1,15 @@
+@media only screen and (min-width: 1220px){
+    .ln {
+        visibility: visible;
+        width: 25%;
+        float: right;
+    }
+
+    #line {
+        visibility: visible;
+        float: right;
+        background-size: cover;
+        max-height: 90px;
+        float: left;
+    }
+}
