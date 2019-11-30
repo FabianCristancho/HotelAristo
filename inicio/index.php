@@ -1,33 +1,31 @@
-<?php 
-    include_once '../includes/user.php';
-    $user = new User();
-?>
-
 <!DOCTYPE html>
 <html>
 
 <head>
-	<title>Inicio| Hotel Aristo</title>
+	<title>Home | Hotel Aristo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="/res/img/famicon.png" />
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-	<link rel="stylesheet" type="text/css" href="/css/home.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-800.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-	<link rel="stylesheet" type="text/css" href="/css/alerts.css">
-	<script type="text/javascript" src="/js/moment.js"></script>
-	<script type="text/javascript" src="/js/dynamic.js"></script>
+	<link rel="shortcut icon" href="../res/img/famicon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/inicio.css">
+	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-800.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-1024.css">
+    <link rel="stylesheet" type="text/css" href="../css/main-1220.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-1366.css">
+	<link rel="stylesheet" type="text/css" href="../css/alerts.css">
+	<script type="text/javascript" src="../js/moment.js"></script>
+	<script type="text/javascript" src="../js/dynamic.js"></script>
 </head>
 
-<body onload ="checkColors();">
-                <header class="col-12">
+<body onload ="getDate('control-date',0);">
+    
+    <header class="col-12">
             <a href="/inicio">
                 <img id="logo-hotel" src="/res/img/logoA.png">
             </a>
-            <button onclick="window.location.href = '/inicio';" class="main-menu-item menu-item" >
-                <img src="/res/img/home-icon-black.png">
+            <button id="current-item"  onclick="window.location.href = '/inicio';" class="main-menu-item menu-item" >
+                <img src="../res/img/home-icon-white.png">
                 <p>Inicio</p>
             </button>
 
@@ -58,54 +56,61 @@
                 </div>
 
 
-                <button id="current-item" onclick="window.location.href = '/control_diario';" class="main-menu-item menu-item">
-                    <img src="/res/img/control-icon-white.png">
+                <button onclick="window.location.href = '/control_diario';" class="main-menu-item menu-item">
+                    <img src="../res/img/control-icon-black.png">
                     <p>Control diario</p>
                 </button>
-                <button onclick="window.location.href = '';" class="main-menu-item menu-item">
+                <button onclick="window.location.href = '/factura/index.php';" class="main-menu-item menu-item">
                     <img src="/res/img/bill-icon-black.png">
                     <p>Facturación</p>
                 </button>
 
                 <button onclick="window.location.href = '/includes/logout.php';" class="main-menu-item menu-item">
-                    <img src="/res/img/logout-icon-black.png">
+                    <img src="../res/img/logout-icon-black.png">
                     <p>Cerrar sesión</p>
                 </button>
         </header>
-
-	<div id="content" class="col-12">
-<div class="menu">
-        <a href="#" class="button-i">
+    
+    
+    <div class="content">
+        <div class="title">
+            <p><strong>HOTEL ARISTO</strong></p>
+        </div>
+        <div class="menu">
+        <a href="../reservas/index.php" class="button">
             <p>Reserva</p>
-            <img src="/res/img/book-icon-white.png">
+            <img src="../res/img/book-icon-white.png">
         </a>
-        <a href="#" class="button-i">
-            <p>Historial de </br>Habitación</p>
-            <img src="/res/img/room-icon-white.png">
+        <a href="../historial_habitacion/index.php" class="button">
+            <p>Historial de Habitación</p>
+            <img src="../res/img/room-icon-white.png">
         </a>
-        <a href="#" class="button-i">
+        <a href="../control/index.php" class="button">
             <p>Control Diario</p>
-            <img src="/res/img/control-icon-white.png">
+            <img src="../res/img/control-icon-white.png">
         </a>
-        <a href="#" class="button-i">
+        <a href="../registro_usuarios/index.php" class="button">
             <p>Usuarios</p>
-            <img src="/res/img/use-whiter.png">
+            <img src="../res/img/use-whiter.png">
         </a>
-        <a href="#" class="button-i">
+        <a href="../consulta_empresas/index.php" class="button">
             <p>Empresas</p>
-            <img src="/res/img/company-white.png">
+            <img src="../res/img/company-white.png">
         </a>
-        <a href="#" class="button-i">
+        <a href="../factura/index.php" class="button">
             <p>Facturación</p>
-            <img src="/res/img/bill-icon-white.png">
+            <img src="../res/img/bill-icon-white.png">
         </a>
         
     </div>
-	</div>
+    </div>
+    
+    
+
 	<div id="aux-footer" class="col-12"></div>
-	<footer class="col-12">
-		Hotel Aristo 2019
-	</footer>
+	<footer>
+        <a href="index.php" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
+    </footer>
 
 </body>
 </html>
