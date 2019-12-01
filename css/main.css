@@ -26,8 +26,14 @@ header{
     height: 90px;
 }
 
+h1{
+    color: #18347D;
+    text-align: center;
+}
+
 .heading{
     color: #18347D;
+    text-align: center;
 }
 
 #logo-hotel{
@@ -250,11 +256,17 @@ thead{
     text-decoration: none;
     box-shadow: 0px 2px 0px #1b2a40;
     border-radius: 7px;
+    cursor: pointer;
 }
 
 #button-more-info:hover{
     box-shadow: 0px 0px 0px;
     background: #0E1F4A;
+}
+
+.btn-new-bill{
+    padding: 30px;
+    float: right;
 }
 
 #control-date{
