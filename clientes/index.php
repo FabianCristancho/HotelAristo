@@ -1,8 +1,14 @@
+<?php
+    include_once '../includes/database.php';
+    include_once '../includes/consult.php';
+    $consult=new Consult();
+?>
+
 <!DOCTYPE html>
 <html>
 
     <head>
-        <title>Facturas | Hotel Aristo</title>
+        <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="../res/img/famicon.png" />
@@ -38,8 +44,8 @@
             </div>
 
             <div class="dropdown menu-item">
-                <button onclick="window.location.href = '';" class="main-menu-item">
-                    <img src="../res/img/book-icon-black.png">
+                <button id="current-item" onclick="window.location.href = '';" class="main-menu-item">
+                    <img src="../res/img/book-icon-white.png">
                     <p>Consultar</p>
                 </button>
                 <br>
@@ -56,8 +62,8 @@
                 <img src="../res/img/control-icon-black.png">
                 <p>Control diario</p>
             </button>
-            <button id="current-item" onclick="window.location.href = '';" class="main-menu-item menu-item">
-                        <img src="../res/img/bill-icon-white.png">
+            <button onclick="window.location.href = '';" class="main-menu-item menu-item">
+                        <img src="../res/img/bill-icon-black.png">
                 <p>Facturación</p>
             </button>
 
@@ -70,28 +76,29 @@
         <div id="content" class="col-12">
 
             <div class="marco nearly-page">
-                <h1 class="heading">FACTURAS (Registro es un ejemplo para enlazar reportes)</h1>
-                <a id="button-more-info" class="btn-new-bill">NUEVA FACTURA</a>
+                <h1 class="heading">CLIENTES</h1>
+                <a id="button-more-info" class="btn-new-bill">NUEVO CLIENTE</a>
                 <div class="scroll-block">
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>FECHA DE FACTURACIÓN</th>
-                                <th>HUÉSPED</th>
-                                <th>VALOR FACTURADO($)</th>
-                                <th>RESPONSABLE</th>
+                                <th>NOMBRE</th>
+                                <th>TIPO DOCUMENTO</th>
+                                <th>NÚMERO DE DOCUMENTO</th>
+                                <th>FECHA DE EXPEDICIÓN</th>
+                                <th>PROFESIÓN</th>
+                                <th>GÉNERO</th>
+                                <th>FECHA DE NACIMIENTO</th>
+                                <th>TIPO DE SANGRE</th>
+                                <th>TELÉFONO</th>
+                                <th>CORREO</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tr>
-                            <td>C123</td>
-                            <td>12/11/2019</td>
-                            <td>Martha Sánchez</td>
-                            <td>120.000</td>
-                            <td>zULY lÓPEZ</td>
-                            <td> <a href="../factura/index.php" id="button-more-info" class="col-10">Más información</a> </td>
-                        </tr>
+                        
+                        <?php
+                            $consult->getTable('customers');
+                        ?>
                     </table>
                 </div>
             </div>
