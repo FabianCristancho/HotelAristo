@@ -49,6 +49,9 @@
                 case 'type_document':
                     $this->typeDocument();
                 break;
+                case 'customers':
+                    $this->customerTable();
+                    break;
             }
         }
 
@@ -59,6 +62,27 @@
                 echo '<option value="'.$current['id_empresa'].'">'.$current['nombre_empresa'].'</option>';
             }
         }
+        
+        function customerTable(){
+            $query = $this->connect()->prepare('SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, profesiones pr, lugares l WHERE p.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar AND tipo_persona = "C"');
+            $query->execute();
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['tipo_documento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['nombre_lugar'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['genero'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_nacimiento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['tipo_sangre_rh'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                echo '<td><a href="" id="button-more-info" class="col-10">Editar información</a></td>';
+                echo '</tr>'.PHP_EOL;
+            }
+        }
+        
 
         function roomTypeList($type){
             $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones WHERE tipo_habitacion='.'"'.$type.'"');
