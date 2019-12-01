@@ -26,6 +26,10 @@ header{
     height: 90px;
 }
 
+.heading{
+    color: #18347D;
+}
+
 #logo-hotel{
     float: left;
 	width: 60px;
@@ -60,7 +64,7 @@ a{
 }
 
 .main-menu-item:hover{
-    background: #F2F222;
+    background: #FFFF00;
     cursor: pointer;
 }
 
@@ -172,11 +176,6 @@ a:visited{
 
 #sub-register button{
     float: right;
-}
-
-h1{
-    text-align: center;
-    font-family: sans-serif;
 }
 
 #control-date{
