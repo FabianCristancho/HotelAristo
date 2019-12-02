@@ -77,27 +77,27 @@
             <p><strong>HOTEL ARISTO</strong></p>
         </div>
         <div class="menu">
-        <a href="../reservas/index.php" class="button">
+        <a href="../reservas/" class="button">
             <p>Reserva</p>
             <img src="../res/img/book-icon-white.png">
         </a>
-        <a href="../historial_habitacion/index.php" class="button">
+        <a href="../historial_habitacion/" class="button">
             <p>Historial de Habitación</p>
             <img src="../res/img/room-icon-white.png">
         </a>
-        <a href="../control/index.php" class="button">
+        <a href="../control/" class="button">
             <p>Control Diario</p>
             <img src="../res/img/control-icon-white.png">
         </a>
-        <a href="../registro_usuarios/index.php" class="button">
+        <a href="../registro_usuarios/" class="button">
             <p>Usuarios</p>
             <img src="../res/img/use-whiter.png">
         </a>
-        <a href="../consulta_empresas/index.php" class="button">
+        <a href="../consulta_empresas/" class="button">
             <p>Empresas</p>
             <img src="../res/img/company-white.png">
         </a>
-        <a href="../factura/index.php" class="button">
+        <a href="../factura/" class="button">
             <p>Facturación</p>
             <img src="../res/img/bill-icon-white.png">
         </a>
