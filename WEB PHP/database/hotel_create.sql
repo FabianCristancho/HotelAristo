@@ -70,6 +70,7 @@ CREATE TABLE habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	tipo_habitacion CHAR(1) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
+	capacidad_maxima INT(1) NOT NULL,
 	estado_habitacion CHAR(1) NOT NULL,
 	tarifa_habitacion INT(7) NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
@@ -142,10 +143,17 @@ CREATE TABLE registros_habitacion(
 
 
 CREATE TABLE impuestos(
-	id_retefuente INT(3) NOT NULL AUTO_INCREMENT,
-	nombre_retefuente VARCHAR(30) NOT NULL,
+	id_impuesto INT(3) NOT NULL AUTO_INCREMENT,
+	nombre_impuesto VARCHAR(30) NOT NULL,
 	porcentaje_retefuente DECIMAL(6,5) NOT NULL,
-	CONSTRAINT ret_pk_idr PRIMARY KEY (id_retefuente)
+	CONSTRAINT imp_pk_idi PRIMARY KEY (id_impuesto)
+);
+
+CREATE TABLE tarifas(
+	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
+	tipo_desayuno CHAR(1) NOT NULL,
+	valor_tarifa DECIMAL INT(6) NOT NULL,
+	CONSTRAINT tar_pk_idt PRIMARY KEY (id_tarifa)
 );
 
 
