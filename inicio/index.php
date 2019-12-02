@@ -1,3 +1,16 @@
+<?php
+    include_once '../includes/user.php';
+
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+?>
+
 <!DOCTYPE html>
 <html>
 
