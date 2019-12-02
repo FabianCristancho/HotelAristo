@@ -1,8 +1,18 @@
 <?php
-    include_once '../includes/database.php';
+    include_once '../includes/user.php';
     include_once '../includes/consult.php';
+
     $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
 ?>
+
 <!DOCTYPE html>
 <html>
 
