@@ -38,6 +38,7 @@
             <div class="dropdown-content">
                 <a href="../nueva_reserva">Registar reserva</a>
                 <a href="../nueva_empresa">Registrar empresas</a>
+                <a href="../registro_usuarios">Registrar usuario</a>
             </div>
         </div>
 
@@ -76,22 +77,22 @@
         </div>
         <div class="menu">
         <a href="../reservas/" class="button">
-            <p>Reserva</p>
+            <p>Reservas</p>
             <img src="../res/img/book-icon-white.png">
         </a>
         <a href="../historial_habitacion/" class="button">
             <p>Historial de Habitación</p>
             <img src="../res/img/room-icon-white.png">
         </a>
-        <a href="../control/" class="button">
-            <p>Control Diario</p>
+        <a href="../control_diario/" class="button">
+            <p>Control diario</p>
             <img src="../res/img/control-icon-white.png">
         </a>
         <a href="../registro_usuarios/" class="button">
             <p>Usuarios</p>
             <img src="../res/img/use-whiter.png">
         </a>
-        <a href="../consulta_empresas/" class="button">
+        <a href="../empresas/" class="button">
             <p>Empresas</p>
             <img src="../res/img/company-white.png">
         </a>

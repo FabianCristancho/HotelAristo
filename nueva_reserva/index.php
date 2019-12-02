@@ -143,17 +143,28 @@
 					</div>
 
 					<div class="input-block">
+						<label>Numero de huespedes</label>
+						<br>
+						<select id="cantidad-huespedes" onchange ="updateGuest();">
+							<option value="1">1 (Sencilla)</option>
+							<option value="2">2 (Pareja)</option>
+							<option value="2">2 (Doble)</option>
+							<option value="3">3 (Triple)</option>
+							<option value="4">3 (Triple + Sofacama)</option>
+						</select>
+					</div>
+
+					<div class="input-block">
 						<label>Tarifa de habitación</label>
 						<br>
 						<input id="room-rate" class="col-12" type="text" placeholder="Tarifa de habitación" pattern="[0-9]{1,15}">
 					</div>
 
 					<div class="input-block">
-						<label>Numero de huespedes</label>
+						<label>Adicional</label>
 						<br>
 						<select id="cantidad-huespedes" onchange ="updateGuest();">
-							<option value="1">1</option>
-							<option value="2">2</option>
+							<option value="0">Ninguno</option>
 						</select>
 					</div>
 				</div>
