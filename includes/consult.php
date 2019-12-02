@@ -64,7 +64,7 @@
         }
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, profesiones pr, lugares l WHERE p.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar AND tipo_persona = "C"');
+            $query = $this->connect()->prepare('SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, clientes c, profesiones pr, lugares l WHERE c.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
