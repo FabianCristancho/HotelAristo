@@ -61,7 +61,7 @@
                     <img src="/res/img/control-icon-white.png">
                     <p>Control diario</p>
                 </button>
-                <button onclick="window.location.href = '';" class="main-menu-item menu-item">
+                <button onclick="window.location.href = '/facturas';" class="main-menu-item menu-item">
                     <img src="/res/img/bill-icon-black.png">
                     <p>Facturación</p>
                 </button>

@@ -56,7 +56,7 @@
                 <img src="../res/img/control-icon-black.png">
                 <p>Control diario</p>
             </button>
-            <button id="current-item" onclick="window.location.href = '';" class="main-menu-item menu-item">
+            <button id="current-item" onclick="window.location.href = '../facturas';" class="main-menu-item menu-item">
                         <img src="../res/img/bill-icon-white.png">
                 <p>Facturación</p>
             </button>
@@ -84,14 +84,6 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tr>
-                            <td>C123</td>
-                            <td>12/11/2019</td>
-                            <td>Martha Sánchez</td>
-                            <td>120.000</td>
-                            <td>zULY lÓPEZ</td>
-                            <td> <a href="../factura/index.php" id="button-more-info" class="col-10">Más información</a> </td>
-                        </tr>
                     </table>
                 </div>
             </div>
