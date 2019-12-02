@@ -141,7 +141,7 @@ CREATE TABLE registros_habitacion(
 );
 
 
-CREATE TABLE retefuentes(
+CREATE TABLE impuestos(
 	id_retefuente INT(3) NOT NULL AUTO_INCREMENT,
 	nombre_retefuente VARCHAR(30) NOT NULL,
 	porcentaje_retefuente DECIMAL(6,5) NOT NULL,
@@ -224,16 +224,25 @@ INSERT INTO lugares (id_ubicacion,nombre_lugar,tipo_lugar) (
 ---------------------------------------Cargos--------------------------------------------------
 INSERT INTO cargos (nombre_cargo) VALUES 
 ('Directora administrativa'),('Coordinadora'),('Recepcionista'),('Camarera'),('Superusuario');
-
+-----------------------------------------------------------------
+INSERT INTO profesiones (nombre_profesion) VALUES ('INGENIERO'), 
+('ECONOMINSTA'), 
+('ESTUDIANTE'), 
+('CONDUCTOR'), 
+('MECÁNICO'), 
+('MODISTA'), 
+('ESTILISTA'), 
+('PANADERO');
 ----------------------------------------------------------------------------------------------------
 INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,apellidos_persona,
 	tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,
-	telefono_persona,correo_persona) VALUES
-(40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','23/10/1997','A+','3123871293',NULL);
+	telefono_persona,correo_persona, tipo_persona) VALUES
+(40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','23/10/1997','A+','3123871293',NULL, 'U'),
+(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','28/05/1999','B+','3125743447',NULL, 'U');
 -----------------------------------------------------------------------------------------
 INSERT INTO usuarios (nombre_usuario,contrasena_usuario,id_persona, id_cargo) VALUES 
-('andres.chaparro',md5('admin'),1,5);
-
+('andres.chaparro',md5('admin'),1,5),
+('admin',md5('admin'),2,5);
 ---------------------------------------Empresas-------------------------------------------------
 INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente, otro_retefuente) VALUES 
 ('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1, 0),
