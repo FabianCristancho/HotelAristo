@@ -1,18 +1,18 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto", sans-serif;
-}
+
 
 /*Estilos Generales*/
 
 .content{
     text-align: center;
+    
 }
 
 .title{
     text-align: center;
     width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
 }
 
 .title p{
@@ -21,12 +21,16 @@
     padding-bottom: 20px;
     color: #18347D;
     font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
 }
 
 .menu{
    width: 70%;
     margin-left: auto;
     margin-right: auto;
+    
 }
 
 .button{
@@ -38,6 +42,7 @@
     width: 230px;
     text-decoration: none;
     box-shadow: 0px 3px 0px #373c3c;
+    
 }
 
 .button:hover{
@@ -47,6 +52,9 @@
 .button p{
     color: #fff;
     font-size: 20px;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
 }
 
 .button img{
@@ -54,4 +62,5 @@
     height: 100px;
     border: 0px;
     border-style: none;
+    
 }
