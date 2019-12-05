@@ -6,18 +6,18 @@
 
 class Person extends Database{
     private $id;
-    private $nombre;
-    private $apellido;
-    private $tipoDocumento;
-    private $numeroDocumento;
-    private $lugarNacimiento;
-    private $lugarExpedicionDocumento;
-    private $genero;
-    private $fechaNacimiento;
-    private $tipoSangre;
-    private $telefono;
-    private $correo;
-    private $profesion;
+    private $name;
+    private $lastName;
+    private $typeDocument;
+    private $numberDocument;
+    private $placeBirth;
+    private $placeExpedition;
+    private $gender;
+    private $birthDate;
+    private $typeRH;
+    private $phone;
+    private $email;
+    private $profession;
 
     
     /**
@@ -30,42 +30,74 @@ class Person extends Database{
         $query->execute(['id'=>$id]);
         
         foreach ($query as $currentPerson) {
-            $this->nombre = $currentPerson['nombres_persona'];
-            $this->apellido = $currentPerson['apellidos_persona'];
-            $this->tipoDocumento = $currentPerson['tipo_documento'];
-            $this->numeroDocumento = $currentPerson['numero_documento'];
-            $this->lugarNacimiento = $currentPerson['nac'];
-            $this->lugarExpedicionDocumento = $currentPerson['exp'];
-            $this->genero = $currentPerson['genero'];
-            $this->fechaNacimiento = $currentPerson['fecha_nacimiento'];
-            $this->tipoSangre = $currentPerson['tipo_sangre_rh'];
-            $this->telefono = $currentPerson['telefono_persona'];
-            $this->correo = $currentPerson['correo_persona'];
-            $this->profesion = $currentPerson['nombre_profesion'];
+            $this->name = $currentPerson['nombres_persona'];
+            $this->lastName = $currentPerson['apellidos_persona'];
+            $this->typeDocument = $currentPerson['tipo_documento'];
+            $this->numberDocument = $currentPerson['numero_documento'];
+            $this->placeBirth = $currentPerson['nac'];
+            $this->placeExpedition = $currentPerson['exp'];
+            $this->gender = $currentPerson['genero'];
+            $this->birthDate = $currentPerson['fecha_nacimiento'];
+            $this->typeRH = $currentPerson['tipo_sangre_rh'];
+            $this->phone = $currentPerson['telefono_persona'];
+            $this->email = $currentPerson['correo_persona'];
+            $this->profession = $currentPerson['nombre_profesion'];
         } 
         
     }
     
-    
-    function getNumDocument(){
-        return $this->numeroDocumento;
+    function getId(){
+        return $this->id;
     }
     
-    function getNombre(){
-        return $this->nombre;
+    function getName(){
+        return $this->name;
     }
     
-    function getApellido(){
-        return $this->apellido;
+    function getLastName(){
+        return $this->lastName;
     }
     
-    function getLugarNacimiento(){
-        return $this->lugarNacimiento;
+    function getTypeDocument(){
+        return $this->typeDocument;
     }
     
-    function getTipoDocumento(){
-        return $this->tipoDocumento;
+    function getNumberDocument(){
+        return $this->numberDocument;
     }
+    
+     function getPlaceBirth(){
+        return $this->placeBirth;
+    }
+    
+    function getPlaceExpedition(){
+        return $this->placeExpedition;
+    }
+    
+    function getGender(){
+        return $this->gender;
+    }
+    
+    function getBirthDate(){
+        return $this->birthDate;
+    }
+    
+    function getTypeRH(){
+        return $this->typeRH;
+    }
+    
+    function getPhone(){
+        return $this->phone;
+    }
+    
+    function getEmail(){
+        return $this->email;
+    }
+    
+    function getProfession(){
+        return $this->profession;
+    }
+    
 }
 
 ?>
