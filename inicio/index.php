@@ -34,17 +34,19 @@
 <body onload ="getDate('control-date',0);">
     
     <header class="col-12">
-        <a href="/inicio">
-            <img id="logo-hotel" src="/res/img/logoA.png">
+        <a href="../inicio">
+            <img id="logo-hotel" src="../res/img/logoA.png">
         </a>
-        <button id="current-item"  onclick="window.location.href = '/inicio';" class="main-menu-item menu-item" >
+        <button id="current-item"  onclick="window.location.href = '../inicio';" class="main-menu-item menu-item" >
+
             <img src="../res/img/home-icon-white.png">
             <p>Inicio</p>
         </button>
 
         <div class="dropdown menu-item">
             <button onclick="window.location.href = '';"   class="main-menu-item">
-                <img src="/res/img/book-icon-black.png">
+                <img src="../res/img/book-icon-black.png">
+
                 <p>Registrar</p>
             </button>
             <br>
@@ -57,7 +59,8 @@
 
         <div class="dropdown menu-item">
             <button onclick="window.location.href = '';" class="main-menu-item">
-                <img src="/res/img/book-icon-black.png">
+
+                <img src="../res/img/book-icon-black.png">
                 <p>Consultar</p>
             </button>
             <br>
@@ -74,7 +77,8 @@
             <p>Control diario</p>
         </button>
         <button onclick="window.location.href = '../facturas';" class="main-menu-item menu-item">
-            <img src="/res/img/bill-icon-black.png">
+
+            <img src="../res/img/bill-icon-black.png">
             <p>Facturación</p>
         </button>
         <button onclick="window.location.href = '../includes/logout.php';" class="main-menu-item menu-item">
@@ -117,8 +121,6 @@
     </div>
     </div>
     
-    
-
 	<div id="aux-footer" class="col-12"></div>
 	<footer>
         <a href="index.php" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados

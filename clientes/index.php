@@ -1,6 +1,6 @@
 <?php
-    include_once '../includes/database.php';
-    include_once '../includes/consult.php';
+   include_once '../includes/database.php';
+   include_once '../includes/consult.php';
     $consult=new Consult();
 ?>
 
@@ -20,7 +20,21 @@
         <script type="text/javascript" src="../js/moment.js"></script>
         <script type="text/javascript" src="../js/dynamic.js"></script>
     </head>
+    
+   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            $("#button-update-client").click(function(){
+                var documento="";
 
+                $(this).parents("tr").find(".num").each(function(){
+                    documento+=$(this).html()+"\n";
+                });
+                window.location.href = '../edicion_cliente?documento='+documento;
+            });
+        });
+    </script>-->
+    
     <body>
         <header class="col-12">
             <a href="../inicio">
@@ -78,8 +92,11 @@
             <div class="marco nearly-page">
                 <h1 class="heading">CLIENTES</h1>
                 <a id="button-more-info" class="btn-new-bill">NUEVO CLIENTE</a>
+                
                 <div class="scroll-block">
+                    
                     <table>
+                       
                         <thead>
                             <tr>
                                 <th>NOMBRE</th>
@@ -96,7 +113,8 @@
                             </tr>
                         </thead>
                         
-                        <?php
+                       <?php
+                        
                             $consult->getTable('customers');
                         ?>
                     </table>
