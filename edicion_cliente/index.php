@@ -4,10 +4,10 @@
     include_once '../includes/person.php'; 
     $consult=new Consult();
 
-    if(isset($_GET['documento'])){
-        $documento = $_GET['documento'];
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
         $p = new Person();
-        $p->setId($documento);        
+        $p->setId($id);        
     }
 ?>
 
@@ -99,8 +99,8 @@
                                             "TI" => "Tarjeta de identidad",        
                                             "CE" => "Cédula de extranjería"];
                                 
-                                echo '<option value="'.$p->getTipoDocumento().'" selected>'.$array[$p->getTipoDocumento()].'</option>';
-                                printOptions($array[$p->getTipoDocumento()], $array);
+                                echo '<option value="'.$p->getTypeDocument().'" selected>'.$array[$p->getTypeDocument()].'</option>';
+                                printOptions($array[$p->getTypeDocument()], $array);
                                 
                                 function printOptions($value, $array){
                                     while(list($key, $val)= each($array)){
@@ -117,7 +117,7 @@
 							<label>Numero de documento</label>
 							<br>
                             
-							<input id="doc-num-1" class="col-12" type="text" placeholder="Número de documento" pattern="[0-9]{1,15}" value="<?php echo $p->getNumDocument(); ?>"</input>
+							<input id="doc-num-1" class="col-12" type="text" placeholder="Número de documento" pattern="[0-9]{1,15}" value="<?php echo $p->getNumberDocument(); ?>"</input>
 						</div>
 
 						<div class="input-block">
@@ -215,8 +215,8 @@
 				</div>
         
         <?php
-            echo "Cliente con id".$documento." se llama ".$p->getNombre()." ".$p->getApellido()." y nació en ".$p->getLugarNacimiento(); 
-        echo $p->getNumDocument();
+            echo "Cliente con id".$id." se llama ".$p->getName()." ".$p->getLastName()." y nació en ".$p->getPlaceBirth(); 
+        echo $p->getNumberDocument();
         ?>
         
 
