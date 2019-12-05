@@ -19,7 +19,6 @@ class Person extends Database{
     private $email;
     private $profession;
 
-    
     /**
     * Constructor que recibe por parámetro un valor numérico id y lo asigna al id del cliente
     */
@@ -43,9 +42,9 @@ class Person extends Database{
             $this->email = $currentPerson['correo_persona'];
             $this->profession = $currentPerson['nombre_profesion'];
         } 
-        
     }
     
+  
     function getId(){
         return $this->id;
     }
@@ -97,7 +96,6 @@ class Person extends Database{
     function getProfession(){
         return $this->profession;
     }
-    
 }
 
 ?>
