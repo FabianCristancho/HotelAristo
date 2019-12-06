@@ -215,6 +215,16 @@
         		return 'Fuera de servicio';
         	}
         }
+        
+        function genericSelect($table, $getValue, $compare, $compareValue){
+            $query = $this->connect()->prepare('SELECT '.$getValue.' FROM '.$table.' WHERE '.$compare.' = '.$compareValue);
+            $query->execute();
+            $result = '';
+            foreach ($query as $current) {
+                $result = $current[$getValue];
+            }
+            return $result;
+        }
     }
 ?>
 
