@@ -64,13 +64,13 @@
         }
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, clientes c, profesiones pr, lugares l WHERE c.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar');
+            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "Hombre" WHEN "F" THEN "Mujer" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, profesiones pr, lugares l WHERE p.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar AND tipo_persona = "C"');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['tipo_documento'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_lugar'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['genero'].'</td>'.PHP_EOL;
@@ -78,7 +78,7 @@
                 echo '<td>'.$current['tipo_sangre_rh'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td><a href="" id="button-more-info" class="col-10">Editar información</a></td>';
+                echo '<td><a href="../edicion_cliente/?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Editar información</a></td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -151,6 +151,33 @@
                 echo '<td><input type="checkbox"></td>';
                 echo '<td><a href="" id="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
+            }
+        }
+        
+        function getRemainingProfession($currentProfession){
+            $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
+            $query->execute();
+            foreach ($query as $current) {
+                if($current['nombre_profesion']!=$currentProfession)
+                    echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>'; 
+            }
+        }
+        
+        function getRemainingExp($currentExp){
+            $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="C" ORDER BY 2');
+            $query->execute();
+            foreach ($query as $current) {
+                if($current['nombre_lugar']!=$currentExp)
+                echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
+            }
+        }
+        
+        function getRemainingNac($currentNac){
+            $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="P" ORDER BY 2');
+            $query->execute();
+            foreach ($query as $current) {
+                if($current['nombre_lugar']!=$currentNac)
+                echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
             }
         }
         
