@@ -12,34 +12,6 @@
     if($p->getNumberDocument() === NULL){
         header('Location: ../clientes');
     }
-
-        $idPerson = $_POST['id'];
-        $typeDoc = $_POST['typeDoc'];
-        $numberDoc = $_POST['numberDoc'];
-        $placeExp = $_POST['placeExp'];
-        $name = $_POST['name'];
-        $lastName = $_POST['lastName'];
-        $phone = $_POST['phone'];
-        $email = $_POST['email'];
-        $gender = $_POST['gender'];
-        $birthDate = $_POST['birthDate'];
-        $typeBlood = $_POST['typeBlood'];
-        $rh = $_POST['rh'];
-        $profession = $_POST['profession'];
-        $nationality = $_POST['nationality'];
-        
-        
-        $con=mysqli_connect("localhost","admin","admin","hotelaristo");
-
-        if (mysqli_connect_errno()){
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-        
-        mysqli_query($con,"UPDATE personas SET id_persona = $id, id_lugar_expedicion = $consult->genericSelect('lugares', 'id_lugar', 'nombre_lugar', $placeExp), nombres_persona = $name, apellidos_persona = $lastName, tipo_documento = CASE WHEN $typeDoc = 'Cédula de ciudadanía' THEN 'CC' WHEN $typeDoc = 'Cédula de extranjería' THEN 'CE' WHEN $typeDoc = 'Registro civil' THEN 'RC' WHEN $typeDoc = 'Tarjeta de identidad' THEN 'TI' END, numero_documento = $numberDoc, genero_persona = CASE WHEN $gender = 'Mujer' THEN 'M' WHEN $gender = 'Hombre' THEN 'H' END fecha_nacimiento = $birthDate tipo_sangre_rh = $typeBlood$rh, telefono_persona = $phone, correo_persona = $email, id_profesion = $consult->genericSelect('profesiones', 'id_profesion', 'nombre_profesion', $profession)");
-        
-        $sql = mysqli_query()
-    
-
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +29,7 @@
         <link rel="stylesheet" type="text/css" href="../css/alerts.css">
         <script type="text/javascript" src="../js/moment.js"></script>
         <script type="text/javascript" src="../js/dynamic.js"></script>
+        <script type="text/javascript" src="../js/hotel-db.js"></script>
         <style>
             .row-block{
                 padding-bottom: 10px;
@@ -118,7 +91,7 @@
         </header>
         
         <div id="informacion-personal-1" class="marco responsive-page">
-            <form action="" method="post">
+            <form id="formCustomer">
                 <input type="hidden" name="id" value="<?php echo $id; ?>">
                 <div class="row-block">
                     <div class="input-block">
@@ -260,7 +233,8 @@
                 </div>
             </form>
         </div>
-        <input type="submit", value="Actualizar Datos" id = "button-book">
+        <button type="button" id = "button-book" name="button" onclick="saveUpdateClient();">Actualizar</button>
+        
         
         
         <div id="aux-footer" class="col-12"></div>

@@ -87,6 +87,19 @@ function sendReservation(){
 	return false;
 }
 
+
+function saveUpdateClient(){
+    var dataForm=$("#formCustomer").serialize();
+    $.ajax({
+        url: '/includes/setHotel.php',
+        type: 'post',
+        data: dataForm+"&button=update"
+    }).done(function(ans){
+        alert(ans);
+    });
+}
+
+
 function x(){
 
     
