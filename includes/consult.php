@@ -1,4 +1,5 @@
 <?php
+   include_once '../includes/database.php';
     
     class Consult extends Database {
 
@@ -217,14 +218,50 @@
         }
         
         function genericSelect($table, $getValue, $compare, $compareValue){
-            $query = $this->connect()->prepare('SELECT '.$getValue.' FROM '.$table.' WHERE '.$compare.' = '.$compareValue);
+            $query = $this->connect()->prepare('SELECT '.$getValue.' FROM '.$table.' WHERE '.$compare.' = "'.$compareValue.'"');
             $query->execute();
+            
             $result = '';
             foreach ($query as $current) {
                 $result = $current[$getValue];
             }
             return $result;
         }
+        
+        function selectTypesDocument($typeDocument){
+            $query = $this->connect()->prepare('SELECT CASE WHEN "'.$typeDocument.'" = "Cédula de ciudadanía" THEN "CC" WHEN "'.$typeDocument.'" = "Cédula de extranjería" THEN "CE" WHEN "'.$typeDocument.'" = "Registro civil" THEN "RC" WHEN "'.$typeDocument.'" = "Tarjeta de identidad" THEN "TI" END AS type');
+            $query->execute();
+            
+            $result = '';
+            foreach ($query as $current) {
+                $result = $current['type'];
+            }
+            return $result;
+        }
+        
+        function selectGender($gender){
+            $query = $this->connect()->prepare('SELECT CASE WHEN UPPER("'.$gender.'") = "MUJER" THEN "F" WHEN UPPER("'.$gender.'") = "HOMBRE" THEN "M" END AS gender');
+            $query->execute();
+            
+            $result = '';
+            foreach ($query as $current) {
+                $result = $current['gender'];
+            }
+            return $result;
+        }
+        
+        
+        function updateDataCustomers($id, $placeExp, $name, $lastName, $typeDoc, $numberDoc, $gender, $birthDate, $typeBlood, $rh, $phone, $email, $profession){
+            
+            $sql = $this->connect()->prepare("UPDATE personas SET id_persona = $id, id_lugar_expedicion = ". $this->genericSelect('lugares', 'id_lugar', 'nombre_lugar', $placeExp).", nombres_persona = '$name', apellidos_persona = '$lastName', tipo_documento = '".$this->selectTypesDocument($typeDoc)."', numero_documento = '$numberDoc', genero_persona = '".$this->selectGender($gender)."', tipo_sangre_rh = '$typeBlood$rh', telefono_persona = '$phone', correo_persona = '$email', id_profesion = ".$this->genericSelect('profesiones', 'id_profesion', 'nombre_profesion', $profession)." WHERE id_persona = $id");
+            
+            if($sql->execute()){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
+
 ?>
 
