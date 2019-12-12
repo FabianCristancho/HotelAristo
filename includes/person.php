@@ -1,23 +1,25 @@
 <?php
+include 'database.php';
+
 /**
  * Clase person
  * Contiene los datos generales de una persona
  */
 
 class Person extends Database{
-    private $id;
-    private $name;
-    private $lastName;
-    private $typeDocument;
-    private $numberDocument;
-    private $placeBirth;
-    private $placeExpedition;
-    private $gender;
-    private $birthDate;
-    private $typeRH;
-    private $phone;
-    private $email;
-    private $profession;
+    protected $id;
+    protected $name;
+    protected $lastName;
+    protected $typeDocument;
+    protected $numberDocument;
+    protected $placeBirth;
+    protected $placeExpedition;
+    protected $gender;
+    protected $birthDate;
+    protected $typeRH;
+    protected $phone;
+    protected $email;
+    protected $profession;
 
     /**
     * Constructor que recibe por parámetro un valor numérico id y lo asigna al id del cliente
