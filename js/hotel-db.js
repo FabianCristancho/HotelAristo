@@ -80,14 +80,13 @@ function sendReservation(){
 		url: '/includes/insert.php',
 		data: data,
 		success: function (ans) {
-			console.log(ans);
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-e','No se pudo conectar con la base de datos');
 		}
 	});
 
 	return false;
-}
-
-function x(){
-
-    
 }

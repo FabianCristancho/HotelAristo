@@ -88,7 +88,7 @@ CREATE TABLE personas(
 	id_lugar_expedicion INT(8) NOT NULL,
 	id_profesion INT(4),
 	id_empresa INT(6),
-	id_cargo INT(1) NOT NULL,
+	id_cargo INT(1),
 	nombres_persona VARCHAR(150) NOT NULL,
 	apellidos_persona VARCHAR(150) NOT NULL,
 	tipo_documento VARCHAR(2) NOT NULL,
@@ -228,11 +228,8 @@ INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,ape
 	tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,
 	telefono_persona,correo_persona, tipo_persona, id_cargo, nombre_usuario, contrasena_usuario) VALUES
 (40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','23/10/1997','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
-(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','28/05/1999','B+','3125743447',NULL, 'U',5,'fabian.cristancho'md5('admin'));
------------------------------------------------------------------------------------------
-INSERT INTO usuarios (nombre_usuario,contrasena_usuario,id_persona, id_cargo) VALUES 
-('andres.chaparro',md5('admin'),1,5),
-('admin',md5('admin'),2,5);
+(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','28/05/1999','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
+
 ---------------------------------------Empresas-------------------------------------------------
 INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente, otro_retefuente) VALUES 
 ('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1, 0),

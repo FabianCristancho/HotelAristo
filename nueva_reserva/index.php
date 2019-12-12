@@ -193,13 +193,30 @@
 							<br>
 							<input id="doc-date-1" class="col-12" type="date">
 						</div>
+						
+						<div class="input-block">
+							<label>Pais</label>
+							<br>
+							<select id="nac-1" class="col-12">
+									<?php $consult->getList('country',''); ?>
+							</select>
+						</div>
+
+						<div class="input-block">
+							<label>Ciudad</label>
+							<br>
+							<select id="nac-1" class="col-12">
+								<?php $consult->getList('city',''); ?>
+							</select>
+						</div>
 					</div>
+
 
 					<div class="input-block">
 						<label>Empresa</label>
 						<br>
 						<select id="enterprise-1" class="adding-select">
-							<option>NINGUNA</option>
+							<option value="NULL">NINGUNA</option>
 							<?php $consult->getList('enterprise',''); ?>
 						</select>
 						<button onclick="showModal('add-bizz');">+</button>
@@ -470,25 +487,25 @@
 					<div id="alert-d" class="alert danger">
 						<span onclick="hideAlert('alert-d');" class="closebtn">&times;</span>  
 						<strong>¡Peligro!</strong> 
-						Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud horizontal
+						<p></p>
 					</div>
 
 					<div id="alert-s" class="alert success">
 						<span onclick="hideAlert('alert-s');" class="closebtn">&times;</span>  
 						<strong>¡Procedimiento exitoso!</strong> 
-						Mensaje
+						<p></p>
 					</div>
 
 					<div id="alert-i" class="alert info">
 						<span onclick="hideAlert('alert-i');" class="closebtn">&times;</span>  
 						<strong>Información!</strong> 
-						Mensaje
+						<p></p>
 					</div>
 
 					<div id="alert-w" class="alert warning">
 						<span onclick="hideAlert('alert-w');" class="closebtn">&times;</span>  
 						<strong>¡Precaución!</strong> 
-						Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud horizontal
+						<p><p>
 					</div>
 				</div>
 			</body>
