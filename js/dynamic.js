@@ -57,8 +57,10 @@ function hideAlert(type){
 	setTimeout(function(){ div.style.display="none"; }, 600);
 	
 }
-function showAlert(type){
+function showAlert(type,message){
 	var div=document.getElementById(type);
+	var m=div.getElementsByTagName("p")[0];
+	m.innerText=message;
 	div.style.opacity = 1;
 	div.style.display = "block"; 
 	setTimeout(function(){
