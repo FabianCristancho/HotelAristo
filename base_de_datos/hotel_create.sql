@@ -13,6 +13,7 @@ use hotelaristo;
 DROP TABLE Paises;
 DROP TABLE Ciudades;
 
+DROP TABLE facturas;
 DROP TABLE registros_habitacion;
 DROP TABLE reservas;
 DROP TABLE usuarios;
@@ -127,6 +128,15 @@ CREATE TABLE reservas (
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
+CREATE TABLE control_diario(
+    id_control INT(8) NOT NULL AUTO_INCREMENT,
+    id_reserva INT(8) NOT NULL,
+    id_servicio INT(8) NOT NULL,
+    fecha_solicitud_servicio DATE NOT NULL,
+    estado_saldo CHAR(2),
+    CONSTRAINT con_pk_idc PRIMARY KEY(id_control)
+);
+
 CREATE TABLE registros_habitacion(
 	id_registro INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
@@ -135,6 +145,17 @@ CREATE TABLE registros_habitacion(
 	fecha_salida DATE NOT NULL,
 	estado_registro VARCHAR(2) NOT NULL,
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro)
+);
+
+CREATE TABLE facturas(
+    id_factura INT(10) NOT NULL AUTO_INCREMENT,
+    id_registro INT(8) NOT NULL,
+    id_control INT(8) NOT NULL,
+    id_usuario INT(8) NOT NULL,
+    serie_factura VARCHAR(4) NOT NULL,
+    valor_total INT(8) NOT NULL,
+    estado_factura CHAR(5),
+    CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
 ALTER TABLE lugares ADD(
@@ -175,12 +196,29 @@ ALTER TABLE reservas ADD (
 	REFERENCES lugares (id_lugar)
 );
 
+ALTER TABLE control_diario ADD (
+    CONSTRAINT con_fk_idr FOREIGN KEY (id_reserva) 
+    REFERENCES reservas(id_reserva),
+    CONSTRAINT con_fk_ids FOREIGN KEY (id_servicio)
+    REFERENCES servicios(id_servicio)
+);
+
 ALTER TABLE registros_habitacion ADD(
 	CONSTRAINT reg_fk_idr FOREIGN KEY (id_reserva)
 	REFERENCES reservas (id_reserva),
 	CONSTRAINT reg_fk_idh FOREIGN KEY (id_habitacion)
 	REFERENCES habitaciones (id_habitacion),
 	CONSTRAINT reg_ck_est CHECK (estado_registro in ('CI','CC'))
+);
+
+ALTER TABLE facturas ADD(
+    CONSTRAINT fac_fk_idr FOREIGN KEY (id_registro)
+    REFERENCES registros_habitacion (id_registro),
+    CONSTRAINT fac_fk_idc FOREIGN KEY (id_control)
+    REFERENCES control_diario(id_control),
+    CONSTRAINT fac_fk_idu FOREIGN KEY (id_usuario)
+    REFERENCES personas(id_persona),
+    CONSTRAINT fac_ck_es CHECK (estado_factura IN ('T' /*TARJETA*/, 'E' /*EFECTIVO*/, 'M' /*MIXTO*/, 'C' /*CONSIGNACION*/, 'A' /*ANULADA*/, 'CXC' /*CUENTAS POR COBRAR*/))
 );
 
 
@@ -197,6 +235,44 @@ INSERT INTO lugares (id_ubicacion,nombre_lugar,tipo_lugar) (
 		WHERE nombre_lugar=pais) pais
 	WHERE paises_codigo=codigo
 );
+
+-------------------------------------------------------------------------------------------------
+---------------------PROCEDIMIENTO ALMACENADO PARA GENERAR SERIE DE FACTURA----------------------
+DELIMITER $
+
+	CREATE PROCEDURE prueba_serie(IN nnombre VARCHAR(50))
+	BEGIN
+		DECLARE maximo VARCHAR(10);
+		DECLARE num INT;
+		DECLARE letter INT;
+		DECLARE codigo VARCHAR(10);
+
+   	 	SET letter = (SELECT MAX(ASCII(LEFT(codigo_factura,1))) FROM facturas);
+		SET num = (SELECT MAX(CAST(SUBSTRING(codigo_factura,2) AS INT)) FROM facturas WHERE ASCII(LEFT(codigo_factura,1))=letter);
+
+   	 	IF num>=1 AND num<=8 THEN
+    		SET num=num+1;
+     		SET codigo = (SELECT CONCAT(CONCAT(CHAR(letter),'00'), CAST(num AS CHAR)));
+    	ELSEIF num>=9 AND num<=98 THEN
+    		SET num=num+1;
+        	SET codigo = (SELECT CONCAT(CONCAT(CHAR(letter),'0'), CAST(num AS CHAR)));
+    	ELSEIF num>=98 AND num<=998 THEN
+    		SET num=num+1;
+        	SET codigo = (SELECT CONCAT(CHAR(letter), CAST(num AS CHAR)));
+       	ELSEIF num=999 THEN
+       		SET codigo = (SELECT CONCAT(CHAR(letter), '1000'));
+    	ELSE 
+    		IF num=1000 THEN
+    			SET letter = letter+1; 
+    			SET codigo = (SELECT CONCAT(CHAR(letter), '001'));
+    		ELSE
+    			SET codigo = (SELECT 'A001');
+    		END IF;
+    	END IF;
+
+    	INSERT INTO facturas (codigo_factura, nombre_factura) VALUES (codigo, nnombre);
+END $
+-------------------------------------------------------------------------------------------------
 
 
 
@@ -235,5 +311,3 @@ INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente,
 ('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1, 0),
 ('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0, 0),
 ('830004993-8', 'CASA TORO S.A', '6760022', 1, 1);
-
-
