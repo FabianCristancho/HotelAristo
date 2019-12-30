@@ -159,6 +159,23 @@ h2{
     background: #485D93;
 }
 
+.contenedor-formulario .formulario .input-group label .label_radio{
+    position: relative;
+    left: 0px;
+    margin-right: 10px;
+    font-size: 16px;
+    margin-left: 16px;
+}
+
+.contenedor-formulario .formulario .input-group input[type="radio"]{
+    width: 10px;
+}
+
+
+.contenedor-formulario .formulario .input-group .radio-text{
+    color: black;
+}
+
 
 .formulario a{
     text-decoration: none;

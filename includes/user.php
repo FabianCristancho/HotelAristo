@@ -1,5 +1,4 @@
 <?php
-include 'person.php';
 /**
  * Clase user
  * Contiene los datos primitivos de un suario de la aplicacion.
