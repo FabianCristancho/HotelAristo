@@ -90,15 +90,19 @@ function changeColor(room){
 	switch(value){
 		case "1":
 		cell.style.background='#f44336';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Ocupada";
 		break;
 		case "2":
 		cell.style.background='yellow';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Disponible";
 		break;
 		case "3":
 		cell.style.background='#ff9800';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Con reserva";
 		break;
 		case "4":
 		cell.style.background='gray';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Fuera de servicio";
 		break;
 	}
 }
@@ -106,6 +110,7 @@ function changeColor(room){
 function checkColors(){
 	var cells=document.getElementsByClassName("room-cell");
 	for (var i = 0; i < cells.length; i++) {
+		console.log(i);
 		changeColor(cells[i].id.replace("room-",""));
 	}
 }

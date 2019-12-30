@@ -1,5 +1,5 @@
 <?php
-	include_once 'user.php';
+	require_once 'classes.php';
 
     $userSession = new UserSession();
     $userSession->closeSession();

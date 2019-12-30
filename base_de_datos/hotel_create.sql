@@ -53,7 +53,7 @@ CREATE TABLE empresas(
 	correo_empresa VARCHAR(100),
 	telefono_empresa VARCHAR(15),
 	retefuente BOOLEAN,
-	otro_retefuente INT(3),
+	otro_impuesto INT(3),
 	CONSTRAINT emp_pk_ide PRIMARY KEY (id_empresa)
 );
 
@@ -144,7 +144,7 @@ ALTER TABLE lugares ADD(
 );
 
 ALTER TABLE empresas ADD(
-	CONSTRAINT emp_fk_otr FOREIGN KEY (otro_retefuente)
+	CONSTRAINT emp_fk_otr FOREIGN KEY (otro_impuesto)
 	REFERENCES impuestos (id_impuesto)
 );
 
@@ -214,26 +214,20 @@ INSERT INTO cargos (nombre_cargo) VALUES
 ('Directora administrativa'),('Coordinadora'),('Recepcionista'),('Camarera'),('Superusuario');
 
 ---------------------------------------Profesiones-------------------------------------------------
-INSERT INTO profesiones (nombre_profesion) VALUES ('INGENIERO'), 
-('ECONOMINSTA'), 
-('ESTUDIANTE'), 
-('CONDUCTOR'), 
-('MECÁNICO'), 
-('MODISTA'), 
-('ESTILISTA'), 
-('PANADERO');
+INSERT INTO profesiones (nombre_profesion) VALUES 
+('INGENIERO'), ('ECONOMINSTA'), ('ESTUDIANTE'), ('CONDUCTOR'), ('MECÁNICO'), ('MODISTA'), ('ESTILISTA'), ('PANADERO');
 
 
 INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,apellidos_persona,
 	tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,
 	telefono_persona,correo_persona, tipo_persona, id_cargo, nombre_usuario, contrasena_usuario) VALUES
-(40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','23/10/1997','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
-(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','28/05/1999','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
+(40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','1997-10-23','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
+(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','1999-05-29','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
 
 ---------------------------------------Empresas-------------------------------------------------
-INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente, otro_retefuente) VALUES 
-('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1, 0),
-('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0, 0),
-('830004993-8', 'CASA TORO S.A', '6760022', 1, 1);
+INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente) VALUES 
+('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1),
+('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0),
+('830004993-8', 'CASA TORO S.A', '6760022', 1);
 
 
