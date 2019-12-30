@@ -1,3 +1,8 @@
 # LISTA DE COSAS PENDIENTES
 
-### 1. Agregar en tabla personas id_nacionalidad (06/12/2019)
+
+
+--------------------------------------------------------------------------------
+# RESUELTO
+
+### * Agregar en tabla personas id_nacionalidad (06/12/2019) | No es necesario, ese es id_lugar_nacimiento
