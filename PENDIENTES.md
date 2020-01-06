@@ -2,6 +2,7 @@
 
 - [ ] Pagina para clientes
 - [ ] Funcionalidad de paginas de detalles
+- [ ] Módulos de edición (para todos los ámbitos)
 
 --------------------------------------------------------------------------------
 
