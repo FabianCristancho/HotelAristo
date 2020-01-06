@@ -135,11 +135,8 @@
                 echo '<tr>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
                 echo '<p class="room-state">'.$this->roomState($current['estado_habitacion']).'</p>'.PHP_EOL;
-                echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');">'.PHP_EOL;
-                echo '<option value="1">Ocupada</option>'.PHP_EOL;
-                echo '<option value="2">Disponible</option>'.PHP_EOL;
-                echo '<option value="3">Con reserva</option>'.PHP_EOL;
-                echo '<option value="4">Fuera de servicio</option>'.PHP_EOL;
+                echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" >'.PHP_EOL;
+                $this->chooseRoomState($current['estado_habitacion']);
                 echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
                 echo '<td>'.$this->roomType($current['tipo_habitacion']).'</td>'.PHP_EOL;
@@ -153,7 +150,7 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-        
+
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
@@ -214,6 +211,36 @@
         		case 'F':
         		return 'Fuera de servicio';
         	}
+        }
+
+        function chooseRoomState($state){
+            switch ($state) {
+                case 'D':
+                    echo '<option value="D">Disponible</option>'.PHP_EOL;
+                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
+                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    break;
+                case 'O':
+                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
+                    echo '<option value="D">Disponible</option>'.PHP_EOL;
+                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    break;
+                case 'M':
+                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
+                    echo '<option value="D">Disponible</option>'.PHP_EOL;
+                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    break;
+                case 'F':
+                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
+                    echo '<option value="D">Disponible</option>'.PHP_EOL;
+                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                    break;
+            }
+            
         }
     }
 ?>

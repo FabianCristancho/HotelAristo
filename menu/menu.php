@@ -19,7 +19,7 @@
 
 		<div class="dropdown menu-item">
 			<button id="registrar" onclick="window.location.href = '';"   class="main-menu-item">
-				<img src="/res/img/book-icon-black.png">
+				<img src="/res/img/register-icon-black.png">
 				<p>Registrar</p>
 			</button>
 			<br>
