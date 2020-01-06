@@ -88,19 +88,19 @@ function changeColor(room){
 	var cell= document.getElementById("room-"+room);
 	var value=document.getElementById("state-"+room).value;
 	switch(value){
-		case "1":
+		case "O":
 		cell.style.background='#f44336';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Ocupada";
 		break;
-		case "2":
+		case "D":
 		cell.style.background='yellow';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Disponible";
 		break;
-		case "3":
+		case "M":
 		cell.style.background='#ff9800';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Con reserva";
 		break;
-		case "4":
+		case "F":
 		cell.style.background='gray';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Fuera de servicio";
 		break;
