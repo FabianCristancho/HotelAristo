@@ -5,33 +5,42 @@
 		<title>Control por Habitación | Hotel Aristo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" href="../../res/img/famicon.png" />
+		<link rel="shortcut icon" href="/../res/img/famicon.png" />
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="../../css/main.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1220.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-		<link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-		<link rel="stylesheet" type="text/css" href="../../css/modal.css">
-		<script type="text/javascript" src="../../js/moment.js"></script>
-		<script type="text/javascript" src="../../js/dynamic.js"></script>
+		<link rel="stylesheet" type="text/css" href="/../css/main.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-800.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/../css/main-1220.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-1366.css">
+		<link rel="stylesheet" type="text/css" href="/../css/alerts.css">
+		<link rel="stylesheet" type="text/css" href="/../css/modal.css">
+		<script type="text/javascript" src="/../js/moment.js"></script>
+		<script type="text/javascript" src="/../js/dynamic.js"></script>
 	</head>
 
 	<!--Construcción de la vista-->
-
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
-	<!--Menu de la aplicación web del hotel Aristo
+	   <!--Menu de la aplicación web del hotel Aristo
 		la clase main-menu-item pertenece a los botones del menú-->
-        <?php include "../../menu/menu.php"; ?>
+        <?php
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../../menu/menu.php"; 
+        ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "control-diario"
+            */
             setCurrentPage("control-diario");
         </script>
+        
         <!--El bloque de contenido es la vista principal de cada pagina
-			puede contener varias clases marco, que distribuyen la informacion.
+            puede contener varias clases marco, que distribuyen la informacion.
 			Si existe un formulario cada dato para introducir es colocado en una clase input-block
-			que contiene una etiqueta y una entrada de informacion-->
-
+			que contiene una etiqueta y una entrada de informacion
+        -->
         <div id="content" class="col-12">
             <div style="float: left;" class="marco responsive-page">
                 <h3><b>Habitación</b></h3>
@@ -185,7 +194,8 @@
 			
 
         <!--El bloque de alertas contiene cuatro tipos de alertas para darle al usuario
-        visibilidad de los procesos. Se definieron: Peligro, Informacion, Precausion y Exito-->
+            visibilidad de los procesos. Se definieron: Peligro, Informacion, Precausion y Exito
+        -->
         <div id="alerts">
             <div id="alert-d" class="alert danger">
                 <span onclick="hideAlert('alert-d');" class="closebtn">&times;</span>  
@@ -211,8 +221,13 @@
                 Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud     horizontal
             </div>
         </div>
-        <footer>
-            <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-        </footer>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../../footer/footer.php"; 
+        ?>
+        
     </body>
 </html>

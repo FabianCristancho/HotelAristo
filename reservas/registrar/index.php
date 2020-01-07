@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que contiene un formulario para el registro de una nueva reserva
+    * @package   reservas.registrar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
 	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
@@ -17,33 +29,46 @@
 		<title>Nueva reserva | Hotel Aristo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" href="../../res/img/famicon.png" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-		<link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-		<link rel="stylesheet" type="text/css" href="../../css/modal.css">
-		<script type="text/javascript" src="../../js/moment.js"></script>
-		<script type="text/javascript" src="../../js/jquery.js"></script>
-		<script type="text/javascript" src="../../js/dynamic.js"></script>
-		<script type="text/javascript" src="../../js/hotel-db.js"></script>
+		<link rel="shortcut icon" href="/../res/img/famicon.png" />
+		<link rel="stylesheet" type="text/css" href="/../css/main.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-800.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-1024.css">
+		<link rel="stylesheet" type="text/css" href="/../css/main-1366.css">
+		<link rel="stylesheet" type="text/css" href="/../css/alerts.css">
+		<link rel="stylesheet" type="text/css" href="/../css/modal.css">
+		<script type="text/javascript" src="/../js/moment.js"></script>
+		<script type="text/javascript" src="/../js/jquery.js"></script>
+		<script type="text/javascript" src="/../js/dynamic.js"></script>
+		<script type="text/javascript" src="/../js/hotel-db.js"></script>
 	</head>
 
 	<!--Construcción de la vista-->
 
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
-	<!--Menu de la aplicación web del hotel Aristo
-		la clase main-menu-item pertenece a los botones del menú-->
-        <?php include "../../menu/menu.php"; ?>
+        <!--
+            Menu de la aplicación web del hotel Aristo
+            la clase main-menu-item pertenece a los botones del menú
+        -->
+        
+        <?php 
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../../menu/menu.php"; 
+        ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            */
             setCurrentPage("registrar");
         </script>
+        
 		<!--El bloque de contenido es la vista principal de cada pagina
 			puede contener varias clases marco, que distribuyen la informacion.
 			Si existe un formulario cada dato para introducir es colocado en una clase input-block
-			que contiene una etiqueta y una entrada de informacion-->
-
+			que contiene una etiqueta y una entrada de informacion
+        -->
         <div id="content" class="col-12">
             <div style="float: left;" class="marco responsive-page">
                 <div class="col-10">
@@ -64,16 +89,20 @@
                         <br>
                         <input id="count-nights" type="number" min="1" value="1" onchange="getDate('finish-date', this.value);">
                     </div>
+                    
                 </div>
+                
                 <div id="name-employee" class="input-block">
                     <label>Registrado por:</label>
                     <br>
                     <input id="user-name" class="col-12" type="input" value="<?php echo $user->getFullName(); ?>" disabled>
                 </div>
+                
             </div>
 
             <div class="marco responsive-page">
                 <label>Habitación</label><br>
+                
                 <div class="input-block">
                     <label >Tipo de habitacion</label>
                     <br>
@@ -118,12 +147,15 @@
                         <option value="0">Ninguno</option>
                     </select>
                 </div>
+                
             </div>
+            
             <div id="informacion-personal-1" class="marco responsive-page">
                 <label>Información personal (1)</label> 
                 <button onclick="showAllInputs(1);">Check in</button>
                 <br>
                 <div id="input-identity-1" class="row-block">
+                    
                     <div class="input-block">
                         <label>Tipo de documento</label>
                         <br>
@@ -163,7 +195,6 @@
                         </select>
                     </div>
                 </div>
-
 
                 <div class="input-block">
                     <label>Empresa</label>
@@ -256,6 +287,7 @@
                     </div>
                 </div>
             </div>
+            
             <div id="informacion-personal-2" class="marco responsive-page">
                 <label>Información personal (2)</label> 
                 <button onclick="showAllInputs(2);">Check in</button>
@@ -378,19 +410,24 @@
             </div>
             <a onclick="sendReservation();" id="button-book" class="col-10">Reservar</a>
         </div>
-        <div id="aux-footer" class="col-12"></div>
-    <footer>
-        <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-    </footer>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../../footer/footer.php"; 
+        ?>
 
         <!--Las clases modal se pondrán por encima del contenido principal,
 				funcionan para agregar información adicional, ver detalles o una verificación-->
         <div id="add-bizz" class="modal" onclick="touchOutside(this);">
             <div class="modal-content">
+            
                 <div class="modal-header">
                     <span onclick="hideModal('add-bizz');" class="close">&times;</span>
                     <h2>Agregar empresa</h2>
                 </div>
+                
                 <div class="modal-body">
                     <div class="marco full-page">
                         <label>Información de empresa</label>
@@ -434,6 +471,7 @@
                 </div>
             </div>
         </div>
+        
         <!--El bloque de alertas contiene cuatro tipos de alertas para darle al usuario
         visibilidad de los procesos. Se definieron: Peligro, Informacion, Precausion y Exito-->
         <div id="alerts">
