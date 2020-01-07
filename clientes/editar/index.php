@@ -16,14 +16,14 @@
         <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="../../res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="../../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-        <script type="text/javascript" src="../../js/moment.js"></script>
-        <script type="text/javascript" src="../../js/dynamic.js"></script>
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
         <style>
             .row-block{
                 padding-bottom: 10px;
@@ -33,7 +33,7 @@
     
     
     <body>
-        <?php include "../../menu/menu.php"; ?>
+        <?php include "../../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("consultar");
         </script>
@@ -182,8 +182,6 @@
         
         
         <div id="aux-footer" class="col-12"></div>
-        <footer class="col-12">
-            Hotel Aristo 2019
-        </footer>
+        <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>

@@ -23,7 +23,7 @@
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
 	<!--Menu de la aplicación web del hotel Aristo
 		la clase main-menu-item pertenece a los botones del menú-->
-        <?php include "../../menu/menu.php"; ?>
+        <?php include "../../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("control-diario");
         </script>
@@ -211,8 +211,6 @@
                 Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud     horizontal
             </div>
         </div>
-        <footer>
-            <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-        </footer>
+        <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>

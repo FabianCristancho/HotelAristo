@@ -6,7 +6,7 @@
     if(isset($_SESSION['user'])){
     	$user->updateDBUser($userSession->getSession());
     }else{
-    	header('location: ../login');
+    	header('location: /login');
     }
 ?>
 
@@ -17,17 +17,17 @@
 		<title>Nueva reserva | Hotel Aristo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="shortcut icon" href="../../res/img/famicon.png" />
-		<link rel="stylesheet" type="text/css" href="../../css/main.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-		<link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-		<link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-		<link rel="stylesheet" type="text/css" href="../../css/modal.css">
-		<script type="text/javascript" src="../../js/moment.js"></script>
-		<script type="text/javascript" src="../../js/jquery.js"></script>
-		<script type="text/javascript" src="../../js/dynamic.js"></script>
-		<script type="text/javascript" src="../../js/hotel-db.js"></script>
+		<link rel="shortcut icon" href="/res/img/famicon.png" />
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-800.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
+		<link rel="stylesheet" type="text/css" href="/css/modal.css">
+		<script type="text/javascript" src="/js/moment.js"></script>
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/dynamic.js"></script>
+		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
 	<!--Construcción de la vista-->
@@ -35,7 +35,7 @@
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
 	<!--Menu de la aplicación web del hotel Aristo
 		la clase main-menu-item pertenece a los botones del menú-->
-        <?php include "../../menu/menu.php"; ?>
+        <?php include "../../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
@@ -379,9 +379,8 @@
             <a onclick="sendReservation();" id="button-book" class="col-10">Reservar</a>
         </div>
         <div id="aux-footer" class="col-12"></div>
-    <footer>
-        <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-    </footer>
+ 
+    <?php include "../../objetos/pie.php"; ?>
 
         <!--Las clases modal se pondrán por encima del contenido principal,
 				funcionan para agregar información adicional, ver detalles o una verificación-->

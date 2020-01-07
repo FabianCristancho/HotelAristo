@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <?php include "../../menu/menu.php"; ?>
+    <?php include "../../objetos/menu.php"; ?>
     <script type="text/javascript">
         setCurrentPage("registrar");
     </script>
@@ -73,9 +73,7 @@
     </div>
 				
 	<div id="aux-footer" class="col-12"></div>
-	<footer>
-        <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-    </footer>
+	<?php include "../../objetos/pie.php"; ?>
 </body>
 </html>
         

@@ -4,20 +4,20 @@
     <title>Registro de usuarios | Hotel Aristo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="../../res/img/famicon.png" />
+    <link rel="shortcut icon" href="/res/img/famicon.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/register.css">
-    <link rel="stylesheet" type="text/css" href="../../css/main.css">    
-    <link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-    <link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-    <link rel="stylesheet" type="text/css" href="../../css/main-1220.css">
-    <link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-    <link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-    <script type="text/javascript" src="../../js/moment.js"></script>
-    <script type="text/javascript" src="../../js/dynamic.js"></script>
+    <link rel="stylesheet" href="/css/register.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">    
+    <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+    <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+    <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+    <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+    <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+    <script type="text/javascript" src="/js/moment.js"></script>
+    <script type="text/javascript" src="/js/dynamic.js"></script>
 </head>
 <body>
-        <?php include "../../menu/menu.php"; ?>
+        <?php include "../../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
@@ -102,9 +102,7 @@
         </div>
         
     </div>
-    <script src="../../js/formulario.js"></script>
-    <footer>
-        <p>Copyright 2019<a href="../../inicio/">Hotel Aristo</a> | Todos los derechos reservados</p>
-    </footer>
+    <script src="/js/formulario.js"></script>
+<?php include "../../objetos/pie.php"; ?>
 </body>
 </html>

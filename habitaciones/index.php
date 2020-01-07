@@ -17,7 +17,7 @@
 </head>
 
 <body onload ="getDate('control-date',0);">
-        <?php include "../menu/menu.php"; ?>
+        <?php include "../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("control-diario");
         </script>
@@ -110,8 +110,6 @@
 		</div>
 	</div>
 	<div id="aux-footer" class="col-12"></div>
-	<footer>
-        <a href="../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
-    </footer>
+<?php include "../objetos/pie.php"; ?>
 </body>
 </html>

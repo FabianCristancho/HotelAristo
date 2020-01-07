@@ -36,7 +36,7 @@
     </script>-->
     
     <body>
-        <?php include "../menu/menu.php"; ?>
+        <?php include "../objetos/menu.php"; ?>
         <script type="text/javascript">
             setCurrentPage("consultar");
         </script>
@@ -76,8 +76,6 @@
             </div>
         </div>
         <div id="aux-footer" class="col-12"></div>
-        <footer class="col-12">
-            Hotel Aristo 2019
-        </footer>
+        <?php include "../objetos/pie.php"; ?>
     </body>
 </html>
