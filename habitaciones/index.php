@@ -5,15 +5,15 @@
 	<title>Historial de Habitación | Hotel Aristo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="/res/img/famicon.png" />
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-800.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-    <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-	<link rel="stylesheet" type="text/css" href="/css/alerts.css">
-	<script type="text/javascript" src="/js/moment.js"></script>
-	<script type="text/javascript" src="/js/dynamic.js"></script>
+	<link rel="shortcut icon" href="../res/img/famicon.png" />
+	<link rel="stylesheet" type="text/css" href="../css/main.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-800.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-1024.css">
+    <link rel="stylesheet" type="text/css" href="../css/main-1220.css">
+	<link rel="stylesheet" type="text/css" href="../css/main-1366.css">
+	<link rel="stylesheet" type="text/css" href="../css/alerts.css">
+	<script type="text/javascript" src="../js/moment.js"></script>
+	<script type="text/javascript" src="../js/dynamic.js"></script>
 </head>
 
 <body onload ="getDate('control-date',0);">
@@ -80,7 +80,7 @@
                     <td>Giacomo,Gugleimo,Martha</td>
                     <td></td>
                     <td>Check in</td>
-                    <td> <a href="/historial_habitacion_individual/index.php" id="button-more-info" class="col-10">Más información</a> </td>
+                    <td> <a href="detalles/" id="button-more-info" class="col-10">Más información</a> </td>
                 </tr>
                 <tr>
                     <td class="room-cell">22</td>
@@ -88,7 +88,7 @@
                     <td>Pedro Perez</td>
                     <td>90.000</td>
                     <td>Check out</td>
-                    <td> <a href="historial_habitacion_individual.html" id="button-more-info" class="col-10">Más información</a> </td>
+                    <td> <a href="detalles/" id="button-more-info" class="col-10">Más información</a> </td>
                 </tr>
                 <tr>
                     <td class="room-cell">25</td>
@@ -96,7 +96,7 @@
                     <td>Giacomo,Gugleimo,Martha</td>
                     <td>120.000</td>
                     <td>Check out</td>
-                    <td> <a href="historial_habitacion_individual.html" id="button-more-info" class="col-10">Más información</a> </td>
+                    <td> <a href="detalles/" id="button-more-info" class="col-10">Más información</a> </td>
                 </tr>
                 <tr>
                     <td class="room-cell">22</td>
@@ -104,14 +104,14 @@
                     <td>Martha Granados</td>
                     <td></td>
                     <td>Check in</td>
-                    <td> <a href="historial_habitacion_individual.html" id="button-more-info" class="col-10">Más información</a> </td>
+                    <td> <a href="detalles/" id="button-more-info" class="col-10">Más información</a> </td>
                 </tr>
             </table>
 		</div>
 	</div>
 	<div id="aux-footer" class="col-12"></div>
 	<footer>
-        <a href="/home/index.php" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
+        <a href="../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
     </footer>
 </body>
 </html>
