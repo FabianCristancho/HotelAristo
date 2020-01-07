@@ -4,24 +4,24 @@
 	<title>Registro de empresas | Hotel Aristo</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="/res/img/famicon.png" />
+	<link rel="shortcut icon" href="../../res/img/famicon.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/register.css">
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-800.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-    <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-	<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-	<link rel="stylesheet" type="text/css" href="/css/alerts.css">
-	<script type="text/javascript" src="/js/moment.js"></script>
-	<script type="text/javascript" src="/js/dynamic.js"></script>
+    <link rel="stylesheet" href="../../css/register.css">
+	<link rel="stylesheet" type="text/css" href="../../css/main.css">
+	<link rel="stylesheet" type="text/css" href="../../css/main-800.css">
+	<link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
+    <link rel="stylesheet" type="text/css" href="../../css/main-1220.css">
+	<link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
+	<link rel="stylesheet" type="text/css" href="../../css/alerts.css">
+	<script type="text/javascript" src="../../js/moment.js"></script>
+	<script type="text/javascript" src="../../js/dynamic.js"></script>
 </head>
 
 <body>
-        <?php include "../../menu/menu.php"; ?>
-        <script type="text/javascript">
-            setCurrentPage("registrar");
-        </script>
+    <?php include "../../menu/menu.php"; ?>
+    <script type="text/javascript">
+        setCurrentPage("registrar");
+    </script>
     
     <div class="contenedor-formulario">
         <div class="wrap">
@@ -70,12 +70,11 @@
                 </div>
             </form>
         </div>
-        
     </div>
 				
 	<div id="aux-footer" class="col-12"></div>
 	<footer>
-        <a href="/home/index.php" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
+        <a href="../../inicio/" class="info">Hotel Aristo</a> &copy; 2019 | Todos los derechos reservados
     </footer>
 </body>
 </html>

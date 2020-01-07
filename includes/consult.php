@@ -1,7 +1,6 @@
 <?php
     
     class Consult extends Database {
-
         public function getList($entity, $aux){
             switch ($entity) {
                 case 'roomType':
@@ -18,7 +17,6 @@
                     break;
             }
         }
-
         public function countryList(){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="P"');
             $query->execute();
@@ -26,7 +24,6 @@
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
             }
         }
-
         public function professionList(){
             $query = $this->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
             $query->execute();
@@ -34,7 +31,6 @@
                 echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>';
             }
         }
-
         public function getTable($entity){
             switch ($entity) {
                 case 'room':
@@ -54,7 +50,6 @@
                     break;
             }
         }
-
         function enterpriseList(){
             $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa FROM empresas');
             $query->execute();
@@ -83,7 +78,6 @@
             }
         }
         
-
         function roomTypeList($type){
             $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones WHERE tipo_habitacion='.'"'.$type.'"');
             $query->execute();
@@ -104,7 +98,7 @@
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
                 echo '<td><input type="checkbox" '.$this->selectCheck($current['retefuente']).'></td>'.PHP_EOL;
                 echo '<td><input type="text" '.$current['otro_impuesto'].' disabled></td>'.PHP_EOL;
-                echo '<td><a href="detalles?'.$current['id_empresa'].'" id="button-more-info" class="col-10">Más información</a></td>';
+                echo '<td><a href="detalles?'.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -126,11 +120,9 @@
                 echo '<option value = "'.$current['nombre_tipo'].'">'.$current['nombre_tipo'].'</option>'.PHP_EOL;
             }
         }
-
         function roomTable(){
             $query = $this->connect()->prepare('SELECT id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion FROM habitaciones');
             $query->execute();
-
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
@@ -150,7 +142,6 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
@@ -186,7 +177,6 @@
                     return 'checked';
             }
         }
-
         function roomType($type){
         	switch ($type) {
         		case 'J':
@@ -199,7 +189,6 @@
         		return 'MAKKAH';
         	}
         }
-
         function roomState($state){
         	switch ($state) {
         		case 'D':
@@ -212,7 +201,6 @@
         		return 'Fuera de servicio';
         	}
         }
-
         function chooseRoomState($state){
             switch ($state) {
                 case 'D':
@@ -244,4 +232,3 @@
         }
     }
 ?>
-
