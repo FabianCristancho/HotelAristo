@@ -1,6 +1,5 @@
 <?php
-	include_once '../includes/user.php';
-    include_once '../includes/consult.php';
+	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
     $user = new User();
@@ -19,16 +18,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" href="../res/img/famicon.png" />
-		<link rel="stylesheet" type="text/css" href="../css/main.css">
-		<link rel="stylesheet" type="text/css" href="../css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-		<link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-		<link rel="stylesheet" type="text/css" href="../css/alerts.css">
-		<link rel="stylesheet" type="text/css" href="../css/modal.css">
-		<script type="text/javascript" src="../js/moment.js"></script>
-		<script type="text/javascript" src="../js/jquery.js"></script>
-		<script type="text/javascript" src="../js/dynamic.js"></script>
-		<script type="text/javascript" src="../js/hotel-db.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-800.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+		<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
+		<link rel="stylesheet" type="text/css" href="/css/modal.css">
+		<script type="text/javascript" src="/js/moment.js"></script>
+		<script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript" src="/js/dynamic.js"></script>
+		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
 	<!--Construcción de la vista-->
@@ -36,56 +35,10 @@
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
 	<!--Menu de la aplicación web del hotel Aristo
 		la clase main-menu-item pertenece a los botones del menú-->
-		<header class="col-12">
-			<a href="/inicio">
-				<img id="logo-hotel" src="../res/img/logoA.png">
-			</a>
-			<button onclick="window.location.href = '/inicio';" class="main-menu-item menu-item" >
-				<img src="../res/img/home-icon-black.png">
-				<p>Inicio</p>
-			</button>
-
-			<div class="dropdown menu-item">
-					<button onclick="window.location.href = '';" id="current-item"  class="main-menu-item">
-						<img src="../res/img/book-icon-white.png">
-						<p>Registrar</p>
-					</button>
-					<br>
-					<div class="dropdown-content">
-						<a href="../nueva_reserva">Registar reserva</a>
-						<a href="../nueva_empresa">Registrar empresas</a>
-					</div>
-				</div>
-
-				<div class="dropdown menu-item">
-					<button onclick="window.location.href = '';" class="main-menu-item">
-						<img src="../res/img/book-icon-black.png">
-						<p>Consultar</p>
-					</button>
-					<br>
-					<div class="dropdown-content">
-						<a href="../reservas">Consultar reservas</a>
-						<a href="../clientes">Consultar clientes</a>
-						<a href="../empresas">Consultar empresas</a>
-						<a href="../habitaciones">Consultar habitaciones</a>
-					</div>
-				</div>
-
-
-				<button onclick="window.location.href = '../control_diario/';" class="main-menu-item menu-item">
-					<img src="../res/img/control-icon-black.png">
-					<p>Control diario</p>
-				</button>
-				<button onclick="window.location.href = '';" class="main-menu-item menu-item">
-					<img src="../res/img/bill-icon-black.png">
-					<p>Facturación</p>
-				</button>
-
-				<button onclick="window.location.href = '../includes/logout.php';" class="main-menu-item menu-item">
-                    <img src="../res/img/logout-icon-black.png">
-                    <p>Cerrar sesión</p>
-                </button>
-		</header>
+		        <?php include "../../menu/menu.php"; ?>
+        <script type="text/javascript">
+            setCurrentPage("registrar");
+        </script>
 		<!--El bloque de contenido es la vista principal de cada pagina
 			puede contener varias clases marco, que distribuyen la informacion.
 			Si existe un formulario cada dato para introducir es colocado en una clase input-block
@@ -193,13 +146,30 @@
 							<br>
 							<input id="doc-date-1" class="col-12" type="date">
 						</div>
+						
+						<div class="input-block">
+							<label>Pais</label>
+							<br>
+							<select id="nac-1" class="col-12">
+									<?php $consult->getList('country',''); ?>
+							</select>
+						</div>
+
+						<div class="input-block">
+							<label>Ciudad</label>
+							<br>
+							<select id="nac-1" class="col-12">
+								<?php $consult->getList('city',''); ?>
+							</select>
+						</div>
 					</div>
+
 
 					<div class="input-block">
 						<label>Empresa</label>
 						<br>
 						<select id="enterprise-1" class="adding-select">
-							<option>NINGUNA</option>
+							<option value="NULL">NINGUNA</option>
 							<?php $consult->getList('enterprise',''); ?>
 						</select>
 						<button onclick="showModal('add-bizz');">+</button>
@@ -470,25 +440,25 @@
 					<div id="alert-d" class="alert danger">
 						<span onclick="hideAlert('alert-d');" class="closebtn">&times;</span>  
 						<strong>¡Peligro!</strong> 
-						Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud horizontal
+						<p></p>
 					</div>
 
 					<div id="alert-s" class="alert success">
 						<span onclick="hideAlert('alert-s');" class="closebtn">&times;</span>  
 						<strong>¡Procedimiento exitoso!</strong> 
-						Mensaje
+						<p></p>
 					</div>
 
 					<div id="alert-i" class="alert info">
 						<span onclick="hideAlert('alert-i');" class="closebtn">&times;</span>  
 						<strong>Información!</strong> 
-						Mensaje
+						<p></p>
 					</div>
 
 					<div id="alert-w" class="alert warning">
 						<span onclick="hideAlert('alert-w');" class="closebtn">&times;</span>  
 						<strong>¡Precaución!</strong> 
-						Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud horizontal
+						<p><p>
 					</div>
 				</div>
 			</body>

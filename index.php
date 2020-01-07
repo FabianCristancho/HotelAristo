@@ -1,5 +1,5 @@
 <?php
-    include_once 'includes/user.php';
+    require_once 'includes/classes.php';
 
     $user = new User();
     $userSession = new UserSession();

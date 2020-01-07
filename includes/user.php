@@ -1,14 +1,10 @@
 <?php
-include 'database.php';
 /**
  * Clase user
  * Contiene los datos primitivos de un suario de la aplicacion.
  */
 
-class User extends Database{
-    private $id;
-    private $nombre;
-    private $apellido;
+class User extends Person{
     private $username;
     private $role;
 
@@ -16,7 +12,7 @@ class User extends Database{
      * Verifica si la combiancion usuario-cantraseña existe en la base de datos.
      */
     public function exists($user, $password){
-        $query = $this->connect()->prepare('SELECT id_usuario FROM usuarios WHERE nombre_usuario = :username AND contrasena_usuario = :password');
+        $query = $this->connect()->prepare('SELECT id_persona FROM personas WHERE nombre_usuario = :username AND contrasena_usuario = :password');
         $query->execute(['username' => $user, 'password' => $password]);
         
         if($query->rowCount()){
@@ -31,24 +27,24 @@ class User extends Database{
      */
     public function updateDBUser($username){
         $this->username = $username;
-        $query = $this->connect()->prepare('SELECT u.id_persona, nombres_persona,apellidos_persona, id_cargo FROM usuarios u, personas p WHERE nombre_usuario = :username and u.id_persona=p.id_persona');
+        $query = $this->connect()->prepare('SELECT id_persona, nombres_persona,apellidos_persona, id_cargo FROM personas p WHERE nombre_usuario = :username');
         $query->execute(['username'=>$username]);      
         
         foreach ($query as $currentUser) {
             $this->id = $currentUser['id_persona'];
-            $this->nombre= $currentUser['nombres_persona'];
-            $this->apellido= $currentUser['apellidos_persona'];
+            $this->name= $currentUser['nombres_persona'];
+            $this->lastName= $currentUser['apellidos_persona'];
             $this->role = $currentUser['id_cargo'];
         } 
     }
     
         
     public function getName(){
-        return $this->nombre;
+        return $this->name;
     }
     
     public function getFullname(){
-        return $this->nombre. ' ' .$this->apellido;
+        return $this->name. ' ' .$this->lastName;
     }
     
     public function getRole(){

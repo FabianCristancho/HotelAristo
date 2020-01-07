@@ -57,8 +57,10 @@ function hideAlert(type){
 	setTimeout(function(){ div.style.display="none"; }, 600);
 	
 }
-function showAlert(type){
+function showAlert(type,message){
 	var div=document.getElementById(type);
+	var m=div.getElementsByTagName("p")[0];
+	m.innerText=message;
 	div.style.opacity = 1;
 	div.style.display = "block"; 
 	setTimeout(function(){
@@ -86,17 +88,21 @@ function changeColor(room){
 	var cell= document.getElementById("room-"+room);
 	var value=document.getElementById("state-"+room).value;
 	switch(value){
-		case "1":
+		case "O":
 		cell.style.background='#f44336';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Ocupada";
 		break;
-		case "2":
+		case "D":
 		cell.style.background='yellow';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Disponible";
 		break;
-		case "3":
+		case "M":
 		cell.style.background='#ff9800';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Con reserva";
 		break;
-		case "4":
+		case "F":
 		cell.style.background='gray';
+		cell.getElementsByClassName("room-state")[0].innerHTML="Fuera de servicio";
 		break;
 	}
 }
@@ -104,6 +110,7 @@ function changeColor(room){
 function checkColors(){
 	var cells=document.getElementsByClassName("room-cell");
 	for (var i = 0; i < cells.length; i++) {
+		console.log(i);
 		changeColor(cells[i].id.replace("room-",""));
 	}
 }

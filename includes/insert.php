@@ -38,32 +38,14 @@
                 $profession=$_POST['profession_'.$i];
                 $nac=$_POST['nac_'.$i];
 
-                $insert ="INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,apellidos_persona,tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona) VALUES
-                (".$nac.","."51".",'".$fName."','".$lName."','".$docType."','".$docNum."','".$gender."','".$birth."','".$blood_rh."','".$phone."','".$email."');";
+                $insert ="INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,apellidos_persona,tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona,id_empresa,id_profesion,tipo_persona) VALUES
+                (".$nac.","."51".",'".$fName."','".$lName."','".$docType."','".$docNum."','".$gender."','".$birth."','".$blood_rh."','".$phone."','".$email."',".$enterprise.",".$profession.",'C');";
             
                 try{
                     $database->connect()->exec($insert);
-                    echo 'Registro persona exitoso';
+                    echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos.';
                 }catch(PDOException $e){
-                    echo $e;
-                }
-
-                $query=$database->connect()->prepare("SELECT id_persona FROM personas WHERE numero_documento=".$docNum);
-                $query->execute();
-
-                $id_person;
-                foreach ($query as $current) {
-                    $id_person=$current['id_persona'];
-                }
-
-                $insert ="INSERT INTO clientes (id_persona, id_empresa,id_profesion) VALUES 
-                (".$id_person.",".$enterprise.",".$profession.")";
-                
-                try{
-                    $database->connect()->exec($insert);
-                    echo 'Registro cliente exitoso';
-                }catch(PDOException $e){
-                    echo $e;
+                    echo 'alert-e;Error 1. Ha surgido un error al intentar agregar al cliente.';
                 }
             }
         }else{
@@ -78,32 +60,14 @@
                 $email=$_POST['email_'.$i];
                 $profession=$_POST['profession_'.$i];
 
-                $insert ="INSERT INTO personas_auxiliares(nombres_persona,apellidos_persona,telefono_persona,correo_persona) VALUES
-                ('".$fName."','".$lName."','".$phone."','".$email."');";
+                $insert ="INSERT INTO personas_auxiliares(nombres_persona,apellidos_persona,telefono_persona,correo_persona,id_empresa) VALUES
+                ('".$fName."','".$lName."','".$phone."','".$email."',".$enterprise.");";
             
                 try{
                     $database->connect()->exec($insert);
-                    echo 'Registro persona exitoso aux';
+                    echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos. Recuerde que los datos no estan completos';
                 }catch(PDOException $e){
-                    echo $e;
-                }
-
-                $query=$database->connect()->prepare("SELECT id_persona_aux FROM personas_auxiliares WHERE telefono_persona='".$phone."'");
-                $query->execute();
-
-                $id_person;
-                foreach ($query as $current) {
-                    $id_person=$current['id_persona_aux'];
-                }
-
-                $insert ="INSERT INTO clientes (id_persona_aux, id_empresa,id_profesion) VALUES 
-                (".$id_person.",".$enterprise.",".$profession.")";
-                
-                try{
-                    $database->connect()->exec($insert);
-                    echo 'Registro cliente exitoso';
-                }catch(PDOException $e){
-                    echo $e;
+                    echo 'alert-e;Error 1. Ha surgido un error al intentar agregar al cliente.';
                 }
             }
         }
