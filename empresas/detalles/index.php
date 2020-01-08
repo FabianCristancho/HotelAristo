@@ -22,13 +22,11 @@
             */
             include "../../objects/menu.php"; 
         ?>
-        
+
         <script type="text/javascript">
-            /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
-            */
             setCurrentPage("consultar");
         </script>
+
 
         <div id="content" class="col-12">
             <div class="marco nearly-page">
@@ -56,7 +54,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="marco nearly-page">
                 <div class="specific-info">
                     <div>
@@ -109,6 +106,8 @@
             */
             include "../../objects/footer.php"; 
         ?>
+
         
+    <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>
