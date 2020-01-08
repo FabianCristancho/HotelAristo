@@ -1,2 +1,5 @@
 
 *.lnk
+/factura/composer.json
+/factura/composer.lock
+/factura/vendor/
