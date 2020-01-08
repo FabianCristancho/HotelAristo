@@ -11,9 +11,6 @@
     }
 </script>
 
-
-<!DOCTYPE html>
-<html>
     <header class="col-12">
         <a href="/inicio">
             <img id="logo-hotel" src="/res/img/logoA.png">
@@ -66,4 +63,3 @@
             <p>Cerrar sesión</p>
         </button>
     </header>
-</html>

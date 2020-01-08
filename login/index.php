@@ -95,7 +95,7 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../footer/footer.php"; 
+            include "../objects/footer.php"; 
         ?>
         
     </body>
