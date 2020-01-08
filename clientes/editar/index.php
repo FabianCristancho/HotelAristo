@@ -193,9 +193,5 @@
             */
             include "../../objects/footer.php"; 
         ?>
-
-        
-        <div id="aux-footer" class="col-12"></div>
-        <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>

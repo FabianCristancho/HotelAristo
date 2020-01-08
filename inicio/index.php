@@ -13,6 +13,21 @@
 
 <!DOCTYPE html>
 <html>
+
+    <head>
+        <title>Inicio | Hotel Aristo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/inicio.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
+    </head>
     <body>
         <?php
             /**
@@ -27,44 +42,38 @@
             */
             setCurrentPage("inicio");
         </script>
-
-    <?php
-        include "../objetos/menu.php"; 
-    ?>
-    <script type="text/javascript">
-        setCurrentPage("inicio");
-    </script>
     
-    <div class="content">
-        <div class="title">
-            <p><strong>HOTEL ARISTO</strong></p>
+        <div class="content">
+            <div class="title">
+                <p><strong>HOTEL ARISTO</strong></p>
+            </div>
+            <div class="menu">
+                <a href="/reservas/" class="button">
+                    <p>Reservas</p>
+                    <img src="../res/img/book-icon-white.png">
+                </a>
+                <a href="/habitaciones/" class="button">
+                    <p>Historial de Habitación</p>
+                    <img src="/res/img/room-icon-white.png">
+                </a>
+                <a href="/control_diario/" class="button">
+                    <p>Control diario</p>
+                    <img src="/res/img/control-icon-white.png">
+                </a>
+                <a href="/usuarios/" class="button">
+                    <p>Usuarios</p>
+                    <img src="/res/img/use-whiter.png">
+                </a>
+                <a href="/empresas/" class="button">
+                    <p>Empresas</p>
+                    <img src="/res/img/company-white.png">
+                </a>
+                <a href="/facturas/" class="button">
+                    <p>Facturación</p>
+                    <img src="/res/img/bill-icon-white.png">
+                </a>
+            </div>
         </div>
-        <div class="menu">
-        <a href="/reservas/" class="button">
-            <p>Reservas</p>
-            <img src="../res/img/book-icon-white.png">
-        </a>
-        <a href="/habitaciones/" class="button">
-            <p>Historial de Habitación</p>
-            <img src="/res/img/room-icon-white.png">
-        </a>
-        <a href="/control_diario/" class="button">
-            <p>Control diario</p>
-            <img src="/res/img/control-icon-white.png">
-        </a>
-        <a href="/usuarios/" class="button">
-            <p>Usuarios</p>
-            <img src="/res/img/use-whiter.png">
-        </a>
-        <a href="/empresas/" class="button">
-            <p>Empresas</p>
-            <img src="/res/img/company-white.png">
-        </a>
-        <a href="/facturas/" class="button">
-            <p>Facturación</p>
-            <img src="/res/img/bill-icon-white.png">
-        </a>
-        
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web

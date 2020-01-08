@@ -1,8 +1,14 @@
+<?php 
+    $id="";
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];      
+    }
+?>
 <!DOCTYPE html>
 <html>
 
     <head>
-        <title>Historial de Habitación | Hotel Aristo</title>
+        <title>Historial de la habitación <?php echo $id;?> | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
