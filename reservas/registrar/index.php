@@ -33,9 +33,19 @@
 	<!--Construcción de la vista-->
 
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
-	<!--Menu de la aplicación web del hotel Aristo
-		la clase main-menu-item pertenece a los botones del menú-->
-        <?php include "../../objetos/menu.php"; ?>
+        <!--
+            Menu de la aplicación web del hotel Aristo
+            la clase main-menu-item pertenece a los botones del menú
+        -->
+        
+        <?php 
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../../objects/menu.php"; 
+        ?>
+        
+
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
@@ -378,9 +388,14 @@
             </div>
             <a onclick="sendReservation();" id="button-book" class="col-10">Reservar</a>
         </div>
-        <div id="aux-footer" class="col-12"></div>
- 
-    <?php include "../../objetos/pie.php"; ?>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../../objects/footer.php"; 
+        ?>
+
 
         <!--Las clases modal se pondrán por encima del contenido principal,
 				funcionan para agregar información adicional, ver detalles o una verificación-->

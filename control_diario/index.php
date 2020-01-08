@@ -14,28 +14,14 @@
 
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Control diario | Hotel Aristo</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="../res/img/famicon.png" />
-	<link rel="stylesheet" type="text/css" href="../css/main.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-800.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-	<link rel="stylesheet" type="text/css" href="../css/alerts.css">
-	<script type="text/javascript" src="../js/moment.js"></script>
-	<script type="text/javascript" src="../js/dynamic.js"></script>
-    <style type="text/css">
-        td a:visited{
-            color: white;
-        }
-    </style>
-</head>
-
-<body onload ="getDate('control-date',0); checkColors();">
-        <?php include "../objetos/menu.php"; ?>
+    <body onload ="getDate('control-date',0); checkColors();">
+        <?php
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../objects/menu.php"; 
+        ?>
+        
         <script type="text/javascript">
             setCurrentPage("control-diario");
         </script>
@@ -52,6 +38,14 @@
 					<input id="control-date" type="date">
                     <button>&gt;</button>
             </div>
+        </div>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../objects/footer.php"; 
+        ?>
 
             <div class="scroll-block">
                 <table>

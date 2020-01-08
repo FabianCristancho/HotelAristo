@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <title>Registro de usuarios | Hotel Aristo</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/res/img/famicon.png" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/register.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">    
-    <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-    <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-    <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-    <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-    <link rel="stylesheet" type="text/css" href="/css/alerts.css">
-    <script type="text/javascript" src="/js/moment.js"></script>
-    <script type="text/javascript" src="/js/dynamic.js"></script>
-</head>
-<body>
-        <?php include "../../objetos/menu.php"; ?>
+    <head>
+        <title>Registro de usuarios | Hotel Aristo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/register.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">    
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
+    </head>
+    
+    <body>
+        <?php 
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../../objects/menu.php"; 
+        ?>
+      
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
@@ -100,6 +107,14 @@
                 </div>
             </form>
         </div>
+        <script src="/js/formulario.js"></script>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../../objects/footer.php"; 
+        ?>
         
     </div>
     <script src="/js/formulario.js"></script>

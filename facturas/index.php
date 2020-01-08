@@ -16,7 +16,12 @@
     </head>
 
     <body>
-        <?php include "../objetos/menu.php"; ?>
+        <?php
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../objects/menu.php"; 
+        ?>
         <script type="text/javascript">
             setCurrentPage("facturas");
         </script>
@@ -42,7 +47,12 @@
                 </div>
             </div>
         </div>
-        <div id="aux-footer" class="col-12"></div>
-<?php include "../objetos/pie.php"; ?>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../objects/footer.php"; 
+        ?>
     </body>
 </html>

@@ -5,22 +5,31 @@
         <title>Historial de Habitación | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="../../res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="../../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="../../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="../../css/alerts.css">
-        <script type="text/javascript" src="../../js/moment.js"></script>
-        <script type="text/javascript" src="../../js/dynamic.js"></script>
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
 
     <body onload ="getDate('control-date',0);">
-            <?php include "../../objetos/menu.php"; ?>
-            <script type="text/javascript">
-                setCurrentPage("control-diario");
-            </script>
+        <?php 
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../../objects/menu.php"; 
+        ?>
+        
+        <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "control-diario"
+            */
+            setCurrentPage("control-diario");
+        </script>
 
         <div id="content" class="col-12">
             <div class="marco nearly-page">
@@ -98,11 +107,16 @@
             </div>
 
             <div class="button-return">
-                <a href="../../habitaciones/index.php">Regresar</a>
+                <a href="/habitaciones">Regresar</a>
             </div>
         </div>
-
-        <div id="aux-footer" class="col-12"></div>
-<?php include "../../objetos/pie.php"; ?>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../../objects/footer.php"; 
+        ?>
+    
     </body>
 </html>

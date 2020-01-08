@@ -73,8 +73,14 @@
                     <a href="#">¿Olvidó su contraseña?</a>
 			     </form>
             </div>
-		</div>
-	</div>
-	<div id="aux-footer" class="col-12"></div>
-</body>
+        </div>
+        
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../objects/footer.php"; 
+        ?>
+        
+    </body>
 </html>
