@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Historial de Habitación | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -54,9 +55,9 @@
                         <label><b>Valor total de consumo ($): &ensp;</b></label>
                         <label>75.000</label>
                     </div>
+
                 </div>
                 </br>
-            
                 <div class="specific-info">
                     <div>
                         <h4><b>HUÉSPEDES</b></h4>

@@ -48,39 +48,37 @@
                                 <label class="label" for="name">Nombre de la empresa*</label>
                             </div>
                         </div>
-
-                        <div class="line-group">
-                            <div class="input-group">
-                                <input type="text" id="phone" name="phone" required>
-                                <label class="label" for="phone">Teléfono*</label>
-                            </div>
-
-                            <div class="input-group">
-                                <input type="email" id="email" name="email">
-                                <label class="label" for="email">Correo electrónico</label>
-                            </div>
+                        <div class="input-group">
+                            <input type="text" id="name" name="name" required>
+                            <label class="label" for="name">Nombre de la empresa*</label>
                         </div>
-
-                        <div class="line-group">
-                            <div class="input-group">
-                                <label class="label_radio" for="retefuente">Retefuente (3,5%)*</label>
-                                <p class="radio-text"><input type="radio" name="retefuente" value="Si" required>Si</p>
-                                <p class="radio-text"><input type="radio" name="retefuente" value="No">No</p>
-                            </div>
-                            <div class="input-group">
-                                <label class="label_combo" for="otro-impuesto">Otro impuesto</label>
-                                <select id="otro-impuesto" class="combo">
-                                    <option value="NULL">Ninguno</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <input type="submit" id="btn-submit" value="Registrar">
                     </div>
-                </form>
-            </div>
-        </div>
 
+                    <div class="line-group">
+                        <div class="input-group">
+                            <input type="text" id="phone" name="phone" required>
+                            <label class="label" for="phone">Teléfono*</label>
+                        </div>
+                    
+                        <div class="input-group">
+                            <input type="email" id="email" name="email">
+                            <label class="label" for="email">Correo electrónico</label>
+                        </div>
+                    </div>
+
+                    <div class="line-group">
+                        <div class="input-group">
+                            <label class="label_radio" for="retefuente">Retefuente (3,5%)*</label>
+                            <p class="radio-text"><input type="radio" name="retefuente" value="Si" required>Si</p>
+                            <p class="radio-text"><input type="radio" name="retefuente" value="No">No</p>
+                        </div>
+                        <div class="input-group">
+                            <label class="label_combo" for="otro-impuesto">Otro impuesto</label>
+                            <select id="otro-impuesto" class="combo">
+                                <option value="NULL">Ninguno</option>
+                            </select>
+                        </div>
+                    </div>
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
@@ -89,6 +87,7 @@
         ?>
         
     </body>
+
 </html>
         
         
