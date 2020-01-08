@@ -118,6 +118,5 @@
         
     </div>
     <script src="/js/formulario.js"></script>
-<?php include "../../objetos/pie.php"; ?>
 </body>
 </html>
