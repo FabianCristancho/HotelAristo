@@ -1,16 +1,4 @@
 <?php
-    /**
-    * Archivo que contiene la información pertinente a la factura de servicios
-    * @package   factura
-    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
-    * @copyright Todos los derechos reservados. 2020.
-    * @since     Versión 1.0
-    * @version   1.0
-    */
-
-    /**
-    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
-    */
     require __DIR__.'/vendor/autoload.php';
     use Spipu\Html2Pdf\Html2Pdf;
 
@@ -27,102 +15,102 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Factura | Hotel Aristo</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/modal.css">
-        <link rel="stylesheet" type="text/css" href="/css/reporte_factura.css">
-        <link rel="stylesheet" type="text/css" href="/css/factura.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
-        <script type="text/javascript" src="/js/moment.js"></script>
-        <script type="text/javascript" src="/js/dynamic.js"></script>
-    </head>
 
-    <body onload ="getDate('control-date',0);">
+<head>
+	<title>Factura | Hotel Aristo</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/res/img/famicon.png" />
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/css/modal.css">
+    <link rel="stylesheet" type="text/css" href="/css/reporte_factura.css">
+    <link rel="stylesheet" type="text/css" href="/css/factura.css">
+	<link rel="stylesheet" type="text/css" href="/css/main-800.css">
+	<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+    <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+	<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+	<link rel="stylesheet" type="text/css" href="/css/alerts.css">
+	<script type="text/javascript" src="/js/moment.js"></script>
+	<script type="text/javascript" src="/js/dynamic.js"></script>
+</head>
 
+
+<body>
         <?php 
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../objects/menu.php"; 
         ?>
-        
+
         <script type="text/javascript">
-            /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
-            */
             setCurrentPage("facturas");
         </script>
-
-        <div class="marco nearly-page">
-            <h1>FACTURACIÓN</h1>
-            <div class="series">
-                <p class="types"><b>FACTURA DE VENTA</b></p>
-                <p>No&nbsp;&nbsp;&nbsp;&nbsp; C 287</p>
-            </div>
-            
-            <div class="infos">
-                <p><b>Nombre: </b>Juan Eduardo Rodriguez Tobos</p>
-                <p><b>Empresa: </b>Nutresa S.A.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Teléfono: </b>7425643</p>
-                <p><b>NIT: </b>890.900.050 – 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Habitación: </b>202 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fecha Entrada: </b>20/11/2019 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fecha Salida: </b>25/11/2019</p>
-            </div>
-
-            <div class="tables">
-                <table>
-                    <tr>
-                        <th class="long_cols">Descripción</th>
-                        <th>Cantidad</th>
-                        <th>Valor Unitario</th>
-                        <th class="long_values">Valor Total</th>
-                    </tr>
-                    <tr>
-                        <td>Hospedaje habitación ejecutiva</td>
-                        <td>2</td>
-                        <td>$80.000</td>
-                        <td>$160.000</td>
-                    </tr>
-                    <tr>
-                        <td>Minibar</td>
-                        <td>5</td>
-                        <td>$8.000</td>
-                        <td>$16.000</td>
-                    </tr>
-                    <tr>
-                        <td>Servicio de lavandería</td>
-                        <td>4</td>
-                        <td>$3.000</td>
-                        <td>$12.000</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="table_totals">
-                <table>
-                    <tr class="long_letters">
-                        <td class="long_totals"></td>
-                        <td><b>Total $</b></td>
-                        <td class="long_values">$188.000</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="option_bill">
-                <form action="" method="POST">
-                    <input type="submit" value="Imprimir factura" name="crear"/>
-                </form> 
-
-                <a onclick="showModal('submit_bill')">Enviar al correo</a>
-            </div>
+    
+    <div class="marco nearly-page">
+        <h1>FACTURACIÓN</h1>
+        <div class="series">
+            <p class="types"><b>FACTURA DE VENTA</b></p>
+            <p>No&nbsp;&nbsp;&nbsp;&nbsp; C 287</p>
         </div>
-
-
+        <div class="infos">
+            <p><b>Nombre: </b>Juan Eduardo Rodriguez Tobos</p>
+            <p><b>Empresa: </b>Nutresa S.A.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Teléfono: </b>7425643</p>
+            <p><b>NIT: </b>890.900.050 – 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Habitación: </b>202 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fecha Entrada: </b>20/11/2019 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Fecha Salida: </b>25/11/2019</p>
+        </div>
+            
+        <div class="tables">
+            <table>
+                <tr>
+                    <th class="long_cols">Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Valor Unitario</th>
+                    <th class="long_values">Valor Total</th>
+                </tr>
+                <tr>
+                    <td>Hospedaje habitación ejecutiva</td>
+                    <td>2</td>
+                    <td>$80.000</td>
+                    <td>$160.000</td>
+                </tr>
+                <tr>
+                    <td>Minibar</td>
+                    <td>5</td>
+                    <td>$8.000</td>
+                    <td>$16.000</td>
+                </tr>
+                <tr>
+                    <td>Servicio de lavandería</td>
+                    <td>4</td>
+                    <td>$3.000</td>
+                    <td>$12.000</td>
+                </tr>
+            </table>
+        </div>
+        
+        
+            
+        <div class="table_totals">
+            <table>
+                <tr class="long_letters">
+                    <td class="long_totals"></td>
+                    <td><b>Total $</b></td>
+                    <td class="long_values">$188.000</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="option_bill">
+            <form action="" method="POST">
+                <input type="submit" value="Imprimir factura" name="crear"/>
+            </form> 
+            
+            <a onclick="showModal('submit_bill')">Enviar al correo</a>
+        </div>
+       
+    </div>
+    
+    
         <div id="submit_bill" class="modal" onclick="touchOutside(this);">
             <div class="modal-content">
                 <div class="modal-header">
@@ -141,13 +129,12 @@
                 </div>
             </div>
         </div>
-
+   
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../objects/footer.php"; 
         ?>
-
-    </body>
+</body>
 </html>

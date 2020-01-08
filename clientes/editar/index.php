@@ -1,16 +1,4 @@
 <?php
-    /**
-    * Archivo que contiene la información pertinente a la edición de los clientes almacenados en la base de datos
-    * @package   clientes.editar
-    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
-    * @copyright Todos los derechos reservados. 2020.
-    * @since     Versión 1.0
-    * @version   1.0
-    */
-
-    /**
-    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
-    */
     require_once '../../includes/classes.php';
     $consult = new Consult();
 
@@ -21,9 +9,9 @@
     }
 ?>
 
-
 <!DOCTYPE html>
 <html>
+
     <head>
         <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -43,8 +31,8 @@
         </style>
     </head>
     
+    
     <body>
-
         <?php 
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -52,10 +40,8 @@
             include "../../objects/menu.php"; 
         ?>
         
+
         <script type="text/javascript">
-             /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
-            */
             setCurrentPage("consultar");
         </script>
         
@@ -66,29 +52,21 @@
                     <br>
                     <select class="col-12" id="doc-type-1">
                         <?php
-                            /**
-                            * Crea un array con los tipos de documentos utilizados en la aplicación, con clave y valor
-                            */
-                            $array = [
-                                "CC" => "Cédula de ciudadanía",
-                                "RC" => "Registro civil",
-                                "TI" => "Tarjeta de identidad",        
-                                "CE" => "Cédula de extranjería"];
-                            echo '<option value="'.$p->getTypeDocument().'" selected>'.$array[$p->getTypeDocument()].'</option>';
-                            printOptions($array[$p->getTypeDocument()], $array);
-                            
-                            /**
-                            * Función que se encarga de imprimir los valores referentes al valor que se pasa por parámetro
-                            * @param String $value Valor del array
-                            * @param Array $array Array con una serie de valores que dependen del valor del mismo
-                            */
-                            function printOptions($value, $array){
-                                while(list($key, $val)= each($array)){
-                                    if($value!= $val){
-                                        echo '<option value="'.$key.'">'.$val.'</option>';
-                                    }
+                        $array = [
+                            "CC" => "Cédula de ciudadanía",
+                            "RC" => "Registro civil",
+                            "TI" => "Tarjeta de identidad",        
+                            "CE" => "Cédula de extranjería"];
+                        echo '<option value="'.$p->getTypeDocument().'" selected>'.$array[$p->getTypeDocument()].'</option>';
+                        printOptions($array[$p->getTypeDocument()], $array);
+                                    
+                        function printOptions($value, $array){
+                            while(list($key, $val)= each($array)){
+                                if($value!= $val){
+                                    echo '<option value="'.$key.'">'.$val.'</option>';
                                 }
                             }
+                        }
                         ?>
                     </select>
                 </div>
@@ -135,9 +113,6 @@
                     <label>Genero</label><br>
                     <select id="gender-1" class="col-12">
                         <?php
-                            /**
-                            * Crea un array con los géneros y le asigna a la persona su respectivo valor
-                            */
                             $array = [
                                 "M" => "Hombre",
                                 "F" => "Mujer"];
@@ -156,9 +131,6 @@
                     <label>Tipo de sangre</label><br>
                     <select id="blood-1" class="col-12">
                         <?php
-                            /**
-                            * Crea un array con los tipos de sangre y asigna el valor correspondiente a la persona que se está editando
-                            **/
                             $typeBlood = strlen($p->getTypeRH()) > 2 ? substr($p->getTypeRH(), 0, 2):substr($p->getTypeRH(), 0, 1);
                             $array = [
                                 "O" => "O",
@@ -174,10 +146,7 @@
                 <div class="input-block">
                     <label>RH</label><br>
                     <select id="rh-1" class="col-12">
-                        <?php
-                            /*+
-                            * Extrae de la base de datos el rh de la persona, y a partir de este crea los valores para los demás rh 
-                            */
+                        <?php 
                             $rh = substr($p->getTypeRH(), -1);
                             $array = [
                                 "+" => "+ (Positivo)",
@@ -196,10 +165,7 @@
                     <br>
                     <select id="profession-1" class="adding-select">
                         <option value="NULL">Ninguna</option>
-                        <?php
-                            /**
-                            * Obtiene la profesión de la persona a la cual se está editando
-                            */
+                        <?php 
                             echo '<option value="'.$p->getProfession().'" selected>'.$p->getProfession().'</option>';
                             $consult->getRemainingProfession($p->getProfession());
                         ?>
@@ -211,10 +177,7 @@
                     <label>Nacionalidad</label>
                     <br>
                     <select id="nac-1" class="col-12">
-                        <?php
-                            /**
-                            * Obtiene el lugar de nacimiento de la persona que se está editando
-                            **/
+                        <?php 
                             echo '<option value="'.$p->getPlaceBirth().'" selected>'.$p->getPlaceBirth().'</option>';
                             $consult->getRemainingNac($p->getPlaceBirth())
                         ?>
@@ -223,13 +186,16 @@
             </div>
         </div>
         <a id="button-book" class="col-12">Actualizar Datos</a>
-        
+
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../../objects/footer.php"; 
         ?>
+
         
+        <div id="aux-footer" class="col-12"></div>
+        <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>
