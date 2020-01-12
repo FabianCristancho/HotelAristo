@@ -2,8 +2,14 @@
 
 - [ ] Pagina para clientes
 - [ ] Funcionalidad de paginas de detalles
-- [ ] Módulos de edición (para todos los ámbitos)
+- [ ] Módulos de registro, consulta,edición y eliminación (para todos los ámbitos)
 
+  Entidad | Registro | Consulta | Edición | Eliminación | Observaciones
+  ------- | -------- | -------- | ------- | ----------- | -------------
+  Cliente |    Si    |    Si    |         |             |
+  Usuario |          |          |         |             |
+  Reserva |          |          |         |             |
+ 
 --------------------------------------------------------------------------------
 
 # RESUELTO
