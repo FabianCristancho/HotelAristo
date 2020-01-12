@@ -125,6 +125,7 @@ CREATE TABLE reservas (
 	observaciones VARCHAR(100) NOT NULL,
 	valor_reserva INT(7) NOT NULL,
 	medio_pago VARCHAR(2) NOT NULL,
+	estado_reserva VARCHAR(2) NOT NULL,
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
