@@ -14,16 +14,22 @@ body{
     background: #f2f2f2;
 }
 
-[class*="col-"] {
-    width: 100%;
+.content{
+    margin-top: 10px;
 }
 
-header{
-    float: left;
-    background: yellow;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 90px;
+.wrap-main{
+    background-image: url("/res/img/logop.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.wrap-main-big{
+    background-size: 50%;
+}
+
+[class*="col-"] {
+    width: 100%;
 }
 
 h1{
@@ -36,13 +42,7 @@ h1{
     text-align: center;
 }
 
-#logo-hotel{
-    float: left;
-	width: 60px;
-    margin-right: 10px;
-    margin-left:10px;
-    padding-top: 10px;
-}
+
 
 .ln {
     visibility: hidden;
@@ -52,51 +52,32 @@ h1{
     visibility: hidden;
 }
 
-.menu-item{
-    float: left;
-}
-
-.main-menu-item {
-    padding: 5px;
-    border-radius: 3px;
-    border-style: none;
-    background: inherit;
-    margin-top: 10px;
-}
-
 a{
     text-decoration: none;
     text-decoration-color: black;
 }
 
-.main-menu-item:hover{
-    background: #FFFF00;
-    cursor: pointer;
-}
 
 a:visited{
     color: black;
 }
 
-#current-item{
-    background: #18347D;
-    color: white;
-}
 
-.main-menu-item p{
-    float: left;
-    display: none;
-}
-
-.main-menu-item img{
-    float: left;
-	width: 50px;
-	height: 50px;
-}
 
 .dropdown {
   float: left;
   position: relative;
+}
+
+.dropdown-content-right{
+  display: none;
+  left: inherit;
+  right: 0;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
 }
 
 .dropdown-content {
@@ -108,16 +89,17 @@ a:visited{
   z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content a, .dropdown-content-right a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #ddd;}
+.dropdown-content a:hover,.dropdown-content-right a:hover {background-color: #ddd;}
 
-.dropdown:hover .dropdown-content {display: block;}
+.dropdown:hover .dropdown-content,
+.dropdown:hover .dropdown-content-right {display: block;}
 
 .dropdown:hover .dropbtn {background-color: #3e8e41;}
 
@@ -474,28 +456,3 @@ thead{
     border: 2px solid #18347D;
 }
 
-
-#aux-footer{
-    float: left;
-}
-
-#aux-footer,
-footer{
-    height: 20px;
-}
-
-
-footer{
-    align-self: flex-end;
-    background: #18347D;
-    color: #fff;
-    text-align: center;
-    width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-}
-
-footer .info{
-    color: #fff;
-    text-decoration: none;
-}

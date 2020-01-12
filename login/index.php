@@ -50,28 +50,29 @@
 	<script type="text/javascript" src="../js/moment.js"></script>
 	<script type="text/javascript" src="../js/dynamic.js"></script>
 </head>
-<body>
-	<div id="content" class="col-12">
-		<div id="login" class="wrap">
-            <h2>INICIAR SESIÓN</h2>
-            <div class="form-log">
-                <form action="" method="POST">		
-                    <?php echo '<p>'.$errorLogin.'</p>'; ?>
-                    <div class="input-block-login">
-                        <label>Nombre de usuario: </label>
+    <body>
+	   <div id="content" class="col-12">
+            <div id="login" class="wrap">
+                <h2>INICIAR SESIÓN</h2>
+                <div class="form-log">
+                    <form action="" method="POST">		
+                        <?php echo '<p>'.$errorLogin.'</p>'; ?>
+                        <div class="input-block-login">
+                            <label>Nombre de usuario: </label>
+                            <br>
+                            <input type="text" name="username" placeholder="nombre.apellido" required>
+                        </div>
                         <br>
-                        <input type="text" name="username" placeholder="nombre.apellido" required>
-                    </div>
-                    <br>
-                    <div class="input-block-login">
-                        <label>Contraseña: </label>
+                        <div class="input-block-login">
+                            <label>Contraseña: </label>
+                            <br>
+                            <input type="password" name="password" placeholder="Contraseña" required>
+                        </div>
+                        <button type="submit">Iniciar sesión</button>
                         <br>
-                        <input type="password" name="password" placeholder="Contraseña" required>
-                    </div>
-                    <button type="submit">Iniciar sesión</button>
-                    <br>
-                    <a href="#">¿Olvidó su contraseña?</a>
-			     </form>
+                        <a href="#">¿Olvidó su contraseña?</a>
+                    </form>
+                </div>
             </div>
         </div>
         

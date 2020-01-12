@@ -25,6 +25,7 @@
         <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
         <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -43,7 +44,7 @@
             setCurrentPage("inicio");
         </script>
     
-        <div class="content">
+        <div class="content wrap-main">
             <div class="title">
                 <p><strong>HOTEL ARISTO</strong></p>
             </div>

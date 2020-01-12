@@ -15,20 +15,9 @@
                 case 'profession':
                     $this->professionList();
                     break;
-            }
-        }
-        public function countryList(){
-            $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="P"');
-            $query->execute();
-            foreach ($query as $current) {
-                echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
-            }
-        }
-        public function professionList(){
-            $query = $this->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
-            $query->execute();
-            foreach ($query as $current) {
-                echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>';
+                case 'city':
+                    $this->cityList($aux);
+                break;
             }
         }
         public function getTable($entity){
@@ -50,6 +39,30 @@
                     break;
             }
         }
+
+        function cityList($country){
+            $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="C" AND id_ubicacion='.$country);
+            $query->execute();
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
+            }
+        }
+
+        public function countryList(){
+            $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="P"');
+            $query->execute();
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
+            }
+        }
+        public function professionList(){
+            $query = $this->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
+            $query->execute();
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>';
+            }
+        }
+
         function enterpriseList(){
             $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa FROM empresas');
             $query->execute();
@@ -59,21 +72,29 @@
         }
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_lugar, nombre_profesion, CASE genero_persona WHEN "M" THEN "Hombre" WHEN "F" THEN "Mujer" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona FROM personas p, profesiones pr, lugares l WHERE p.id_profesion=pr.id_profesion AND id_lugar_expedicion = id_lugar AND tipo_persona = "C"');
+            $query = $this->connect()->prepare('SELECT id_persona_aux, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, telefono_persona, correo_persona FROM personas_auxiliares p');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['tipo_documento'].'</td>'.PHP_EOL;
-                echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_lugar'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['genero'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['fecha_nacimiento'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['tipo_sangre_rh'].'</td>'.PHP_EOL;
+                echo '<td></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td><a href="../edicion_cliente/?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Editar información</a></td>'.PHP_EOL;
+                echo '<td></td>'.PHP_EOL;
+                echo '<td>Sin Check in</td>'.PHP_EOL;
+                echo '</tr>'.PHP_EOL;
+            }
+
+            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p, profesiones pr WHERE p.id_profesion=pr.id_profesion AND tipo_persona = "C"');
+            $query->execute();
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
+                echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
+                echo '<td><a href="editar?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Ver</a></td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }

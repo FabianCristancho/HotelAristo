@@ -21,20 +21,6 @@
         <script type="text/javascript" src="../js/dynamic.js"></script>
     </head>
     
-   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
-    <script>
-        $(document).ready(function(){
-            $("#button-update-client").click(function(){
-                var documento="";
-
-                $(this).parents("tr").find(".num").each(function(){
-                    documento+=$(this).html()+"\n";
-                });
-                window.location.href = '../edicion_cliente?documento='+documento;
-            });
-        });
-    </script>-->
-    
     <body>
         <?php 
             /**
@@ -51,7 +37,7 @@
 
             <div class="marco nearly-page">
                 <h1 class="heading">CLIENTES</h1>
-                <a id="button-more-info" class="btn-new-bill">NUEVO CLIENTE</a>
+                <a href="registrar" id="button-more-info" class="btn-new-bill">NUEVO CLIENTE</a>
                 
                 <div class="scroll-block">
                     
@@ -60,16 +46,11 @@
                         <thead>
                             <tr>
                                 <th>NOMBRE</th>
-                                <th>TIPO DOCUMENTO</th>
                                 <th>NÚMERO DE DOCUMENTO</th>
-                                <th>FECHA DE EXPEDICIÓN</th>
-                                <th>PROFESIÓN</th>
-                                <th>GÉNERO</th>
-                                <th>FECHA DE NACIMIENTO</th>
-                                <th>TIPO DE SANGRE</th>
                                 <th>TELÉFONO</th>
                                 <th>CORREO</th>
-                                <th></th>
+                                <th>PROFESIÓN</th>
+                                <th>DETALLES</th>
                             </tr>
                         </thead>
                         

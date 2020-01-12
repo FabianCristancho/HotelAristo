@@ -14,7 +14,7 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
-    <body onload ="getDate('control-date',0);">  
+    <body onload ="getDate('control-date-prev',-1); getDate('control-date-last',0);">  
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -38,8 +38,8 @@
                     <label>Fecha Inicial &emsp; &emsp; &emsp; &ensp; Fecha Final</label>
 
                     <br>
-                    <input id="control-date" type="date">
-                    <input id="control-date" type="date">
+                    <input id="control-date-prev" type="date">
+                    <input id="control-date-last" type="date">
                 </div>
             
                 <div class="view-room-history">
