@@ -331,11 +331,11 @@ thead{
 
 #button-add-book{
     float: left;
-	height: 30px;
 	color:white;
 	background:#18347D;
     text-align: center;
     padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
 }
 

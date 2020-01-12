@@ -1,3 +1,26 @@
+<?php
+    /**
+    * Archivo que contiene la información pertinente a las reservas almacenadas en la base de datos
+    * @package   reservas
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
+    require_once '../includes/classes.php';
+    $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,6 +33,7 @@
         <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
         <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -25,7 +49,7 @@
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h3 id="requests-title" class="col-9">Reservas de huéspedes</h3>
-                <a id="button-add-book" class="col-2" href="">Nueva reserva</a>
+                <a id="button-add-book" class="col-2" href="registrar">Nueva reserva</a>
 
                 <table>
                     <tr>
@@ -40,6 +64,9 @@
                       <th>Empresa</th>
                       <th>Correo</th>
                     </tr>
+                     <?php
+                            $consult->getTable('reservation');
+                      ?>
                 </table>
             </div>
         </div>

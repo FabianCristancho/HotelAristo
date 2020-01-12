@@ -65,9 +65,26 @@ body{
 
 .btn-circle{
     border-radius: 20px;
+    color: #fff;
     border: 1px solid transparent;
     padding: 1px 12px;
     background-color: green;
+}
+
+.btn-success{
+  color: #fff;
+  border-radius: 3;
+  border: 1px solid transparent;
+  padding: 1px 12px;
+  background-color: green;
+}
+
+.btn-complete{
+  color: #fff;
+  border-radius: 3;
+  border: 1px solid transparent;
+  padding: 1px 12px;
+  background-color: red;
 }
 
 .btn, button, input, textarea {

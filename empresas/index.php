@@ -10,9 +10,16 @@
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
-    include_once '../includes/database.php';
-    include_once '../includes/consult.php';
+    require_once '../includes/classes.php';
     $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
 ?>
 
 <!DOCTYPE html>
