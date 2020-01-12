@@ -20,6 +20,7 @@
                 break;
             }
         }
+
         public function getTable($entity){
             switch ($entity) {
                 case 'room':
@@ -36,6 +37,9 @@
                 break;
                 case 'customers':
                     $this->customerTable();
+                    break;
+                case 'reservation':
+                    $this->reservationTable();
                     break;
             }
         }
@@ -70,13 +74,34 @@
                 echo '<option value="'.$current['id_empresa'].'">'.$current['nombre_empresa'].'</option>';
             }
         }
+
+        function reservationTable(){
+            $query = $this->connect()->prepare('SELECT rg.id_registro ,r.id_reserva,id_cliente,id_cliente_aux, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cx,e.id_empresa, e.nombre_empresa, c.telefono_persona,cx.telefono_persona, c.correo_persona,cx.correo_persona, rg.fecha_ingreso,rg.fecha_salida, TIMESTAMPDIFF(DAY, rg.fecha_ingreso,rg.fecha_salida) dias, NVL2(id_cliente_aux,1,0) aux FROM registros_habitacion rg inner join reservas r on rg.id_reserva=r.id_reserva left join personas c on r.id_cliente=c.id_persona left join personas_auxiliares cx on r.id_cliente_aux=cx.id_persona_aux left join empresas e on c.id_empresa=e.id_empresa');
+            $query->execute();
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
+                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_registro']."'".'" class="btn '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
+                echo '<td>'.'</td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?aux='.$current['aux'].'&id='.$current['id_cliente'].$current['id_cliente_aux'].'">'.$current['nombre_c'].$current['nombre_cx'].'</a></td>'.PHP_EOL;
+                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_salida'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
+                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
+                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                echo '</tr>'.PHP_EOL;
+            }
+        }
+
+       
         
         function customerTable(){
             $query = $this->connect()->prepare('SELECT id_persona_aux, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, telefono_persona, correo_persona FROM personas_auxiliares p');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
-                echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?aux=1&id='.$current['id_persona_aux'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
@@ -89,7 +114,7 @@
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
-                echo '<td>'.$current['nombre'].'</td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?aux=0&id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
