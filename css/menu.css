@@ -1,0 +1,52 @@
+header{
+    float: left;
+    background: yellow;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 90px;
+}
+
+#logo-hotel{
+    float: left;
+	width: 60px;
+    margin-right: 10px;
+    margin-left:10px;
+    padding-top: 10px;
+}
+
+#current-item{
+    background: #18347D;
+    color: white;
+}
+
+.menu-item{
+    float: left;
+}
+
+.main-menu-item {
+    padding: 5px;
+    border-radius: 3px;
+    border-style: none;
+    background: inherit;
+    margin-top: 10px;
+}
+
+.main-menu-item p{
+    float: left;
+}
+
+.main-menu-item img{
+    float: left;
+	width: 50px;
+	height: 50px;
+}
+
+.main-menu-item:hover{
+    background: #FFFF00;
+    cursor: pointer;
+}
+
+.user-area{
+    display: flex;
+    justify-content: flex-end;
+}

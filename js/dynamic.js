@@ -3,22 +3,19 @@ var maxGuests=3;
 function showAllInputs(value){
 	
 	
-	var aux=document.getElementById("input-identity-"+value);
-	if(aux.style.display == "block"){
-		aux.style.display="none";
-		document.getElementById("input-more-"+value).style.display="none";
+	var rows=document.getElementsByClassName("card-client")[value].getElementsByClassName("row");
+	if(rows[1].style.display == "flex"){
+		rows[1].style.display="none";
+		rows[2].style.display="none";
+		rows[4].style.display="none";
+		rows[5].getElementsByClassName("form-group")[0].style.display="none";
+		rows[5].getElementsByClassName("form-group")[2].style.display="none";
 	}else{
-		document.getElementById("input-identity-"+value).style.display="block";
-		document.getElementById("input-more-"+value).style.display="block";
-	}
-	
-}
-
-function hideAllInputs(value){
-	var aux=document.getElementById("input-identity-"+value);
-	if(aux.style.display != "block"){
-		aux.style.display="none";
-		document.getElementById("input-more-"+value).style.display="none";
+		rows[1].style.display="flex";
+		rows[2].style.display="flex";
+		rows[4].style.display="flex";
+		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
+		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
 	}
 }
 
@@ -122,6 +119,17 @@ function updateRooms(){
 		data: 'entity=roomType&roomType='+document.getElementById('room-type').value,
 		success: function (ans) {
 			$('#room-select').html(ans);
+		}
+	});
+}
+
+function updateCities(){
+	$.ajax({
+		type:'post',
+		url:'/includes/get.php',
+		data:'entity=country&country='+document.getElementById('pais').value,
+		success:function(ans){
+			$('#ciudad').html(ans);
 		}
 	});
 }

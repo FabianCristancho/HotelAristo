@@ -8,6 +8,18 @@
         case 'enterprise':
         	enterpriseList();
         	break;
+        case 'country':
+        cityList($_POST['country']);
+        break;
+    }
+
+    function cityList($country){
+        $database=new Database();
+        $query = $database->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="C" AND id_ubicacion='.$country);
+        $query->execute();
+        foreach ($query as $current) {
+            echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
+        }
     }
 
 	function roomTypeList($type){

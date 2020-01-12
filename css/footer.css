@@ -1,0 +1,25 @@
+#aux-footer{
+    float: left;
+}
+
+#aux-footer,
+footer{
+    height: 20px;
+}
+
+
+footer{
+    box-sizing: initial;
+    align-self: flex-end;
+    background: #18347D;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+footer .info{
+    color: #fff;
+    text-decoration: none;
+}
