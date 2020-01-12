@@ -1,8 +1,6 @@
 var maxGuests=3;
 
 function showAllInputs(value){
-	
-	
 	var rows=document.getElementsByClassName("card-client")[value].getElementsByClassName("row");
 	if(rows[1].style.display == "flex"){
 		rows[1].style.display="none";
