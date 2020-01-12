@@ -161,3 +161,36 @@ function sendClient(i){
 
 	return false;
 }
+
+function sendEnterprise(){
+	var card=document.getElementsByClassName("card")[0];
+	var inputs=card.getElementsByTagName("input");
+	var select=card.getElementsByTagName("select")[0];
+
+	var nit=inputs[0].value==""?"NULL":inputs[0].value;
+	var name=inputs[1].value==""?"NULL":inputs[1].value;
+	var phone=inputs[2].value==""?"NULL":inputs[2].value;
+	var email=inputs[3].value==""?"NULL":inputs[2].value;
+	var ret=inputs[4].checked?"1":"0";
+	var other=select.value;
+
+	var data="entity=enterprise&nit="+nit+
+	"&name="+name+
+	"&phone="+phone+
+	"&email="+email+
+	"&ret="+ret+
+	"&other="+other;
+
+	$.ajax({
+		type: 'post',
+		url: '/includes/insert.php',
+		data: data,
+		success: function (ans) {
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-d','No se pudo conectar con la base de datos');
+		}
+	});
+}

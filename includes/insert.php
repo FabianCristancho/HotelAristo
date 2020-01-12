@@ -7,6 +7,29 @@
         case "customer":
         insertCustomer();
         break;
+        case 'enterprise':
+        insertEnterprise();
+        break;
+    }
+
+    function insertEnterprise(){
+        $database=new Database();
+        
+        $nit=$_POST["nit"];
+        $name=$_POST["name"];
+        $phone=$_POST["phone"];
+        $email=$_POST["email"];
+        $ret=$_POST["ret"];
+        $other=$_POST["other"];
+
+        $insert ="INSERT INTO empresas( nit_empresa, nombre_empresa, correo_empresa, telefono_empresa, retefuente, otro_impuesto) VALUES
+                ('".$nit."','".$name."','".$email."','".$phone."',".$ret.",".$other.");";
+        try{
+            $database->connect()->exec($insert);
+            echo 'alert-s;Se ha agregado a '.$name.' a la base de datos.';
+        }catch(PDOException $e){
+            echo 'alert-d;Error 2.1. Ha surgido un error al intentar agregar al cliente.';
+        }
     }
 
     function insertCustomer(){
@@ -36,10 +59,10 @@
 
             try{
                 $database->connect()->exec($insert);
-                    echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos.';
-                }catch(PDOException $e){
-                    echo 'alert-d;Error 1.1. Ha surgido un error al intentar agregar al cliente.';
-                }
+                echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos.';
+            }catch(PDOException $e){
+                echo 'alert-d;Error 1.1. Ha surgido un error al intentar agregar al cliente.';
+            }
         }else{
             $enterprise; $fName; $lName; $phone; $email;
 

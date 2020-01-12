@@ -361,11 +361,16 @@
 				</div>
 			</div>
 		</div>
+		<div class="modal">
+			<?php 
+            include "../../objects/input-enterprise.php"; ?>
+		</div>
 		<?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../../objects/footer.php"; 
+            include "../../objects/footer.php";
+            include "../../objects/alerts.php"; 
         ?>
 	</body>
 </html>
