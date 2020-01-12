@@ -153,6 +153,7 @@ function sendClient(i){
 		success: function (ans) {
 			var data=ans.split(";");
 			showAlert(data[0],data[1]);
+
 		},
 		error: function (ans) {
 			showAlert('alert-d','No se pudo conectar con la base de datos');
@@ -163,7 +164,7 @@ function sendClient(i){
 }
 
 function sendEnterprise(){
-	var card=document.getElementsByClassName("card")[0];
+	var card=document.getElementsByClassName("card-enterprise")[0];
 	var inputs=card.getElementsByTagName("input");
 	var select=card.getElementsByTagName("select")[0];
 
@@ -185,6 +186,23 @@ function sendEnterprise(){
 		type: 'post',
 		url: '/includes/insert.php',
 		data: data,
+		success: function (ans) {
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-d','No se pudo conectar con la base de datos');
+		}
+	});
+}
+
+function sendProfession(){
+	var card=document.getElementsByClassName("card-profession")[0];
+
+	$.ajax({
+		type: 'post',
+		url: '/includes/insert.php',
+		data: "entity=profession&name="+card.getElementsByTagName("input")[0].value,
 		success: function (ans) {
 			var data=ans.split(";");
 			showAlert(data[0],data[1]);

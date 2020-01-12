@@ -6,11 +6,23 @@
         roomTypeList($_POST['roomType']);
         break;
         case 'enterprise':
-        	enterpriseList();
-        	break;
+        enterpriseList();
+        break;
         case 'country':
         cityList($_POST['country']);
         break;
+        case 'profession':
+        professionList();
+        break;
+    }
+
+    function professionList(){
+        $database=new Database();
+        $query = $database->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
+        $query->execute();
+        foreach ($query as $current) {
+            echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>';
+        }
     }
 
     function cityList($country){
@@ -39,6 +51,4 @@
             echo '<option value="'.$current['id_empresa'].'">'.$current['nombre_empresa'].'</option>';
         }
     }
-
-
 ?>

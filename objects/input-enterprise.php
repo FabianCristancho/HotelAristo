@@ -1,10 +1,10 @@
-<div class="card">
+						<div class="card card-enterprise">
 							<div class="card-header">
 								<strong class="card-title">Información de la empresa</strong>
 							</div>
 							<div class="card-body">
 								<div class="row">
-									<div class="form-group in-row col-4">
+									<div class="form-group in-row col-4 padd">
 										<label class="form-control-label">NIT</label>
 										<div class="input-group">
 											<div class="input-group-icon">
@@ -14,7 +14,7 @@
 										</div>
 										<small class="form-text text-muted">123456789-1</small>
 									</div>
-									<div class="form-group in-row col-8">
+									<div class="form-group in-row col-8 padd">
 										<label class="form-control-label">Nombre de la empresa</label>
 										<div class="input-group">
 											<div class="input-group-icon">
@@ -27,7 +27,7 @@
 								</div>
 								
 								<div class="row">
-									<div class="form-group in-row col-4">
+									<div class="form-group in-row col-4 padd">
 										<label class="form-control-label">Telefono</label>
 										<div class="input-group">
 											<div class="input-group-icon">
@@ -37,7 +37,7 @@
 										</div>
 										<small class="form-text text-muted">ej. 3123334466</small>
 									</div>
-									<div class="form-group in-row col-8">
+									<div class="form-group in-row col-8 padd">
 										<label class="form-control-label">Correo</label>
 										<div class="input-group">
 											<div class="input-group-icon">
@@ -49,11 +49,11 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="form-group col-3">
+									<div class="form-group col-3 padd">
                                         <div class="col-4">
                                         	<label class=" form-control-label">Retefuente (3.5%)</label>
                                         </div>
-                                        <div class="form-check col-8">
+                                        <div class="form-check col-8 padd">
                                         	<div>
                                         		<label>
                                         			<input type="radio" name="retefuente" value="1" class="form-check-input">Si
@@ -64,7 +64,7 @@
                                         	</div>
                                         </div>
                                     </div>
-									<div class="form-group in-row col-9">
+									<div class="form-group in-row col-9 padd">
 										<label class="form-control-label">Otro impuesto</label>
 										<div class="input-group">
 											<div class="input-group-icon">

@@ -41,11 +41,11 @@
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
-		<div class="content col-12">
-			<div class="wrap-main wrap-main-big col-10 wrap-10">
+		<div class="content col-12 padd">
+			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 				<h2>REGISTRAR EMPRESA</h2>
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 padd">
 						<?php
 				            include "../../objects/input-enterprise.php";
 				        ?>

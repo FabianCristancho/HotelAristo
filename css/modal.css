@@ -3,7 +3,7 @@
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 50px;
   left: 0;
   top: 0;
   width: 100%;
@@ -62,8 +62,7 @@
 
 .modal-body {
   float: left;
-  padding: 1%;
-  width: 98%;
+  width: 100%;
   background: #fefefe;
 }
 
