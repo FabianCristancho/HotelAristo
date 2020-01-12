@@ -10,6 +10,24 @@
         case 'enterprise':
         insertEnterprise();
         break;
+        case 'profession':
+        insertProfession();
+        break;
+    }
+
+    function insertProfession(){
+        $database=new Database();
+        
+        $name=$_POST["name"];
+
+        $insert ="INSERT INTO profesiones( nombre_profesion) VALUES
+                ('".$name."');";
+        try{
+            $database->connect()->exec($insert);
+            echo 'alert-s;Se ha agregado a '.$name.' a la base de datos.';
+        }catch(PDOException $e){
+            echo 'alert-d;Error 3.1. Ha surgido un error al intentar agregar la profesión.';
+        }
     }
 
     function insertEnterprise(){
@@ -28,7 +46,7 @@
             $database->connect()->exec($insert);
             echo 'alert-s;Se ha agregado a '.$name.' a la base de datos.';
         }catch(PDOException $e){
-            echo 'alert-d;Error 2.1. Ha surgido un error al intentar agregar al cliente.';
+            echo 'alert-d;Error 2.1. Ha surgido un error al intentar agregar la empresa.';
         }
     }
 
