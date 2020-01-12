@@ -26,7 +26,7 @@
             $database->connect()->exec($insert);
             echo 'alert-s;Se ha agregado a '.$name.' a la base de datos.';
         }catch(PDOException $e){
-            echo 'alert-d;Error 3.1. Ha surgido un error al intentar agregar la profesión.';
+            echo 'alert-d;Error A3.1. Ha surgido un error al intentar agregar la profesión.';
         }
     }
 
@@ -46,7 +46,7 @@
             $database->connect()->exec($insert);
             echo 'alert-s;Se ha agregado a '.$name.' a la base de datos.';
         }catch(PDOException $e){
-            echo 'alert-d;Error 2.1. Ha surgido un error al intentar agregar la empresa.';
+            echo 'alert-d;Error A2.1. Ha surgido un error al intentar agregar la empresa.';
         }
     }
 
@@ -79,7 +79,7 @@
                 $database->connect()->exec($insert);
                 echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos.';
             }catch(PDOException $e){
-                echo 'alert-d;Error 1.1. Ha surgido un error al intentar agregar al cliente.';
+                echo 'alert-d;Error A1.1. Ha surgido un error al intentar agregar al cliente.';
             }
         }else{
             $enterprise; $fName; $lName; $phone; $email;
@@ -97,7 +97,7 @@
                 $database->connect()->exec($insert);
                 echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos. Recuerde que los datos no estan completos';
             }catch(PDOException $e){
-                echo 'alert-d;Error 1.2. Ha surgido un error al intentar agregar al cliente.'.$insert;
+                echo 'alert-d;Error A1.2. Ha surgido un error al intentar agregar al cliente.'.$insert;
             }
         }
     }
@@ -140,7 +140,7 @@
                     $database->connect()->exec($insert);
                     echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos.';
                 }catch(PDOException $e){
-                    echo 'alert-d;Error 1.3. Ha surgido un error al intentar agregar al cliente.';
+                    echo 'alert-d;Error A1.3. Ha surgido un error al intentar agregar al cliente.';
                 }
             }
         }else{
@@ -162,7 +162,7 @@
                     $database->connect()->exec($insert);
                     echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos. Recuerde que los datos no estan completos';
                 }catch(PDOException $e){
-                    echo 'alert-d;Error 1.4. Ha surgido un error al intentar agregar al cliente.';
+                    echo 'alert-d;Error A1.4. Ha surgido un error al intentar agregar al cliente.';
                 }
             }
         }
