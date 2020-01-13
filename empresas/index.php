@@ -54,7 +54,8 @@
 
 
 		<div class="marco nearly-page">
-            <h1>EMPRESAS REGISTRADAS</h1>
+            <h2 id="requests-title" class="col-9">EMPRESAS REGISTRADAS</h2>
+                <a id="button-add-book" class="col-2" href="registrar">Registrar Empresa</a>
             <div class="scroll-block">
                 <table>
                     <thead>
