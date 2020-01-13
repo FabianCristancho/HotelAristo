@@ -1,5 +1,16 @@
-  
 <?php
+    /**
+    * Archivo que contiene el menú principal, visible para la parte administrativa de la aplicación web
+    * @package   inicio
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de la clase denominada classes
+    */
     require_once '../includes/classes.php';
     $user = new User();
     $userSession = new UserSession();
