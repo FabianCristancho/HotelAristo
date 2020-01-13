@@ -11,16 +11,9 @@
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
-    
-    require_once '../includes/classes.php';
+    include_once '../includes/database.php';
+    include_once '../includes/consult.php';
     $consult=new Consult();
-    $userSession = new UserSession();
-    $user = new User();
-    if(isset($_SESSION['user'])){
-        $user->updateDBUser($userSession->getSession());
-    }else{
-        header('location: /login');
-    }
 ?>
 
 
@@ -31,14 +24,14 @@
         <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="../res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="../css/alerts.css">
-        <script type="text/javascript" src="../js/moment.js"></script>
-        <script type="text/javascript" src="../js/dynamic.js"></script>
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
     
     <body>
@@ -56,8 +49,8 @@
         <div id="content" class="col-12">
 
             <div class="marco nearly-page">
-                <h1 class="heading">CLIENTES</h1>
-                <a href="registrar" id="button-more-info" class="btn-new-bill">NUEVO CLIENTE</a>
+              <h2 id="requests-title" class="col-9">CLIENTES REGISTRADOS</h2>
+                <a id="button-add-book" class="col-2" href="registrar">Registrar cliente</a>
                 
                 <div class="scroll-block">
                     
