@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que contiene un formulario para el registro de una nueva reserva
+    * @package   reservas.registrar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
 	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
@@ -9,6 +21,7 @@
     	header('location: /login');
     }
 ?>
+
 <html>
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />

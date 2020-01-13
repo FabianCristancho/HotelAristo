@@ -106,8 +106,5 @@
             */
             include "../../objects/footer.php"; 
         ?>
-
-        
-    <?php include "../../objetos/pie.php"; ?>
     </body>
 </html>

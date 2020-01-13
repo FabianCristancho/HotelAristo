@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que contiene la información pertinente a la edición de los clientes almacenados en la base de datos
+    * @package   clientes.editar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
     require_once '../../includes/classes.php';
     $consult=new Consult();
     $userSession = new UserSession();
@@ -8,13 +20,13 @@
     }else{
         header('location: /login');
     }
-
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         $p = new Person();
         $p->setId($id);        
     }
 ?>
+
 
 <!DOCTYPE html>
 <html>
