@@ -37,7 +37,7 @@ CREATE TABLE lugares(
 CREATE TABLE impuestos(
 	id_impuesto INT(3) NOT NULL AUTO_INCREMENT,
 	nombre_impuesto VARCHAR(30) NOT NULL,
-	porcentaje_retefuente DECIMAL(6,5) NOT NULL,
+	porcentaje_impuesto DECIMAL(6,5) NOT NULL,
 	CONSTRAINT imp_pk_idi PRIMARY KEY (id_impuesto)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE habitaciones(
 	tipo_habitacion CHAR(1) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
 	estado_habitacion CHAR(1) NOT NULL,
-	tarifa_habitacion INT(7) NOT NULL,
+	tarifa_habitacion INT(2) NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -159,6 +159,15 @@ CREATE TABLE facturas(
     CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
+CREATE TABLE tarifas(
+	id_tarifa INT(2) NOT NULL AUTO_INCREMENT,
+	id_habitacion INT(2) NOT NULL,
+	valor_habitacion  INT(7) NOT NULL,
+	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
+);
+
+
+
 ALTER TABLE lugares ADD(
 	CONSTRAINT lug_fk_idu FOREIGN KEY (id_ubicacion)
 	REFERENCES lugares (id_lugar),
@@ -221,6 +230,11 @@ ALTER TABLE facturas ADD(
     CONSTRAINT fac_fk_idu FOREIGN KEY (id_usuario)
     REFERENCES personas(id_persona),
     CONSTRAINT fac_ck_es CHECK (estado_factura IN ('T' /*TARJETA*/, 'E' /*EFECTIVO*/, 'M' /*MIXTO*/, 'C' /*CONSIGNACION*/, 'A' /*ANULADA*/, 'CXC' /*CUENTAS POR COBRAR*/))
+);
+
+ALTER TABLE tarifas add(
+	CONSTRAINT tar_fk_idh FOREIGN KEY (id_habitacion)
+	REFERENCES habitaciones(id_habitacion)
 );
 
 
