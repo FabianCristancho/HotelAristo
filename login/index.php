@@ -1,17 +1,26 @@
 <?php
-	require_once '../includes/classes.php';
+    /**
+    * Archivo que contiene el formulario de inicio de sesión de un usuario
+    * @package   login
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
 
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
+	require_once '../includes/classes.php';
 	$userSession = new UserSession();
     $user = new User();
     $errorLogin='';
-
     if(isset($_SESSION['user'])){
     	$user->updateDBUser($userSession->getSession());
     	setHeader($user->getRole());
     }else if(isset($_POST['username']) && isset($_POST['password'])) {
     	$username = $_POST['username'];
     	$password = md5($_POST['password']);
-
     	if($user->exists($username,$password)){
     		$userSession->setSession($username);
     		$user->updateDBUser($username);
@@ -21,6 +30,10 @@
     	}
     }
 
+    /**
+    * Asigna un valor a la cabecera dependiendo del rol pedido por parámetro
+    * @param $role Rol del usuario que está intentando iniciar sesión
+    */
     function setHeader($role){
     	switch ($role) {
     		case 5:
@@ -29,8 +42,6 @@
     	}
     	
     }
-
-
 ?>
 
 <!DOCTYPE html>
