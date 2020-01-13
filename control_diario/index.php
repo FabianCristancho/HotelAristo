@@ -20,6 +20,10 @@
     }else{
         header('location: /login');
     }
+    $date="";
+    if(isset($_GET['date'])){
+        $date = $_GET['date'];      
+    }
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +46,7 @@
             }
         </style>
     </head>
-    <body onload ="getDate('control-date',0); checkColors();">
+    <body onload ="getDate('control-date',0); checkColors(); history.pushState(null, '','?date='+document.getElementById('control-date').value);" >
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -79,7 +83,7 @@
                             </tr>
                         </thead>
                         <?php
-                            $consult->getTable('room');
+                            $consult->getTable('room', $date);
                         ?>
                     </table>
                 </div>

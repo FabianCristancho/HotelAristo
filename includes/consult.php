@@ -21,10 +21,10 @@
             }
         }
 
-        public function getTable($entity){
+        public function getTable($entity, $aux){
             switch ($entity) {
                 case 'room':
-                    $this->roomTable();
+                    $this->roomTable($aux);
                 break;
                 case 'enterprise':
                     $this->enterpriseTable();
@@ -166,8 +166,8 @@
                 echo '<option value = "'.$current['nombre_tipo'].'">'.$current['nombre_tipo'].'</option>'.PHP_EOL;
             }
         }
-        function roomTable(){
-            $query = $this->connect()->prepare('SELECT id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion FROM habitaciones');
+        function roomTable($date){
+            $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso FROM habitaciones h inner join registros_habitacion rg on rg.id_habitacion=h.id_habitacion ');
             $query->execute();
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
@@ -179,8 +179,8 @@
                 echo '</td>'.PHP_EOL;
                 echo '<td>'.$this->roomType($current['tipo_habitacion']).'</td>'.PHP_EOL;
                 echo '<td></td>';
-                echo '<td></td>';
-                echo '<td></td>';
+                echo '<td>'.$current['fecha_ingreso'].'</td>';
+                echo '<td>'.$date.'</td>';
                 echo '<td></td>';
                 echo '<td><input type="checkbox"></td>';
                 echo '<td><input type="checkbox"></td>';
