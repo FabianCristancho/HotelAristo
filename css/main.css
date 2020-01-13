@@ -261,7 +261,7 @@ thead{
 
 .view-date-history{
     float: left;
-    padding: 0px 50px 0px 20px;
+    padding: 10px 50px 30px 20px;
 }
 
 .view-room-history{
@@ -337,11 +337,14 @@ thead{
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 #requests-title{
     float: left;
     text-align: center;
+    color: #18347D;
+    font-weight: bold;
 }
 
 .room-state-change{
@@ -455,4 +458,3 @@ thead{
     background: #485D93; 
     border: 2px solid #18347D;
 }
-
