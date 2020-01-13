@@ -80,9 +80,6 @@
 						<br><br>
                         <label>320.000</label>
 					</div>
-                <div class="input-block">
-                    <a href="#" id="button-more-info" class="col-10">Efectuar Pago</a>
-                </div>
             </div>
 
             <div class="marco responsive-page">
