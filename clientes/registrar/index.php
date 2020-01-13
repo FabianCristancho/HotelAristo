@@ -12,7 +12,7 @@
 <html>
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
-		<title>Nueva reserva | Hotel Aristo</title>
+		<title>Registrar cliente | Hotel Aristo</title>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -41,20 +41,23 @@
         <script type="text/javascript">
             setCurrentPage("registrar");
         </script>
-		<div class="content col-12 padd">
+		<div class="content col-12">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-				<h2>REGISTRAR EMPRESA</h2>
+				<h2>REGISTRAR CLIENTE</h2>
 				<div class="row">
 					<div class="col-12 padd">
-						<?php
-				            include "../../objects/input-enterprise.php";
-				        ?>
+						    <?php
+						    /**
+            				* Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+           					*/
+            					include "../../objects/input-client.php";
+        					?>
 					</div>
 				</div>
 				<div>
-					<button class="btn btn-block btn-register" onclick="sendEnterprise();">
+					<button class="btn btn-block btn-register" onclick="sendClient(0);">
 						<i class="fa fa-check"></i>
-						<span>Registrar empresa</span>
+						<span>Registrar cliente</span>
 					</button>
 				</div>
 			</div>
@@ -63,7 +66,7 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../../objects/footer.php"; 
+            include "../../objects/footer.php";
             include "../../objects/alerts.php";
         ?>
 	</body>

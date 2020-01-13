@@ -11,9 +11,7 @@
     }
 </script>
 
-
-<!DOCTYPE html>
-<html>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
     <header class="col-12">
         <a href="/inicio">
             <img id="logo-hotel" src="/res/img/logoA.png">
@@ -34,6 +32,7 @@
                 <a href="/reservas/registrar">Registar reserva</a>
                 <a href="/empresas/registrar">Registrar empresas</a>
                 <a href="/usuarios/registrar">Registrar usuarios</a>
+                <a href="/clientes/registrar">Registrar clientes</a>
             </div>
         </div>
         
@@ -60,10 +59,15 @@
             <img src="/res/img/bill-icon-black.png">
             <p>Facturación</p>
         </button>
-        
-        <button  onclick="window.location.href = '/includes/logout.php';" class="main-menu-item menu-item">
-            <img src="/res/img/logout-icon-black.png">
-            <p>Cerrar sesión</p>
-        </button>
+        <div class="user-area">
+            <div class="dropdown menu-item">
+            <button class="main-menu-item">
+                <img src="/res/img/user-icon-black.png">
+            </button>
+            <br>
+            <div class="dropdown-content-right">
+                <a href="/includes/logout.php"><i class="fa fa-power-off"></i> Cerrar sesión</a>
+            </div>
+        </div>
+        </div>
     </header>
-</html>

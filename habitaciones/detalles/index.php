@@ -1,18 +1,25 @@
+<?php 
+    $id="";
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];      
+    }
+?>
 <!DOCTYPE html>
 <html>
+
     <head>
-        <title>Historial de Habitación | Hotel Aristo</title>
+        <title>Historial de la habitación <?php echo $id;?> | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/../res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="/../css/main.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="/../css/alerts.css">
-        <script type="text/javascript" src="/../js/moment.js"></script>
-        <script type="text/javascript" src="/../js/dynamic.js"></script>
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
 
     <body onload ="getDate('control-date',0);">
@@ -20,7 +27,7 @@
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
-            include "../../menu/menu.php"; 
+            include "../../objects/menu.php"; 
         ?>
         
         <script type="text/javascript">
@@ -54,9 +61,9 @@
                         <label><b>Valor total de consumo ($): &ensp;</b></label>
                         <label>75.000</label>
                     </div>
+
                 </div>
                 </br>
-            
                 <div class="specific-info">
                     <div>
                         <h4><b>HUÉSPEDES</b></h4>
@@ -106,7 +113,7 @@
             </div>
 
             <div class="button-return">
-                <a href="/../habitaciones/">Regresar</a>
+                <a href="/habitaciones">Regresar</a>
             </div>
         </div>
         
@@ -114,7 +121,7 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../../footer/footer.php"; 
+            include "../../objects/footer.php"; 
         ?>
     
     </body>

@@ -8,11 +8,17 @@
     }else{
     	header('location: /login');
     }
+
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+        $p = new Person();
+        $p->setId($id);        
+    }
 ?>
 <html>
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
-		<title>Nueva reserva | Hotel Aristo</title>
+		<title>Editar reserva | Hotel Aristo</title>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -30,7 +36,7 @@
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
-	<body onload ="getDate('start-date',0); getDate('finish-date',1); assignAttributes();">
+	<body onload ="assignAttributes();">
 		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
             /**
@@ -43,7 +49,7 @@
         </script>
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-				<h2>REGISTRAR RESERVA</h2>
+				<h2>EDITAR RESERVA</h2>
 				<div class="row">
 					<div class="col-6 padd">
 						<div class="card">

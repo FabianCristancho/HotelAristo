@@ -1,39 +1,66 @@
-var maxGuests=3;
-
 function showAllInputs(value){
-	
-	
-	var aux=document.getElementById("input-identity-"+value);
-	if(aux.style.display == "block"){
-		aux.style.display="none";
-		document.getElementById("input-more-"+value).style.display="none";
+	var rows=document.getElementsByClassName("card-client")[value].getElementsByClassName("row");
+	if(rows[1].style.display == "flex"){
+		rows[1].style.display="none";
+		rows[2].style.display="none";
+		rows[4].style.display="none";
+		rows[5].getElementsByClassName("form-group")[0].style.display="none";
+		rows[5].getElementsByClassName("form-group")[2].style.display="none";
 	}else{
-		document.getElementById("input-identity-"+value).style.display="block";
-		document.getElementById("input-more-"+value).style.display="block";
+		rows[1].style.display="flex";
+		rows[2].style.display="flex";
+		rows[4].style.display="flex";
+		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
+		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
 	}
-	
 }
 
-function hideAllInputs(value){
-	var aux=document.getElementById("input-identity-"+value);
-	if(aux.style.display != "block"){
-		aux.style.display="none";
-		document.getElementById("input-more-"+value).style.display="none";
+function assignAttributes(){
+	var chkButtons=document.getElementsByClassName("btn-check-in");
+	for(var i=0;i<chkButtons.length;i++){
+		chkButtons[i].setAttribute("onClick","showAllInputs("+i+");");
 	}
+	var cards=document.getElementsByClassName("card-client");
+	for (var i = 0; i < cards.length; i++) {
+		var title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
+		title.innerHTML=title.innerHTML+" "+(1+i);
+	}
+	for (var i = cards.length - 1; i >= 1; i--) {
+		cards[i].style.display="none";
+	}
+	var doneButtons=document.getElementsByClassName("btn-done");
+	for(var i=0;i<doneButtons.length;i++){
+		doneButtons[i].setAttribute("onClick","reduceClientCard("+i+");");
+	}
+}
+
+function reduceClientCard(value){
+	var card=document.getElementsByClassName("card-client")[value];
+	if(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar"){
+		card.classList.remove("col-3");
+		card.classList.add("col-12");
+		card.getElementsByClassName("card-body")[0].style.display="";
+		card.getElementsByClassName("btn-check-in")[0].style.display="inline-block";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
+	}else{
+		card.classList.add("col-3");
+		card.classList.remove("col-12");
+		card.getElementsByClassName("card-body")[0].style.display="none";
+		card.getElementsByClassName("btn-check-in")[0].style.display="none";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
+	}
+
 }
 
 function updateGuest(){
-	for (var i = 0; i < maxGuests; i++) {
-		if(document.getElementById("informacion-personal-" + i) != null) {
-			document.getElementById("informacion-personal-" + i).style.display = "none";
-			hideAllInputs(i);
-		}
+	var cards=document.getElementsByClassName("card-client");
+	for (var i = 1; i < cards.length; i++) {
+		if(i<document.getElementById("cantidad-huespedes").value)
+			cards[i].style.display="flex";
+		else
+			cards[i].style.display="none";
 	}
-	for (var i = 1; i <= document.getElementById("cantidad-huespedes").value; i++) {
-		if(document.getElementById("informacion-personal-" + i).style.display == "none") {
-			document.getElementById("informacion-personal-" + i).style.display = "block";
-		}
-	}
+
 }
 
 function getDate(input,days){
@@ -74,12 +101,28 @@ function showModal(modal){
 
 function hideModal(modal){
 	document.getElementById(modal).style.display = "none";
+	switch(modal){
+		case 'add-bizz':
+		cleanBizz();
+		break;
+		case 'add-prof':
+		cleanProf();
+		break;
+	}
 }
 
 function touchOutside(modal){
 	window.onclick = function(event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
+			switch(modal.id){
+				case 'add-bizz':
+				cleanBizz();
+				break;
+				case 'add-prof':
+				cleanProf();
+				break;
+			}
 		}
 	}
 }
@@ -110,9 +153,65 @@ function changeColor(room){
 function checkColors(){
 	var cells=document.getElementsByClassName("room-cell");
 	for (var i = 0; i < cells.length; i++) {
-		console.log(i);
 		changeColor(cells[i].id.replace("room-",""));
 	}
+}
+
+function updateProfession(){
+	sendProfession();
+	var cards=document.getElementsByClassName("card-client");
+	
+	window.setTimeout(function(){
+		$.ajax({
+			type: 'post',
+			url: '/includes/get.php',
+			data: 'entity=profession',
+			success: function (ans) {
+				for (var i = 0; i < cards.length; i++) {
+					cards[i].getElementsByTagName("select")[6].innerHTML="<option value='NULL'>NINGUNA</option>"+ans;
+				}
+				cleanProf();
+			}
+		});
+	},1000);
+}
+
+function updateEnterprise(){
+	sendEnterprise();
+	var cards=document.getElementsByClassName("card-client");
+	
+	window.setTimeout(function(){
+		$.ajax({
+			type: 'post',
+			url: '/includes/get.php',
+			data: 'entity=enterprise',
+			success: function (ans) {
+				for (var i = 0; i < cards.length; i++) {
+					cards[i].getElementsByTagName("select")[7].innerHTML="<option value='NULL'>NINGUNA</option>"+ans;
+				}
+				cleanBizz();
+			}
+		});
+	},1000);
+}
+
+function cleanBizz(){
+	var bizz=document.getElementById("add-bizz");
+	var inputs= bizz.getElementsByTagName("input");
+
+	bizz.style.display = "none";
+	bizz.getElementsByTagName("select")[0].value="NULL";
+	for (var i = 0; i < inputs.length-2; i++) {
+		inputs[i].value="";
+	}
+	inputs[4].checked=false;
+	inputs[5].checked=true;
+}
+
+function cleanProf(){
+	var prof=document.getElementById("add-prof");
+	prof.style.display = "none";
+	prof.getElementsByTagName("input")[0].value="";
 }
 
 function updateRooms(){
@@ -125,3 +224,15 @@ function updateRooms(){
 		}
 	});
 }
+
+function updateCities(obj){
+	$.ajax({
+		type:'post',
+		url:'/includes/get.php',
+		data:'entity=country&country='+obj.value,
+		success:function(ans){
+			obj.parentElement.parentElement.parentElement.getElementsByTagName("select")[1].innerHTML=ans;
+		}
+	});
+}
+

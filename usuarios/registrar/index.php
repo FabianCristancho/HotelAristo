@@ -4,17 +4,17 @@
         <title>Registro de usuarios | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/../res/img/famicon.png" />
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="../../css/register.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main.css">    
-        <link rel="stylesheet" type="text/css" href="/../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="/../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="/../css/alerts.css">
-        <script type="text/javascript" src="/../js/moment.js"></script>
-        <script type="text/javascript" src="/../js/dynamic.js"></script>
+        <link rel="stylesheet" href="/css/register.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">    
+        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
+        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
     
     <body>
@@ -22,19 +22,16 @@
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
-            include "../../menu/menu.php"; 
+            include "../../objects/menu.php"; 
         ?>
-        
+      
         <script type="text/javascript">
-            /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
-            */
             setCurrentPage("registrar");
         </script>
-
+    
         <div class="contenedor-formulario">
             <div class="wrap">
-                <!-- Formulario -->
+            <!-- Formulario -->
                 <form action="" class="formulario" name="formulario_registro" method="post">  
                     <div>
                         <h2>REGISTRAR USUARIO</h2>
@@ -72,7 +69,7 @@
                                 <input type="text" id="phone" name="phone">
                                 <label class="label" for="phone">Teléfono</label>
                             </div>
-
+                        
                             <div class="input-group">
                                 <input type="email" id="email" name="email">
                                 <label class="label" for="email">Correo electrónico</label>
@@ -110,16 +107,14 @@
                     </div>
                 </form>
             </div>
-
+            <script src="/js/formulario.js"></script>
         </div>
-        <script src="../../js/formulario.js"></script>
-        
-        <?php
-            /**
-            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
-            */
-            include "../../footer/footer.php"; 
-        ?>
-        
+            <?php
+                /**
+                * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+                */
+                include "../../objects/footer.php"; 
+            ?>
+        <script src="/js/formulario.js"></script>
     </body>
 </html>

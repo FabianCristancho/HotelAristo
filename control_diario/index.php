@@ -7,12 +7,10 @@
     * @since     Versión 1.0
     * @version   1.0
     */
-
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
     require_once '../includes/classes.php';
-
     $consult=new Consult();
     $user = new User();
     $userSession = new UserSession();
@@ -23,7 +21,6 @@
         header('location: /login');
     }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -45,22 +42,17 @@
             }
         </style>
     </head>
-
     <body onload ="getDate('control-date',0); checkColors();">
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
-            include "../menu/menu.php"; 
+            include "../objects/menu.php"; 
         ?>
-        
+
         <script type="text/javascript">
-            /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "control-diario"
-            */
             setCurrentPage("control-diario");
         </script>
-
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h1>CONTROL DE HABITACIONES</h1>
@@ -87,22 +79,17 @@
                             </tr>
                         </thead>
                         <?php
-                            /**
-                            * Obtiene la tabla con la información de las habitaciones
-                            */
                             $consult->getTable('room');
                         ?>
                     </table>
                 </div>
             </div>
         </div>
-        
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../footer/footer.php"; 
+            include "../objects/footer.php"; 
         ?>
-
-    </body>
+</body>
 </html>

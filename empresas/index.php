@@ -7,13 +7,19 @@
     * @since     Versión 1.0
     * @version   1.0
     */
-
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
-    include_once '../includes/database.php';
-    include_once '../includes/consult.php';
+    require_once '../includes/classes.php';
     $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -31,13 +37,12 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
-
     <body>
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
-            include "../menu/menu.php"; 
+            include "../objects/menu.php"; 
         ?>
         
         <script type="text/javascript">
@@ -47,29 +52,25 @@
             setCurrentPage("consultar");
         </script>
 
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h1>EMPRESAS REGISTRADAS</h1>
-                <div class="scroll-block">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>NIT</th>
-                                <th>NOMBRE</th>
-                                <th>TELEFONO</th>
-                                <th>RETEFUENTE (3,5 %)</th>
-                                <th>OTRO IMPUESTO</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <?php
-                            /**
-                            * Obtiene la tabla con la información de las empresas
-                            */
-                            $consult->getTable('enterprise');
-                        ?>
-                    </table>
-                </div>
+
+		<div class="marco nearly-page">
+            <h1>EMPRESAS REGISTRADAS</h1>
+            <div class="scroll-block">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NIT</th>
+                            <th>NOMBRE</th>
+                            <th>TELEFONO</th>
+                            <th>RETEFUENTE (3,5 %)</th>
+                            <th>OTRO IMPUESTO</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <?php
+                        $consult->getTable('enterprise');
+                    ?>
+                </table>
             </div>
         </div>
         
@@ -77,8 +78,8 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
-            include "../footer/footer.php"; 
+            include "../objects/footer.php"; 
         ?>
 
-    </body>
+</body>
 </html>
