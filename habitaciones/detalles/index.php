@@ -1,4 +1,13 @@
-<?php 
+<?php
+    require_once '../../includes/classes.php';
+    $consult=new Consult();
+    $userSession = new UserSession();
+    $user = new User();
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
     $id="";
     if(isset($_GET['id'])){
         $id = $_GET['id'];      

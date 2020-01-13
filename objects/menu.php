@@ -66,6 +66,7 @@
             </button>
             <br>
             <div class="dropdown-content-right">
+                <a><?php echo $user->getFullName(); ?></a>
                 <a href="/includes/logout.php"><i class="fa fa-power-off"></i> Cerrar sesión</a>
             </div>
         </div>
