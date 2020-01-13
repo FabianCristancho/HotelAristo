@@ -48,8 +48,8 @@
 
         <div id="content" class="col-12">
             <div class="marco nearly-page">
-                <h3 id="requests-title" class="col-9">Reservas de huéspedes</h3>
-                <a id="button-add-book" class="col-2" href="registrar">Nueva reserva</a>
+                <h2 id="requests-title" class="col-9">RESERVAS DE HUÉSPEDES</h2>
+                <a id="button-add-book" class="col-2" href="registrar">Registrar reserva</a>
 
                 <table>
                     <tr>
