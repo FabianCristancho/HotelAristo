@@ -1,4 +1,17 @@
 <?php
+    /**
+    * Archivo que contiene la información pertinente a los clientes almacenados en la base de datos
+    * @package   clientes
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
+    
     require_once '../includes/classes.php';
     $consult=new Consult();
     $userSession = new UserSession();
@@ -9,6 +22,7 @@
         header('location: /login');
     }
 ?>
+
 
 <!DOCTYPE html>
 <html>

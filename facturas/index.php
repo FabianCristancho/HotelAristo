@@ -23,6 +23,9 @@
             include "../objects/menu.php"; 
         ?>
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
+            */
             setCurrentPage("facturas");
         </script>
 
