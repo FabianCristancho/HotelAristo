@@ -1,14 +1,3 @@
-<?php
-    require_once '../includes/classes.php';
-    $consult=new Consult();
-    $userSession = new UserSession();
-    $user = new User();
-    if(isset($_SESSION['user'])){
-        $user->updateDBUser($userSession->getSession());
-    }else{
-        header('location: /login');
-    }
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
         <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -43,9 +33,11 @@
             <h1>HISTORIAL DE HABITACIONES</h1>
             
             <div class="history-room">
+                
                 <div class="view-date-history">
                     <label><b>Fecha De Visualización</b></label>
                     <br><br>
+                    
                     <label>Fecha Inicial &emsp; &emsp; &emsp; &ensp; Fecha Final</label>
 
                     <br>
