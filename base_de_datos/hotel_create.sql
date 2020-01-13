@@ -194,7 +194,8 @@ ALTER TABLE reservas ADD (
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario)
 	REFERENCES personas (id_persona),
 	CONSTRAINT res_fk_idl FOREIGN KEY (id_lugar)
-	REFERENCES lugares (id_lugar)
+	REFERENCES lugares (id_lugar),
+	CONSTRAINT res_ck_est CHECK (estado_reserva in ('AC','RE','CA'))
 );
 
 ALTER TABLE control_diario ADD (
