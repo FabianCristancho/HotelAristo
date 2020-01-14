@@ -19,7 +19,7 @@
 
 <!DOCTYPE html>
 <html>
-
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -34,6 +34,7 @@
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
     
+    <!--Construcción de la vista-->
     <body>
         <?php 
             /**
@@ -43,17 +44,19 @@
         ?>
 
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            */
             setCurrentPage("consultar");
         </script>
-
+        
+        <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de los clientes registrados en la base de datos-->
         <div id="content" class="col-12">
-
             <div class="marco nearly-page">
               <h2 id="requests-title" class="col-9">CLIENTES REGISTRADOS</h2>
                 <a id="button-add-book" class="col-2" href="registrar">Registrar cliente</a>
                 
                 <div class="scroll-block">
-                    
                     <table>
                        
                         <thead>
@@ -68,13 +71,16 @@
                         </thead>
                         
                        <?php
-                        
+                            /**
+                            * Invoca al método getTable('customers') que se encarga de obtener de la base de datos los datos de los clientes
+                            */
                             $consult->getTable('customers');
                         ?>
                     </table>
                 </div>
             </div>
         </div>
+        
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
