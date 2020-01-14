@@ -50,7 +50,7 @@
             </div>
         </div>
         
-        <button id="control-diario" onclick="window.location.href = '/control_diario';" class="main-menu-item menu-item">
+        <button id="control-diario" onclick="window.location.href = '/control_diario?date='+getDate(0);" class="main-menu-item menu-item">
             <img src="/res/img/control-icon-black.png">
             <p>Control diario</p>
         </button>

@@ -11,6 +11,16 @@
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
+    require_once '../includes/classes.php';
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+
     require __DIR__.'/vendor/autoload.php';
     use Spipu\Html2Pdf\Html2Pdf;
     //Se extrae el archivo que contiene el contenido de la factura

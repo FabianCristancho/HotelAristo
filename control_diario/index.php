@@ -46,7 +46,7 @@
             }
         </style>
     </head>
-    <body onload ="getDate('control-date',0); checkColors(); history.pushState(null, '','?date='+document.getElementById('control-date').value);" >
+    <body onload ="checkColors();">
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -63,9 +63,9 @@
                 <div class="input-block-control">
                     <label>Fecha control</label>
                     <br>
-                    <button>&lt;</button>
-                    <input id="control-date" type="date">
-                    <button>&gt;</button>
+                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,-1)">&lt;</button>
+                    <input id="control-date" type="date" value="<?php echo $date; ?>">
+                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,1)">&gt;</button>
                 </div>
                 <div class="scroll-block">
                     <table>
