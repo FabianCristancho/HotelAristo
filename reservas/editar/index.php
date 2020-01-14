@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que contiene la información de una reserva con el propósito de que pueda ser editada por el usuario
+    * @package   reservas.editar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
 	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
@@ -8,14 +20,16 @@
     }else{
     	header('location: /login');
     }
-
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         $p = new Person();
         $p->setId($id);        
     }
 ?>
+
+
 <html>
+    <!--Importación de librerias css y javascript -->
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
 		<title>Editar reserva | Hotel Aristo</title>
@@ -36,6 +50,7 @@
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
+    <!--Construcción de la vista-->
 	<body onload ="assignAttributes();">
 		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
@@ -45,8 +60,13 @@
             include "../../objects/menu.php"; 
         ?>
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
+            */
             setCurrentPage("registrar");
         </script>
+        
+        <!--Bloque que contiene un formulario encargado de facilitar la edición de la reserva elegida-->
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 				<h2>EDITAR RESERVA</h2>
@@ -214,6 +234,7 @@
                 </div>
             </div>
 		</div>
+        
 		<?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
@@ -221,5 +242,6 @@
             include "../../objects/footer.php";
             include "../../objects/alerts.php"; 
         ?>
+        
 	</body>
 </html>

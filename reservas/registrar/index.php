@@ -23,6 +23,7 @@
 ?>
 
 <html>
+    <!--Importación de librerias css y javascript -->
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
 		<title>Nueva reserva | Hotel Aristo</title>
@@ -43,17 +44,23 @@
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
+    <!--Construcción de la vista-->
 	<body onload ="getDate('start-date',0); getDate('finish-date',1); assignAttributes();">
-		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
+            */
             setCurrentPage("registrar");
         </script>
+        
+        <!--Contiene el formulario de registro correspondiente para una empresa-->
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 				<h2>REGISTRAR RESERVA</h2>
