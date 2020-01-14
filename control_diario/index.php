@@ -7,10 +7,12 @@
     * @since     Versión 1.0
     * @version   1.0
     */
+
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
     require_once '../includes/classes.php';
+
     $consult=new Consult();
     $user = new User();
     $userSession = new UserSession();
@@ -26,8 +28,10 @@
     }
 ?>
 
+
 <!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Control diario | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -40,13 +44,10 @@
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
-        <style type="text/css">
-            td a:visited{
-                color: white;
-            }
-        </style>
     </head>
-    <body onload ="checkColors();">
+    
+    <!--Construcción de la vista-->
+    <body onload ="getDate('control-date',0); checkColors(); history.pushState(null, '','?date='+document.getElementById('control-date').value);" >
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -55,17 +56,22 @@
         ?>
 
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "control-diario"
+            */
             setCurrentPage("control-diario");
         </script>
+        
+        <!--Bloque que contiene una tabla  con el control de habitaciones de acuerdo a una fecha seleccionada por el usuario-->
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h1>CONTROL DE HABITACIONES</h1>
                 <div class="input-block-control">
                     <label>Fecha control</label>
                     <br>
-                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,-1)">&lt;</button>
-                    <input id="control-date" type="date" value="<?php echo $date; ?>">
-                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,1)">&gt;</button>
+                    <button>&lt;</button>
+                    <input id="control-date" type="date">
+                    <button>&gt;</button>
                 </div>
                 <div class="scroll-block">
                     <table>
@@ -82,18 +88,24 @@
                                 <th></th>
                             </tr>
                         </thead>
+                        
                         <?php
+                        /**
+                        * Invoca al método getTable('room', $date) que se encarga de obtener de la base de datos el control que se ha llevado a cabo * de las habitaciones en la fecha prevista
+                        */
                             $consult->getTable('room', $date);
                         ?>
+                        
                     </table>
                 </div>
             </div>
         </div>
+        
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../objects/footer.php"; 
         ?>
-</body>
+    </body>
 </html>
