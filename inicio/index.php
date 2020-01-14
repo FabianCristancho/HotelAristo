@@ -55,6 +55,7 @@
             setCurrentPage("inicio");
         </script>
     
+        <!--Bloque encargado de presentar el menú que contiene los módulos correspondientes al servicio que presta la aplicación web-->
         <div class="content wrap-main">
             <div class="title">
                 <p><strong>HOTEL ARISTO</strong></p>
@@ -86,6 +87,7 @@
                 </a>
             </div>
         </div>
+        
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
@@ -94,5 +96,4 @@
         ?>
         
     </body>
-
 </html>
