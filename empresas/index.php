@@ -7,6 +7,7 @@
     * @since     Versión 1.0
     * @version   1.0
     */
+
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
@@ -24,6 +25,7 @@
 
 <!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Empresas registradas | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -37,6 +39,8 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
+    
+    <!--Construcción de la vista-->
     <body>
         <?php
             /**
@@ -52,7 +56,7 @@
             setCurrentPage("consultar");
         </script>
 
-
+        <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de las empresas registradas en la base de datos-->
 		<div class="marco nearly-page">
             <h2 id="requests-title" class="col-9">EMPRESAS REGISTRADAS</h2>
                 <a id="button-add-book" class="col-2" href="registrar">Registrar Empresa</a>
@@ -69,7 +73,10 @@
                         </tr>
                     </thead>
                     <?php
-                        $consult->getTable('enterprise','');
+                        /**
+                        * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
+                        */
+                        $consult->getTable('enterprise');
                     ?>
                 </table>
             </div>
@@ -81,6 +88,5 @@
             */
             include "../objects/footer.php"; 
         ?>
-
 </body>
 </html>
