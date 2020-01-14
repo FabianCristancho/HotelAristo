@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que se encarga de exponer el formulario de registro de una nueva empresa
+    * @package   empresas
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
 	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
@@ -9,7 +21,10 @@
     	header('location: /login');
     }
 ?>
+
+<!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
 		<title>Nueva reserva | Hotel Aristo</title>
@@ -30,17 +45,23 @@
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
+    <!--Construcción de la vista-->
 	<body>
-		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
+            */
             setCurrentPage("registrar");
         </script>
+        
+        <!--Bloque que contiene el formulario de registro para una empresa, teniendo en cuenta el diseño y almacenamiento de la información en la base de datos-->
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 				<h2>REGISTRAR EMPRESA</h2>
@@ -59,6 +80,7 @@
 				</div>
 			</div>
 		</div>
+        
 		<?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
