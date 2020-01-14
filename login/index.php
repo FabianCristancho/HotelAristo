@@ -44,24 +44,29 @@
     }
 ?>
 
+
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Login | Hotel Aristo</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="shortcut icon" href="../res/img/famicon.png" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../css/login.css">
-	<link rel="stylesheet" type="text/css" href="../css/main.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-800.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-	<link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-	<link rel="stylesheet" type="text/css" href="../css/alerts.css">
-	<script type="text/javascript" src="../js/moment.js"></script>
-	<script type="text/javascript" src="../js/dynamic.js"></script>
-</head>
+    <!--Importación de librerias css y javascript -->
+    <head>
+        <title>Login | Hotel Aristo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="../res/img/famicon.png" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../css/login.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/main-800.css">
+        <link rel="stylesheet" type="text/css" href="../css/main-1024.css">
+        <link rel="stylesheet" type="text/css" href="../css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="../css/alerts.css">
+        <script type="text/javascript" src="../js/moment.js"></script>
+        <script type="text/javascript" src="../js/dynamic.js"></script>
+    </head>
+    
+    <!--Construcción de la vista-->
     <body>
+        <!--Contiene un formulario con la información mínima para ingresar al sistema-->
 	   <div id="content" class="col-12">
             <div id="login" class="wrap">
                 <h2>INICIAR SESIÓN</h2>

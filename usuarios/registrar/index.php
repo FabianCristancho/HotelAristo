@@ -1,16 +1,18 @@
 <?php
-    require_once '../../includes/classes.php';
-    $consult=new Consult();
-    $userSession = new UserSession();
-    $user = new User();
-    if(isset($_SESSION['user'])){
-        $user->updateDBUser($userSession->getSession());
-    }else{
-        header('location: /login');
-    }
+    /**
+    * Archivo que contiene un formulario con el fin de realizar el registro de un usuario
+    * @package   usuarios.registrar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Registro de usuarios | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -28,6 +30,7 @@
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
     
+    <!--Construcción de la vista-->
     <body>
         <?php 
             /**
@@ -37,9 +40,13 @@
         ?>
       
         <script type="text/javascript">
+             /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
+            */
             setCurrentPage("registrar");
         </script>
     
+        <!--Bloque encargado de contener el formulario correspondiente al registro de un nuevo usuario-->
         <div class="contenedor-formulario">
             <div class="wrap">
             <!-- Formulario -->
@@ -120,12 +127,14 @@
             </div>
             <script src="/js/formulario.js"></script>
         </div>
+        
             <?php
                 /**
                 * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
                 */
                 include "../../objects/footer.php"; 
             ?>
+        
         <script src="/js/formulario.js"></script>
     </body>
 </html>

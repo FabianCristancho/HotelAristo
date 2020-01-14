@@ -21,8 +21,10 @@
         header('location: /login');
     }
 ?>
+
 <!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Reservas | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -37,8 +39,9 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
+    
+    <!--Construcción de la vista-->
     <body>
-    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -46,6 +49,7 @@
             include "../objects/menu.php"; 
         ?>
 
+        <!--Bloque que contiene una tabla con la información básica de las reservas-->
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h2 id="requests-title" class="col-9">RESERVAS DE HUÉSPEDES</h2>
@@ -65,7 +69,10 @@
                       <th>Correo</th>
                     </tr>
                      <?php
-                            $consult->getTable('reservation','');
+                        /**
+                        * Invoca al método getTable('reservation', '') que se encarga de obtener de la base de datos los datos de las *reservaciones efectuadas
+                        */
+                        $consult->getTable('reservation','');
                       ?>
                 </table>
             </div>

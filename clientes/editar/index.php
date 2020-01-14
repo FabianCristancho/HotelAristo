@@ -30,7 +30,7 @@
 
 <!DOCTYPE html>
 <html>
-
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Clientes | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -43,14 +43,9 @@
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
-        <style>
-            .row-block{
-                padding-bottom: 10px;
-            } 
-        </style>
     </head>
     
-    
+    <!--Construcción de la vista-->
     <body>
         <?php 
             /**
@@ -59,11 +54,14 @@
             include "../../objects/menu.php"; 
         ?>
         
-
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            */
             setCurrentPage("consultar");
         </script>
         
+        <!--El bloque de información personal presenta bloques con los datos correspondientes al cliente que se desea editar -->
         <div id="informacion-personal-1" class="marco responsive-page">
             <div class="row-block">
                 <div class="input-block">
@@ -204,6 +202,8 @@
                 </div>            
             </div>
         </div>
+        
+        <!-- Presenta el botón correspondiente a la actualización de los datos del cliente -->
         <a id="button-book" class="col-12">Actualizar Datos</a>
 
         <?php

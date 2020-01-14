@@ -1,5 +1,17 @@
+<?php 
+    /**
+    * Archivo que contiene la información acerca de los detalles de una empresa determinada, registrada en la base de datos
+    * @package   empresas.detalles
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+?>
+
 <!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Detalles de Empresa | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -15,6 +27,7 @@
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
 
+    <!--Construcción de la vista-->
     <body onload ="getDate('control-date',0);">
         <?php 
             /**
@@ -24,10 +37,13 @@
         ?>
 
         <script type="text/javascript">
+             /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            */
             setCurrentPage("consultar");
         </script>
 
-
+        <!--Bloque encargado de mostrar la información detallada de una empresa determinada-->
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h4>INFORMACIÓN GENERAL</h4>
@@ -93,10 +109,6 @@
                         <br>
                     </div>
                 </div>
-            </div>
-
-            <div class="button-return">
-                <a href="/empresas">Regresar</a>
             </div>
         </div>
 

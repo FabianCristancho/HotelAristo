@@ -1,4 +1,16 @@
 <?php
+    /**
+    * Archivo que contiene el formulario correspondiente para el registro de un nuevo cliente
+    * @package   clientes.registrar
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
 	require_once '../../includes/classes.php';
     $consult=new Consult();
 	$userSession = new UserSession();
@@ -9,7 +21,11 @@
     	header('location: /login');
     }
 ?>
+
+
+<!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
 	<head>
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
 		<title>Registrar cliente | Hotel Aristo</title>
@@ -30,17 +46,23 @@
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>
 
+    <!--Construcción de la vista-->
 	<body>
-		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
+            */
             setCurrentPage("registrar");
         </script>
+        
+        <!-- Bloque que contiene el formulario con los campos correspondientes para el proceso de registro de un cliente-->
 		<div class="content col-12">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 				<h2>REGISTRAR CLIENTE</h2>
@@ -55,6 +77,7 @@
 					</div>
 				</div>
 				<div>
+                    <!-- Botón que se encarga de enviar los datos ingresados en los campos del formulario para su posterior almacenamiento en la base de datos -->
 					<button class="btn btn-block btn-register" onclick="sendClient(0);">
 						<i class="fa fa-check"></i>
 						<span>Registrar cliente</span>
@@ -62,6 +85,7 @@
 				</div>
 			</div>
 		</div>
+        
 		<?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web

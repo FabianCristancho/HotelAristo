@@ -1,21 +1,22 @@
-<?php
-    require_once '../../includes/classes.php';
-    $consult=new Consult();
-    $userSession = new UserSession();
-    $user = new User();
-    if(isset($_SESSION['user'])){
-        $user->updateDBUser($userSession->getSession());
-    }else{
-        header('location: /login');
-    }
+<?php 
+    /**
+    * Archivo que muestra los detalles de una habitación en una fecha establecida
+    * @package   habitaciones.detalles
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
     $id="";
     if(isset($_GET['id'])){
         $id = $_GET['id'];      
     }
 ?>
+
 <!DOCTYPE html>
 <html>
-
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Historial de la habitación <?php echo $id;?> | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -31,6 +32,7 @@
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
 
+    <!--Construcción de la vista-->
     <body onload ="getDate('control-date',0);">
         <?php 
             /**
@@ -46,6 +48,7 @@
             setCurrentPage("control-diario");
         </script>
 
+        <!--Bloque que muestra los detalles generales de una habitación en una fecha establecida-->
         <div id="content" class="col-12">
             <div class="marco nearly-page">
                 <h4>INFORMACIÓN GENERAL</h4>

@@ -1,12 +1,13 @@
 <?php
     /**
-    * Archivo que contiene la información pertinente al control diario del hotel
-    * @package   control_diario
+    * Archivo que contiene la información pertinente a la facturación
+    * @package   facturas
     * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
     * @copyright Todos los derechos reservados. 2020.
     * @since     Versión 1.0
     * @version   1.0
     */
+
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
@@ -21,9 +22,11 @@
         header('location: /login');
     }
 ?>
+
+
 <!DOCTYPE html>
 <html>
-
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Facturas | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -38,6 +41,7 @@
         <script type="text/javascript" src="../js/dynamic.js"></script>
     </head>
 
+    <!--Construcción de la vista-->
     <body>
         <?php
             /**
@@ -45,6 +49,7 @@
             */
             include "../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
             /**
             * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
@@ -52,11 +57,12 @@
             setCurrentPage("facturas");
         </script>
 
+        <!--Presenta una tabla con los datos básicos de una factura-->
         <div id="content" class="col-12">
-
             <div class="marco nearly-page">
                 <h1 class="heading">FACTURAS (Registro es un ejemplo para enlazar reportes)</h1>
-                <a href="factura" id="button-more-info" class="btn-new-bill">NUEVA FACTURA</a>
+                <a href="factura" id="button-add-book" class="btn-new-bill">NUEVA FACTURA</a>
+                <br>
                 <div class="scroll-block">
                     <table>
                         <thead>
