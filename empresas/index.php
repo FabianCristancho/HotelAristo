@@ -69,7 +69,7 @@
                         </tr>
                     </thead>
                     <?php
-                        $consult->getTable('enterprise');
+                        $consult->getTable('enterprise','');
                     ?>
                 </table>
             </div>

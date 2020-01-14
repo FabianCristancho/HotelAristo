@@ -65,7 +65,7 @@
                       <th>Correo</th>
                     </tr>
                      <?php
-                            $consult->getTable('reservation');
+                            $consult->getTable('reservation','');
                       ?>
                 </table>
             </div>

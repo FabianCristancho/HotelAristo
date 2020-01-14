@@ -37,7 +37,7 @@ CREATE TABLE lugares(
 CREATE TABLE impuestos(
 	id_impuesto INT(3) NOT NULL AUTO_INCREMENT,
 	nombre_impuesto VARCHAR(30) NOT NULL,
-	porcentaje_retefuente DECIMAL(6,5) NOT NULL,
+	porcentaje_impuesto DECIMAL(6,5) NOT NULL,
 	CONSTRAINT imp_pk_idi PRIMARY KEY (id_impuesto)
 );
 
@@ -77,9 +77,10 @@ CREATE TABLE servicios(
 CREATE TABLE habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	tipo_habitacion CHAR(1) NOT NULL,
+	id_tipo_habitacion INT(2) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
 	estado_habitacion CHAR(1) NOT NULL,
-	tarifa_habitacion INT(7) NOT NULL,
+	tarifa_habitacion INT(2) NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -159,6 +160,21 @@ CREATE TABLE facturas(
     CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
+CREATE TABLE tipos_habitacion(
+	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
+	nombre_tipo_habitacion VARCHAR(30) NOT NULL,
+	CONSTRAINT tih_pk_idt PRIMARY KEY (id_tipo_habitacion)
+);
+
+CREATE TABLE tarifas(
+	id_tarifa INT(2) NOT NULL AUTO_INCREMENT,
+	id_tipo_habitacion INT(2) NOT NULL,
+	valor_habitacion  INT(7) NOT NULL,
+	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
+);
+
+
+
 ALTER TABLE lugares ADD(
 	CONSTRAINT lug_fk_idu FOREIGN KEY (id_ubicacion)
 	REFERENCES lugares (id_lugar),
@@ -171,14 +187,15 @@ ALTER TABLE empresas ADD(
 );
 
 ALTER TABLE habitaciones ADD(
-	CONSTRAINT hab_ck_tph CHECK (tipo_habitacion in ('J','H','M','L')),
-	CONSTRAINT hab_ck_esh CHECK (tipo_habitacion in ('D','O','M','F'))
+	CONSTRAINT hab_ck_tph CHECK (tipo_habitacion IN ('J','H','M','L')),
+	CONSTRAINT hab_ck_esh CHECK (estado_habitacion IN ('D','O','M','F')),
+	CONSTRAINT hab_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion)
 );
 
 ALTER TABLE personas ADD(
-	CONSTRAINT per_ck_tpd CHECK (tipo_documento in ('CC','TI','CE','PS')),
-	CONSTRAINT per_ck_gnr CHECK (genero_persona in ('M','F')),
-	CONSTRAINT per_ck_tpp CHECK (tipo_persona in ('U' /*Usuarios*/, 'C'/*Clientes*/,'A' /*Ambos*/)),
+	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC','TI','CE','PS')),
+	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M','F')),
+	CONSTRAINT per_ck_tpp CHECK (tipo_persona IN ('U' /*Usuarios*/, 'C'/*Clientes*/,'A' /*Ambos*/)),
 	CONSTRAINT per_fk_idp FOREIGN KEY (id_profesion) REFERENCES profesiones (id_profesion),
 	CONSTRAINT per_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa),
 	CONSTRAINT per_fk_idc FOREIGN KEY (id_cargo) REFERENCES cargos (id_cargo)
@@ -221,6 +238,11 @@ ALTER TABLE facturas ADD(
     CONSTRAINT fac_fk_idu FOREIGN KEY (id_usuario)
     REFERENCES personas(id_persona),
     CONSTRAINT fac_ck_es CHECK (estado_factura IN ('T' /*TARJETA*/, 'E' /*EFECTIVO*/, 'M' /*MIXTO*/, 'C' /*CONSIGNACION*/, 'A' /*ANULADA*/, 'CXC' /*CUENTAS POR COBRAR*/))
+);
+
+ALTER TABLE tarifas add(
+	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion)
+	REFERENCES tipos_habitacion(id_tipo_habitacion)
 );
 
 
@@ -308,3 +330,13 @@ INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente)
 ('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0),
 ('830004993-8', 'CASA TORO S.A', '6760022', 1);
 
+INSERT INTO tipos_habitacion (nombre_tipo_habitacion) VALUES
+('SENCILLA'),("PAREJA"),("DOBLE"),("TRIPLE"),("SUITE"),("TRIPLE CON O SIN SOFACAMA");
+
+INSERT INTO tarifas(id_tipo_habitacion,valor_habitacion) VALUES
+(1,70000),(1,75000),(1,80000),(1,85000),
+(2,105000),(2,110000),(2,115000),
+(3,120000),(3,125000),
+(4,160000),(4,165000),
+(5,165000),
+(6,175000),(6,185000);
