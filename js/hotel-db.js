@@ -101,11 +101,11 @@ function sendClient(i){
 	var docType,docNum,docDate,enterprise,fName,lName,
 	phone,email,gender,birth,blood,rh,profession,nac;
 
-	fName=inputs[0].value;
-	lName=inputs[1].value;	
+	fName=inputs[0].value==""?"NULL":inputs[2].value;
+	lName=inputs[1].value==""?"NULL":inputs[2].value;
 	docNum=inputs[2].value==""?"NULL":inputs[2].value;
 	docDate=inputs[3].value==""?"NULL":inputs[3].value;
-	phone=inputs[4].value;
+	phone=inputs[4].value==""?"NULL":inputs[2].value;
 	email=inputs[5].value==""?"NULL":inputs[5].value;
 	birth=inputs[6].value==""?"NULL":inputs[6].value;
 
