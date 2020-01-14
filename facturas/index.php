@@ -1,3 +1,26 @@
+<?php
+    /**
+    * Archivo que contiene la información pertinente al control diario del hotel
+    * @package   control_diario
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+    /**
+    * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
+    */
+    require_once '../includes/classes.php';
+    $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+?>
 <!DOCTYPE html>
 <html>
 

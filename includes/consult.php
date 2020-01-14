@@ -167,7 +167,7 @@
             }
         }
         function roomTable($date){
-            $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso FROM habitaciones h inner join registros_habitacion rg on rg.id_habitacion=h.id_habitacion ');
+            $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso, CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,rg.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,rg.fecha_ingreso, rg.fecha_salida)) conteo,CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_cliente,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cliente_aux FROM habitaciones h LEFT JOIN registros_habitacion rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN reservas r ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx ON r.id_cliente_aux=cx.id_persona_aux AND fecha_ingreso <="'.$date.'" AND fecha_salida >="'.$date.'"');
             $query->execute();
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
@@ -178,10 +178,10 @@
                 echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
                 echo '<td>'.$this->roomType($current['tipo_habitacion']).'</td>'.PHP_EOL;
-                echo '<td></td>';
+                echo '<td>'.$current['nombre_cliente'].($current['nombre_cliente_aux']==""?"":$current['nombre_cliente_aux']." (SIN CHECK IN)").'</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
-                echo '<td>'.$date.'</td>';
-                echo '<td></td>';
+                echo '<td>'.$current['conteo'].'</td>';
+                echo '<td>'.'</td>';
                 echo '<td><input type="checkbox"></td>';
                 echo '<td><input type="checkbox"></td>';
                 echo '<td><a href="detalles?id='.$current['id_habitacion'].'" class="col-10 button-more-info">Más información</a></td>';

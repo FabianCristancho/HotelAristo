@@ -64,11 +64,20 @@ function updateGuest(){
 }
 
 function getDate(input,days){
-	var date= new Date();
-	date.setDate(date.getDate()+parseInt(days));
-	document.getElementById(input).value =date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+	document.getElementById(input).value =getDate(days);
 }
 
+function getDate(days){
+	var date= new Date();
+	date.setDate(date.getDate()+parseInt(days));
+	return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+}
+
+function calculateDate(date,days){
+	var date= new Date(date);
+	date.setDate(date.getDate()+1+parseInt(days));
+	return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+}
 
 function getDays(){
 	var d1=document.getElementById('start-date').value;
