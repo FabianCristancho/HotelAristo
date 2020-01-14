@@ -202,6 +202,10 @@ thead{
     color: white;
 }
 
+td a:visited{
+    color: white;
+}
+
 .button-check-in{
     width: 100%;
     height: 40px;
@@ -298,7 +302,6 @@ thead{
     color: #fff;
 }
 
-
 .lista-habitaciones{
     background: #18347D;
     color: #fff;
@@ -310,6 +313,10 @@ thead{
 
 .lista-habitaciones:hover{
     cursor: pointer;
+}
+
+.row-block{
+    padding-bottom: 10px;
 }
 
 #textarea-com{
