@@ -1,4 +1,5 @@
 /**
+ * Recibe la informacion del servidor y la muestra en una notificacion Push
 */
 self.addEventListener('push', function(event) {
 	var data=event.data;
