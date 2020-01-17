@@ -145,6 +145,7 @@ CREATE TABLE IF NOT EXISTS control_diario(
 CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_registro INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
+	id_persona INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
 	fecha_ingreso DATE NOT NULL,
 	fecha_salida DATE NOT NULL,
@@ -214,7 +215,7 @@ ALTER TABLE reservas ADD (
 	REFERENCES personas (id_persona),
 	CONSTRAINT res_fk_idl FOREIGN KEY (id_lugar)
 	REFERENCES lugares (id_lugar),
-	CONSTRAINT res_ck_est CHECK (estado_reserva in ('AC','RE','CA'))
+	CONSTRAINT res_ck_est CHECK (estado_reserva in ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/))
 );
 
 ALTER TABLE control_diario ADD (
