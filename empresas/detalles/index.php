@@ -7,6 +7,26 @@
     * @since     Versión 1.0
     * @version   1.0
     */
+
+    require_once '../../includes/classes.php';
+    $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+        $e = new Enterprise();
+        $e->setIdEnterprise($id);        
+    }
+
+    if($e->getId() === NULL){
+        header('Location: ../index.php');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,23 +70,23 @@
                 <div class="general-info">
                     <div class="region">
                         <label><b>NIT: &ensp;</b></label>
-                        <label>811.028.650-1</label>
+                        <label><?php echo $e->getNit();?></label>
                     </div>
                     <div class="region">
                         <label><b>Nombre: &ensp;</b></label>
-                        <label>MADECENTRO COLOMBIA SAS</label>
+                        <label><?php echo $e->getName();?></label>
                     </div>
                     <div class="region">
                         <label><b>Teléfono: &ensp;</b></label>
-                        <label>7603323</label>
+                        <label><?php echo $e->getPhone();?></label>
                     </div>
                     <div class="region">
                         <label><b>Retefuente (3,5%): &ensp; </b></label>
-                        <label>No</label>
+                        <label><?php echo ($e->getSourceRetention() == 1) ? "Sí" : "No";?></label>
                     </div>
                     <div class="region">
-                        <label><b>Otro impuesto: &ensp;</b></label>
-                        <label>No</label>
+                        <label><b>Otro impuesto ($): &ensp;</b></label>
+                        <label> <?php echo $e->getOtherTax();?></label>
                     </div>
                 </div>
             </div>
@@ -84,27 +104,7 @@
                                     <th>Consumo Total ($)</th>
                                 </tr>
                             </thead>
-                            <tr>
-                                <td>Giacomo Guilizzoni</td>
-                                <td>1034543</td>
-                                <td>03/11/2019</td>
-                                <td>07/11/2019</td>
-                                <td>124.745</td>
-                            </tr>
-                            <tr>
-                                <td>Pedro Hernandez</td>
-                                <td>1054433</td>
-                                <td>10/11/2019</td>
-                                <td>14/11/2019</td>
-                                <td>324.000</td>
-                            </tr>
-                            <tr>
-                                <td>Maria Cely</td>
-                                <td>234554342</td>
-                                <td>10/11/2019</td>
-                                <td>17/11/2019</td>
-                                <td>370.843</td>
-                            </tr>
+                            <?php $consult->enterpriseCustomTable($id)?>
                         </table>
                         <br>
                     </div>
