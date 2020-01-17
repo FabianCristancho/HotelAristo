@@ -14,6 +14,7 @@
 <html>
         <head>
             <title>Hotel Aristo</title>
+            <link rel="manifest" href="/manifest.json">
         </head>
         
         <body>

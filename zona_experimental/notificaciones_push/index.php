@@ -22,11 +22,15 @@
 			<textarea rows="4"></textarea>
 			<label>Dispositivo</label>
 			<select>
+				<option value="ALL">Todos</option>
 				<?php 
+					/**
+					 * Llama al script que solicit la informacion de las suscripciones
+					*/
 					include 'consult.php';
 				?>
 			</select>
-			<button onclick="sendMessage();">Enviar</button>
+			<button onclick="sendCustomMessage();">Enviar</button>
 		</form>
 				
 		<?php
@@ -34,9 +38,6 @@
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../../objects/alerts.php";
-            /**
-            curl -X POST --header "TTL: 86400" ""
-            */
         ?>
 	</body>
 </html>
