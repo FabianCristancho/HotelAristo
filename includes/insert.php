@@ -53,19 +53,20 @@
     function insertCustomer(){
         $database=new Database();
 
+        $fName=evaluateValue($_POST["fName"]);
+        $lName=evaluateValue($_POST["lName"]);
+        $phone=evaluateValue($_POST["phone"]);
+        $email=evaluateValue($_POST["email"]);
+        $enterprise=evaluateValue($_POST["enterprise"]);
+
         if($_POST["type"]=="A"){
-            $fName=evaluateValue($_POST["fName"]);
-            $lName=evaluateValue($_POST["lName"]);
             $docType=$_POST["docType"];
             $docNum=evaluateValue($_POST["docNum"]);
             $docDate=evaluateValue($_POST["docDate"]);
-            $phone=evaluateValue($_POST["phone"]);
-            $email=evaluateValue($_POST["email"]);
             $gender=$_POST["gender"];
             $birth=evaluateValue($_POST["birth"]);
             $blood_rh=$_POST["blood"].=$_POST["rh"];;
             $profession=evaluateValue($_POST["profession"]);
-            $enterprise=evaluateValue($_POST["enterprise"]);
             $nac=$_POST["nac"];
             $docCity=$_POST["docCity"];
 
@@ -79,20 +80,14 @@
                 echo 'alert-d;Error A1.1. Ha surgido un error al intentar agregar al cliente.';
             }
         }else{
-            $fName=evaluateValue($_POST["fName"]);
-            $lName=evaluateValue($_POST["lName"]);
-            $phone=evaluateValue($_POST["phone"]);
-            $email=evaluateValue($_POST["email"]);
-            $enterprise=evaluateValue($_POST["enterprise"]);
-
-            $insert ="INSERT INTO personas_auxiliares( nombres_persona, apellidos_persona, telefono_persona, correo_persona, id_empresa) VALUES 
-            (".$fName.",".$lName.",".$phone.",".$email.",".$enterprise.");";
+            $insert ="INSERT INTO personas( nombres_persona, apellidos_persona, telefono_persona, correo_persona, id_empresa,tipo_persona) VALUES 
+            (".$fName.",".$lName.",".$phone.",".$email.",".$enterprise.",'C');";
             
             try{
                 $database->connect()->exec($insert);
                 echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos. Recuerde que los datos no estan completos';
             }catch(PDOException $e){
-                echo 'alert-d;Error A1.2. Ha surgido un error al intentar agregar al cliente.';
+                echo 'alert-d;Error A1.2. Ha surgido un error al intentar agregar al cliente.'.$e->getMessage();
             }
         }
     }

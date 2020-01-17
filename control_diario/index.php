@@ -77,8 +77,8 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>T</th>
                                 <th>Habitación</th>
-                                <th>Tipo de habitación</th>
                                 <th>Nombre huésped(es)</th>
                                 <th>Fecha ingreso</th>
                                 <th>Conteo diario</th>

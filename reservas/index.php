@@ -63,7 +63,6 @@
                       <th>Nombre completo</th>
                       <th>Telefono</th>
                       <th>Fecha de llegada</th>
-                      <th>Fecha de salida</th>
                       <th>Cantidad de noches</th>
                       <th>Empresa</th>
                       <th>Correo</th>

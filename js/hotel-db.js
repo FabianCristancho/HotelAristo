@@ -101,11 +101,11 @@ function sendClient(i){
 	var docType,docNum,docDate,enterprise,fName,lName,
 	phone,email,gender,birth,blood,rh,profession,nac;
 
-	fName=inputs[0].value==""?"NULL":inputs[2].value;
-	lName=inputs[1].value==""?"NULL":inputs[2].value;
+	fName=inputs[0].value==""?"NULL":inputs[0].value;
+	lName=inputs[1].value==""?"NULL":inputs[1].value;
 	docNum=inputs[2].value==""?"NULL":inputs[2].value;
 	docDate=inputs[3].value==""?"NULL":inputs[3].value;
-	phone=inputs[4].value==""?"NULL":inputs[2].value;
+	phone=inputs[4].value==""?"NULL":inputs[4].value;
 	email=inputs[5].value==""?"NULL":inputs[5].value;
 	birth=inputs[6].value==""?"NULL":inputs[6].value;
 
@@ -145,7 +145,7 @@ function sendClient(i){
 		"&enterprise="+enterprise;
 	}
 
-
+	console.log(data);
 	$.ajax({
 		type: 'post',
 		url: '/includes/insert.php',
@@ -153,7 +153,6 @@ function sendClient(i){
 		success: function (ans) {
 			var data=ans.split(";");
 			showAlert(data[0],data[1]);
-
 		},
 		error: function (ans) {
 			showAlert('alert-d','No se pudo conectar con la base de datos');
