@@ -186,6 +186,7 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
+        
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
