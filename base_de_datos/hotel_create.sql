@@ -19,7 +19,6 @@ DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS registros_habitacion;
 DROP TABLE IF EXISTS control_diario;
 DROP TABLE IF EXISTS reservas;
-DROP TABLE IF EXISTS personas_auxiliares;
 DROP TABLE IF EXISTS personas;
 DROP TABLE IF EXISTS habitaciones;
 DROP TABLE IF EXISTS servicios;
@@ -89,18 +88,18 @@ CREATE TABLE IF NOT EXISTS habitaciones(
 
 CREATE TABLE IF NOT EXISTS personas(
 	id_persona INT(8) NOT NULL AUTO_INCREMENT,
-	id_lugar_nacimiento INT(8) NOT NULL,
-	id_lugar_expedicion INT(8) NOT NULL,
+	id_lugar_nacimiento INT(8),
+	id_lugar_expedicion INT(8),
 	id_profesion INT(4),
 	id_empresa INT(6),
 	id_cargo INT(1),
 	nombres_persona VARCHAR(150) NOT NULL,
 	apellidos_persona VARCHAR(150) NOT NULL,
-	tipo_documento VARCHAR(2) NOT NULL,
-	numero_documento VARCHAR(20) NOT NULL,
-	genero_persona CHAR(1) NOT NULL,
-	fecha_nacimiento DATE NOT NULL,
-	tipo_sangre_rh VARCHAR(2) NOT NULL,
+	tipo_documento VARCHAR(2),
+	numero_documento VARCHAR(20),
+	genero_persona CHAR(1),
+	fecha_nacimiento DATE,
+	tipo_sangre_rh VARCHAR(2),
 	telefono_persona VARCHAR(15) NOT NULL,
 	correo_persona VARCHAR(100),
 	tipo_persona CHAR(1) NOT NULL,
@@ -109,21 +108,9 @@ CREATE TABLE IF NOT EXISTS personas(
 	CONSTRAINT per_pk_idp PRIMARY KEY (id_persona)
 );
 
-
-CREATE TABLE IF NOT EXISTS personas_auxiliares(
-	id_persona_aux INT(8) NOT NULL AUTO_INCREMENT,
-	id_empresa INT(6),
-	nombres_persona VARCHAR(150) NOT NULL,
-	apellidos_persona VARCHAR(150) NOT NULL,
-	telefono_persona VARCHAR(15) NOT NULL,
-	correo_persona VARCHAR(100),
-	CONSTRAINT pax_pk_idp PRIMARY KEY (id_persona_aux)
-);
-
 CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
 	id_cliente INT(8),
-	id_cliente_aux INT(8),
 	id_usuario INT(2) NOT NULL,
 	id_lugar INT(8) NOT NULL,
 	fecha_ingreso DATE NOT NULL,
@@ -161,6 +148,7 @@ CREATE TABLE IF NOT EXISTS facturas(
     serie_factura VARCHAR(4) NOT NULL,
     valor_total INT(8) NOT NULL,
     estado_factura CHAR(5),
+    tipo_factura CHAR(1) NOT NULL,
     CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
@@ -202,10 +190,6 @@ ALTER TABLE personas ADD(
 	CONSTRAINT per_fk_idp FOREIGN KEY (id_profesion) REFERENCES profesiones (id_profesion),
 	CONSTRAINT per_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa),
 	CONSTRAINT per_fk_idc FOREIGN KEY (id_cargo) REFERENCES cargos (id_cargo)
-);
-
-ALTER TABLE personas_auxiliares ADD(
-	CONSTRAINT pea_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa)
 );
 
 ALTER TABLE reservas ADD (
