@@ -153,9 +153,7 @@
             }
         }
         function roomTable($date){
-            $qu= 'SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso, CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,rg.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,rg.fecha_ingreso, rg.fecha_salida)) conteo,GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombre_cliente,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cliente_aux FROM habitaciones h LEFT JOIN registros_habitacion rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN reservas r ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx ON r.id_cliente_aux=cx.id_persona_aux AND fecha_ingreso <="'.$date.'" AND fecha_salida >="'.$date.'"';
-
-            $query = $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombre_cliente,r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM habitaciones h LEFT JOIN registros_habitacion rs ON rs.id_habitacion=h.id_habitacion LEFT JOIN personas c ON rs.id_cliente=c.id_persona LEFT JOIN reservas r ON rs.id_reserva=r.id_reserva GROUP BY h.id_habitacion');
+            $query = $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes,GROUP_CONCAT(c.id_persona) ids_clientes,r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM habitaciones h LEFT JOIN registros_habitacion rs ON rs.id_habitacion=h.id_habitacion LEFT JOIN personas c ON rs.id_cliente=c.id_persona LEFT JOIN reservas r ON rs.id_reserva=r.id_reserva AND r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" GROUP BY h.id_habitacion');
             
             $query->execute();
             foreach ($query as $current) {
@@ -167,7 +165,18 @@
                 $this->chooseRoomState($current['estado_habitacion']);
                 echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_cliente'].'</td>';
+                echo '<td>';
+                
+                $names=explode(",",$current['nombres_clientes']);
+                $ids=explode(",",$current['ids_clientes']);
+                
+                for ($i=0;$i<count($names);$i++) {
+                    echo '<a href=/clientes/detalles?id='.$ids[$i].'>'.$names[$i].'</a>';
+                    if(count($names)-1!=$i)
+                        echo ',';
+                }
+
+                echo '</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
                 echo '<td>'.'</td>';

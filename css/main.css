@@ -202,9 +202,6 @@ thead{
     color: white;
 }
 
-td a:visited{
-    color: white;
-}
 
 .vertical-word{
     writing-mode: vertical-lr;
