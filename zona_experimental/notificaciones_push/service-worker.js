@@ -8,7 +8,8 @@ self.addEventListener('push', function(event) {
 		const title = data.title;
 		const options = {
 			body: data.body,
-			icon: '/res/img/logoA.png'
+			icon: '/res/img/logoA.png',
+			badge: '/res/img/logoA.png'
 		};
 		event.waitUntil(self.registration.showNotification(title,options));
 	}else{

@@ -11,9 +11,9 @@
 	</head>
 	<body>
 		<button style="width: 100%; height: 100px;" onclick="window.location.href='';">Refresh</button>
-		<form onsubmit="return false;">
+		<form onsubmit="askPermission(); return false;">
 			<input type="text" name="name" required>
-			<button onclick="requestNotificationPermission();">Suscribirse</button>
+			<button>Suscribirse</button>
 		</form>
 		<form onsubmit="return false;">
 			<label>Titulo</label>
