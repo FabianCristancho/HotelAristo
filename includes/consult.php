@@ -96,7 +96,7 @@
        
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p, profesiones pr WHERE p.id_profesion=pr.id_profesion AND tipo_persona = "C"');
+            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p LEFT JOIN profesiones pr ON p.id_profesion=pr.id_profesion WHERE tipo_persona = "C"');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;

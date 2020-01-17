@@ -105,7 +105,7 @@ function sendClient(i){
 	lName=inputs[1].value==""?"NULL":inputs[1].value;
 	docNum=inputs[2].value==""?"NULL":inputs[2].value;
 	docDate=inputs[3].value==""?"NULL":inputs[3].value;
-	phone=inputs[4].value==""?"NULL":inputs[2].value;
+	phone=inputs[4].value==""?"NULL":inputs[4].value;
 	email=inputs[5].value==""?"NULL":inputs[5].value;
 	birth=inputs[6].value==""?"NULL":inputs[6].value;
 
