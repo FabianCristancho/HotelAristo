@@ -1,3 +1,22 @@
+function askPermission() {
+	return new Promise(function(resolve, reject) {
+		const permissionResult = Notification.requestPermission(function(result) {
+			resolve(result);
+		});
+
+		if (permissionResult) {
+			permissionResult.then(resolve, reject);
+		}
+	}).then(function(permissionResult) {
+		if (permissionResult !== 'granted') {
+			 showAlert('alert-w','La suscripción no fue aceptada');
+		}else{
+			showAlert('alert-i','La suscripción fue aceptada');
+			requestNotificationPermission();
+		}
+	});
+}
+
 /**
  * Hace la petición de suscripción en el navegador en uso. 
  * Guarda un nombre clave, la llave publica del navegdor y la llave de autorizacion
