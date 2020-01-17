@@ -76,17 +76,16 @@
         }
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT rg.id_registro ,r.id_reserva,id_cliente,id_cliente_aux, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cx,e.id_empresa, e.nombre_empresa, c.telefono_persona,cx.telefono_persona, c.correo_persona,cx.correo_persona, rg.fecha_ingreso,rg.fecha_salida, TIMESTAMPDIFF(DAY, rg.fecha_ingreso,rg.fecha_salida) dias, NVL2(id_cliente_aux,1,0) aux FROM registros_habitacion rg inner join reservas r on rg.id_reserva=r.id_reserva left join personas c on r.id_cliente=c.id_persona left join personas_auxiliares cx on r.id_cliente_aux=cx.id_persona_aux left join empresas e on c.id_empresa=e.id_empresa');
+            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux FROM reservas r LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
-                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_registro']."'".'" class="btn '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
-                echo '<td>'.'</td>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?aux='.$current['aux'].'&id='.$current['id_cliente'].$current['id_cliente_aux'].'">'.$current['nombre_c'].$current['nombre_cx'].'</a></td>'.PHP_EOL;
+                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
+                echo '<td><button onclick="" class="btn btn-table" '.($current['aux']==1?'disabled':'').'>'.($current['aux']==1?"Falta Check in":"Registrar").'</button></td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?id='.$current['id_cliente'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['fecha_salida'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
                 echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
@@ -95,26 +94,26 @@
         }
 
        
+        function enterpriseCustomTable($idEnterprise){
+            $query = $this->connect()->prepare('SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, valor_total FROM personas p LEFT JOIN reservas r ON r.id_cliente = p.id_persona LEFT JOIN empresas e ON p.id_empresa = e.id_empresa LEFT JOIN facturas f ON f.id_reserva = r.id_reserva WHERE e.id_empresa = :idEnterprise');
+            $query->execute(['idEnterprise'=>$idEnterprise]);
+            
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['nombres'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_salida'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['valor_total'].'</td>'.PHP_EOL;
+            }                              
+        }
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT id_persona_aux, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, telefono_persona, correo_persona FROM personas_auxiliares p');
+            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p LEFT JOIN profesiones pr ON p.id_profesion=pr.id_profesion WHERE tipo_persona = "C"');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?aux=1&id='.$current['id_persona_aux'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
-                echo '<td></td>'.PHP_EOL;
-                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td></td>'.PHP_EOL;
-                echo '<td>Sin Check in</td>'.PHP_EOL;
-                echo '</tr>'.PHP_EOL;
-            }
-
-            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p, profesiones pr WHERE p.id_profesion=pr.id_profesion AND tipo_persona = "C"');
-            $query->execute();
-            foreach ($query as $current){
-                echo '<tr>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?aux=0&id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
@@ -144,7 +143,7 @@
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
                 echo '<td><input type="checkbox" '.$this->selectCheck($current['retefuente']).'></td>'.PHP_EOL;
                 echo '<td><input type="text" '.$current['otro_impuesto'].' disabled></td>'.PHP_EOL;
-                echo '<td><a href="detalles?'.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
+                echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -167,18 +166,30 @@
             }
         }
         function roomTable($date){
-            $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso, CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,rg.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,rg.fecha_ingreso, rg.fecha_salida)) conteo,CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_cliente,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cliente_aux FROM habitaciones h LEFT JOIN registros_habitacion rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN reservas r ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx ON r.id_cliente_aux=cx.id_persona_aux AND fecha_ingreso <="'.$date.'" AND fecha_salida >="'.$date.'"');
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN personas c ON rs.id_cliente=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'") rg ON rg.id_habitacion=h.id_habitacion');
+
             $query->execute();
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
+                echo '<td><p class="vertical-word">'.$this->roomType($current['tipo_habitacion']).'</p></td>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
                 echo '<p class="room-state">'.$this->roomState($current['estado_habitacion']).'</p>'.PHP_EOL;
                 echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" >'.PHP_EOL;
                 $this->chooseRoomState($current['estado_habitacion']);
                 echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
-                echo '<td>'.$this->roomType($current['tipo_habitacion']).'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_cliente'].($current['nombre_cliente_aux']==""?"":$current['nombre_cliente_aux']." (SIN CHECK IN)").'</td>';
+                echo '<td>';
+                
+                $names=explode(",",$current['nombres_clientes']);
+                $ids=explode(",",$current['ids_clientes']);
+                
+                for ($i=0;$i<count($names);$i++) {
+                    echo '<a href=/clientes/detalles?id='.$ids[$i].'>'.$names[$i].'</a>';
+                    if(count($names)-1!=$i)
+                        echo ',';
+                }
+
+                echo '</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
                 echo '<td>'.'</td>';
