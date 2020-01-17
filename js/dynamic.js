@@ -88,20 +88,30 @@ function getDays(){
 		document.getElementById("count-nights").value=1;
 }
 
-function hideAlert(type){
-	var div=document.getElementById(type);
-	div.style.opacity = "0";
-	setTimeout(function(){ div.style.display="none"; }, 600);
-	
+function hideAlert(alert){
+	if(alert.tagName=="SPAN")
+		alert=alert.parentElement;
+	alert.style.opacity = "0";
+	setTimeout(
+		function(){ 
+			alert.style.display="none"; 
+			try{
+				document.getElementById("alerts").removeChild(alert);
+			}catch(error){}
+		}, 600);
 }
+
 function showAlert(type,message){
-	var div=document.getElementById(type);
-	var m=div.getElementsByTagName("p")[0];
-	m.innerText=message;
-	div.style.opacity = 1;
-	div.style.display = "block"; 
+	var base=document.getElementById(type);
+	var alert = document.createElement("div");
+	alert.classList=base.classList;
+	alert.innerHTML=base.innerHTML;
+	alert.getElementsByTagName("p")[0].innerText=message;
+	document.getElementById("alerts").appendChild(alert);
+	alert.style.opacity = 1;
+	alert.style.display = "block"; 
 	setTimeout(function(){
-		hideAlert(div.id);
+		hideAlert(alert);
 	}, 5000);
 }
 
