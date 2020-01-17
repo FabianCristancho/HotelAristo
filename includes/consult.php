@@ -144,7 +144,7 @@
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
                 echo '<td><input type="checkbox" '.$this->selectCheck($current['retefuente']).'></td>'.PHP_EOL;
                 echo '<td><input type="text" '.$current['otro_impuesto'].' disabled></td>'.PHP_EOL;
-                echo '<td><a href="detalles?'.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
+                echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
