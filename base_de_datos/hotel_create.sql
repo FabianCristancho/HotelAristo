@@ -126,6 +126,8 @@ CREATE TABLE IF NOT EXISTS reservas (
 	id_cliente_aux INT(8),
 	id_usuario INT(2) NOT NULL,
 	id_lugar INT(8) NOT NULL,
+	fecha_ingreso DATE NOT NULL,
+	fecha_salida DATE NOT NULL,
 	observaciones VARCHAR(100) NOT NULL,
 	valor_reserva INT(7) NOT NULL,
 	medio_pago VARCHAR(2) NOT NULL,
@@ -147,15 +149,13 @@ CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_reserva INT(8) NOT NULL,
 	id_persona INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
-	fecha_ingreso DATE NOT NULL,
-	fecha_salida DATE NOT NULL,
 	estado_registro VARCHAR(2) NOT NULL,
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro)
 );
 
 CREATE TABLE IF NOT EXISTS facturas(
     id_factura INT(10) NOT NULL AUTO_INCREMENT,
-    id_registro INT(8) NOT NULL,
+    id_reserva INT(8) NOT NULL,
     id_control INT(8) NOT NULL,
     id_usuario INT(8) NOT NULL,
     serie_factura VARCHAR(4) NOT NULL,
