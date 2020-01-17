@@ -96,19 +96,6 @@
        
         
         function customerTable(){
-            $query = $this->connect()->prepare('SELECT id_persona_aux, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, telefono_persona, correo_persona FROM personas_auxiliares p');
-            $query->execute();
-            foreach ($query as $current){
-                echo '<tr>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?aux=1&id='.$current['id_persona_aux'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
-                echo '<td></td>'.PHP_EOL;
-                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td></td>'.PHP_EOL;
-                echo '<td>Sin Check in</td>'.PHP_EOL;
-                echo '</tr>'.PHP_EOL;
-            }
-
             $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p, profesiones pr WHERE p.id_profesion=pr.id_profesion AND tipo_persona = "C"');
             $query->execute();
             foreach ($query as $current){

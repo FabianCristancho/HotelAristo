@@ -85,8 +85,8 @@
             $email=evaluateValue($_POST["email"]);
             $enterprise=evaluateValue($_POST["enterprise"]);
 
-            $insert ="INSERT INTO personas_auxiliares( nombres_persona, apellidos_persona, telefono_persona, correo_persona, id_empresa) VALUES 
-            (".$fName.",".$lName.",".$phone.",".$email.",".$enterprise.");";
+            $insert ="INSERT INTO personas( nombres_persona, apellidos_persona, telefono_persona, correo_persona, id_empresa,tipo_persona) VALUES 
+            (".$fName.",".$lName.",".$phone.",".$email.",".$enterprise.",'C');";
             
             try{
                 $database->connect()->exec($insert);
