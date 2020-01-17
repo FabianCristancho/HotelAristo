@@ -218,12 +218,11 @@ ALTER TABLE registros_habitacion ADD(
 );
 
 ALTER TABLE facturas ADD(
-    CONSTRAINT fac_fk_idr FOREIGN KEY (id_registro)
-    REFERENCES registros_habitacion (id_registro),
     CONSTRAINT fac_fk_idc FOREIGN KEY (id_control)
     REFERENCES control_diario(id_control),
     CONSTRAINT fac_fk_idu FOREIGN KEY (id_usuario)
     REFERENCES personas(id_persona),
+    CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/)),
     CONSTRAINT fac_ck_es CHECK (estado_factura IN ('T' /*TARJETA*/, 'E' /*EFECTIVO*/, 'M' /*MIXTO*/, 'C' /*CONSIGNACION*/, 'A' /*ANULADA*/, 'CXC' /*CUENTAS POR COBRAR*/))
 );
 
@@ -286,7 +285,18 @@ END $
 -------------------------------------------------------------------------------------------------
 
 
+------------------------------------------SERVICIOS-------------------------------------------
+INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('LAVANDERIA', 'SE COBRA DEPENDIENDO DE LA PRENDA', '12000');
 
+INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('RESTAURANTE', 'SE COBRA DEPENDIENDO DEL PLATO', '12000');
+
+INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('MINIBAR', 'SE COBRA DEPENDIENDO DEL PRODUCTO', '5000');
+
+
+------------------------------------------CONTROL DIARIO-------------------------------------------------------------------
+INSERT INTO control_diario (`id_reserva`, `id_servicio`, `fecha_solicitud_servicio`, `estado_saldo`) VALUES (1, 1, '2020-01-23', 'CC');
+INSERT INTO control_diario (`id_reserva`, `id_servicio`, `fecha_solicitud_servicio`, `estado_saldo`) VALUES (2, 2, '2020-01-20', 'CC');
+INSERT INTO control_diario (`id_reserva`, `id_servicio`, `fecha_solicitud_servicio`, `estado_saldo`) VALUES (3, 3, '2020-01-21', 'CC');
 
 -------------------------------------------------------------
 INSERT INTO habitaciones (tipo_habitacion,numero_habitacion,estado_habitacion,tarifa_habitacion) VALUES
@@ -311,6 +321,85 @@ INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,ape
 (40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','1997-10-23','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
 (40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','1999-05-29','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
 
+
+-------------------------------------------------- PERSONAS ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'CARLOS ANDRES','CHAPARRO RINCON','CC','1052434460','M','1987-11-25','B+','3125671293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'FELIPE ANTOIO','ROSAS BARRERA','CC','1045411460','M','1990-10-19','O+','3122371293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1052451460','M','1999-05-28','B+','3125743447', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'MARIA HELENA','ROJAS VELEZ','TI','10534567654','F','1988-12-21','O-','3103321293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'MARIA FERNANDA','TELLEZ PEREZ','CC','1051451460','M','1998-11-23','A+','3123878793', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 2, 'ERNESTO','CHAPARRO ROSAS','CC','1053455460','M','2000-10-23','B+','3103471293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 2, 'CAMILO ANDRES','BARRERA ROSAS','CC','10504563728','M','1993-10-23','B+','3123982293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 2, 'ANA PATRICIA','CARDENAS PEREZ','CC','1052391460','F','1992-03-04','B+','3123871293', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 1, 'ANA DEISY','SEPULVEDA GIRALDO','CC','10535446732','F','1990-05-26','A+','3123871323', 'C');
+
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828, 3, 'FELIPE ALEJANDRO','ROSAS RINCON','CC','1053565460','M','1994-11-27','B+','3123871293', 'C');
+
+
+----------------------------------------------RESERVAS---------------------------------------------------------------------
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (1, 1, 1234, '2020-01-15', '2020-01-22', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (2, 1, 1234, '2020-01-17', '2020-01-25', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (3, 1, 1234, '2020-01-19', '2020-01-26', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (4, 1, 1234, '2020-01-18', '2020-01-27', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (5, 1, 1234, '2020-01-18', '2020-01-28', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (6, 1, 1234, '2020-01-13', '2020-01-22', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (7, 1, 1234, '2020-01-16', '2020-01-21', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (8, 1, 1234, '2020-01-13', '2020-01-22', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (9, 1, 1234, '2020-01-14', '2020-01-27', 175340, 'CH', 'RE');
+
+INSERT into reservas (`id_cliente`, `id_usuario`, `id_lugar`, `fecha_ingreso`, `fecha_salida`, `valor_reserva`, `medio_pago`, `estado_reserva`) VALUES (10, 1, 1234, '2020-01-15', '2020-01-23', 175340, 'CH', 'RE');
+
+
+
+-------------------------------------------FACTURAS------------------------------------------------------------------
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (1, 1, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (2, 1, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (3, 1, 1, 1234, 80000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (4, 1, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (5, 1, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (6, 2, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (7, 2, 1, 1234, 75000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (8, 3, 1, 1234, 85000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (9, 3, 1, 1234, 95000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (10, 3, 1, 1234, 70000, 'T', 'N');
+
+INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (11, 3, 1, 1234, 100000, 'T', 'N');
+
 ---------------------------------------Empresas-------------------------------------------------
 INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente) VALUES 
 ('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1),
@@ -327,4 +416,3 @@ INSERT INTO tarifas(id_tipo_habitacion,valor_habitacion) VALUES
 (4,160000),(4,165000),
 (5,165000),
 (6,175000),(6,185000);
-
