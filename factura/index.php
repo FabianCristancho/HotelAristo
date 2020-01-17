@@ -34,8 +34,10 @@
     }
 ?>
 
+
 <!DOCTYPE html>
 <html>
+    <!--Importación de librerias css y javascript -->
     <head>
         <title>Factura | Hotel Aristo</title>
         <meta charset="utf-8">
@@ -55,17 +57,21 @@
     </head>
 
     <body>
-            <?php 
-                /**
-                * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
-                */
-                include "../objects/menu.php"; 
-            ?>
+        <?php 
+            /**
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            */
+            include "../objects/menu.php"; 
+        ?>
 
-            <script type="text/javascript">
-                setCurrentPage("facturas");
-            </script>
+        <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
+            */
+            setCurrentPage("facturas");
+        </script>
 
+        <!--Bloque encargado de mostrar los detalles correspondientes a la factura de una reserva-->
         <div class="marco nearly-page">
             <h1>FACTURACIÓN</h1>
             <div class="series">
@@ -108,7 +114,6 @@
             </div>
 
 
-
             <div class="table_totals">
                 <table>
                     <tr class="long_letters">
@@ -129,31 +134,31 @@
 
         </div>
 
-
-            <div id="submit_bill" class="modal" onclick="touchOutside(this);">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span onclick="hideModal('add-bizz');" class="close">&times;</span>
-                        <h2>ENVÍO DE FACTURA</h2>
-                    </div>
-                    <div class="modal-body">
-                        <div class="marco full-page">
-                            <div class="input-block">
-                                <label>Correo</label>
-                                <br>
-                                <input type="text" placeholder="Correo electrónico">
-                            </div>
+        <!--Bloque encargado de mostrar las opciones de envío de factura a correo-->
+        <div id="submit_bill" class="modal" onclick="touchOutside(this);">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span onclick="hideModal('add-bizz');" class="close">&times;</span>
+                    <h2>ENVÍO DE FACTURA</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="marco full-page">
+                        <div class="input-block">
+                            <label>Correo</label>
+                            <br>
+                            <input type="text" placeholder="Correo electrónico">
                         </div>
-                        <a onclick="showAlert('alert-i');" id="button-book-bizz">Enviar correo</a>
                     </div>
+                    <a onclick="showAlert('alert-i');" id="button-book-bizz">Enviar correo</a>
                 </div>
             </div>
+        </div>
 
-            <?php
-                /**
-                * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
-                */
-                include "../objects/footer.php"; 
-            ?>
+        <?php
+            /**
+            * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
+            */
+            include "../objects/footer.php"; 
+        ?>
     </body>
 </html>

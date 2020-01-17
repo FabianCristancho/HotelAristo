@@ -1,3 +1,15 @@
+<?php
+    /**
+    * Archivo que contiene la información pertinente a los detalles de control de una habitación en una fecha especificada
+    * @package   control_diario.detalles
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+?>
+
+
 <!DOCTYPE html>
 <html>
     <!--Importación de librerias css y javascript -->
@@ -19,24 +31,23 @@
 	</head>
 
 	<!--Construcción de la vista-->
-
 	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
-	<!--Menu de la aplicación web del hotel Aristo
-		la clase main-menu-item pertenece a los botones del menú-->
+	
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "control-diario"
+            */
             setCurrentPage("control-diario");
         </script>
-        <!--El bloque de contenido es la vista principal de cada pagina
-			puede contener varias clases marco, que distribuyen la informacion.
-			Si existe un formulario cada dato para introducir es colocado en una clase input-block
-			que contiene una etiqueta y una entrada de informacion-->
-
+        
+        <!--El bloque contiene la información correspondiente a los detalles de control de una habitación en una fecha especificada-->
         <div id="content" class="col-12">
             <div style="float: left;" class="marco responsive-page">
                 <h3><b>Habitación</b></h3>
@@ -139,6 +150,7 @@
                     <br><br>
                     <label>Ocupada</label>
                 </div>
+                
                 <div class="input-block">
                     <label><b>¿Huésped se encuentra en habitación?</b></label>
                     <br><br>
@@ -184,8 +196,6 @@
         </div>
                 
 
-			
-
         <!--El bloque de alertas contiene cuatro tipos de alertas para darle al usuario
         visibilidad de los procesos. Se definieron: Peligro, Informacion, Precausion y Exito-->
         <div id="alerts">
@@ -220,6 +230,5 @@
             */
             include "../../objects/footer.php"; 
         ?>
-
     </body>
 </html>

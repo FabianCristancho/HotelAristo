@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<!--Importación de librerias css y javascript -->
+    <!--Importación de librerias css y javascript -->
 	<head>
 		<title>Facturación | Hotel Aristo</title>
 		<meta charset="utf-8">
@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/reporte_factura.css">
 	</head>
 
+    <!--Muestra la vista de la factura de acuerdo a un formato establecido-->
     <body>
         <div>
             <div class="title">
@@ -82,10 +83,6 @@
             
             <div class="legal"><p>Esta factura se asimila en todos sus efectos legales a una Letra de Cambio. Según el Art. 774 del Código de Comercio</p></div>
             <div class="rol"><p><b>Responsable:</b> Zuly López</p></div>
-            
         </div>
-        
     </body>
-    
-    
 </html>

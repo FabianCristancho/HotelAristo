@@ -1,4 +1,3 @@
-
 						<div class="card card-client col-12">
 							<div class="card-header">
 								<strong class="card-title">Información personal</strong>
