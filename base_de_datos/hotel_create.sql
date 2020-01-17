@@ -13,20 +13,23 @@ use hotelaristo;
 DROP TABLE Paises;
 DROP TABLE Ciudades;
 
-DROP TABLE facturas;
-DROP TABLE registros_habitacion;
-DROP TABLE reservas;
-DROP TABLE usuarios;
-DROP TABLE clientes;
-DROP TABLE personas;
-DROP TABLE habitaciones;
-DROP TABLE servicios;
-DROP TABLE cargos;
-DROP TABLE empresas;
-DROP TABLE profesiones;
-DROP TABLE lugares;
+DROP TABLE IF EXISTS tarifas;
+DROP TABLE IF EXISTS tipos_habitacion;
+DROP TABLE IF EXISTS facturas;
+DROP TABLE IF EXISTS registros_habitacion;
+DROP TABLE IF EXISTS control_diario;
+DROP TABLE IF EXISTS reservas;
+DROP TABLE IF EXISTS personas_auxiliares;
+DROP TABLE IF EXISTS personas;
+DROP TABLE IF EXISTS habitaciones;
+DROP TABLE IF EXISTS servicios;
+DROP TABLE IF EXISTS cargos;
+DROP TABLE IF EXISTS empresas;
+DROP TABLE IF EXISTS profesiones;
+DROP TABLE IF EXISTS impuestos;
+DROP TABLE IF EXISTS lugares;
 
-CREATE TABLE lugares(
+CREATE TABLE IF NOT EXISTS lugares(
 	id_lugar INT(8) NOT NULL AUTO_INCREMENT,
 	id_ubicacion INT(8),
 	nombre_lugar VARCHAR(100) NOT NULL,
@@ -34,20 +37,20 @@ CREATE TABLE lugares(
 	CONSTRAINT lug_pk_idl PRIMARY KEY (id_lugar)
 );
 
-CREATE TABLE impuestos(
+CREATE TABLE IF NOT EXISTS impuestos(
 	id_impuesto INT(3) NOT NULL AUTO_INCREMENT,
 	nombre_impuesto VARCHAR(30) NOT NULL,
 	porcentaje_impuesto DECIMAL(6,5) NOT NULL,
 	CONSTRAINT imp_pk_idi PRIMARY KEY (id_impuesto)
 );
 
-CREATE TABLE profesiones(
+CREATE TABLE IF NOT EXISTS profesiones(
 	id_profesion INT(4) NOT NULL AUTO_INCREMENT,
 	nombre_profesion VARCHAR(100) NOT NULL,
 	CONSTRAINT pro_pk_idp PRIMARY KEY (id_profesion)
 );
 
-CREATE TABLE empresas(
+CREATE TABLE IF NOT EXISTS empresas(
 	id_empresa INT(6) NOT NULL AUTO_INCREMENT,
 	nombre_empresa VARCHAR(150) NOT NULL,
 	nit_empresa VARCHAR(20) NOT NULL,
@@ -58,14 +61,14 @@ CREATE TABLE empresas(
 	CONSTRAINT emp_pk_ide PRIMARY KEY (id_empresa)
 );
 
-CREATE TABLE cargos (
+CREATE TABLE IF NOT EXISTS cargos (
 	id_cargo INT(2) NOT NULL AUTO_INCREMENT,
 	nombre_cargo VARCHAR(40) NOT NULL,
 	descripcion_cargo VARCHAR(100),
 	CONSTRAINT car_pk_idc PRIMARY KEY (id_cargo)
 );
 
-CREATE TABLE servicios(
+CREATE TABLE IF NOT EXISTS servicios(
 	id_servicio INT(2) NOT NULL AUTO_INCREMENT,
 	nombre_servicio VARCHAR(30) NOT NULL,
 	descripcion_servicio VARCHAR(100),
@@ -74,7 +77,7 @@ CREATE TABLE servicios(
 );
 
 
-CREATE TABLE habitaciones(
+CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	tipo_habitacion CHAR(1) NOT NULL,
 	id_tipo_habitacion INT(2) NOT NULL,
@@ -84,7 +87,7 @@ CREATE TABLE habitaciones(
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
-CREATE TABLE personas(
+CREATE TABLE IF NOT EXISTS personas(
 	id_persona INT(8) NOT NULL AUTO_INCREMENT,
 	id_lugar_nacimiento INT(8) NOT NULL,
 	id_lugar_expedicion INT(8) NOT NULL,
@@ -107,7 +110,7 @@ CREATE TABLE personas(
 );
 
 
-CREATE TABLE personas_auxiliares(
+CREATE TABLE IF NOT EXISTS personas_auxiliares(
 	id_persona_aux INT(8) NOT NULL AUTO_INCREMENT,
 	id_empresa INT(6),
 	nombres_persona VARCHAR(150) NOT NULL,
@@ -117,7 +120,7 @@ CREATE TABLE personas_auxiliares(
 	CONSTRAINT pax_pk_idp PRIMARY KEY (id_persona_aux)
 );
 
-CREATE TABLE reservas (
+CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
 	id_cliente INT(8),
 	id_cliente_aux INT(8),
@@ -130,7 +133,7 @@ CREATE TABLE reservas (
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
-CREATE TABLE control_diario(
+CREATE TABLE IF NOT EXISTS control_diario(
     id_control INT(8) NOT NULL AUTO_INCREMENT,
     id_reserva INT(8) NOT NULL,
     id_servicio INT(8) NOT NULL,
@@ -139,7 +142,7 @@ CREATE TABLE control_diario(
     CONSTRAINT con_pk_idc PRIMARY KEY(id_control)
 );
 
-CREATE TABLE registros_habitacion(
+CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_registro INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
@@ -149,7 +152,7 @@ CREATE TABLE registros_habitacion(
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro)
 );
 
-CREATE TABLE facturas(
+CREATE TABLE IF NOT EXISTS facturas(
     id_factura INT(10) NOT NULL AUTO_INCREMENT,
     id_registro INT(8) NOT NULL,
     id_control INT(8) NOT NULL,
@@ -160,19 +163,18 @@ CREATE TABLE facturas(
     CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
-CREATE TABLE tipos_habitacion(
+CREATE TABLE IF NOT EXISTS tipos_habitacion(
 	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	nombre_tipo_habitacion VARCHAR(30) NOT NULL,
 	CONSTRAINT tih_pk_idt PRIMARY KEY (id_tipo_habitacion)
 );
 
-CREATE TABLE tarifas(
+CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(2) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	valor_habitacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
-
 
 
 ALTER TABLE lugares ADD(
@@ -340,3 +342,4 @@ INSERT INTO tarifas(id_tipo_habitacion,valor_habitacion) VALUES
 (4,160000),(4,165000),
 (5,165000),
 (6,175000),(6,185000);
+
