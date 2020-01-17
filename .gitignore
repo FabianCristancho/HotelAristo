@@ -1,5 +1,10 @@
 
 *.lnk
-/factura/composer.json
-/factura/composer.lock
-/factura/vendor/
+factura/composer.json
+factura/composer.lock
+factura/vendor/
+zona_experimental/notificaciones_push/vendor/
+zona_experimental/notificaciones_push/composer.lock
+aristo.crt
+aristo.key
+
