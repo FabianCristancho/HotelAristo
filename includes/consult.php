@@ -153,8 +153,6 @@
             }
         }
         function roomTable($date){
-            $query = $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes,GROUP_CONCAT(c.id_persona) ids_clientes,r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM habitaciones h LEFT JOIN registros_habitacion rs ON rs.id_habitacion=h.id_habitacion LEFT JOIN personas c ON rs.id_cliente=c.id_persona LEFT JOIN reservas r ON rs.id_reserva=r.id_reserva AND r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" GROUP BY h.id_habitacion');
-            
             $query= $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN personas c ON rs.id_cliente=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'") rg ON rg.id_habitacion=h.id_habitacion');
 
             $query->execute();
