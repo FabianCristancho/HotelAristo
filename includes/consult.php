@@ -76,13 +76,13 @@
         }
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT rg.id_registro ,r.id_reserva,id_cliente,id_cliente_aux, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cx,e.id_empresa, e.nombre_empresa, c.telefono_persona,cx.telefono_persona, c.correo_persona,cx.correo_persona, rg.fecha_ingreso, TIMESTAMPDIFF(DAY, rg.fecha_ingreso,rg.fecha_salida) dias, NVL2(id_cliente_aux,1,0) aux FROM registros_habitacion rg inner join reservas r on rg.id_reserva=r.id_reserva left join personas c on r.id_cliente=c.id_persona left join personas_auxiliares cx on r.id_cliente_aux=cx.id_persona_aux left join empresas e on c.id_empresa=e.id_empresa');
+            $query = $this->connect()->prepare('SELECT rg.id_registro ,r.id_reserva,id_cliente,id_cliente_aux, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cx,e.id_empresa, e.nombre_empresa, c.telefono_persona,cx.telefono_persona, c.correo_persona,cx.correo_persona, rg.fecha_ingreso, TIMESTAMPDIFF(DAY, rg.fecha_ingreso,rg.fecha_salida) dias, NVL2(id_cliente_aux,1,0) aux FROM reservas r INNER JOIN registros_habitacion rg ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx on r.id_cliente_aux=cx.id_persona_aux LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
                 echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_registro']."'".'" class="btn btn-table '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
-                echo '<td><button onclick="" class="btn btn-table" '.($current['aux']==0?'disabled':'').'>'.($current['aux']==0?"Falta Check in":"Registrar").'</button></td>'.PHP_EOL;
+                echo '<td><button onclick="" class="btn btn-table" '.($current['aux']==1?'disabled':'').'>'.($current['aux']==1?"Falta Check in":"Registrar").'</button></td>'.PHP_EOL;
                 echo '<td><a href="/clientes/detalles?aux='.$current['aux'].'&id='.$current['id_cliente'].$current['id_cliente_aux'].'">'.$current['nombre_c'].$current['nombre_cx'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
