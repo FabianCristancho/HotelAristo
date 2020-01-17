@@ -167,16 +167,18 @@
         }
         function roomTable($date){
             $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso, CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,rg.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,rg.fecha_ingreso, rg.fecha_salida)) conteo,CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_cliente,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cliente_aux FROM habitaciones h LEFT JOIN registros_habitacion rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN reservas r ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx ON r.id_cliente_aux=cx.id_persona_aux AND fecha_ingreso <="'.$date.'" AND fecha_salida >="'.$date.'"');
+            $query = $this->connect()->prepare('SELECT h.id_habitacion,numero_habitacion, estado_habitacion, tipo_habitacion, fecha_ingreso, CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,rg.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,rg.fecha_ingreso, rg.fecha_salida)) conteo,CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_cliente,CONCAT_WS(" ",cx.nombres_persona,cx.apellidos_persona) nombre_cliente_aux FROM habitaciones h LEFT JOIN registros_habitacion rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN reservas r ON rg.id_reserva=r.id_reserva LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN personas_auxiliares cx ON r.id_cliente_aux=cx.id_persona_aux AND fecha_ingreso <="'.$date.'" AND fecha_salida >="'.$date.'"');
+            
             $query->execute();
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
+                echo '<td><p class="vertical-word">'.$this->roomType($current['tipo_habitacion']).'</p></td>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
                 echo '<p class="room-state">'.$this->roomState($current['estado_habitacion']).'</p>'.PHP_EOL;
                 echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" >'.PHP_EOL;
                 $this->chooseRoomState($current['estado_habitacion']);
                 echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
-                echo '<td>'.$this->roomType($current['tipo_habitacion']).'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_cliente'].($current['nombre_cliente_aux']==""?"":$current['nombre_cliente_aux']." (SIN CHECK IN)").'</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';

@@ -206,6 +206,12 @@ td a:visited{
     color: white;
 }
 
+.vertical-word{
+    writing-mode: vertical-lr;
+    transform:rotate(180deg);
+    margin-left: 10px;
+}
+
 .button-check-in{
     width: 100%;
     height: 40px;
