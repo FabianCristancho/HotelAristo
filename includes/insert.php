@@ -54,26 +54,23 @@
         $database=new Database();
 
         if($_POST["type"]=="A"){
-            $docType; $docNum; $docDate; $docCity; $enterprise; $fName;
-            $lName; $phone; $email; $gender; $birth; $blood_rh; $profession; $nac;
-
-            $fName=$_POST["fName"];
-            $lName=$_POST["lName"];
+            $fName=evaluateValue($_POST["fName"]);
+            $lName=evaluateValue($_POST["lName"]);
             $docType=$_POST["docType"];
-            $docNum=$_POST["docNum"];
-            $docDate=$_POST["docDate"];
-            $phone=$_POST["phone"];
-            $email=$_POST["email"];
+            $docNum=evaluateValue($_POST["docNum"]);
+            $docDate=evaluateValue($_POST["docDate"]);
+            $phone=evaluateValue($_POST["phone"]);
+            $email=evaluateValue($_POST["email"]);
             $gender=$_POST["gender"];
-            $birth=$_POST["birth"];
+            $birth=evaluateValue($_POST["birth"]);
             $blood_rh=$_POST["blood"].=$_POST["rh"];;
-            $profession=$_POST["profession"];
-            $enterprise=$_POST["enterprise"];
+            $profession=evaluateValue($_POST["profession"]);
+            $enterprise=evaluateValue($_POST["enterprise"]);
             $nac=$_POST["nac"];
             $docCity=$_POST["docCity"];
 
             $insert ="INSERT INTO personas( id_lugar_nacimiento, id_lugar_expedicion, nombres_persona, apellidos_persona,tipo_documento, numero_documento, genero_persona, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona, id_empresa, id_profesion, tipo_persona) VALUES
-                (".$nac.",".$docCity.",'".$fName."','".$lName."','".$docType."','".$docNum."','".$gender."','".$birth."','".$blood_rh."','".$phone."','".$email."',".$enterprise.",".$profession.",'C');";
+                (".$nac.",".$docCity.",".$fName.",".$lName.",".$docType.",".$docNum.",".$gender.",".$birth.",".$blood_rh.",".$phone.",".$email.",".$enterprise.",".$profession.",'C');";
 
             try{
                 $database->connect()->exec($insert);
@@ -82,24 +79,26 @@
                 echo 'alert-d;Error A1.1. Ha surgido un error al intentar agregar al cliente.';
             }
         }else{
-            $enterprise; $fName; $lName; $phone; $email;
-
-            $fName=$_POST["fName"];
-            $lName=$_POST["lName"];
-            $phone=$_POST["phone"];
-            $email=$_POST["email"];
-            $enterprise=$_POST["enterprise"];
+            $fName=evaluateValue($_POST["fName"]);
+            $lName=evaluateValue($_POST["lName"]);
+            $phone=evaluateValue($_POST["phone"]);
+            $email=evaluateValue($_POST["email"]);
+            $enterprise=evaluateValue($_POST["enterprise"]);
 
             $insert ="INSERT INTO personas_auxiliares( nombres_persona, apellidos_persona, telefono_persona, correo_persona, id_empresa) VALUES 
-            ('".$fName."','".$lName."','".$phone."',".($email=="NULL"?"NULL":"'".$email."'").",".$enterprise.");";
+            (".$fName.",".$lName.",".$phone.",".$email.",".$enterprise.");";
             
             try{
                 $database->connect()->exec($insert);
                 echo 'alert-s;Se ha agregado a '.$fName.' '.$lName.' a la base de datos. Recuerde que los datos no estan completos';
             }catch(PDOException $e){
-                echo 'alert-d;Error A1.2. Ha surgido un error al intentar agregar al cliente.'.$insert;
+                echo 'alert-d;Error A1.2. Ha surgido un error al intentar agregar al cliente.';
             }
         }
+    }
+
+    function evaluateValue($value){
+        return $value!="NULL"?"'".$value."'":$value;
     }
 
     function insertReservation(){

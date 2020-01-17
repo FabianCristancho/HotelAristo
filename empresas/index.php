@@ -76,7 +76,7 @@
                         /**
                         * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
                         */
-                        $consult->getTable('enterprise');
+                        $consult->getTable('enterprise', '');
                     ?>
                 </table>
             </div>
