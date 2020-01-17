@@ -8,6 +8,18 @@
     * @version   1.0
     */
 
+    require_once '../../includes/classes.php';
+
+    $consult=new Consult();
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
+
     $id="";
     if(isset($_GET['id'])){
         $id = $_GET['id'];      

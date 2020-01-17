@@ -69,7 +69,7 @@
                     <p>Historial de Habitación</p>
                     <img src="/res/img/room-icon-white.png">
                 </a>
-                <a href="/control_diario/" class="button">
+                <a onclick="window.location.href = '/control_diario?date='+getDate(0);" class="button">
                     <p>Control diario</p>
                     <img src="/res/img/control-icon-white.png">
                 </a>

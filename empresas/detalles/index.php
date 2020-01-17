@@ -18,6 +18,7 @@
     }else{
         header('location: /login');
     }
+
     if(isset($_GET['id'])){
         $id = $_GET['id'];
         $e = new Enterprise();
@@ -27,6 +28,7 @@
     if($e->getId() === NULL){
         header('Location: ../index.php');
     }
+
 ?>
 
 <!DOCTYPE html>

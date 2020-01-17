@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS registros_habitacion(
 CREATE TABLE IF NOT EXISTS facturas(
     id_factura INT(10) NOT NULL AUTO_INCREMENT,
     id_reserva INT(8) NOT NULL,
-    id_control INT(8),
+    id_control INT(8) NOT NULL,
     id_usuario INT(8) NOT NULL,
     serie_factura VARCHAR(4) NOT NULL,
     valor_total INT(8) NOT NULL,

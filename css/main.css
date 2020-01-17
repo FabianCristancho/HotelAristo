@@ -202,8 +202,11 @@ thead{
     color: white;
 }
 
-td a:visited{
-    color: white;
+
+.vertical-word{
+    writing-mode: vertical-lr;
+    transform:rotate(180deg);
+    margin-left: 10px;
 }
 
 .button-check-in{
@@ -243,6 +246,10 @@ td a:visited{
     box-shadow: 0px 2px 0px #1b2a40;
     border-radius: 7px;
     cursor: pointer;
+}
+
+.button-more-info:visited{
+    color: #fff;
 }
 
 .button-more-info:hover{
