@@ -9,7 +9,7 @@
     }
   ],
   "start_url": "/inicio",
-  "display": "fullscreen",
+  "display": "standalone",
   "theme_color": "#2196F3",
   "gcm_sender_id": "851427219936"
 }

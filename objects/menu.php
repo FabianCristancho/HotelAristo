@@ -59,6 +59,7 @@
             <img src="/res/img/bill-icon-black.png">
             <p>Facturación</p>
         </button>
+
         <div class="user-area">
             <div class="dropdown menu-item">
             <button class="main-menu-item">

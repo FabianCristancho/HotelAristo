@@ -3,12 +3,11 @@ header{
     background: yellow;
     padding-top: 0;
     padding-bottom: 0;
-    height: 90px;
 }
 
 #logo-hotel{
     float: left;
-	width: 60px;
+	height: 60px;
     margin-right: 10px;
     margin-left:10px;
     padding-top: 10px;
@@ -29,10 +28,12 @@ header{
     border-style: none;
     background: inherit;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .main-menu-item p{
     float: left;
+    display: none;
 }
 
 .main-menu-item img{
@@ -49,4 +50,18 @@ header{
 .user-area{
     display: flex;
     justify-content: flex-end;
+}
+
+/*Diseño de estilos en 840*/
+@media only screen and (min-width: 840px){
+    .main-menu-item {
+        width: auto;
+    }
+    
+    .main-menu-item p{
+        display: flex;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 15px;
+    }
 }

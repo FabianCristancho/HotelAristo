@@ -30,12 +30,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="manifest" href="/manifest.json">
         <link rel="stylesheet" type="text/css" href="/css/inicio.css">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
@@ -56,35 +53,35 @@
         </script>
     
         <!--Bloque encargado de presentar el menú que contiene los módulos correspondientes al servicio que presta la aplicación web-->
-        <div class="content wrap-main">
-            <div class="title">
-                <p><strong>HOTEL ARISTO</strong></p>
-            </div>
-            <div class="menu">
-                <a href="/reservas/" class="button">
-                    <p>Reservas</p>
-                    <img src="../res/img/book-icon-white.png">
-                </a>
-                <a href="/habitaciones/" class="button">
-                    <p>Historial de Habitación</p>
-                    <img src="/res/img/room-icon-white.png">
-                </a>
-                <a onclick="window.location.href = '/control_diario?date='+getDate(0);" class="button">
-                    <p>Control diario</p>
-                    <img src="/res/img/control-icon-white.png">
-                </a>
-                <a href="/usuarios/" class="button">
-                    <p>Usuarios</p>
-                    <img src="/res/img/use-whiter.png">
-                </a>
-                <a href="/empresas/" class="button">
-                    <p>Empresas</p>
-                    <img src="/res/img/company-white.png">
-                </a>
-                <a href="/facturas/" class="button">
-                    <p>Facturación</p>
-                    <img src="/res/img/bill-icon-white.png">
-                </a>
+        <div class="content">
+            <div class="wrap-main col-8 wrap-8">
+                <div class="title">
+                    <p><strong>HOTEL ARISTO</strong></p>
+                </div>
+                    <a href="/reservas/" class="button">
+                        <p>Reservas</p>
+                        <img src="../res/img/book-icon-white.png">
+                    </a>
+                    <a href="/habitaciones/" class="button">
+                        <p>Historial de Habitación</p>
+                        <img src="/res/img/room-icon-white.png">
+                    </a>
+                    <a onclick="window.location.href = '/control_diario?date='+getDate(0);" class="button">
+                        <p>Control diario</p>
+                        <img src="/res/img/control-icon-white.png">
+                    </a>
+                    <a href="/usuarios/" class="button">
+                        <p>Usuarios</p>
+                        <img src="/res/img/use-whiter.png">
+                    </a>
+                    <a href="/empresas/" class="button">
+                        <p>Empresas</p>
+                        <img src="/res/img/company-white.png">
+                    </a>
+                    <a href="/facturas/" class="button">
+                        <p>Facturación</p>
+                        <img src="/res/img/bill-icon-white.png">
+                    </a>
             </div>
         </div>
         
