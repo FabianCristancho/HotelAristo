@@ -94,6 +94,19 @@
         }
 
        
+        function enterpriseCustomTable($idEnterprise){
+            $query = $this->connect()->prepare('SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, valor_total FROM personas p LEFT JOIN reservas r ON r.id_cliente = p.id_persona LEFT JOIN empresas e ON p.id_empresa = e.id_empresa LEFT JOIN facturas f ON f.id_reserva = r.id_reserva WHERE e.id_empresa = :idEnterprise');
+            $query->execute(['idEnterprise'=>$idEnterprise]);
+            
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['nombres'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_salida'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['valor_total'].'</td>'.PHP_EOL;
+            }                              
+        }
         
         function customerTable(){
             $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p LEFT JOIN profesiones pr ON p.id_profesion=pr.id_profesion WHERE tipo_persona = "C"');
@@ -186,7 +199,6 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-        
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
