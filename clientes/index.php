@@ -37,10 +37,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -62,10 +60,12 @@
         </script>
         
         <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de los clientes registrados en la base de datos-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-              <h2 id="requests-title" class="col-9">CLIENTES REGISTRADOS</h2>
-                <a id="button-add-book" class="col-2" href="registrar">Registrar cliente</a>
+        <div class="col-12 content">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+                <div class="content-header">
+                    <h2 class="title-form col-10">CLIENTES REGISTRADOS</h2>
+                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                </div>
                 
                 <div class="scroll-block">
                     <table>

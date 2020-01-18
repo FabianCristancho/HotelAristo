@@ -38,10 +38,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -63,16 +63,24 @@
         </script>
         
         <!--Bloque que contiene una tabla  con el control de habitaciones de acuerdo a una fecha seleccionada por el usuario-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h1>CONTROL DE HABITACIONES</h1>
-                <div class="input-block-control">
-                    <label>Fecha control</label>
-                    <br>
-                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,-1)">&lt;</button>
-                    <input id="control-date" type="date" value="<?php echo $date; ?>">
-                    <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,1)">&gt;</button>
+        <div class="content col-12">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+                <div class="content-header padd">
+                    <h2 class="title-form col-12">CONTROL DE HABITACIONES</h2>
                 </div>
+                    <div class="form-group col-3">
+                        <label class="form-control-label">Fecha de control</label>
+                        <div class="input-group">
+                            <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,-1)">&lt;</button>
+                            <div class="input-group-icon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input id="control-date" class="form-control" type="date" value="<?php echo $date; ?>">
+                            <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,1)">&gt;</button>
+                        </div>
+                        <small class="form-text text-muted">ej. 10/11/2019</small>
+                    </div>
+
                 <div class="scroll-block">
                     <table>
                         <thead>

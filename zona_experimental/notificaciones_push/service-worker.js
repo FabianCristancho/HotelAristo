@@ -9,9 +9,18 @@ self.addEventListener('push', function(event) {
 		const options = {
 			body: data.body,
 			icon: '/res/img/logoA.png',
-			badge: '/res/img/logoA.png'
+			badge: '/res/img/badge.png',
+			actions: [
+			{
+					action: 'answer',
+					title: 'Responder'
+				}
+			]
 		};
 		event.waitUntil(self.registration.showNotification(title,options));
+		
+		const promiseChain = clients.openWindow('/zona_experimental/notificaciones_push');
+		clients.window.open('/zona_experimental/notificaciones_push');
 	}else{
 		event.waitUntil(self.registration.showNotification("data es null"));
 	}

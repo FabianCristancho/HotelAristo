@@ -41,7 +41,7 @@ function requestNotificationPermission() {
 		  			showAlert(data[0],data[1]);
 		  		},
 		  		error: function (ans) {
-		  			showAlert('alert-e','No se pudo conectar con la base de datos');
+		  			showAlert('alert-d','No se pudo conectar con la base de datos');
 		  		}
 			});
 		});

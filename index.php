@@ -7,7 +7,7 @@
     if(isset($_SESSION['user'])){
         $user->updateDBUser($userSession->getSession());
     }else{
-        header('location: /login');
+        header('location: login');
     }
 ?>
 
@@ -18,5 +18,7 @@
         </head>
         
         <body>
+            <a href="hotelaristo.crt">Descargar certificado <strong>hotelaristo.tj</strong></a>
+            <a href="aristo.crt">Descargar certificado <strong>192.168.0.17</strong></a>
         </body>
 </html>

@@ -31,11 +31,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -50,30 +48,34 @@
         ?>
 
         <!--Bloque que contiene una tabla con la información básica de las reservas-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h2 id="requests-title" class="col-9">RESERVAS DE HUÉSPEDES</h2>
-                <a id="button-add-book" class="col-2" href="registrar">Registrar reserva</a>
+        <div class="content col-12">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+               <div class="content-header">
+                    <h2 class="title-form col-10">RESERVAS DE HUÉSPEDES</h2>
+                    <a class="button-add-book col-2" href="registrar">Registrar reserva</a>
+                </div>
 
-                <table>
-                    <tr>
-                      <th>N°</th>
-                      <th>Check in</th>
-                      <th>Check on</th>
-                      <th>Nombre completo</th>
-                      <th>Telefono</th>
-                      <th>Fecha de llegada</th>
-                      <th>Cantidad de noches</th>
-                      <th>Empresa</th>
-                      <th>Correo</th>
-                    </tr>
-                     <?php
-                        /**
-                        * Invoca al método getTable('reservation', '') que se encarga de obtener de la base de datos los datos de las *reservaciones efectuadas
-                        */
-                        $consult->getTable('reservation','');
-                      ?>
-                </table>
+                <div class="scroll-block">
+                    <table>
+                        <tr>
+                          <th>N°</th>
+                          <th>Check in</th>
+                          <th>Check on</th>
+                          <th>Nombre completo</th>
+                          <th>Telefono</th>
+                          <th>Fecha de llegada</th>
+                          <th>Cantidad de noches</th>
+                          <th>Empresa</th>
+                          <th>Correo</th>
+                        </tr>
+                         <?php
+                            /**
+                            * Invoca al método getTable('reservation', '') que se encarga de obtener de la base de datos los datos de las *reservaciones efectuadas
+                            */
+                            $consult->getTable('reservation','');
+                          ?>
+                    </table>
+                </div>
             </div>
         </div>
         
