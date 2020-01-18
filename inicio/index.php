@@ -31,8 +31,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="manifest" href="/manifest.json">
-        <link rel="stylesheet" type="text/css" href="/css/inicio.css">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/inicio.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
@@ -54,7 +54,7 @@
     
         <!--Bloque encargado de presentar el menú que contiene los módulos correspondientes al servicio que presta la aplicación web-->
         <div class="content">
-            <div class="wrap-main col-8 wrap-8">
+            <div class="wrap-main col-8 wrap-8 wrap-menu">
                 <div class="title">
                     <p><strong>HOTEL ARISTO</strong></p>
                 </div>

@@ -28,6 +28,17 @@ body{
     opacity: 0.8;
 }
 
+.btn, .button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-transition: all .15s ease-in-out;
+    transition: all .15s ease-in-out;
+    border-radius: 3;
+    cursor: pointer;
+}
 
 .btn-circle:hover{
     opacity: 0.8;
@@ -46,22 +57,9 @@ body{
     padding: 2px 5px;
 }
 
-
 .btn-block {
     display: block;
     width: 100%;
-}
-
-.btn, .button {
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-transition: all .15s ease-in-out;
-    transition: all .15s ease-in-out;
-    border-radius: 3;
-    cursor: pointer;
 }
 
 .btn-circle{
@@ -116,29 +114,23 @@ small {
 }
 
 b, strong {
-
     font-weight: bolder;
-
 }
 
 label {
     display: inline-block;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .row {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
     margin-left: -15px;
 }
 
 .row-simple{
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -165,7 +157,6 @@ label {
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
     -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
-    -ms-flex-direction: column;
 }
 
 .card-header:first-child {
@@ -196,7 +187,6 @@ label {
     padding: 15px;
 }
 .card-body {
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
 }
@@ -207,11 +197,8 @@ label {
 
 .input-group {
     position: relative;
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    -ms-flex-align: stretch;
     align-items: stretch;
     width: 100%;
 }
@@ -239,7 +226,6 @@ label {
 .input-group > .custom-select, 
 .input-group > .form-control {
     position: relative;
-    -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     width: 1%;
     margin-bottom: 0;

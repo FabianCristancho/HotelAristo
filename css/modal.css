@@ -84,15 +84,6 @@
   cursor: pointer;
 }
 
-#nit-block{
-  width: 22%;
-}
-
 .data-group{
   float: left;
-}
-
-#nit-block p{
-  margin: 0;
-  text-align: center;
 }

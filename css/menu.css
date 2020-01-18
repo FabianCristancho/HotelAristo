@@ -10,14 +10,14 @@ header{
 	height: 60px;
     margin-right: 10px;
     margin-left:10px;
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 #current-item{
     background: #18347D;
     color: white;
-}
 
+}
 .menu-item{
     float: left;
 }
@@ -43,8 +43,17 @@ header{
 }
 
 .main-menu-item:hover{
-    background: #FFFF00;
+    background: #DFDF04;
     cursor: pointer;
+}
+
+#menu-button{
+    display: initial;
+}
+
+.app-area{
+    display: none;
+    max-width: 80%;
 }
 
 .user-area{
@@ -54,14 +63,19 @@ header{
 
 /*Diseño de estilos en 840*/
 @media only screen and (min-width: 840px){
-    .main-menu-item {
-        width: auto;
-    }
-    
     .main-menu-item p{
         display: flex;
         margin-left: 10px;
         margin-right: 10px;
         font-size: 15px;
+    }
+
+    .app-area{
+        display: initial;
+        max-width: 90%;
+    }
+
+    #menu-button{
+        display: none;
     }
 }

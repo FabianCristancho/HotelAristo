@@ -83,7 +83,7 @@
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
                 echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
                 echo '<td><button onclick="" class="btn btn-table" '.($current['aux']==1?'disabled':'').'>'.($current['aux']==1?"Falta Check in":"Registrar").'</button></td>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?id='.$current['id_cliente'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
+                echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
@@ -118,7 +118,7 @@
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
-                echo '<td><a href="editar?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Ver</a></td>'.PHP_EOL;
+                echo '<td><a href="detalles?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Ver</a></td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }

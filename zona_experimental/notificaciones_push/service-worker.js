@@ -18,7 +18,8 @@ self.addEventListener('push', function(event) {
 			]
 		};
 		event.waitUntil(self.registration.showNotification(title,options));
-		const promiseChain = clients.openWindow(examplePage);
+		
+		const promiseChain = clients.openWindow('/zona_experimental/notificaciones_push');
 		clients.window.open('/zona_experimental/notificaciones_push');
 	}else{
 		event.waitUntil(self.registration.showNotification("data es null"));

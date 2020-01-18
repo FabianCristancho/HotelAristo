@@ -31,9 +31,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
 		<link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
 		<link rel="stylesheet" type="text/css" href="/css/modal.css">
@@ -63,7 +60,9 @@
         <!--Contiene el formulario de registro correspondiente para una empresa-->
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-				<h2>REGISTRAR RESERVA</h2>
+				<div class="content-header">
+                    <h2 class="title-form">REGISTRAR RESERVA</h2>
+                </div>
 				<div class="row">
 					<div class="col-6 padd">
 						<div class="card">
@@ -99,6 +98,18 @@
 												<i class="fa fa-moon-o"></i>
 											</div>
 											<input id="count-nights" type="number" class="form-control" min="1" value="1">
+										</div>
+										<small class="form-text text-muted">ej. 1</small>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group in-row">
+										<label class="form-control-label">Cantidad de habitaciones</label>
+										<div class="input-group">
+											<div class="input-group-icon">
+												<i class="fa fa-bed"></i>
+											</div>
+											<input type="number" class="form-control" min="1" value="1">
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
@@ -170,6 +181,8 @@
 											</div>
 											<select id="adiconal" class="form-control">
 						                        <option value="NULL">Ninguno</option>
+						                        <option value="1">1 PAX</option>
+						                        <option value="1">2 PAX</option>
 						                    </select>
 										</div>
 									</div>

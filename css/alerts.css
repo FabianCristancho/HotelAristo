@@ -1,17 +1,16 @@
 /*Diseño de estilos de las alertas*/
 
 #alerts{
-  width: 25%;
   position: fixed;
   top: 0;
   right: 0;
 }
+
 .alert {
   display: none;
   width: 80%;
   padding: 20px;
   margin-top: 15px;
-  margin-right: 15px;
   color: white;
   opacity: 1;
   transition: opacity 0.6s;
@@ -34,4 +33,10 @@
 
 .closebtn:hover {
   color: black;
+}
+
+@media only screen and (min-width: 800px){
+  .alert {
+    margin-right: 15px;
+  }
 }

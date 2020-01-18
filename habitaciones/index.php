@@ -37,12 +37,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
@@ -65,13 +62,16 @@
         </script>
 
         <!--Bloque que contiene una tabla encargada de mostrar la información de las habitaciones presentes en el hotel, y su estado dependiendo de una fecha establecida-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h1>HISTORIAL DE HABITACIONES</h1>
+        <div class="col-12 content">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+                <div class="content-header">
+                    <h2 class="title-form col-10">HISTORIAL DE HABITACIONES</h2>
+                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                </div>
                 
                 <div class="history-room">
                     <div class="view-date-history">
-                        <label><b>Fecha De Visualización</b></label>
+                        <label><b>Fecha de visualización</b></label>
                         <br><br>
                         <div class="row">
                             <div class="form-group in-row">
@@ -97,7 +97,7 @@
                         </div>
                     </div>
             
-                    <div class="view-room-history">
+                    <div class="scroll-block">
                         <label><b>Habitación</b></label>
                         <select class="lista-habitaciones">
                             <option>201</option>

@@ -52,26 +52,26 @@
         <title>Login | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="../res/img/famicon.png" />
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="manifest" href="/manifest.json">
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="../css/login.css">
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="../css/alerts.css">
-        <script type="text/javascript" src="../js/moment.js"></script>
-        <script type="text/javascript" src="../js/dynamic.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/login.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
     
     <!--Construcción de la vista-->
     <body>
         <!--Contiene un formulario con la información mínima para ingresar al sistema-->
-	   <div id="content" class="col-12">
-            <div id="login" class="wrap">
-                <h2>INICIAR SESIÓN</h2>
-                <div class="form-log">
-                    <form action="" method="POST">		
+        <div class="aux-content col-12"></div>
+	    <div class="content col-12">
+            <div class="wrap-log marco wrap-main col-5 wrap-5 ">
+                <div class=" form-log">
+                    <h2 class="title-form">INICIAR SESIÓN</h2>
+                    <br>
+                    <form action="" method="POST">
                         <?php echo '<p>'.$errorLogin.'</p>'; ?>
                         <div class="input-block-login">
                             <label>Nombre de usuario: </label>
@@ -96,6 +96,7 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
+            include "../objects/alerts.php"; 
             include "../objects/footer.php"; 
         ?>
         

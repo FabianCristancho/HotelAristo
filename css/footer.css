@@ -24,3 +24,11 @@ footer .info{
     color: #fff;
     text-decoration: none;
 }
+
+@media only screen and (min-width: 1500px){
+    #aux-footer{
+        display: flex;
+        flex: 1 1 auto;
+        min-height: 100px;
+    }
+}
