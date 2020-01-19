@@ -60,7 +60,8 @@
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
                     <h2 class="title-form col-10">EMPRESAS REGISTRADAS</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                    <a class="button-add-book col-2" href="registrar">Registrar empresa</a>
+                    
                 </div>
                 <div class="scroll-block">
                     <table>
@@ -82,6 +83,7 @@
                         ?>
                     </table>
                 </div>
+                <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
             </div>
         </div>
         
