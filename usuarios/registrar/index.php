@@ -7,6 +7,16 @@
     * @since     Versión 1.0
     * @version   1.0
     */
+
+    require_once '../../includes/classes.php';
+    $user = new User();
+    $userSession = new UserSession();
+    
+    if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
+    }else{
+        header('location: /login');
+    }
 ?>
 
 
@@ -20,11 +30,7 @@
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="/css/register.css">
-        <link rel="stylesheet" type="text/css" href="/css/main.css">    
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1220.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css"> 
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>

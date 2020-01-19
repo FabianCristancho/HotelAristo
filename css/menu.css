@@ -3,22 +3,21 @@ header{
     background: yellow;
     padding-top: 0;
     padding-bottom: 0;
-    height: 90px;
 }
 
 #logo-hotel{
     float: left;
-	width: 60px;
+	height: 60px;
     margin-right: 10px;
     margin-left:10px;
-    padding-top: 10px;
+    margin-top: 10px;
 }
 
 #current-item{
     background: #18347D;
     color: white;
-}
 
+}
 .menu-item{
     float: left;
 }
@@ -29,10 +28,12 @@ header{
     border-style: none;
     background: inherit;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .main-menu-item p{
     float: left;
+    display: none;
 }
 
 .main-menu-item img{
@@ -42,11 +43,39 @@ header{
 }
 
 .main-menu-item:hover{
-    background: #FFFF00;
+    background: #DFDF04;
     cursor: pointer;
+}
+
+#menu-button{
+    display: initial;
+}
+
+.app-area{
+    display: none;
+    max-width: 80%;
 }
 
 .user-area{
     display: flex;
     justify-content: flex-end;
+}
+
+/*Diseño de estilos en 840*/
+@media only screen and (min-width: 840px){
+    .main-menu-item p{
+        display: flex;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 15px;
+    }
+
+    .app-area{
+        display: initial;
+        max-width: 90%;
+    }
+
+    #menu-button{
+        display: none;
+    }
 }

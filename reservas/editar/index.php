@@ -37,9 +37,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-800.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-		<link rel="stylesheet" type="text/css" href="/css/main-1366.css">
 		<link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
 		<link rel="stylesheet" type="text/css" href="/css/modal.css">

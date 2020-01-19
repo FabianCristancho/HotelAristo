@@ -31,14 +31,12 @@
         <title>Facturas | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="../res/img/famicon.png" />
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="../css/main-1366.css">
-        <link rel="stylesheet" type="text/css" href="../css/alerts.css">
-        <script type="text/javascript" src="../js/moment.js"></script>
-        <script type="text/javascript" src="../js/dynamic.js"></script>
+        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <script type="text/javascript" src="/js/moment.js"></script>
+        <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
 
     <!--Construcción de la vista-->
@@ -58,10 +56,12 @@
         </script>
 
         <!--Presenta una tabla con los datos básicos de una factura-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h1 class="heading">FACTURAS (Registro es un ejemplo para enlazar reportes)</h1>
-                <a href="factura" id="button-add-book" class="btn-new-bill">NUEVA FACTURA</a>
+        <div class="col-12 content">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+                <div class="content-header">
+                    <h2 class="title-form col-10">FACTURAS (Registro es un ejemplo para enlazar reportes)</h2>
+                    <a class="button-add-book col-2" href="/factura">Nueva factura</a>
+                </div>
                 <br>
                 <div class="scroll-block">
                     <table>

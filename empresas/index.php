@@ -32,10 +32,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-800.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1024.css">
-        <link rel="stylesheet" type="text/css" href="/css/main-1366.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
+        <link rel="stylesheet" type="text/css" href="/css/table.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
     </head>
@@ -57,28 +55,33 @@
         </script>
 
         <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de las empresas registradas en la base de datos-->
-		<div class="marco nearly-page">
-            <h2 id="requests-title" class="col-9">EMPRESAS REGISTRADAS</h2>
-                <a id="button-add-book" class="col-2" href="registrar">Registrar Empresa</a>
-            <div class="scroll-block">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>NIT</th>
-                            <th>NOMBRE</th>
-                            <th>TELEFONO</th>
-                            <th>RETEFUENTE (3,5 %)</th>
-                            <th>OTRO IMPUESTO</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <?php
-                        /**
-                        * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
-                        */
-                        $consult->getTable('enterprise', '');
-                    ?>
-                </table>
+
+        <div class="col-12 content">
+            <div class="col-11 wrap-11 marco wrap-vertical padd">
+                <div class="content-header">
+                    <h2 class="title-form col-10">EMPRESAS REGISTRADAS</h2>
+                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                </div>
+                <div class="scroll-block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>NIT</th>
+                                <th>NOMBRE</th>
+                                <th>TELEFONO</th>
+                                <th>RETEFUENTE (3,5 %)</th>
+                                <th>OTRO IMPUESTO</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <?php
+                            /**
+                            * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
+                            */
+                            $consult->getTable('enterprise', '');
+                        ?>
+                    </table>
+                </div>
             </div>
         </div>
         
