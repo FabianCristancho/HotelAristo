@@ -11,7 +11,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-user-o"></i>
 											</div>
-											<input id="first" class="form-control" type="text" placeholder="Nombres" required>
+											<input class="form-control" type="text" placeholder="Nombres" required>
 										</div>
 										<small class="form-text text-muted">Pedro Luis</small>
 									</div>
@@ -21,7 +21,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-user-o"></i>
 											</div>
-											<input id="last" class="form-control" type="text" placeholder="Apellidos" required>
+											<input class="form-control" type="text" placeholder="Apellidos" required>
 										</div>
 										<small class="form-text text-muted">ej. Perez Perez</small>
 									</div>
@@ -47,7 +47,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-id-card"></i>
 											</div>
-											 <input id="doc-num" class="form-control" type="text" placeholder="Número de documento" pattern="[0-9]{1,15}">
+											 <input class="form-control" type="text" placeholder="Número de documento" pattern="[0-9]{1,15}">
 										</div>
 										<small class="form-text text-muted">ej. 12345678</small>
 									</div>
@@ -94,7 +94,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-phone"></i>
 											</div>
-											<input id="phone" class="form-control" type="tel" placeholder="Telefono" pattern="[0-9]{1,15}" required>
+											<input class="form-control" type="tel" placeholder="Telefono" pattern="[0-9]{1,15}" required>
 										</div>
 										<small class="form-text text-muted">ej. 3123334466</small>
 									</div>
@@ -104,7 +104,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-envelope"></i>
 											</div>
-											 <input id="email" class="form-control" type="email" placeholder="Correo electrónico">
+											 <input class="form-control" type="email" placeholder="Correo electrónico">
 										</div>
 										<small class="form-text text-muted">ej. pedro.lopez@mail.com</small>
 									</div>
