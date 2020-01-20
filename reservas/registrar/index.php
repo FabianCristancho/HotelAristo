@@ -65,6 +65,7 @@
                 </div>
 				<div class="row">
 					<div class="col-6 padd">
+						<form>
 						<div class="card">
 							<div class="card-header">
 								<strong class="card-title">Información primaria</strong>
@@ -77,7 +78,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input id="start-date" type="date" class="form-control">
+											<input id="start-date" type="date" class="form-control" required>
 										</div>
 										<small class="form-text text-muted">ej. 01/01/2020</small>
 									</div>
@@ -87,7 +88,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input id="finish-date" type="date" class="form-control">
+											<input id="finish-date" type="date" class="form-control" required>
 										</div>
 										<small class="form-text text-muted">ej. 02/01/2020</small>
 									</div>
@@ -97,7 +98,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-moon-o"></i>
 											</div>
-											<input id="count-nights" type="number" class="form-control" min="1" value="1">
+											<input id="count-nights" type="number" class="form-control" min="1" value="1" required>
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
@@ -109,13 +110,15 @@
 											<div class="input-group-icon">
 												<i class="fa fa-bed"></i>
 											</div>
-											<input type="number" class="form-control" min="1" value="1">
+											<input type="number" class="form-control" min="1" value="1" required>
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
 								</div>
 							</div>
+							<button>Listo</button>
 						</div>
+						</form>
 					</div>
 					<div class="col-6 padd">
 						<div class="card">
