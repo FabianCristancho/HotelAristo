@@ -1,24 +1,3 @@
-function showAllInputs(index,value){
-	var rows=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value].getElementsByClassName("row");
-	if(rows[1].style.display == "flex"){
-		rows[1].style.display="none";
-		rows[2].style.display="none";
-		rows[4].style.display="none";
-		rows[5].getElementsByClassName("form-group")[0].style.display="none";
-		rows[5].getElementsByClassName("form-group")[2].style.display="none";
-	}else{
-		rows[1].style.display="flex";
-		rows[2].style.display="flex";
-		rows[4].style.display="flex";
-		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
-		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
-	}
-}
-
-
-
-
-
 function reduceCard(state,card, col){
 	if(state){
 		card.classList.remove("col-"+col);
@@ -31,9 +10,11 @@ function reduceCard(state,card, col){
 
 function changeStateCard(state,card){
 	if(state){
+		card.getElementsByClassName("card-preview")[0].style.display="none";
 		card.getElementsByClassName("card-body")[0].style.display="";
 		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
 	}else{
+		card.getElementsByClassName("card-preview")[0].style.display="block";
 		card.getElementsByClassName("card-body")[0].style.display="none";
 		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
 	}

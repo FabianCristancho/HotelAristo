@@ -70,6 +70,23 @@
 							<div class="card-header">
 								<strong class="card-title">Información primaria</strong>
 							</div>
+							<div class="card-preview">
+								<div class="row">
+									<div class="form-group col-4">
+										<strong>Fecha de llegada :</strong>
+										<label></label>
+									</div>
+									<div class="form-group col-4">
+										<strong>Cantidad de noches :</strong>
+										<label></label>
+									</div>		
+									<div class="form-group col-4">
+										<strong>Cantidad de habitaciones :</strong>
+										<label></label>
+									</div>
+								</div>
+							</div>
+							<form onsubmit="reducePrimeInfoCard(); return false;">
 							<div class="card-body">
 								<div class="row">
 									<div class="form-group in-row">
@@ -78,7 +95,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input id="start-date" type="date" class="form-control" onchange="getDays();" required>
+											<input id="start-date" type="date" class="form-control" onchange="getDays();" name="start-date" required>
 										</div>
 										<small class="form-text text-muted">ej. 01/01/2020</small>
 									</div>
@@ -88,7 +105,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input id="finish-date" type="date" class="form-control" onchange="getDays();" required>
+											<input id="finish-date" type="date" class="form-control" onchange="getDays();" name="finish-date" required>
 										</div>
 										<small class="form-text text-muted">ej. 02/01/2020</small>
 									</div>
@@ -98,7 +115,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-moon-o"></i>
 											</div>
-											<input id="count-nights" type="number" class="form-control" min="1" value="1" required>
+											<input id="count-nights" type="number" class="form-control" min="1" value="1" name="count-nights" required>
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
@@ -108,13 +125,14 @@
 											<div class="input-group-icon">
 												<i class="fa fa-bed"></i>
 											</div>
-											<input id="rooms-quantity" type="number" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" required>
+											<input id="rooms-quantity" type="number" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" name="rooms-quantity" required>
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-done" onclick="reducePrimeInfoCard();">Listo</button>
+							<button class="btn btn-done btn-block">Listo</button>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -251,22 +269,22 @@
 			var selects=group.getElementsByTagName('select');
 			selects[1].setAttribute('onchange','updateRooms('+i+');');
 			selects[2].setAttribute('onchange','updateGuest('+i+',this);');
-			group.getElementsByClassName("btn-done")[0].setAttribute("onClick","reduceRoomCard("+i+");");
+			document.getElementsByClassName('room-group')[i].getElementsByTagName("form")[0].setAttribute("onsubmit","reduceRoomCard("+i+"); return false;");
 			
 			assignAttributesToClients(i);
 		}
 
 		function assignAttributesToClients(index){
 			var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
-			var chkButtons=clientCards.getElementsByClassName("btn-check-in");
 			var cards=clientCards.getElementsByClassName("card-client");
-			var doneButtons=clientCards.getElementsByClassName("btn-done");
+			var chkButtons=clientCards.getElementsByClassName("btn-check-in");
+			var forms=clientCards.getElementsByTagName("form");
 			var title;
 			
 			for (var i = 0; i < cards.length; i++) {
 				title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 				title.innerHTML="Información personal "+(1+index)+"."+(1+i);
-				doneButtons[i].setAttribute("onClick","reduceClientCard("+index+","+i+");");
+				forms[i].setAttribute("onsubmit","reduceClientCard("+index+","+i+"); return false;");
 				chkButtons[i].setAttribute("onClick","showAllInputs("+index+","+i+");");
 			}
 		}
@@ -274,22 +292,80 @@
 		function reducePrimeInfoCard(){
 			var card=document.getElementsByClassName("card-prime")[0];
 			changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
+			setPrimePreviewValue(card);
 		}
 
 		function reduceRoomCard(index){
 			var card=document.getElementsByClassName("card-room")[index];
 			changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
+			setRoomPreviewValue(card);
 		}
 
 		function reduceClientCard(index,value){
 			var card=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value];
 			var state=card.getElementsByClassName("btn-done")[0].innerHTML=="Editar";
+			var chkLabel=card.getElementsByClassName("card-header")[0].getElementsByTagName("label")[0];
 			changeStateCard(state,card);
 			reduceCard(state,card,3);
+			
+			if(card.getElementsByClassName("row")[1].style.display == "flex")
+				chkLabel.innerHTML="Check in";
+			else
+				chkLabel.innerHTML="Sin Check in";
+			setClientPreviewValue(card);
 			if(state){
 				card.getElementsByClassName("btn-check-in")[0].style.display="inline-block";
+				chkLabel.style.display="none";
 			}else{
 				card.getElementsByClassName("btn-check-in")[0].style.display="none";
+				chkLabel.style.display="inline-block";
+			}
+		}
+
+		function setClientPreviewValue(card){
+			var inputs=card.getElementsByClassName("card-body")[0].getElementsByTagName("input");
+			var formGroups=card.getElementsByClassName("card-preview")[0].getElementsByClassName("form-group");
+			formGroups[0].getElementsByTagName("label")[0].innerHTML=inputs[0].value+" "+inputs[1].value;
+
+			formGroups[1].getElementsByTagName("label")[0].innerHTML=inputs[4].value;
+			if(inputs[5].value!="")
+				formGroups[2].getElementsByTagName("label")[0].innerHTML=inputs[5].value;
+			else
+				formGroups[2].style.display="none";
+		}
+
+		function setPrimePreviewValue(card){
+			var inputs=card.getElementsByClassName("card-body")[0].getElementsByTagName("input");
+			var formGroups=card.getElementsByClassName("card-preview")[0].getElementsByClassName("form-group");
+			formGroups[0].getElementsByTagName("label")[0].innerHTML=inputs[0].value;
+			formGroups[1].getElementsByTagName("label")[0].innerHTML=inputs[2].value;
+			formGroups[2].getElementsByTagName("label")[0].innerHTML=inputs[3].value;
+		}
+
+
+		function setRoomPreviewValue(card){
+			var input=card.getElementsByClassName("card-body")[0].getElementsByTagName("input")[0];
+			var selects=card.getElementsByClassName("card-body")[0].getElementsByTagName("select");
+			var formGroups=card.getElementsByClassName("card-preview")[0].getElementsByClassName("form-group");
+			formGroups[0].getElementsByTagName("label")[0].innerHTML=selects[0].value;
+			formGroups[1].getElementsByTagName("label")[0].innerHTML=selects[1].value;
+			formGroups[2].getElementsByTagName("label")[0].innerHTML=input.value;
+			formGroups[3].getElementsByTagName("label")[0].innerHTML=selects[2].value;
+		}
+		function showAllInputs(index,value){
+			var rows=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value].getElementsByClassName("row");
+			if(rows[1].style.display == "flex"){
+				rows[1].style.display="none";
+				rows[2].style.display="none";
+				rows[4].style.display="none";
+				rows[5].getElementsByClassName("form-group")[0].style.display="none";
+				rows[5].getElementsByClassName("form-group")[2].style.display="none";
+			}else{
+				rows[1].style.display="flex";
+				rows[2].style.display="flex";
+				rows[4].style.display="flex";
+				rows[5].getElementsByClassName("form-group")[0].style.display="initial";
+				rows[5].getElementsByClassName("form-group")[2].style.display="initial";
 			}
 		}
 	</script>
