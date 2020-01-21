@@ -44,7 +44,6 @@
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
-            include "../objects/loader.php"; 
             include "../objects/menu.php"; 
         ?>
         

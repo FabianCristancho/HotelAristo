@@ -42,15 +42,8 @@
 	</head>
 
     <!--Construcción de la vista-->
-	<body onload ="getDate(0,'start-date'); getDate(1,'finish-date');assignAttributes();">
-		<div class="loader" style="position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 100; background:url('/res/img/logoA.png') center no-repeat #fff; background-size: 12.5%;">
-		</div>
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$(".loader").fadeOut("slow");
-			});
-		</script>
+	<body onload ="getDate(0,'start-date'); getDate(1,'finish-date'); initPage();">
+
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -71,8 +64,7 @@
 				<div class="content-header">
                     <h2 class="title-form">REGISTRAR RESERVA</h2>
                 </div>
-                <form onsubmit="return false;">
-				<div class="row">
+				<div id="main-row" class="row">
 					<div class="col-12 padd row-simple">
 						<div class="card card-prime col-12">
 							<div class="card-header">
@@ -116,7 +108,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-bed"></i>
 											</div>
-											<input type="number" class="form-control rooms-quantity" min="1" value="1" onchange="updateRoom();" required>
+											<input id="rooms-quantity" type="number" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" required>
 										</div>
 										<small class="form-text text-muted">ej. 1</small>
 									</div>
@@ -125,9 +117,6 @@
 							<button class="btn btn-done" onclick="reducePrimeInfoCard();">Listo</button>
 						</div>
 					</div>
-					<?php 
-						include "../../objects/input-room.php";
-					?>
 				</div>
 				<div>
 					<button class="btn btn-block btn-register">
@@ -135,7 +124,6 @@
 						<span>Registrar reserva</span>
 					</button>
 				</div>
-				</form>
 			</div>
 		</div>
 		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
@@ -179,6 +167,131 @@
             include "../../objects/footer.php";
             include "../../objects/alerts.php"; 
         ?>
+        <div style="display: none;">
+        	<div id="room-group" class="room-group col-12">
+        		<div class="col-12 padd row-simple">
+        			<?php 
+        				include "../../objects/input-room.php";
+        			?>
+        		</div>
+        		<div class="col-12 padd row-simple client-cards">
+        			<?php 
+        				include "../../objects/input-client.php";
+        			?>
+        			</div>
+        		</div>
+        	</div>
 	</body>
+
+	<script type="text/javascript">
+		function initPage(){
+			updateRoom(document.getElementById("rooms-quantity"));
+		}
+		function updateRoom(input){
+			if(input.value>10)
+				input.value=10;
+			else if(input.value<1)
+				input.value=1;
+
+			var content=document.getElementById("main-row");
+			var groups=content.getElementsByClassName('room-group');
+			var res=input.value-groups.length;
+			if(res>0){
+				var base=document.getElementById("room-group");
+				var group;
+				for (var i = 0; i < res; i++) {
+					group = document.createElement("div");
+					group.classList=base.classList;
+					group.innerHTML=base.innerHTML;
+					content.appendChild(group);
+				}
+			}else{
+				var length= groups.length;
+				for (var i = length - 1; i >= res+length; i--) {
+					content.removeChild(groups[i]);
+				}
+			}
+			assignAttributes();
+		}
+
+		function updateGuest(index,input){
+			var content=document.getElementsByClassName('room-group')[index].getElementsByClassName("client-cards")[0];
+			var cards=content.getElementsByClassName("card-client");
+
+			var res=input.value-cards.length;
+			if(res>0){
+				var base=document.getElementById("room-group").getElementsByClassName("card-client")[0];
+				var card;
+				for (var i = 0; i < res; i++) {
+					card = document.createElement("div");
+					card.classList=base.classList;
+					card.innerHTML=base.innerHTML;
+					content.appendChild(card);
+				}
+			}else{
+				var length= cards.length;
+				for (var i = length - 1; i >= res+length; i--) {
+					content.removeChild(cards[i]);
+				}
+			}
+			assignAttributesToClients(index);
+		}
+
+		function assignAttributes(){
+			var groups=document.getElementsByClassName('room-group');
+			for (var i = 0; i < groups.length; i++) {
+				assignAttributesToGroup(i);
+			}
+		}
+
+		function assignAttributesToGroup(i){
+			var group=document.getElementsByClassName('room-group')[i].getElementsByClassName('card-room')[0];
+			var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
+			title.innerHTML="Habitación "+(1+i);
+			var selects=group.getElementsByTagName('select');
+			selects[1].setAttribute('onchange','updateRooms('+i+');');
+			selects[2].setAttribute('onchange','updateGuest('+i+',this);');
+			group.getElementsByClassName("btn-done")[0].setAttribute("onClick","reduceRoomCard("+i+");");
+			
+			assignAttributesToClients(i);
+		}
+
+		function assignAttributesToClients(index){
+			var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
+			var chkButtons=clientCards.getElementsByClassName("btn-check-in");
+			var cards=clientCards.getElementsByClassName("card-client");
+			var doneButtons=clientCards.getElementsByClassName("btn-done");
+			var title;
+			
+			for (var i = 0; i < cards.length; i++) {
+				title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
+				title.innerHTML="Información personal "+(1+index)+"."+(1+i);
+				doneButtons[i].setAttribute("onClick","reduceClientCard("+index+","+i+");");
+				chkButtons[i].setAttribute("onClick","showAllInputs("+index+","+i+");");
+			}
+		}
+
+		function reducePrimeInfoCard(){
+			var card=document.getElementsByClassName("card-prime")[0];
+			changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
+		}
+
+		function reduceRoomCard(index){
+			var card=document.getElementsByClassName("card-room")[index];
+			changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
+		}
+
+		function reduceClientCard(index,value){
+			var card=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value];
+			var state=card.getElementsByClassName("btn-done")[0].innerHTML=="Editar";
+			changeStateCard(state,card);
+			reduceCard(state,card,3);
+			if(state){
+				card.getElementsByClassName("btn-check-in")[0].style.display="inline-block";
+			}else{
+				card.getElementsByClassName("btn-check-in")[0].style.display="none";
+			}
+		}
+	</script>
 
 </html>

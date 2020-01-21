@@ -15,69 +15,9 @@ function showAllInputs(index,value){
 	}
 }
 
-function assignAttributes(){
-	var groups=document.getElementsByClassName('room-group');
-	for (var i = 0; i < groups.length; i++) {
-		assignAttributesToGroup(i);
-	}
-	for (var i = groups.length - 1; i >= 1; i--) {
-		groups[i].style.display="none";
-	}
 
-}
 
-function assignAttributesToGroup(i){
-	var card=document.getElementsByClassName('room-group')[i].getElementsByClassName('card-room')[0];
-	var title=card.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
-	title.innerHTML=title.innerHTML+" "+(1+i);
-	var selects=card.getElementsByTagName('select');
-	selects[1].setAttribute('onchange','updateRooms('+i+');');
-	selects[2].setAttribute('onchange','updateGuest('+i+');');
-	card.getElementsByClassName("btn-done")[0].setAttribute("onClick","reduceRoomCard("+i+");");
-	
-	assignAttributesToClients(i);
-}
 
-function assignAttributesToClients(index){
-	var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
-	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
-	var cards=clientCards.getElementsByClassName("card-client");
-	var doneButtons=clientCards.getElementsByClassName("btn-done");
-	var title;
-	
-	for (var i = 0; i < cards.length; i++) {
-		title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
-		title.innerHTML=title.innerHTML+" "+(1+i);
-		doneButtons[i].setAttribute("onClick","reduceClientCard("+index+","+i+");");
-		chkButtons[i].setAttribute("onClick","showAllInputs("+index+","+i+");");
-	}
-	for (var i = cards.length - 1; i >= 1; i--) {
-		cards[i].style.display="none";
-	}
-}
-
-function reducePrimeInfoCard(){
-	var card=document.getElementsByClassName("card-prime")[0];
-	changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
-}
-
-function reduceRoomCard(index){
-	var card=document.getElementsByClassName("card-room")[index];
-	changeStateCard(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar",card);
-}
-
-function reduceClientCard(index,value){
-	var card=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value];
-	var state=card.getElementsByClassName("btn-done")[0].innerHTML=="Editar";
-	changeStateCard(state,card);
-	reduceCard(state,card,3);
-	if(state){
-		card.getElementsByClassName("btn-check-in")[0].style.display="inline-block";
-	}else{
-		card.getElementsByClassName("btn-check-in")[0].style.display="none";
-	}
-
-}
 
 function reduceCard(state,card, col){
 	if(state){
@@ -99,27 +39,7 @@ function changeStateCard(state,card){
 	}
 }
 
-function updateGuest(index){
-	var cards=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client");
-	for (var i = 1; i < cards.length; i++) {
-		if(i<document.getElementsByClassName("guests-quantity")[index].value)
-			cards[i].style.display="flex";
-		else
-			cards[i].style.display="none";
-	}
 
-}
-
-function updateRoom(){
-	var cards=document.getElementsByClassName('room-group');
-	for (var i = 1; i < cards.length; i++) {
-		if(i<document.getElementsByClassName("rooms-quantity")[0].value)
-			cards[i].style.display="block";
-		else
-			cards[i].style.display="none";
-	}
-
-}
 
 function getDate(days, input){
 	var ret;

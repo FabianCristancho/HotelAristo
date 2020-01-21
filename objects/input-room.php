@@ -1,5 +1,3 @@
-					<div class="room-group col-12">
-						<div class="col-12 padd row-simple">
 							<div class="card card-room col-12">
 								<div class="card-header">
 									<i class="fa fa-bed"></i>
@@ -73,13 +71,3 @@
 								</div>
 								<button class="btn btn-done">Listo</button>
 							</div>
-						</div>
-						<div class="col-12 padd row-simple client-cards">
-							<?php 
-								include "../../objects/input-client.php";
-								include "../../objects/input-client.php"; 
-								include "../../objects/input-client.php";
-								include "../../objects/input-client.php"; 
-							?>
-						</div>
-					</div>
