@@ -1,8 +1,25 @@
 						<div class="card card-client col-12">
 							<div class="card-header">
+								<i class="fa fa-user"></i>
 								<strong class="card-title">Información personal</strong>
+								<label></label>
 								<button onclick="showAllInputs(0);" class="btn-check-in btn">Check in</button>
 							</div>
+							<div class="card-preview">
+								<div class="form-group">
+									<strong>Nombre :</strong>
+									<label></label>
+								</div>
+								<div class="form-group">
+									<strong>Telefono :</strong>
+									<label></label>
+								</div>								
+								<div class="form-group">
+									<strong>Correo :</strong>
+									<label></label>
+								</div>
+							</div>
+							<form>
 							<div class="card-body">
 								<div class="row">
 									<div class="form-group in-row col-6 padd">
@@ -47,7 +64,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-id-card"></i>
 											</div>
-											 <input class="form-control" type="text" placeholder="Número de documento" pattern="[0-9]{1,15}">
+											 <input class="form-control" type="number" placeholder="Número de documento" pattern="[0-9]{1,15}">
 										</div>
 										<small class="form-text text-muted">ej. 12345678</small>
 									</div>
@@ -94,7 +111,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-phone"></i>
 											</div>
-											<input class="form-control" type="tel" placeholder="Telefono" pattern="[0-9]{1,15}" required>
+											<input class="form-control" type="number" placeholder="Telefono" pattern="[0-9]{1,15}" required>
 										</div>
 										<small class="form-text text-muted">ej. 3123334466</small>
 									</div>
@@ -192,5 +209,6 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-done">Listo</button>
+							<button class="btn btn-done btn-block">Listo</button>
+							</form>
 						</div>

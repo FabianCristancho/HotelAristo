@@ -93,4 +93,23 @@
             include "../../objects/alerts.php";
         ?>
 	</body>
+
+    <script type="text/javascript">
+        function showAllInputs(value){
+            var rows=document.getElementsByClassName("card-client")[value].getElementsByClassName("row");
+            if(rows[1].style.display == "flex"){
+                rows[1].style.display="none";
+                rows[2].style.display="none";
+                rows[4].style.display="none";
+                rows[5].getElementsByClassName("form-group")[0].style.display="none";
+                rows[5].getElementsByClassName("form-group")[2].style.display="none";
+            }else{
+                rows[1].style.display="flex";
+                rows[2].style.display="flex";
+                rows[4].style.display="flex";
+                rows[5].getElementsByClassName("form-group")[0].style.display="initial";
+                rows[5].getElementsByClassName("form-group")[2].style.display="initial";
+            }
+        }
+    </script>
 </html>

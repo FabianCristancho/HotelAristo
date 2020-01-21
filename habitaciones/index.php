@@ -43,6 +43,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
