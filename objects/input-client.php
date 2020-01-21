@@ -1,5 +1,6 @@
 						<div class="card card-client col-12">
 							<div class="card-header">
+								<i class="fa fa-user"></i>
 								<strong class="card-title">Información personal</strong>
 								<button onclick="showAllInputs(0);" class="btn-check-in btn">Check in</button>
 							</div>

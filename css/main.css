@@ -19,7 +19,7 @@ body{
 
 .content{
     margin-top: 10px;
-    min-height: 427px;
+    min-height: 502px;
 }
 
 .content-header{
@@ -440,8 +440,62 @@ a{
     }
 }
 
-@media only screen and (min-width: 1500px){
+@media only screen and (min-height: 625px){
     .content{
-        min-height: 513px;
+        min-height: 485px;
+    }
+}
+
+@media only screen and (min-height: 657px){
+    .content{
+        min-height: 517px;
+    }
+}
+
+@media only screen and (min-height: 720px){
+    .content{
+        min-height: 582px;
+    }
+}
+
+@media only screen and (min-height: 754px){
+    .content{
+        min-height: 614px;
+    }
+}
+
+@media only screen and (min-height: 768px){
+    .content{
+        min-height: 628px;
+    }
+}
+
+@media only screen and (min-height: 854px){
+    .content{
+        min-height: 716px;
+    }
+}
+
+@media only screen and (min-height: 960px){
+    .content{
+        min-height: 822px;
+    }
+}
+
+@media only screen and (min-height: 1024px){
+    .content{
+        min-height: 886px;
+    }
+}
+
+@media only screen and (min-height: 1080px){
+    .content{
+        min-height: 942px;
+    }
+}
+
+@media only screen and (min-height: 1366px){
+    .content{
+        min-height: 1228px;
     }
 }

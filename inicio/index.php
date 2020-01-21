@@ -36,12 +36,15 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     <body>
+        
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
+            include "../objects/loader.php"; 
             include "../objects/menu.php"; 
         ?>
         

@@ -43,18 +43,11 @@
 
     <!--Construcción de la vista-->
 	<body onload ="getDate(0,'start-date'); getDate(1,'finish-date');assignAttributes();">
-		<div class="loader" style="position: fixed;left: 0px;top: 0px;width: 100%;height: 100%;z-index: 100; background:url('/res/img/logoA.png') center no-repeat #fff; background-size: 12.5%;">
-		</div>
-		
-		<script type="text/javascript">
-			$(document).ready(function(){
-				$(".loader").fadeOut("slow");
-			});
-		</script>
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
+            include "../../objects/loader.php"; 
             include "../../objects/menu.php"; 
         ?>
         
@@ -71,7 +64,6 @@
 				<div class="content-header">
                     <h2 class="title-form">REGISTRAR RESERVA</h2>
                 </div>
-                <form onsubmit="return false;">
 				<div class="row">
 					<div class="col-12 padd row-simple">
 						<div class="card card-prime col-12">
@@ -127,6 +119,15 @@
 					</div>
 					<?php 
 						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
+						include "../../objects/input-room.php";
 					?>
 				</div>
 				<div>
@@ -135,7 +136,6 @@
 						<span>Registrar reserva</span>
 					</button>
 				</div>
-				</form>
 			</div>
 		</div>
 		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
