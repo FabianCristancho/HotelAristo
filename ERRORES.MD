@@ -7,6 +7,7 @@
 
 ## 2.Empresas
 * A2.1. Error al agregar una empresa
+* A2.2. En el campo de correo empresa se está agregando el teléfono
 
 ## 3. Profesiones
 * A3.1. Error al agregar una profesion
