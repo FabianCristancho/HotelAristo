@@ -23,7 +23,6 @@
 										</div>
 									</div>
 								</div>
-								<form>
 								<div class="card-body">
 									<div class="row">
 										<div class="form-group in-row">
@@ -75,21 +74,6 @@
 												<input type="number" class="form-control" required>
 											</div>
 										</div>
-										<div class="form-group in-row">
-											<label class="form-control-label">Adicional</label>
-											<div class="input-group">
-												<div class="input-group-icon">
-													<i class="fa fa-plus"></i>
-												</div>
-												<select class="form-control" required>
-							                        <option value="NULL">Ninguno</option>
-							                        <option value="1">1 PAX</option>
-							                        <option value="1">2 PAX</option>
-							                    </select>
-											</div>
-										</div>
 									</div>
 								</div>
-								<button class="btn btn-done btn-block">Listo</button>
-								</form>
 							</div>

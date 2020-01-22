@@ -19,7 +19,6 @@
 									<label></label>
 								</div>
 							</div>
-							<form>
 							<div class="card-body">
 								<div class="row">
 									<div class="form-group in-row col-6 padd">
@@ -209,6 +208,4 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-done btn-block">Listo</button>
-							</form>
 						</div>

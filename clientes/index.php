@@ -77,7 +77,7 @@
                                 <th>NÚMERO DE DOCUMENTO</th>
                                 <th>TELÉFONO</th>
                                 <th>CORREO</th>
-                                <th>PROFESIÓN</th>
+                                <th>EMPRESA</th>
                                 <th>DETALLES</th>
                             </tr>
                         </thead>

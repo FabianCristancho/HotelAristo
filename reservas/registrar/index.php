@@ -86,7 +86,6 @@
 									</div>
 								</div>
 							</div>
-							<form onsubmit="reducePrimeInfoCard(); return false;">
 							<div class="card-body">
 								<div class="row">
 									<div class="form-group in-row">
@@ -131,8 +130,6 @@
 									</div>
 								</div>
 							</div>
-							<button class="btn btn-done btn-block">Listo</button>
-							</form>
 						</div>
 					</div>
 				</div>
@@ -269,8 +266,6 @@
 			var selects=group.getElementsByTagName('select');
 			selects[1].setAttribute('onchange','updateRooms('+i+');');
 			selects[2].setAttribute('onchange','updateGuest('+i+',this);');
-			document.getElementsByClassName('room-group')[i].getElementsByTagName("form")[0].setAttribute("onsubmit","reduceRoomCard("+i+"); return false;");
-			
 			assignAttributesToClients(i);
 		}
 
@@ -278,13 +273,11 @@
 			var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
 			var cards=clientCards.getElementsByClassName("card-client");
 			var chkButtons=clientCards.getElementsByClassName("btn-check-in");
-			var forms=clientCards.getElementsByTagName("form");
 			var title;
 			
 			for (var i = 0; i < cards.length; i++) {
 				title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 				title.innerHTML="Información personal "+(1+index)+"."+(1+i);
-				forms[i].setAttribute("onsubmit","reduceClientCard("+index+","+i+"); return false;");
 				chkButtons[i].setAttribute("onClick","showAllInputs("+index+","+i+");");
 			}
 		}
