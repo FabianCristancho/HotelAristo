@@ -75,10 +75,10 @@ CREATE TABLE IF NOT EXISTS tipos_producto(
 );
 
 
-CREATE TABLE IF NOT EXISTS tipos_habitacion(
-	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_tipo_habitacion VARCHAR(30) NOT NULL,
-	CONSTRAINT tih_pk_idt PRIMARY KEY (id_tipo_habitacion)
+CREATE TABLE IF NOT EXISTS ocupaciones_habitacion(
+	id_ocupacion INT(2) NOT NULL AUTO_INCREMENT,
+	nombre_ocupacion VARCHAR(30) NOT NULL,
+	CONSTRAINT ocu_pk_ido PRIMARY KEY (id_ocupacion)
 );
 
 
@@ -92,18 +92,19 @@ CREATE TABLE IF NOT EXISTS productos(
 
 
 CREATE TABLE IF NOT EXISTS tarifas(
-	id_tarifa INT(2) NOT NULL AUTO_INCREMENT,
-	id_tipo_habitacion INT(2) NOT NULL,
-	valor_habitacion  INT(7) NOT NULL,
+	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
+	id_ocupacion INT(2) NOT NULL,
+	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
 
 
 CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
-	id_tipo_habitacion INT(2) NOT NULL,
+	id_ocupacion INT(2) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
 	estado_habitacion CHAR(1) NOT NULL,
+	tipo_habitacion CHAR(1) NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -158,6 +159,7 @@ CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_registro_habitacion INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
+	id_tarifa INT(3) NOT NULL,
 	estado_registro VARCHAR(3) NOT NULL,
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro_habitacion)
 );
@@ -210,14 +212,15 @@ ALTER TABLE productos ADD(
 
 
 ALTER TABLE tarifas ADD(
-	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
-	CONSTRAINT tar_ck_val CHECK (valor_habitacion > 0)
+	CONSTRAINT tar_fk_ido FOREIGN KEY (id_ocupacion) REFERENCES ocupaciones_habitacion(id_ocupacion),
+	CONSTRAINT tar_ck_val CHECK (valor_ocupacion > 0)
 );
 
 
 ALTER TABLE habitaciones ADD(
-	CONSTRAINT hab_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
-	CONSTRAINT hab_ck_est CHECK (estado_habitacion IN ('O' /*OCUPADA*/, 'R' /*CON RESERVA*/, 'L' /*LIBRE*/, 'X' /*FUERA DE SERVICIO*/))
+	CONSTRAINT hab_fk_ido FOREIGN KEY (id_ocupacion) REFERENCES ocupaciones_habitacion(id_ocupacion),
+	CONSTRAINT hab_ck_est CHECK (estado_habitacion IN ('O' /*OCUPADA*/, 'R' /*CON RESERVA*/, 'L' /*LIBRE*/, 'X' /*FUERA DE SERVICIO*/)),
+	CONSTRAINT hab_ck_tip CHECK (tipo_habitacion IN ('M' /*MAKAHH*/, 'J' /*JOLIOT*/, 'L' /*LISPECTOR*/, 'H' /*HAWKING*/))
 );
 
 
@@ -251,6 +254,7 @@ ALTER TABLE reservas ADD (
 ALTER TABLE registros_habitacion ADD(
 	CONSTRAINT reg_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas (id_reserva),
 	CONSTRAINT reg_fk_idh FOREIGN KEY (id_habitacion) REFERENCES habitaciones (id_habitacion),
+	CONSTRAINT reg_fk_idt FOREIGN KEY (id_tarifa) REFERENCES tarifas (id_tarifa),
 	CONSTRAINT reg_ck_est CHECK (estado_registro IN ('CI' /*CHECK-IN*/, 'COT'/*CHECK-OUT*/, 'CU' /*CHECK-UP*/, 'CON'/*CHECK-ON*/))
 );
 
