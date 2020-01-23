@@ -80,12 +80,34 @@ function assignAttributesToClients(index){
 	var cards=clientCards.getElementsByClassName("card-client");
 	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
 	var title;
+	var header;
 
 	for (var i = 0; i < cards.length; i++) {
-		title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
+		header=cards[i].getElementsByClassName("card-header")[0];
+		title= header.getElementsByTagName("strong")[0];
 		title.innerHTML="Información personal "+(1+index)+"."+(1+i);
-		if(index==0&&i==0)
-			title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+
+		if(index==0&&i==0){
+			if(document.getElementById("holder-check")==null){
+				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+				var div= document.createElement("div");
+				var switchIcon=document.createElement("label");
+				var switchLabel=document.createElement("label");
+				div.classList.add("switch-group");
+				switchIcon.classList.add("switch");
+				switchIcon.classList.add("switch-container");
+				switchIcon.innerHTML="<input id='holder-check' type='checkbox' onchange='changeHolderPosition(this)' checked><span class='slider slider-gray round green'></span>";
+				switchLabel.id="holder-label";
+				switchLabel.classList.add("switch-label");
+				switchLabel.innerHTML="El titular se hospedará";
+				div.appendChild(switchIcon);
+				div.appendChild(switchLabel);
+				header.appendChild(div);
+			}else{
+				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+			}
+		}
+
 		chkButtons[i].setAttribute("onClick","showAllInputs("+index+","+i+");");
 	}
 }
@@ -177,4 +199,27 @@ function setPreviewBook(){
 	console.log("Titular: " + titularInputs[0].value + " " + titularInputs[1].value);
 	console.log("Habitaciones: " + primeInputs[3].value);
 	console.log("Personas: " + (clientCards.length-1));
+}
+
+function changeHolderPosition(guest){
+	var roomGroup=document.getElementsByClassName("room-group")[0];
+	var clientCards = roomGroup.getElementsByClassName("client-cards")[0];
+	var primeZone = document.getElementById("main-row").getElementsByTagName("div")[0];
+	var holder= document.getElementsByClassName("card-client")[0];
+
+	if(guest.checked){
+		primeZone.removeChild(holder);
+		clientCards.insertBefore(holder,clientCards.firstElementChild);
+		document.getElementById("holder-label").innerHTML="El titular se hospedará";
+	}else{
+		clientCards.removeChild(holder);
+		holder.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0].innerHTML="Información personal (Titular)";
+		primeZone.insertBefore(holder,primeZone.firstElementChild.nextElementSibling);
+		document.getElementById("holder-label").innerHTML="El titular no se hospedará";
+	}
+	assignAttributes();
+	var guestSelect=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[2];
+	var clientQuantity=clientCards.getElementsByClassName("card-client").length;
+	guestSelect.value=(clientQuantity==0?1:clientQuantity);
+	updateGuest(0,guestSelect)
 }
