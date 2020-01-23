@@ -193,8 +193,8 @@
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
                 echo '<td>'.'</td>';
-                echo '<td><input type="checkbox"></td>';
-                echo '<td><input type="checkbox"></td>';
+                echo '<td><label class="switch"><input type="checkbox"><span class="slider round"></span></label></td>';
+                echo '<td><label class="switch"><input type="checkbox"><span class="slider round"></span></label></td>';
                 echo '<td><a href="detalles?id='.$current['id_habitacion'].'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
