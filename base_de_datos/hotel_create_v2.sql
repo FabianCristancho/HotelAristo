@@ -142,12 +142,10 @@ CREATE TABLE IF NOT EXISTS personas(
 
 CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
-	id_cliente INT(8),
 	id_usuario INT(2) NOT NULL,
 	fecha_ingreso DATE NOT NULL,
 	fecha_salida DATE NOT NULL,
 	observaciones VARCHAR(100),
-	valor_reserva INT(7) NOT NULL,
 	medio_pago CHAR(2) NOT NULL,
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
@@ -156,11 +154,20 @@ CREATE TABLE IF NOT EXISTS reservas (
 
 
 CREATE TABLE IF NOT EXISTS registros_habitacion(
-	id_registro INT(8) NOT NULL AUTO_INCREMENT,
+	id_registro_habitacion INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
 	estado_registro VARCHAR(3) NOT NULL,
-	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro)
+	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro_habitacion)
+);
+
+
+CREATE TABLE IF NOT EXISTS registros_huesped(
+	id_registro_huesped INT(8) NOT NULL AUTO_INCREMENT,
+	id_huesped INT(8) NOT NULL,
+	id_registro_habitacion INT(8) NOT NULL,
+	tipo_huesped CHAR(1) NOT NULL,
+	CONSTRAINT regh_pk_idh PRIMARY KEY (id_registro_huesped)
 );
 
 
@@ -236,7 +243,6 @@ ALTER TABLE reservas ADD (
 	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/)),
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETO*/, 'I'/*INCOMPLETO*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-	CONSTRAINT res_fk_idc FOREIGN KEY (id_cliente) REFERENCES personas (id_persona),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona)
 );
 
@@ -244,7 +250,14 @@ ALTER TABLE reservas ADD (
 ALTER TABLE registros_habitacion ADD(
 	CONSTRAINT reg_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas (id_reserva),
 	CONSTRAINT reg_fk_idh FOREIGN KEY (id_habitacion) REFERENCES habitaciones (id_habitacion),
-	CONSTRAINT reg_ck_est CHECK (estado_registro in ('CI' /*CHECK-IN*/, 'COT'/*CHECK-OUT*/, 'CU' /*CHECK-UP*/, 'CON'/*CHECK-ON*/))
+	CONSTRAINT reg_ck_est CHECK (estado_registro IN ('CI' /*CHECK-IN*/, 'COT'/*CHECK-OUT*/, 'CU' /*CHECK-UP*/, 'CON'/*CHECK-ON*/))
+);
+
+
+ALTER TABLE registros_huesped ADD(
+	CONSTRAINT regh_fk_idp FOREIGN KEY (id_huesped) REFERENCES personas (id_persona),
+	CONSTRAINT regh_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion (id_registro_habitacion),
+	CONSTRAINT regh_ck_tip CHECK (tipo_huesped IN ('T' /*TITULAR*/, 'S'/*SECUNDARIO*/)
 );
 
 
