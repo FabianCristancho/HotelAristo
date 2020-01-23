@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS personas(
 CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
 	id_usuario INT(2) NOT NULL,
+	id_titular INT(8) NOT NULL,
 	fecha_ingreso DATE NOT NULL,
 	fecha_salida DATE NOT NULL,
 	observaciones VARCHAR(100),
@@ -166,14 +167,13 @@ CREATE TABLE IF NOT EXISTS registros_huesped(
 	id_registro_huesped INT(8) NOT NULL AUTO_INCREMENT,
 	id_huesped INT(8) NOT NULL,
 	id_registro_habitacion INT(8) NOT NULL,
-	tipo_huesped CHAR(1) NOT NULL,
 	CONSTRAINT regh_pk_idh PRIMARY KEY (id_registro_huesped)
 );
 
 
 CREATE TABLE IF NOT EXISTS control_diario(
    	id_control INT(8) NOT NULL AUTO_INCREMENT,
-   	id_reserva INT(8) NOT NULL,
+   	id_registro_habitacion INT(8) NOT NULL,
    	id_servicio INT(2),
    	id_producto INT(3), 
    	fecha_solicitud_compra DATE NOT NULL,
@@ -243,7 +243,8 @@ ALTER TABLE reservas ADD (
 	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/)),
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETO*/, 'I'/*INCOMPLETO*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona)
+	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),
+	CONSTRAINT res_fk_idp FOREIGN KEY (id_titular) REFERENCES personas (id_persona)
 );
 
 
@@ -256,15 +257,14 @@ ALTER TABLE registros_habitacion ADD(
 
 ALTER TABLE registros_huesped ADD(
 	CONSTRAINT regh_fk_idp FOREIGN KEY (id_huesped) REFERENCES personas (id_persona),
-	CONSTRAINT regh_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion (id_registro_habitacion),
-	CONSTRAINT regh_ck_tip CHECK (tipo_huesped IN ('T' /*TITULAR*/, 'S'/*SECUNDARIO*/)
+	CONSTRAINT regh_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion (id_registro_habitacion)
 );
 
 
 ALTER TABLE control_diario ADD (
 	CONSTRAINT con_ck_ess CHECK (estado_saldo IN ('C'/*COMPLETO*/, 'I'/*INCOMPLETO*/)),
 	CONSTRAINT con_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-   	CONSTRAINT con_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
+   	CONSTRAINT con_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion(id_registro_habitacion),
    	CONSTRAINT con_fk_ids FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
    	CONSTRAINT con_fk_idp FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
