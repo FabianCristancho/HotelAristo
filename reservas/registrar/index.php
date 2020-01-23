@@ -185,7 +185,13 @@
 					    </div>
 
 					    <div class="card-body">
-					    	<label><input type="checkbox" name=""> El titular de la reserva pagará en este momento.</label>
+					    	<div class="switch-group">
+					    		<label class="switch switch-container">
+					    			<input type="checkbox" name="">
+					    			<span class="slider slider-gray round green"></span>
+					    		</label>
+					    		<label class="switch-label">El titular de la reserva pagará en este momento.</label>
+					    	</div>
 					    </div>
 					</div>
 

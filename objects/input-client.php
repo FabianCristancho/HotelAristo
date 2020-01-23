@@ -39,7 +39,7 @@
 												<i class="fa fa-id-card"></i>
 											</div>
 
-											<select class="form-control" id="doc-type">
+											<select class="form-control">
 					                            <option value="CC">Cédula de ciudadania</option>
 					                            <option value="RC">Registro civil</option>
 					                            <option value="TI">Tarjeta de identidad</option>
@@ -65,7 +65,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input id="doc-date" class="form-control" type="date">
+											<input class="form-control" type="date">
 										</div>
 										<small class="form-text text-muted">ej. 10/12/2004</small>
 									</div>
@@ -92,7 +92,7 @@
 												<i class="fa fa-map-marker"></i>
 											</div>
 
-											<select id="ciudad" class="form-control">
+											<select class="form-control">
 												<?php $consult->getList('city','51'); ?>
 	                       					</select>
 										</div>
@@ -131,7 +131,7 @@
 												<i class="fa fa-intersex"></i>
 											</div>
 
-					                        <select id="gender" class="form-control">
+					                        <select class="form-control">
 					                            <option value="M">Hombre</option>
 					                            <option value="F">Mujer</option>
 					                        </select>
@@ -144,7 +144,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-calendar"></i>
 											</div>
-					                        <input id="birth" class="form-control" type="date">
+					                        <input class="form-control" type="date">
 					                    </div>
 					                    <small class="form-text text-muted">ej. 22/09/1985</small>
 									</div>
@@ -156,14 +156,14 @@
 												<i class="fa fa-heartbeat"></i>
 											</div>
 
-					                        <select id="blood" class="form-control col-3 padd">
+					                        <select class="form-control col-3 padd">
 					                            <option value="O">O</option>
 					                            <option value="A">A</option>
 					                            <option value="B">B</option>
 					                            <option value="AB">AB</option>
 					                        </select>
 
-					                         <select id="rh" class="form-control col-9 padd">
+					                         <select class="form-control col-9 padd">
 				                            	<option value="+">+ (Positivo)</option>
 				                            	<option value="-">- (Negativo)</option>
 				                       	 	</select>
@@ -179,7 +179,7 @@
 												<i class="fa fa-bank"></i>
 											</div>
 
-					                       <select id="profession" class="form-control">
+					                       <select class="form-control">
 					                            <option value="NULL">Ninguna</option>
 					                            <?php $consult->getList('profession',''); ?>
 					                        </select>
@@ -193,7 +193,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-bank"></i>
 											</div>
-					                       <select id="enterprise" class="form-control">
+					                       <select class="form-control">
 						                        <option value="NULL">NINGUNA</option>
 						                        <?php $consult->getList('enterprise',''); ?>
 						                    </select>
@@ -208,7 +208,7 @@
 												<i class="fa fa-map-marker"></i>
 											</div>
 
-					                        <select id="nac" class="form-control">
+					                        <select class="form-control">
 					                        	<option value="51">Colombia</option>
 					                            <?php $consult->getList('country',''); ?>
 					                        </select>
