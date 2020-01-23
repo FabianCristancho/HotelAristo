@@ -74,16 +74,6 @@
   margin-right: 10px;
 }
 
-#button-book-bizz{
-  float: left;
-  width: 98%;
-  padding: 1%;
-	color:white;
-	background:#223756;
-  text-align: center;
-  cursor: pointer;
-}
-
 .data-group{
   float: left;
 }

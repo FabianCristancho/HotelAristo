@@ -1,10 +1,4 @@
 footer{
-    height: 20px;
-}
-
-
-footer{
-    box-sizing: initial;
     align-self: flex-end;
     background: #18347D;
     color: #fff;

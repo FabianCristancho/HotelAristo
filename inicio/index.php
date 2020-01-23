@@ -55,7 +55,7 @@
         </script>
     
         <!--Bloque encargado de presentar el menú que contiene los módulos correspondientes al servicio que presta la aplicación web-->
-        <div class="content">
+        <div class="content col-12">
             <div class="wrap-main col-8 wrap-8 wrap-menu">
                 <div class="title">
                     <p><strong>HOTEL ARISTO</strong></p>

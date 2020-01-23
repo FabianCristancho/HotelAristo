@@ -1,27 +1,3 @@
-function reduceCard(state,card, col){
-	if(state){
-		card.classList.remove("col-"+col);
-		card.classList.add("col-12");
-	}else{
-		card.classList.add("col-"+col);
-		card.classList.remove("col-12");
-	}
-}
-
-function changeStateCard(state,card){
-	if(state){
-		card.getElementsByClassName("card-preview")[0].style.display="none";
-		card.getElementsByClassName("card-body")[0].style.display="";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
-	}else{
-		card.getElementsByClassName("card-preview")[0].style.display="block";
-		card.getElementsByClassName("card-body")[0].style.display="none";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
-	}
-}
-
-
-
 function getDate(days, input){
 	var ret;
 	var date= new Date();
@@ -215,3 +191,24 @@ function updateCities(obj){
 	});
 }
 
+function reduceCard(state,card, col){
+	if(state){
+		card.classList.remove("col-"+col);
+		card.classList.add("col-12");
+	}else{
+		card.classList.add("col-"+col);
+		card.classList.remove("col-12");
+	}
+}
+
+function changeStateCard(state,card){
+	if(state){
+		card.getElementsByClassName("card-preview")[0].style.display="none";
+		card.getElementsByClassName("card-body")[0].style.display="";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
+	}else{
+		card.getElementsByClassName("card-preview")[0].style.display="block";
+		card.getElementsByClassName("card-body")[0].style.display="none";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
+	}
+}
