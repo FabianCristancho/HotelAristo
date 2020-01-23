@@ -104,7 +104,8 @@ function assignAttributesToClients(index){
 				div.appendChild(switchLabel);
 				header.appendChild(div);
 			}else{
-				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+				if(document.getElementById("holder-check").checked)
+					title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
 			}
 		}
 
