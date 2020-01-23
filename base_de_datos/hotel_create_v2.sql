@@ -75,13 +75,6 @@ CREATE TABLE IF NOT EXISTS tipos_producto(
 );
 
 
-CREATE TABLE IF NOT EXISTS ocupaciones_habitacion(
-	id_ocupacion INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_ocupacion VARCHAR(30) NOT NULL,
-	CONSTRAINT ocu_pk_ido PRIMARY KEY (id_ocupacion)
-);
-
-
 CREATE TABLE IF NOT EXISTS productos(
 	id_producto INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_producto INT(3) NOT NULL,
@@ -91,9 +84,18 @@ CREATE TABLE IF NOT EXISTS productos(
 );
 
 
+CREATE TABLE IF NOT EXISTS tipos_habitacion(
+	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
+	nombre_tipo_habitacion VARHCAR(30) NOT NULL,
+	CONSTRAINT tih_pk_idt PRIMARY KEY(id_tipo_habitacion)
+);
+
+
 CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
-	id_ocupacion INT(2) NOT NULL,
+	id_tipo_habitacion INT(2) NOT NULL,
+	cantidad_huespedes INT(2) NOT NULL,
+	derecho_desayuno BOOLEAN NOT NULL, 
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
@@ -101,10 +103,9 @@ CREATE TABLE IF NOT EXISTS tarifas(
 
 CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
-	id_ocupacion INT(2) NOT NULL,
+	id_tipo_habitacion INT(2) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
 	estado_habitacion CHAR(1) NOT NULL,
-	tipo_habitacion CHAR(1) NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -212,15 +213,14 @@ ALTER TABLE productos ADD(
 
 
 ALTER TABLE tarifas ADD(
-	CONSTRAINT tar_fk_ido FOREIGN KEY (id_ocupacion) REFERENCES ocupaciones_habitacion(id_ocupacion),
+	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
 	CONSTRAINT tar_ck_val CHECK (valor_ocupacion > 0)
 );
 
 
 ALTER TABLE habitaciones ADD(
-	CONSTRAINT hab_fk_ido FOREIGN KEY (id_ocupacion) REFERENCES ocupaciones_habitacion(id_ocupacion),
-	CONSTRAINT hab_ck_est CHECK (estado_habitacion IN ('O' /*OCUPADA*/, 'R' /*CON RESERVA*/, 'L' /*LIBRE*/, 'X' /*FUERA DE SERVICIO*/)),
-	CONSTRAINT hab_ck_tip CHECK (tipo_habitacion IN ('M' /*MAKAHH*/, 'J' /*JOLIOT*/, 'L' /*LISPECTOR*/, 'H' /*HAWKING*/))
+	CONSTRAINT hab_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
+	CONSTRAINT hab_ck_est CHECK (estado_habitacion IN ('O' /*OCUPADA*/, 'R' /*CON RESERVA*/, 'L' /*LIBRE*/, 'X' /*FUERA DE SERVICIO*/))
 );
 
 
