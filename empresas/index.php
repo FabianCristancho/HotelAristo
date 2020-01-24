@@ -36,6 +36,7 @@
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
@@ -58,9 +59,12 @@
 
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
-                <div class="content-header">
-                    <h2 class="title-form col-10">EMPRESAS REGISTRADAS</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar empresa</a>
+                <div class="content-header col-12">
+                    <div class="row col-12">
+                        <h2 class="title-form col-8">EMPRESAS REGISTRADAS</h2>
+                    <a class="button-add-book col-2" href="registrar">Registrar empresa</a> 
+                    <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
+                    </div>
                     
                 </div>
                 <div class="scroll-block">
@@ -83,7 +87,6 @@
                         ?>
                     </table>
                 </div>
-                <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
             </div>
         </div>
         

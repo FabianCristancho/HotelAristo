@@ -31,12 +31,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
 		<link rel="stylesheet" type="text/css" href="/css/modal.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
 		<script type="text/javascript" src="/js/moment.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
 	</head>
 
 	<!--Construcción de la vista-->
@@ -57,179 +60,180 @@
         </script>
         
         <!--El bloque contiene la información correspondiente a los detalles de control de una habitación en una fecha especificada-->
-        <div id="content" class="col-12">
-            <div style="float: left;" class="marco responsive-page">
-                <h3><b>Habitación</b></h3>
-                <div class="input-block">
-                    <label><b>Número de Habitación</b></label>
-                    <br><br>
-                    <select class="lista-habitaciones">
-                        <option>201</option>
-                        <option>202</option>
-                        <option>301</option>
-                        <option>302</option>
-                        <option>303</option>
-                        <option>304</option>
-                        <option>401</option>
-                        <option>402</option>
-                        <option>403</option>
-                        <option>404</option>
-                        <option>501</option>
-                        <option>502</option>
-                        <option>503</option>
-                        <option>504</option>
-                        <option>601</option>
-                        <option>602</option>
-                        <option>603</option>
-                    </select>
-                </div>
+        <div class="content col-12">
+             <div class="col-11 wrap-11 wrap-vertical padd">
+                <div class="marco col-4 padd">
+                    <h3><b>Habitación</b></h3>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Número de habitación</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-bed"></i>
+                            </div>
+                            <select  class="form-control">
+                                    <option>201</option>
+                                    <option>202</option>
+                                    <option>301</option>
+                                    <option>302</option>
+                                    <option>303</option>
+                                    <option>304</option>
+                                    <option>401</option>
+                                    <option>402</option>
+                                    <option>403</option>
+                                    <option>404</option>
+                                    <option>501</option>
+                                    <option>502</option>
+                                    <option>503</option>
+                                    <option>504</option>
+                                    <option>601</option>
+                                    <option>602</option>
+                                    <option>603</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <div class="input-block">
-                    <label><b>Tipo de Habitación</b></label>
-                    <br><br>
-                    <label>Lispector</label>
-                </div>
+                    <div class="form-group">
+                        <label><b>Tipo de Habitación</b></label>
+                        <br><br>
+                        <label>Lispector</label>
+                    </div>
 
-                <div class="input-block">
-                    <label><b>Estado</b></label>
-                    <br><br>
-                    <label>Ocupada</label>
-                </div>
-                    <div class="input-block">
-						<label><b>Saldo Total ($)</b></label>
-						<br><br>
+                    <div class="form-group">
+                        <label><b>Estado</b></label>
+                        <br><br>
+                        <label>Ocupada</label>
+                    </div>
+                    <div class="form-group">
+                        <label><b>Saldo Total ($)</b></label>
+                        <br><br>
                         <label>320.000</label>
-					</div>
-            </div>
+                    </div>
+                </div>
 
-            <div class="marco responsive-page">
-                <div>
-                    <h3><b>Huéspedes</b></h3>
-                    <table>
-                        <thead>
+                <div class="marco col-8 padd">
+                    <div class="scroll-block">
+                        <h3><b>Huéspedes</b></h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Número de Documento</th>
+                                    <th>Tipo de sangre</th>
+                                    <th>Empresa</th>
+                                    <th>Nacionalidad</th>
+                                    <th>Profesión</th>
+                                    <th>Teléfono</th>
+                                </tr>
+                            </thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Número de Documento</th>
-                                <th>Tipo de sangre</th>
-                                <th>Empresa</th>
-                                <th>Nacionalidad</th>
-                                <th>Profesión</th>
-                                <th>Teléfono</th>
+                                <td>Giacomo Guilizzoni</td>
+                                <td>1034543</td>
+                                <td>B+</td>
+                                <td>Falabella</td>
+                                <td>Italia</td>
+                                <td>Médico</td>
+                                <td>3125435432</td>
                             </tr>
-                        </thead>
-                        <tr>
-                            <td>Giacomo Guilizzoni</td>
-                            <td>1034543</td>
-                            <td>B+</td>
-                            <td>Falabella</td>
-                            <td>Italia</td>
-                            <td>Médico</td>
-                            <td>3125435432</td>
-                        </tr>
-                        <tr>
-                            <td>Gugleimo Guilizzoni</td>
-                            <td>1035443</td>
-                            <td>O+</td>
-                            <td>Falabella</td>
-                            <td>Italia</td>
-                            <td>Contador</td>
-                            <td>3143214323</td>
-                        </tr>
-                        <tr>
-                            <td>Martha Guilizzoni</td>
-                            <td>1035443</td>
-                            <td>B+</td>
-                            <td>Falabella</td>
-                            <td>Italia</td>
-                            <td>Estudiante</td>
-                            <td>3103213198</td>
-                        </tr>
-                    </table>
-                    <br>
-                </div>
+                            <tr>
+                                <td>Gugleimo Guilizzoni</td>
+                                <td>1035443</td>
+                                <td>O+</td>
+                                <td>Falabella</td>
+                                <td>Italia</td>
+                                <td>Contador</td>
+                                <td>3143214323</td>
+                            </tr>
+                            <tr>
+                                <td>Martha Guilizzoni</td>
+                                <td>1035443</td>
+                                <td>B+</td>
+                                <td>Falabella</td>
+                                <td>Italia</td>
+                                <td>Estudiante</td>
+                                <td>3103213198</td>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                        
+                    <div class="form-group">
+                        <label><b>Conteo días</b></label>
+                        <br>
+                        <label>1 de 4</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label><b>Hora Ingreso</b></label>
+                        <br>
+                        <label>Ocupada</label>
+                    </div>
                     
-                <div class="input-block">
-                    <label><b>Conteo días</b></label>
-                    <br><br>
-                    <label>1 de 4</label>
+                    <div class="form-group">
+                        <label><b>¿Huésped se encuentra en habitación?</b></label>
+                        <br>
+                        <input type="radio" name="ocupacion" value="Presencia" checked>Sí
+                        <input type="radio" name="ocupacion" value="Ausencia">No
+                    </div>
                 </div>
-
-                <div class="input-block">
-                    <label><b>Hora Ingreso</b></label>
-                    <br><br>
-                    <label>Ocupada</label>
-                </div>
-                
-                <div class="input-block">
-                    <label><b>¿Huésped se encuentra en habitación?</b></label>
-                    <br><br>
-                    <input type="radio" name="ocupacion" value="Presencia" checked>Sí
-                    <input type="radio" name="ocupacion" value="Ausencia">No
-                </div>
-            </div>
 
                 
-            <div  class="marco responsive-page">
-                <h3><b>Consumo de Servicios</b></h3>
-                <div class="input-block">
-                    <label><b>Valor consumo en minibar ($)</b></label>
-                    <input class="col-12" type="text" placeholder="Valor en Minibar">
-                    <br><br>
+                <div  class="marco col-12 padd">
+                    <h3><b>Consumo de Servicios</b></h3>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Valor consumo en minibar ($)</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <input class="form-control col-12" type="text" placeholder="Valor en minibar">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Valor consumo en lavandería ($)</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <input class="form-control col-12" type="text" placeholder="Valor en lavandería">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Valor consumo en restaurante ($)</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <input class="form-control col-12" type="text" placeholder="Valor en restaurante">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Valor consumo en adicional ($)</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <input class="form-control col-12" type="text" placeholder="Valor adicional">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Saldo de consumo ($)</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <input class="form-control col-12" type="text" placeholder="Saldo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label"><b>Observaciones</b></label>
+                        <div class="input-group">
+                            <div class="input-group-icon">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                           <textarea id="textarea-com" name="comentarios" rows="3" cols="30" placeholder="Escriba aquí información adicional" class="form-control"></textarea>
+                        </div>
+                    </div>
                 </div>
-                <div class="input-block">
-                    <label><b>Valor consumo en lavandería ($)</b></label>
-                    <input class="col-12" type="text" placeholder="Valor en Lavandería">
-                    <br><br>
-                </div>
-                <div class="input-block">
-                    <label><b>Valor consumo en restaurante ($)</b></label>
-                    <input class="col-12" type="text" placeholder="Valor en Restaurante">
-                    <br><br>
-                </div>
-                <div class="input-block">
-                    <label><b>Valor consumo en adicional ($)</b></label>
-                    <input class="col-12" type="text" placeholder="Valor Adicional">
-                    <br><br>
-                </div>
-                <div class="input-block">
-                    <label><b>Saldo de consumo ($)</b></label>
-                    <input class="col-12" type="text" placeholder="Saldo">
-                    <br><br>
-                </div>
-                <div class="input-block">
-                    <label><b>Observaciones</b></label>
-                    <textarea id="textarea-com" name="comentarios" rows="3" cols="30" placeholder="Escriba aquí información adicional"></textarea>
-                    <br><br>
-                </div>
-            </div>
-        </div>
-                
-
-        <!--El bloque de alertas contiene cuatro tipos de alertas para darle al usuario
-        visibilidad de los procesos. Se definieron: Peligro, Informacion, Precausion y Exito-->
-        <div id="alerts">
-            <div id="alert-d" class="alert danger">
-                <span onclick="hideAlert('alert-d');" class="closebtn">&times;</span>  
-                <strong>¡Peligro!</strong> 
-                Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud horizontal
-            </div>
-
-            <div id="alert-s" class="alert success">
-                <span onclick="hideAlert('alert-s');" class="closebtn">&times;</span>  
-                <strong>¡Procedimiento exitoso!</strong> 
-                Mensaje
-            </div>
-            
-            <div id="alert-i" class="alert info">
-                <span onclick="hideAlert('alert-i');" class="closebtn">&times;</span>  
-                <strong>Información!</strong> 
-                Mensaje
-            </div>
-
-            <div id="alert-w" class="alert warning">
-                <span onclick="hideAlert('alert-w');" class="closebtn">&times;</span>  
-                <strong>¡Precaución!</strong> 
-                Mensaje muy largo con varias lineas de escritura, usado para probar como actuan los componentes cuando se sobrepasa su longitud     horizontal
             </div>
         </div>
         
@@ -237,6 +241,7 @@
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
+            include "../../objects/alerts.php"; 
             include "../../objects/footer.php"; 
         ?>
     </body>

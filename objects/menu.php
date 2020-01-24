@@ -20,6 +20,8 @@
 </script>
 
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <?php 
+            include "loader.php";?>
     <header class="col-12">
         <a href="/inicio">
             <img id="logo-hotel" src="/res/img/logoA.png">

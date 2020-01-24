@@ -41,6 +41,7 @@
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
@@ -76,7 +77,7 @@
                                 <th>NÚMERO DE DOCUMENTO</th>
                                 <th>TELÉFONO</th>
                                 <th>CORREO</th>
-                                <th>PROFESIÓN</th>
+                                <th>EMPRESA</th>
                                 <th>DETALLES</th>
                             </tr>
                         </thead>

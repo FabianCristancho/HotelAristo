@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS control_diario(
 CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_registro INT(8) NOT NULL AUTO_INCREMENT,
 	id_reserva INT(8) NOT NULL,
-	id_persona INT(8) NOT NULL,
+	id_cliente INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
 	estado_registro VARCHAR(2) NOT NULL,
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro)
@@ -214,6 +214,8 @@ ALTER TABLE registros_habitacion ADD(
 	REFERENCES reservas (id_reserva),
 	CONSTRAINT reg_fk_idh FOREIGN KEY (id_habitacion)
 	REFERENCES habitaciones (id_habitacion),
+	CONSTRAINT reg_fk_idc FOREIGN KEY (id_cliente)
+	REFERENCES personas (id_persona),
 	CONSTRAINT reg_ck_est CHECK (estado_registro in ('CI','CC'))
 );
 
@@ -286,11 +288,10 @@ END $
 
 
 ------------------------------------------SERVICIOS-------------------------------------------
-INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('LAVANDERIA', 'SE COBRA DEPENDIENDO DE LA PRENDA', '12000');
-
-INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('RESTAURANTE', 'SE COBRA DEPENDIENDO DEL PLATO', '12000');
-
-INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES ('MINIBAR', 'SE COBRA DEPENDIENDO DEL PRODUCTO', '5000');
+INSERT INTO servicios (`nombre_servicio`, `descripcion_servicio`, `valor_servicio`) VALUES 
+('LAVANDERIA', 'SE COBRA DEPENDIENDO DE LA PRENDA', '12000'),
+('RESTAURANTE', 'SE COBRA DEPENDIENDO DEL PLATO', '12000'),
+('MINIBAR', 'SE COBRA DEPENDIENDO DEL PRODUCTO', '5000');
 
 
 ------------------------------------------CONTROL DIARIO-------------------------------------------------------------------
@@ -299,12 +300,27 @@ INSERT INTO control_diario (`id_reserva`, `id_servicio`, `fecha_solicitud_servic
 INSERT INTO control_diario (`id_reserva`, `id_servicio`, `fecha_solicitud_servicio`, `estado_saldo`) VALUES (3, 3, '2020-01-21', 'CC');
 
 -------------------------------------------------------------
-INSERT INTO habitaciones (tipo_habitacion,numero_habitacion,estado_habitacion,tarifa_habitacion) VALUES
-('J',201,'D', 50000), ('H',202,'D', 120000), ('J',301,'D', 50000), ('J',302,'D', 50000), 
-('J',303,'D', 50000), ('L',304,'D', 50000), ('J',401,'D', 50000), ('J',402,'D', 50000),
-('J',403,'D', 50000), ('L',404,'D', 50000), ('J',501,'D', 50000), ('J',502,'D', 50000),
-('J',503,'D', 50000), ('L',504,'D', 50000), ('J',601,'D', 50000), ('J',602,'D', 50000),
-('M',603,'D', 50000);
+INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente) VALUES 
+('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1),
+('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0),
+('830004993-8', 'CASA TORO S.A', '6760022', 1);
+
+INSERT INTO tipos_habitacion (nombre_tipo_habitacion) VALUES
+('SENCILLA'),("PAREJA"),("DOBLE"),("TRIPLE"),("SUITE"),("TRIPLE CON O SIN SOFACAMA");
+INSERT INTO tarifas(id_tipo_habitacion,valor_habitacion) VALUES
+(1,70000),(1,75000),(1,80000),(1,85000),
+(2,105000),(2,110000),(2,115000),
+(3,120000),(3,125000),
+(4,160000),(4,165000),
+(5,165000),
+(6,175000),(6,185000);
+
+INSERT INTO habitaciones (id_tipo_habitacion,tipo_habitacion,numero_habitacion,estado_habitacion,tarifa_habitacion) VALUES
+(1,'J',201,'D', 50000), (1,'H',202,'D', 120000), (1,'J',301,'D', 50000), (1,'J',302,'D', 50000), 
+(1,'J',303,'D', 50000), (1,'L',304,'D', 50000), (1,'J',401,'D', 50000), (1,'J',402,'D', 50000),
+(1,'J',403,'D', 50000), (1,'L',404,'D', 50000), (1,'J',501,'D', 50000), (1,'J',502,'D', 50000),
+(1,'J',503,'D', 50000), (1,'L',504,'D', 50000), (1,'J',601,'D', 50000), (1,'J',602,'D', 50000),
+(1,'M',603,'D', 50000);
 
 ---------------------------------------Cargos--------------------------------------------------
 INSERT INTO cargos (nombre_cargo) VALUES 
@@ -399,20 +415,3 @@ INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`,
 INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (10, 3, 1, 1234, 70000, 'T', 'N');
 
 INSERT INTO facturas (`id_reserva`, `id_control`, `id_usuario`, `serie_factura`, `valor_total`, `estado_factura`, `tipo_factura`) VALUES (11, 3, 1, 1234, 100000, 'T', 'N');
-
----------------------------------------Empresas-------------------------------------------------
-INSERT INTO empresas (nit_empresa, nombre_empresa, telefono_empresa, retefuente) VALUES 
-('811028650-1', 'MADECENTRO COLOMBIA SAS', '7603323', 1),
-('900548102-0', 'AZTECA COMUNICACIONES SAS', '3124593207', 0),
-('830004993-8', 'CASA TORO S.A', '6760022', 1);
-
-INSERT INTO tipos_habitacion (nombre_tipo_habitacion) VALUES
-('SENCILLA'),("PAREJA"),("DOBLE"),("TRIPLE"),("SUITE"),("TRIPLE CON O SIN SOFACAMA");
-
-INSERT INTO tarifas(id_tipo_habitacion,valor_habitacion) VALUES
-(1,70000),(1,75000),(1,80000),(1,85000),
-(2,105000),(2,110000),(2,115000),
-(3,120000),(3,125000),
-(4,160000),(4,165000),
-(5,165000),
-(6,175000),(6,185000);

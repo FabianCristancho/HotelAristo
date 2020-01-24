@@ -177,18 +177,22 @@ label {
   justify-content: flex-end;
 }
 
-.card .card-body {
+.card .card-body, .card-preview {
     float: left;
     padding: 1.25em;
     position: relative;
     width: 100%;
 }
-.card-body {
+.card-body, .card-preview {
     padding: 15px;
 }
-.card-body {
+.card-body, .card-preview {
     flex: 1 1 auto;
     padding: 1.25rem;
+}
+
+.card-preview{
+    display: none;
 }
 
 .form-group {
@@ -269,4 +273,3 @@ label {
     font-size: 80%;
     font-weight: 400;
 }
-

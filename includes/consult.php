@@ -82,7 +82,7 @@
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
                 echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
-                echo '<td><button onclick="" class="btn btn-table" '.($current['aux']==1?'disabled':'').'>'.($current['aux']==1?"Falta Check in":"Registrar").'</button></td>'.PHP_EOL;
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange=""'.($current['aux']==1?'disabled':'').'><span class="slider slider-red round green"></span></label></td>';
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
@@ -193,8 +193,8 @@
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
                 echo '<td>'.'</td>';
-                echo '<td><input type="checkbox"></td>';
-                echo '<td><input type="checkbox"></td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td>';
                 echo '<td><a href="detalles?id='.$current['id_habitacion'].'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }

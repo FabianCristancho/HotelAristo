@@ -1,76 +1,11 @@
-function showAllInputs(value){
-	var rows=document.getElementsByClassName("card-client")[value].getElementsByClassName("row");
-	if(rows[1].style.display == "flex"){
-		rows[1].style.display="none";
-		rows[2].style.display="none";
-		rows[4].style.display="none";
-		rows[5].getElementsByClassName("form-group")[0].style.display="none";
-		rows[5].getElementsByClassName("form-group")[2].style.display="none";
-	}else{
-		rows[1].style.display="flex";
-		rows[2].style.display="flex";
-		rows[4].style.display="flex";
-		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
-		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
-	}
-}
-
-function assignAttributes(){
-	var chkButtons=document.getElementsByClassName("btn-check-in");
-	for(var i=0;i<chkButtons.length;i++){
-		chkButtons[i].setAttribute("onClick","showAllInputs("+i+");");
-	}
-	var cards=document.getElementsByClassName("card-client");
-	for (var i = 0; i < cards.length; i++) {
-		var title= cards[i].getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
-		title.innerHTML=title.innerHTML+" "+(1+i);
-	}
-	for (var i = cards.length - 1; i >= 1; i--) {
-		cards[i].style.display="none";
-	}
-	var doneButtons=document.getElementsByClassName("btn-done");
-	for(var i=0;i<doneButtons.length;i++){
-		doneButtons[i].setAttribute("onClick","reduceClientCard("+i+");");
-	}
-}
-
-function reduceClientCard(value){
-	var card=document.getElementsByClassName("card-client")[value];
-	if(card.getElementsByClassName("btn-done")[0].innerHTML=="Editar"){
-		card.classList.remove("col-3");
-		card.classList.add("col-12");
-		card.getElementsByClassName("card-body")[0].style.display="";
-		card.getElementsByClassName("btn-check-in")[0].style.display="inline-block";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
-	}else{
-		card.classList.add("col-3");
-		card.classList.remove("col-12");
-		card.getElementsByClassName("card-body")[0].style.display="none";
-		card.getElementsByClassName("btn-check-in")[0].style.display="none";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
-	}
-
-}
-
-function updateGuest(){
-	var cards=document.getElementsByClassName("card-client");
-	for (var i = 1; i < cards.length; i++) {
-		if(i<document.getElementById("cantidad-huespedes").value)
-			cards[i].style.display="flex";
-		else
-			cards[i].style.display="none";
-	}
-
-}
-
-function getDate(input,days){
-	document.getElementById(input).value =getDate(days);
-}
-
-function getDate(days){
+function getDate(days, input){
+	var ret;
 	var date= new Date();
 	date.setDate(date.getDate()+parseInt(days));
-	return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+	ret=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+	if(input!=null)
+		document.getElementById(input).value =ret;
+	return ret;
 }
 
 function calculateDate(date,days){
@@ -256,3 +191,24 @@ function updateCities(obj){
 	});
 }
 
+function reduceCard(state,card, col){
+	if(state){
+		card.classList.remove("col-"+col);
+		card.classList.add("col-12");
+	}else{
+		card.classList.add("col-"+col);
+		card.classList.remove("col-12");
+	}
+}
+
+function changeStateCard(state,card){
+	if(state){
+		card.getElementsByClassName("card-preview")[0].style.display="none";
+		card.getElementsByClassName("card-body")[0].style.display="";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
+	}else{
+		card.getElementsByClassName("card-preview")[0].style.display="block";
+		card.getElementsByClassName("card-body")[0].style.display="none";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
+	}
+}

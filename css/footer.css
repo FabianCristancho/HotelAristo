@@ -1,16 +1,4 @@
-#aux-footer{
-    display: flex;
-    flex: 1 1 auto;
-    min-height: 65px;
-}
-
 footer{
-    height: 20px;
-}
-
-
-footer{
-    box-sizing: initial;
     align-self: flex-end;
     background: #18347D;
     color: #fff;
@@ -25,10 +13,3 @@ footer .info{
     text-decoration: none;
 }
 
-@media only screen and (min-width: 1500px){
-    #aux-footer{
-        display: flex;
-        flex: 1 1 auto;
-        min-height: 100px;
-    }
-}
