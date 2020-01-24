@@ -197,9 +197,15 @@ function setPreviewBook(){
 	var titularCard= clientCards[0];
 	var primeInputs=primeCard.getElementsByTagName("input");
 	var titularInputs=titularCard.getElementsByTagName("input");
-	console.log("Titular: " + titularInputs[0].value + " " + titularInputs[1].value);
+	var inputs;
+
+	console.log("Titular: " + titularInputs[1].value + " " + titularInputs[2].value);
 	console.log("Habitaciones: " + primeInputs[3].value);
-	console.log("Personas: " + (clientCards.length-1));
+	console.log("Huespedes: "+(clientCards.length-1));
+	for (var i = 0; i < clientCards.length; i++) {
+		inputs=clientCards[i].getElementsByTagName("input");
+		console.log(inputs[0].value+" "+inputs[1].value);	
+	}
 }
 
 function changeHolderPosition(guest){
