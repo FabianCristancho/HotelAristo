@@ -9,19 +9,19 @@ mysql.exe -u root
 use hotelaristo;
 
 /**Borrado de tablas en caso de que existan**/
-DROP TABLE IF EXISTS Paises;
-DROP TABLE IF EXISTS Ciudades;
 
 DROP TABLE IF EXISTS facturas;
+DROP TABLE IF EXISTS peticiones,
 DROP TABLE IF EXISTS control_diario;
+DROP TABLE IF EXISTS registros_huesped,
 DROP TABLE IF EXISTS registros_habitacion;
 DROP TABLE IF EXISTS reservas;
 DROP TABLE IF EXISTS personas;
 DROP TABLE IF EXISTS lugares;
 DROP TABLE IF EXISTS habitaciones;
 DROP TABLE IF EXISTS tarifas;
-DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipos_habitacion;
+DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipos_producto;
 DROP TABLE IF EXISTS servicios;
 DROP TABLE IF EXISTS empresas;
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	cantidad_huespedes INT(2) NOT NULL,
-	derecho_desayuno BOOLEAN NOT NULL, 
+	valor_desayuno INT(5) NOT NULL, 
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
@@ -152,6 +152,8 @@ CREATE TABLE IF NOT EXISTS reservas (
 	medio_pago CHAR(2) NOT NULL,
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
+	valor_pagado INT(7) NOT NULL,
+	saldo INT(7) NOT NULL,
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
@@ -177,13 +179,23 @@ CREATE TABLE IF NOT EXISTS registros_huesped(
 CREATE TABLE IF NOT EXISTS control_diario(
    	id_control INT(8) NOT NULL AUTO_INCREMENT,
    	id_registro_habitacion INT(8) NOT NULL,
-   	id_servicio INT(2),
-   	id_producto INT(3), 
-   	fecha_solicitud_compra DATE NOT NULL,
-   	medio_pago CHAR(2) NOT NULL,
-   	estado_saldo CHAR(1) NOT NULL,
-   	cantidad_producto INT(2),
+   	fecha_control DATE NOT NULL,
    	CONSTRAINT con_pk_idc PRIMARY KEY(id_control)
+);
+
+
+CREATE TABLE IF NOT EXISTS peticiones(
+	id_peticion INT(20) NOT NULL AUTO_INCREMENT,
+	id_control INT(8) NOT NULL,
+	id_servicio INT(2),
+	id_producto INT(3),
+	estado_peticion CHAR(1) NOT NULL,
+	hora_peticion TIME NOT NULL,
+	valor_pagado INT(6) NOT NULL,
+	saldo INT(6) NOT NULL,
+	medio_pago CHAR(1) NOT NULL,
+	cantidad_producto INT(2),
+	CONSTRAINT pet_pk_idp PRIMARY KEY(id_peticion)
 );
 
 
@@ -244,7 +256,7 @@ ALTER TABLE personas ADD(
 
 ALTER TABLE reservas ADD (
 	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/)),
-	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETO*/, 'I'/*INCOMPLETO*/)),
+	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),
 	CONSTRAINT res_fk_idp FOREIGN KEY (id_titular) REFERENCES personas (id_persona)
@@ -266,11 +278,14 @@ ALTER TABLE registros_huesped ADD(
 
 
 ALTER TABLE control_diario ADD (
-	CONSTRAINT con_ck_ess CHECK (estado_saldo IN ('C'/*COMPLETO*/, 'I'/*INCOMPLETO*/)),
-	CONSTRAINT con_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-   	CONSTRAINT con_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion(id_registro_habitacion),
-   	CONSTRAINT con_fk_ids FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
-   	CONSTRAINT con_fk_idp FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+	CONSTRAINT con_fk_idr FOREIGN KEY (id_registro_habitacion) REFERENCES registros_habitacion(id_registro_habitacion)
+);
+
+ALTER TABLE peticiones ADD (
+	CONSTRAINT pet_ck_esp CHECK (estado_peticion IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
+	CONSTRAINT pet_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
+   	CONSTRAINT pet_fk_ids FOREIGN KEY (id_servicio) REFERENCES servicios(id_servicio),
+   	CONSTRAINT pet_fk_idp FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
 );
 
 
