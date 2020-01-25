@@ -76,20 +76,22 @@ function assignAttributesToGroup(i){
 }
 
 function assignAttributesToClients(index){
-	var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
+	var roomGroup=document.getElementsByClassName('room-group')[index];
+	var clientCards=roomGroup.getElementsByClassName('client-cards')[0];
 	var cards=clientCards.getElementsByClassName("card-client");
 	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
+	var roomNumber=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[1].value;
 	var title;
 	var header;
 
 	for (var i = 0; i < cards.length; i++) {
 		header=cards[i].getElementsByClassName("card-header")[0];
 		title= header.getElementsByTagName("strong")[0];
-		title.innerHTML="Información personal "+(1+index)+"."+(1+i);
+		title.innerHTML="Información personal "+(1+i)+" ("+roomNumber+")";
 
 		if(index==0&&i==0){
 			if(document.getElementById("holder-check")==null){
-				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+				title.innerHTML="Información personal del titular "+(1+i)+" ("+roomNumber+")";
 				var div= document.createElement("div");
 				var switchIcon=document.createElement("label");
 				var switchLabel=document.createElement("label");
@@ -104,7 +106,8 @@ function assignAttributesToClients(index){
 				div.appendChild(switchLabel);
 				header.appendChild(div);
 			}else{
-				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+				if(document.getElementById("holder-check").checked)
+					title.innerHTML="Información personal del titular "+(1+i)+" ("+roomNumber+")";
 			}
 		}
 
@@ -196,9 +199,15 @@ function setPreviewBook(){
 	var titularCard= clientCards[0];
 	var primeInputs=primeCard.getElementsByTagName("input");
 	var titularInputs=titularCard.getElementsByTagName("input");
-	console.log("Titular: " + titularInputs[0].value + " " + titularInputs[1].value);
+	var inputs;
+
+	console.log("Titular: " + titularInputs[1].value + " " + titularInputs[2].value);
 	console.log("Habitaciones: " + primeInputs[3].value);
-	console.log("Personas: " + (clientCards.length-1));
+	console.log("Huespedes: "+(clientCards.length-1));
+	for (var i = 0; i < clientCards.length; i++) {
+		inputs=clientCards[i].getElementsByTagName("input");
+		console.log(inputs[0].value+" "+inputs[1].value);	
+	}
 }
 
 function changeHolderPosition(guest){
