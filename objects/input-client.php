@@ -80,7 +80,6 @@
 											</div>
 
 											<select class="form-control" onchange="updateCities(this);">
-												<option value="51">Colombia</option>
 												<?php $consult->getList('country',''); ?>
 	                       					</select>
 										</div>
@@ -93,7 +92,7 @@
 											</div>
 
 											<select class="form-control">
-												<?php $consult->getList('city','51'); ?>
+												<?php $consult->getList('city','1'); ?>
 	                       					</select>
 										</div>
 									</div>

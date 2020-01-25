@@ -7,35 +7,6 @@
 								<div class="card-body">
 									<div class="row">
 										<div class="form-group in-row">
-											<label class="form-control-label">Tipo de habitación</label>
-											<div class="input-group">
-												<div class="input-group-icon">
-													<i class="fa fa-bed"></i>
-												</div>
-
-												<select class="form-control" required>
-							                        <option value="J" selected>JOLIOT</option>
-							                        <option value="H">HAWKING</option>
-							                        <option value="L">LISPECTOR</option>
-							                        <option value="M">MAKKAH</option>
-							                    </select>
-											</div>
-										</div>
-
-										<div class="form-group in-row">
-											<label class="form-control-label">Número de habitación</label>
-											<div class="input-group">
-												<div class="input-group-icon">
-													<i class="fa fa-bed"></i>
-												</div>
-
-												<select  class="form-control" required>
-												 	<?php $consult->getList('roomType','J'); ?>
-												</select>
-											</div>
-										</div>
-
-										<div class="form-group in-row">
 											<label class="form-control-label">Numero de huespedes</label>
 											<div class="input-group">
 												<div class="input-group-icon">
@@ -49,6 +20,35 @@
 							                        <option value="3">3 (Triple)</option>
 							                        <option value="4">3 (Triple + Sofacama)</option>
 							                    </select>
+											</div>
+										</div>
+										
+										<div class="form-group in-row">
+											<label class="form-control-label">Tipo de habitación</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-bed"></i>
+												</div>
+
+												<select class="form-control" required>
+							                        <option value="JOLIOT" selected>JOLIOT</option>
+							                        <option value="HAWKING">HAWKING</option>
+							                        <option value="LISPECTOR">LISPECTOR</option>
+							                        <option value="MAKKAH">MAKKAH</option>
+							                    </select>
+											</div>
+										</div>
+
+										<div class="form-group in-row">
+											<label class="form-control-label">Número de habitación</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-bed"></i>
+												</div>
+
+												<select  class="form-control" required>
+												 	<?php $consult->getList('roomType','JOLIOT'); ?>
+												</select>
 											</div>
 										</div>
 										
