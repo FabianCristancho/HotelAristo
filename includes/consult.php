@@ -76,7 +76,8 @@
         }
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux FROM reservas r LEFT JOIN personas c ON r.id_cliente=c.id_persona LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
+            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux FROM reservas r LEFT JOIN personas c ON r.id_titular=c.id_persona LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
+
             $query->execute();
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
@@ -124,7 +125,7 @@
         }
         
         function roomTypeList($type){
-            $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones WHERE tipo_habitacion='.'"'.$type.'"');
+            $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones h INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion WHERE nombre_tipo_habitacion='.'"'.$type.'"');
             $query->execute();
             foreach ($query as $current) {
                 echo '<option value="'.$current['numero_habitacion'].'">'.$current['numero_habitacion'].'</option>';
@@ -133,7 +134,7 @@
         }
         
         function enterpriseTable(){
-            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, otro_impuesto FROM empresas');
+            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica FROM empresas');
             $query->execute();
             
             foreach ($query as $current){
@@ -141,8 +142,8 @@
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td><input type="checkbox" '.$this->selectCheck($current['retefuente']).'></td>'.PHP_EOL;
-                echo '<td><input type="text" '.$current['otro_impuesto'].' disabled></td>'.PHP_EOL;
+                echo '<td><label class="switch switch-table"><input type="checkbox" disabled><span class="slider slider-red round green"></span></label></td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox" '.$this->selectCheck($current['retefuente']).' disabled><span class="slider slider-red round green"></span></label></td>';
                 echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
@@ -166,12 +167,12 @@
             }
         }
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, h.tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN personas c ON rs.id_cliente=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'") rg ON rg.id_habitacion=h.id_habitacion');
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion INNER JOIN personas c ON rh.id_huesped=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" AND r.estado_reserva="RE" GROUP BY id_habitacion) rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
 
             $query->execute();
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
-                echo '<td><p class="vertical-word">'.$this->roomType($current['tipo_habitacion']).'</p></td>'.PHP_EOL;
+                echo '<td><p class="vertical-word">'.$current['nombre_tipo_habitacion'].'</p></td>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
                 echo '<p class="room-state">'.$this->roomState($current['estado_habitacion']).'</p>'.PHP_EOL;
                 echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" >'.PHP_EOL;
@@ -248,41 +249,41 @@
         }
         function roomState($state){
         	switch ($state) {
-        		case 'D':
+        		case 'L':
         		return 'Disponible';
         		case 'O':
         		return 'Ocupada';
         		case 'R':
         		return 'En reserva';
-        		case 'F':
+        		case 'X':
         		return 'Fuera de servicio';
         	}
         }
         function chooseRoomState($state){
             switch ($state) {
-                case 'D':
-                    echo '<option value="D">Disponible</option>'.PHP_EOL;
+                case 'L':
+                    echo '<option value="L">Disponible</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
                 case 'O':
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="D">Disponible</option>'.PHP_EOL;
-                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="L">Disponible</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
-                case 'M':
-                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                case 'R':
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="D">Disponible</option>'.PHP_EOL;
-                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="L">Disponible</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
-                case 'F':
-                    echo '<option value="F">Fuera de servicio</option>'.PHP_EOL;
+                case 'X':
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="D">Disponible</option>'.PHP_EOL;
-                    echo '<option value="M">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="L">Disponible</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
                     break;
             }
             

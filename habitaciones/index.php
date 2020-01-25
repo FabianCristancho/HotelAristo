@@ -98,7 +98,7 @@
                         </div>
                     </div>
             
-                    <div class="scroll-block">
+                    <div>
                         <label><b>Habitación</b></label>
                         <select class="lista-habitaciones">
                             <option>201</option>
@@ -121,7 +121,7 @@
                         </select>
                     </div>
                 </div>
-            
+                <div class="scroll-block">
                 <table>
                     <thead>
                         <tr>
@@ -132,7 +132,9 @@
                             <th>Actividad</th>
                             <th></th>
                         </tr>
+                    </thead>
                 </table>
+                </div>
             </div>
         </div>
         

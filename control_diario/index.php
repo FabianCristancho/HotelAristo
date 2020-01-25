@@ -76,7 +76,7 @@
                             <div class="input-group-icon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input id="control-date" class="form-control" type="date" value="<?php echo $date; ?>">
+                            <input id="control-date" class="form-control" onchange="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,0)" type="date" value="<?php echo $date; ?>">
                             <button onclick="window.location.href='/control_diario/?date='+calculateDate(document.getElementById('control-date').value,1)">&gt;</button>
                         </div>
                         <small class="form-text text-muted">ej. 10/11/2019</small>

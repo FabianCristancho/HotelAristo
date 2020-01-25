@@ -62,11 +62,11 @@
                 <div class="content-header col-12">
                     <div class="row col-12">
                         <h2 class="title-form col-8">EMPRESAS REGISTRADAS</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar empresa</a> 
-                    <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
+                        <a class="button-add-book col-2" href="registrar">Registrar empresa</a> 
+                        <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
                     </div>
-                    
                 </div>
+                
                 <div class="scroll-block">
                     <table>
                         <thead>
@@ -75,7 +75,7 @@
                                 <th>NOMBRE</th>
                                 <th>TELEFONO</th>
                                 <th>RETEFUENTE (3,5 %)</th>
-                                <th>OTRO IMPUESTO</th>
+                                <th>ICA</th>
                                 <th></th>
                             </tr>
                         </thead>
