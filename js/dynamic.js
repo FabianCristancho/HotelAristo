@@ -90,15 +90,15 @@ function changeColor(room){
 		cell.style.background='#f44336';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Ocupada";
 		break;
-		case "D":
+		case "L":
 		cell.style.background='yellow';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Disponible";
 		break;
-		case "M":
+		case "R":
 		cell.style.background='#ff9800';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Con reserva";
 		break;
-		case "F":
+		case "X":
 		cell.style.background='gray';
 		cell.getElementsByClassName("room-state")[0].innerHTML="Fuera de servicio";
 		break;
@@ -169,13 +169,14 @@ function cleanProf(){
 	prof.getElementsByTagName("input")[0].value="";
 }
 
-function updateRooms(){
+function updateRooms(index){
+	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
-		data: 'entity=roomType&roomType='+document.getElementById('room-type').value,
+		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value,
 		success: function (ans) {
-			$('#room-select').html(ans);
+			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
 		}
 	});
 }

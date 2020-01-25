@@ -92,6 +92,44 @@
             include "../../objects/footer.php";
             include "../../objects/alerts.php";
         ?>
+
+        <div id="add-bizz" class="modal" onclick="touchOutside(this);">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span onclick="hideModal('add-bizz');" class="close">&times;</span>
+                    <h2>Agregar empresa</h2>
+                </div>
+
+                <div class="modal-body">
+                    <?php include "../../objects/input-enterprise.php"; ?>
+                    <div>
+                        <button class="btn btn-block btn-register"  onclick="updateEnterprise();">
+                            <i class="fa fa-check"></i>
+                            <span>Registrar empresa</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="add-prof" class="modal" onclick="touchOutside(this);";>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span onclick="hideModal('add-prof');" class="close">&times;</span>
+                    <h2>Agregar profesión</h2>
+                </div>
+
+                <div class="modal-body">
+                    <?php include "../../objects/input-profession.php"; ?>
+                    <div>
+                        <button class="btn btn-block btn-register" onclick="updateProfession();">
+                            <i class="fa fa-check"></i>
+                            <span>Registrar profesión</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
 
     <script type="text/javascript">

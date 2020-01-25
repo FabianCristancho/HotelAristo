@@ -70,8 +70,8 @@ function assignAttributesToGroup(i){
 	var selects=group.getElementsByTagName('select');
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
+	selects[0].setAttribute('onchange','updateGuest('+i+',this);');
 	selects[1].setAttribute('onchange','updateRooms('+i+');');
-	selects[2].setAttribute('onchange','updateGuest('+i+',this);');
 	assignAttributesToClients(i);
 }
 
@@ -80,7 +80,7 @@ function assignAttributesToClients(index){
 	var clientCards=roomGroup.getElementsByClassName('client-cards')[0];
 	var cards=clientCards.getElementsByClassName("card-client");
 	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
-	var roomNumber=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[1].value;
+	var roomNumber=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[2].value;
 	var title;
 	var header;
 
@@ -227,8 +227,8 @@ function changeHolderPosition(guest){
 		document.getElementById("holder-label").innerHTML="El titular no se hospedará";
 	}
 	assignAttributes();
-	var guestSelect=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[2];
+	var guestSelect=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[0];
 	var clientQuantity=clientCards.getElementsByClassName("card-client").length;
 	guestSelect.value=(clientQuantity==0?1:clientQuantity);
-	updateGuest(0,guestSelect)
+	updateGuest(0,guestSelect);
 }

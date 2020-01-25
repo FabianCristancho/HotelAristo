@@ -75,7 +75,7 @@
                                 <th>NOMBRE</th>
                                 <th>TELEFONO</th>
                                 <th>RETEFUENTE (3,5 %)</th>
-                                <th>OTRO IMPUESTO</th>
+                                <th>ICA</th>
                                 <th></th>
                             </tr>
                         </thead>
