@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS productos(
 
 CREATE TABLE IF NOT EXISTS tipos_habitacion(
 	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_tipo_habitacion VARHCAR(30) NOT NULL,
+	nombre_tipo_habitacion VARCHAR(30) NOT NULL,
 	CONSTRAINT tih_pk_idt PRIMARY KEY(id_tipo_habitacion)
 );
 
