@@ -91,11 +91,18 @@ CREATE TABLE IF NOT EXISTS tipos_habitacion(
 );
 
 
+CREATE TABLE IF NOT EXISTS tipos_desayuno(
+	id_tipo_desayuno INT(2) NOT NULL,
+	nombre_tipo_desayuno VARCHAR(20) NOT NULL,
+	valor_desayuno INT(5) NOT NULL,
+	CONSTRAINT tdes_pk_idt PRIMARY KEY (id_tipo_desayuno)
+);
+
 CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
+	id_tipo_desayuno INT(2) NOT NULL,
 	cantidad_huespedes INT(2) NOT NULL,
-	valor_desayuno INT(5) NOT NULL, 
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
@@ -226,6 +233,7 @@ ALTER TABLE productos ADD(
 
 ALTER TABLE tarifas ADD(
 	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
+	CONSTRAINT tar_fk_idtd FOREIGN KEY (id_tipo_desayuno) REFERENCES tipos_desayuno(id_tipo_desayuno),
 	CONSTRAINT tar_ck_val CHECK (valor_ocupacion > 0)
 );
 
