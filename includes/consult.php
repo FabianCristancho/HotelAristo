@@ -167,7 +167,7 @@
             }
         }
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion INNER JOIN personas c ON rh.id_huesped=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'") rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion INNER JOIN personas c ON rh.id_huesped=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" AND r.estado_reserva="RE" GROUP BY id_habitacion) rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
 
             $query->execute();
             foreach ($query as $current) {
@@ -264,26 +264,26 @@
                 case 'L':
                     echo '<option value="L">Disponible</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="X">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="R">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
                 case 'O':
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
                     echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="X">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="R">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
                 case 'R':
-                    echo '<option value="X">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
                     echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="R">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     break;
                 case 'X':
-                    echo '<option value="R">Fuera de servicio</option>'.PHP_EOL;
+                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
                     echo '<option value="O">Ocupada</option>'.PHP_EOL;
                     echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="X">Con reserva</option>'.PHP_EOL;
+                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
                     break;
             }
             

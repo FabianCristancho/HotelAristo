@@ -45,8 +45,8 @@
                 <div class="dropdown-content">
                     <a href="/reservas/registrar">Registar reserva</a>
                     <a href="/empresas/registrar">Registrar empresas</a>
-                    <a href="/usuarios/registrar">Registrar usuarios</a>
                     <a href="/clientes/registrar">Registrar clientes</a>
+                    <a href="/usuarios/registrar">Registrar usuarios</a>
                 </div>
             </div>
             
@@ -58,8 +58,8 @@
                 <br>
                 <div class="dropdown-content">
                     <a href="/reservas">Consultar reservas</a>
-                    <a href="/clientes">Consultar clientes</a>
                     <a href="/empresas">Consultar empresas</a>
+                    <a href="/clientes">Consultar clientes</a>
                     <a href="/habitaciones">Consultar habitaciones</a>
                 </div>
             </div>
