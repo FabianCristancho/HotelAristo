@@ -187,6 +187,7 @@ CREATE TABLE IF NOT EXISTS control_diario(
    	id_control INT(8) NOT NULL AUTO_INCREMENT,
    	id_registro_habitacion INT(8) NOT NULL,
    	fecha_control DATE NOT NULL,
+   	movimiento BOOLEAN NOT NULL,
    	CONSTRAINT con_pk_idc PRIMARY KEY(id_control)
 );
 
@@ -262,7 +263,7 @@ ALTER TABLE personas ADD(
 
 
 ALTER TABLE reservas ADD (
-	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/)),
+	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/, 'TE' /*Terminada*/)),
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),
