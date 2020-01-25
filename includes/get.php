@@ -7,6 +7,9 @@
         case 'roomType':
             $consult->roomTypeList($_POST['roomType']);
             break;
+        case 'roomQuantity':
+            $consult->roomQuantityList($_POST['roomQuantity']);
+            break;
         case 'enterprise':
             $consult->enterpriseList();
             break;

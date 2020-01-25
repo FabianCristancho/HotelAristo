@@ -6,15 +6,22 @@
                 case 'roomType':
                     $this->roomTypeList($aux);
                     break;
+                case 'roomQuantity':
+                    $this->roomQuantityList($aux);
+                    break;
+
                 case 'enterprise':
                     $this->enterpriseList();
                     break;
+
                 case 'country':
                     $this->countryList();
                     break;
+
                 case 'profession':
                     $this->professionList();
                     break;
+
                 case 'city':
                     $this->cityList($aux);
                 break;
@@ -26,18 +33,23 @@
                 case 'room':
                     $this->roomTable($aux);
                 break;
+
                 case 'enterprise':
                     $this->enterpriseTable();
                 break;
+
                 case 'rol':
                     $this->userComboRol();
                 break;
+
                 case 'type_document':
                     $this->typeDocument();
                 break;
+
                 case 'customers':
                     $this->customerTable();
                     break;
+
                 case 'reservation':
                     $this->reservationTable();
                     break;
@@ -47,6 +59,7 @@
         function cityList($country){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="C" AND id_ubicacion='.$country);
             $query->execute();
+
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
             }
@@ -55,6 +68,7 @@
         public function countryList(){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar FROM lugares WHERE tipo_lugar="P"');
             $query->execute();
+
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
             }
@@ -62,6 +76,7 @@
         public function professionList(){
             $query = $this->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
             $query->execute();
+
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>';
             }
@@ -70,15 +85,36 @@
         function enterpriseList(){
             $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa FROM empresas');
             $query->execute();
+
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_empresa'].'">'.$current['nombre_empresa'].'</option>';
             }
         }
 
+        public function roomTypeList($type){
+            $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones h INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion WHERE nombre_tipo_habitacion='.'"'.$type.'"');
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['numero_habitacion'].'">'.$current['numero_habitacion'].'</option>';
+            }
+            return false;
+        }
+
+        public function roomQuantityList($quantity){
+            $query = $this->connect()->prepare('SELECT DISTINCT th.id_tipo_habitacion, th.nombre_tipo_habitacion FROM tarifas t INNER JOIN tipos_habitacion th ON t.id_tipo_habitacion=th.id_tipo_habitacion WHERE cantidad_huespedes='.$quantity);
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_tipo_habitacion'].'">'.$current['nombre_tipo_habitacion'].'</option>';
+            }
+            return false;
+        }
+
         function reservationTable(){
             $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux FROM reservas r LEFT JOIN personas c ON r.id_titular=c.id_persona LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
-
             $query->execute();
+
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
@@ -112,6 +148,7 @@
         function customerTable(){
             $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona FROM personas p LEFT JOIN profesiones pr ON p.id_profesion=pr.id_profesion WHERE tipo_persona = "C"');
             $query->execute();
+
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
@@ -123,15 +160,7 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-        
-        function roomTypeList($type){
-            $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones h INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion WHERE nombre_tipo_habitacion='.'"'.$type.'"');
-            $query->execute();
-            foreach ($query as $current) {
-                echo '<option value="'.$current['numero_habitacion'].'">'.$current['numero_habitacion'].'</option>';
-            }
-            return false;
-        }
+
         
         function enterpriseTable(){
             $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica FROM empresas');
@@ -148,36 +177,19 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-        
-        function userComboRol(){
-            $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos');
-            $query->execute();
-            
-            foreach($query as $current){
-                echo '<option value = "'.$current['nombre_cargo'].'">'.$current['nombre_cargo'].'</option>'.PHP_EOL;
-            }
-        }
-        
-        function typeDocument(){
-            $query = $this->connect()->prepare('SELECT nombre_tipo FROM tipos_documento');
-            $query->execute();
-            
-            foreach($query as $current){
-                echo '<option value = "'.$current['nombre_tipo'].'">'.$current['nombre_tipo'].'</option>'.PHP_EOL;
-            }
-        }
-        function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.estado_habitacion,rg.nombres_clientes,rg.ids_clientes,rg.fecha_ingreso, rg.conteo FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion INNER JOIN personas c ON rh.id_huesped=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" AND r.estado_reserva="RE" GROUP BY id_habitacion) rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
 
+        function roomTable($date){
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva FROM habitaciones h LEFT JOIN (SELECT rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo FROM reservas r INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion INNER JOIN personas c ON rh.id_huesped=c.id_persona  WHERE r.fecha_ingreso<="'.$date.'" AND r.fecha_salida >="'.$date.'" AND (r.estado_reserva="RE" OR r.estado_reserva="AC") GROUP BY id_habitacion) rg ON rg.id_habitacion=h.id_habitacion LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
             $query->execute();
+
             foreach ($query as $current) {
                 echo '<tr>'.PHP_EOL;
                 echo '<td><p class="vertical-word">'.$current['nombre_tipo_habitacion'].'</p></td>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
-                echo '<p class="room-state">'.$this->roomState($current['estado_habitacion']).'</p>'.PHP_EOL;
-                echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" >'.PHP_EOL;
-                $this->chooseRoomState($current['estado_habitacion']);
-                echo '</select>'.PHP_EOL;
+                echo '<p class="room-state">'.$this->roomState2($current['fuera_de_servicio'],$current['estado_reserva'],$date).'</p>'.PHP_EOL;
+                //echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" disabled>'.PHP_EOL;
+                //$this->chooseRoomState($current['estado_habitacion']);
+                //echo '</select>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
                 echo '<td>';
                 
@@ -200,9 +212,29 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
+
+        function userComboRol(){
+            $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos');
+            $query->execute();
+            
+            foreach($query as $current){
+                echo '<option value = "'.$current['nombre_cargo'].'">'.$current['nombre_cargo'].'</option>'.PHP_EOL;
+            }
+        }
+        
+        function typeDocument(){
+            $query = $this->connect()->prepare('SELECT nombre_tipo FROM tipos_documento');
+            $query->execute();
+            
+            foreach($query as $current){
+                echo '<option value = "'.$current['nombre_tipo'].'">'.$current['nombre_tipo'].'</option>'.PHP_EOL;
+            }
+        }
+
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
+
             foreach ($query as $current) {
                 if($current['nombre_profesion']!=$currentProfession)
                     echo '<option value="'.$current['id_profesion'].'">'.$current['nombre_profesion'].'</option>'; 
@@ -212,6 +244,7 @@
         function getRemainingExp($currentExp){
             $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="C" ORDER BY 2');
             $query->execute();
+
             foreach ($query as $current) {
                 if($current['nombre_lugar']!=$currentExp)
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
@@ -221,6 +254,7 @@
         function getRemainingNac($currentNac){
             $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="P" ORDER BY 2');
             $query->execute();
+
             foreach ($query as $current) {
                 if($current['nombre_lugar']!=$currentNac)
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
@@ -235,6 +269,7 @@
                     return 'checked';
             }
         }
+
         function roomType($type){
         	switch ($type) {
         		case 'J':
@@ -247,18 +282,37 @@
         		return 'MAKKAH';
         	}
         }
+
         function roomState($state){
-        	switch ($state) {
-        		case 'L':
-        		return 'Disponible';
-        		case 'O':
-        		return 'Ocupada';
-        		case 'R':
-        		return 'En reserva';
-        		case 'X':
-        		return 'Fuera de servicio';
-        	}
+            switch ($state) {
+                case 'L':
+                return 'Disponible';
+                case 'O':
+                return 'Ocupada';
+                case 'R':
+                return 'Con reserva';
+                case 'X':
+                return 'Fuera de servicio';
+            }
         }
+
+        function roomState2($stateRoom, $stateBook,$date){
+            if($stateRoom==0)
+                if($stateBook=="RE")
+                    return 'Ocupada';
+                else if($stateBook=="AC"){
+                    if(date("Y-m-d")>$date)
+                        return 'Con reserva';
+                    else if(date("Y-m-d")<$date)
+                        return 'Disponible';
+                    else
+                        return 'Con reserva (Hoy llega)';
+                }else 
+                    return 'Disponible';
+            else
+                return 'Fuera de servicio';
+        }
+
         function chooseRoomState($state){
             switch ($state) {
                 case 'L':
