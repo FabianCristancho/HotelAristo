@@ -76,20 +76,22 @@ function assignAttributesToGroup(i){
 }
 
 function assignAttributesToClients(index){
-	var clientCards=document.getElementsByClassName('room-group')[index].getElementsByClassName('client-cards')[0];
+	var roomGroup=document.getElementsByClassName('room-group')[index];
+	var clientCards=roomGroup.getElementsByClassName('client-cards')[0];
 	var cards=clientCards.getElementsByClassName("card-client");
 	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
+	var roomNumber=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[1].value;
 	var title;
 	var header;
 
 	for (var i = 0; i < cards.length; i++) {
 		header=cards[i].getElementsByClassName("card-header")[0];
 		title= header.getElementsByTagName("strong")[0];
-		title.innerHTML="Información personal "+(1+index)+"."+(1+i);
+		title.innerHTML="Información personal "+(1+i)+" ("+roomNumber+")";
 
 		if(index==0&&i==0){
 			if(document.getElementById("holder-check")==null){
-				title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+				title.innerHTML="Información personal del titular "+(1+i)+" ("+roomNumber+")";
 				var div= document.createElement("div");
 				var switchIcon=document.createElement("label");
 				var switchLabel=document.createElement("label");
@@ -105,7 +107,7 @@ function assignAttributesToClients(index){
 				header.appendChild(div);
 			}else{
 				if(document.getElementById("holder-check").checked)
-					title.innerHTML="Información personal "+(1+index)+"."+(1+i)+" (Titular)";
+					title.innerHTML="Información personal del titular "+(1+i)+" ("+roomNumber+")";
 			}
 		}
 
