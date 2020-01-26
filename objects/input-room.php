@@ -31,10 +31,7 @@
 												</div>
 
 												<select class="form-control" required>
-							                        <option value="JOLIOT" selected>JOLIOT</option>
-							                        <option value="HAWKING">HAWKING</option>
-							                        <option value="LISPECTOR">LISPECTOR</option>
-							                        <option value="MAKKAH">MAKKAH</option>
+													<?php $consult->getList('roomQuantity','1'); ?>
 							                    </select>
 											</div>
 										</div>

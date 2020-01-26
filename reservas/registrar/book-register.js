@@ -70,7 +70,7 @@ function assignAttributesToGroup(i){
 	var selects=group.getElementsByTagName('select');
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
-	selects[0].setAttribute('onchange','updateGuest('+i+',this);');
+	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+');');
 	selects[1].setAttribute('onchange','updateRooms('+i+');');
 	assignAttributesToClients(i);
 }
