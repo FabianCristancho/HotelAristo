@@ -1,7 +1,7 @@
 <?php
     
     class Consult extends Database {
-        public function getList($entity, $aux){
+        public function getList($entity, $aux,string $aux2=null){
             switch ($entity) {
                 case 'roomType':
                     $this->roomTypeList($aux);
@@ -25,6 +25,10 @@
                 case 'city':
                     $this->cityList($aux);
                 break;
+
+                case 'tariff':
+                    $this->tariffList($aux,$aux2);
+                    break;
             }
         }
 
@@ -92,17 +96,21 @@
         }
 
         public function roomTypeList($type){
-            $query = $this->connect()->prepare('SELECT numero_habitacion FROM habitaciones h INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion WHERE nombre_tipo_habitacion='.'"'.$type.'"');
+            $query = $this->connect()->prepare('SELECT id_habitacion, numero_habitacion FROM habitaciones h INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion WHERE th.id_tipo_habitacion='.'"'.$type.'"');
             $query->execute();
 
             foreach ($query as $current) {
-                echo '<option value="'.$current['numero_habitacion'].'">'.$current['numero_habitacion'].'</option>';
+                echo '<option value="'.$current['id_habitacion'].'">'.$current['numero_habitacion'].'</option>';
             }
             return false;
         }
 
         public function roomQuantityList($quantity){
-            $query = $this->connect()->prepare('SELECT DISTINCT th.id_tipo_habitacion, th.nombre_tipo_habitacion FROM tarifas t INNER JOIN tipos_habitacion th ON t.id_tipo_habitacion=th.id_tipo_habitacion WHERE cantidad_huespedes='.$quantity);
+            $values=explode(".",$quantity);
+            if($values[1])
+                $room=($values[1]==2?3:$values[1]=null);
+
+            $query = $this->connect()->prepare('SELECT DISTINCT th.id_tipo_habitacion, th.nombre_tipo_habitacion FROM tarifas t INNER JOIN tipos_habitacion th ON t.id_tipo_habitacion=th.id_tipo_habitacion WHERE cantidad_huespedes='.$values[0].($values[1]==null?'':' AND NOT t.id_tipo_habitacion='.$room));
             $query->execute();
 
             foreach ($query as $current) {
@@ -110,6 +118,18 @@
             }
             return false;
         }
+
+        public function tariffList($quantity,$room){
+            $values=explode(".",$quantity);
+            $query = $this->connect()->prepare('SELECT id_tarifa,valor_ocupacion FROM tarifas WHERE cantidad_huespedes='.$values[0].($room==null?'':' AND id_tipo_habitacion='.$room));
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_tarifa'].'">'.$current['valor_ocupacion'].'</option>';
+            }
+            return false;
+        }
+
 
         function reservationTable(){
             $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux FROM reservas r LEFT JOIN personas c ON r.id_titular=c.id_persona LEFT JOIN empresas e ON c.id_empresa=e.id_empresa WHERE r.estado_reserva="AC"');
@@ -122,7 +142,7 @@
                 echo '<td><label class="switch switch-table"><input type="checkbox" onchange=""'.($current['aux']==1?'disabled':'').'><span class="slider slider-red round green"></span></label></td>';
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
+                echo '<td>'.($current['fecha_ingreso']==date("Y-m-d")?$current['fecha_ingreso']:"No").'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
                 echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
@@ -301,12 +321,10 @@
                 if($stateBook=="RE")
                     return 'Ocupada';
                 else if($stateBook=="AC"){
-                    if(date("Y-m-d")>$date)
+                    if(date("Y-m-d")==$date)
                         return 'Con reserva';
-                    else if(date("Y-m-d")<$date)
-                        return 'Disponible';
                     else
-                        return 'Con reserva (Hoy llega)';
+                        return 'Disponible'.(date("Y-m-d")==$date);
                 }else 
                     return 'Disponible';
             else

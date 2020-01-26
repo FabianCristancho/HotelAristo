@@ -181,6 +181,18 @@ function changeStateCard(state,card){
 }
 
 
+function updateRoomTypes(index){
+	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+	 $.ajax({
+		type: 'post',
+		url: '/includes/get.php',
+		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value,
+		success: function (ans) {
+			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
+		}
+	});
+}
+
 function updateRooms(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
 	 $.ajax({
@@ -192,15 +204,16 @@ function updateRooms(index){
 		}
 	});
 }
-function updateRoomTypes(index){
+
+function updateRoomTariff(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+	var selects=cardRoom.getElementsByTagName("select");
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
-		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value,
+		data: 'entity=roomTariff&roomQuantity='+selects[0].value+'&roomType='+selects[1].value,
 		success: function (ans) {
-			console.log(ans);
-			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
+			selects[3].innerHTML=ans;
 		}
 	});
 }

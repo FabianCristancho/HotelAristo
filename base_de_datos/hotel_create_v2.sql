@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	id_tipo_desayuno INT(2) NOT NULL,
-	cantidad_huespedes INT(2) NOT NULL,
+	cantidad_huespedes VARCHAR(2) NOT NULL,
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );

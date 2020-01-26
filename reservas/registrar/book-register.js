@@ -35,7 +35,7 @@ function updateRoom(input){
 function updateGuest(index,input){
 	var content=document.getElementsByClassName('room-group')[index].getElementsByClassName("client-cards")[0];
 	var cards=content.getElementsByClassName("card-client");
-	var res=input.value-cards.length;
+	var res=Math.round(input.value-cards.length);
 
 	if(res>0){
 		var base=document.getElementById("room-group").getElementsByClassName("card-client")[0];
@@ -70,8 +70,8 @@ function assignAttributesToGroup(i){
 	var selects=group.getElementsByTagName('select');
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
-	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+');');
-	selects[1].setAttribute('onchange','updateRooms('+i+');');
+	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
+	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
 	assignAttributesToClients(i);
 }
 
@@ -80,7 +80,8 @@ function assignAttributesToClients(index){
 	var clientCards=roomGroup.getElementsByClassName('client-cards')[0];
 	var cards=clientCards.getElementsByClassName("card-client");
 	var chkButtons=clientCards.getElementsByClassName("btn-check-in");
-	var roomNumber=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[2].value;
+	var selectRoom=roomGroup.getElementsByClassName("card-room")[0].getElementsByTagName("select")[2];
+	var roomNumber=selectRoom.getElementsByTagName("option")[selectRoom.selectedIndex].innerHTML;
 	var title;
 	var header;
 
