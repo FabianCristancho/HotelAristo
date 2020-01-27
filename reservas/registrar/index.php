@@ -177,31 +177,66 @@
 
 		<div id="confirm-modal" class="modal" onclick="touchOutside(this);";>
 			<div class="modal-content">
-                <div class="modal-body">
-                <form onsubmit="return false;">
-                	<div class="card">
-					    <div class="card-header">
-					        <strong class="card-title">Resumen de la reserva</strong>
-					    </div>
+				<div class="modal-header">
+                    <span onclick="hideModal('confirm-modal');" class="close">&times;</span>
+                    <h2>Revisar reserva</h2>
+                </div>
+                <div class="modal-body scroll-block">
+	                <form onsubmit="return false;">
+	                	<div class="card">
+						    <div class="card-header">
+						        <strong class="card-title">Resumen de la reserva</strong>
+						    </div>
+						    <div class="card-body">
+						    </div>
+						</div>
 
-					    <div class="card-body">
-					    	<div class="switch-group">
-					    		<label class="switch switch-container">
-					    			<input type="checkbox" name="">
-					    			<span class="slider slider-gray round green"></span>
-					    		</label>
-					    		<label class="switch-label">El titular de la reserva pagará en este momento.</label>
-					    	</div>
-					    </div>
-					</div>
+						<div class="card">
+	                		<div class="card-body">
+	                			<div class="switch-group">
+	                				<label class="switch switch-container">
+							    		<input type="checkbox" onchange="showInPlace(this);">
+							    		<span class="slider slider-gray round green"></span>
+							    	</label>
+							    	<label class="switch-label">Los huespedes estan en el hotel. (Check on)</label>
+							    </div>
 
-                	<div>
-						<button class="btn btn-block btn-register" onclick="">
-							<i class="fa fa-check"></i>
-							<span>Confirmar registro de reserva</span>
-						</button>
-					</div>
-				</form>
+	                			<div id="in-place-form" class="hideable">
+	                				<br>
+	                				<div class="switch-group">
+							    		<label class="switch switch-container">
+							    			<input type="checkbox" onchange="showPayments(this);">
+							    			<span class="slider slider-gray round green"></span>
+							    		</label>
+							    		<label class="switch-label">El titular de la reserva pagará en este momento.</label>
+							    	</div>
+
+							    	<div id="payment-methods" class="form-group hideable">
+							    		<br>
+						        		<label class="form-control-label">Medio de pago</label>
+						        		<div class="input-group">
+						        			<div class="input-group-icon">
+						        				<i class="fa fa-dollar"></i>
+						        			</div>
+							        		<select class="form-control">
+							        			<option value="E">EFECTIVO</option>
+							        			<option value="T">TARJETA</option>
+							        			<option value="C">CONSIGNACIÓN</option>
+							        			<option value="CC">CUENTAS POR COBRAR</option>
+							        		</select>
+						        		</div>
+						        	</div>
+	                			</div>
+	                		</div>
+						</div>
+
+	                	<div>
+							<button class="btn btn-block btn-register" onclick="">
+								<i class="fa fa-check"></i>
+								<span>Confirmar registro de reserva</span>
+							</button>
+						</div>
+					</form>
                 </div>
             </div>
 		</div>
@@ -227,8 +262,18 @@
         			<?php 
         				include "../../objects/input-client.php";
         			?>
-        			</div>
         		</div>
         	</div>
+        	
+        	<div id="form-group" class="form-group in-row">
+        		<label class="form-control-label"></label>
+        		<div class="input-group">
+        			<div class="input-group-icon">
+        				<i class="fa"></i>
+        			</div>
+        		<label class="form-control"></label>
+        		</div>
+        	</div>
+        </div>
 	</body>
 </html>
