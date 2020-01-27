@@ -3,6 +3,7 @@ header{
     background: yellow;
     padding-top: 0;
     padding-bottom: 0;
+    max-height: 160px;
 }
 
 #logo-hotel{
@@ -77,5 +78,11 @@ header{
 
     #menu-button{
         display: none;
+    }
+}
+
+@media only screen and (min-width: 900px){
+    header{
+        max-height: 80px;
     }
 }

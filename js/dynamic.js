@@ -114,14 +114,11 @@ function changeColors(room){
 			cell.style.background='#f44336';
 			break;
 
-			case "Disponible":
+		case "Disponible":
 			cell.style.background='yellow';
 			break;
 
 		case "Con reserva":
-			cell.style.background='#ff9800';
-			break;
-		case "Con reserva (Hoy llega)":
 			cell.style.background='#ff9800';
 			break;
 
@@ -180,6 +177,18 @@ function changeStateCard(state,card){
 	}
 }
 
+function checkInputOnlyLetters(event,input){
+	$(input).bind('keypress', function(event){
+		var regex = new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$");
+		var key= String.fromCharCode(!event.charCode? event.which:event.charCode);
+		if(!regex.test(key)){
+			event.preventDefault();
+			return false;
+		}
+	});
+}
+
+/* AJAX */
 
 function updateRoomTypes(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
@@ -201,6 +210,7 @@ function updateRooms(index){
 		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value,
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
+			assignAttributesToClients(index);
 		}
 	});
 }

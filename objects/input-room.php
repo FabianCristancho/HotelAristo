@@ -14,11 +14,11 @@
 												</div>
 
 												<select class="form-control guests-quantity" required>
-							                        <option value="1">1 (Sencilla)</option>
-							                        <option value="2.1">2 (Pareja)</option>
-							                        <option value="2.2">2 (Doble)</option>
-							                        <option value="3">3 (Triple)</option>
-							                        <option value="4">3 (Triple + Sofacama)</option>
+							                        <option value="S">1 (Sencilla)</option>
+							                        <option value="P">2 (Pareja)</option>
+							                        <option value="D">2 (Doble)</option>
+							                        <option value="T">3 (Triple)</option>
+							                        <option value="TS">4 (Triple + Sofacama)</option>
 							                    </select>
 											</div>
 										</div>
@@ -31,7 +31,7 @@
 												</div>
 
 												<select class="form-control" required>
-													<?php $consult->getList('roomQuantity','1'); ?>
+													<?php $consult->getList('roomQuantity','S'); ?>
 							                    </select>
 											</div>
 										</div>
@@ -56,7 +56,7 @@
 													<i class="fa fa-dollar"></i>
 												</div>
 												<select class="form-control" required>
-							                        <?php $consult->getList('tariff','1','1');?>
+							                        <?php $consult->getList('tariff','S','1');?>
 							                    </select>
 											</div>
 										</div>

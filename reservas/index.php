@@ -34,6 +34,8 @@
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/modal.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
@@ -86,6 +88,25 @@
             */
             include "../objects/footer.php"; 
         ?>
-        
+
+        <div id="confirm-check-on" class="modal" onclick="touchOutside(this);";>
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                    <div>
+                        <button class="btn btn-block btn-register" onclick="updateProfession();">
+                            <i class="fa fa-check"></i>
+                            <span>Confirmar check on</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function setCheckOn(reservation, input){
+                if(input.checked)
+                    showModal('confirm-check-on');
+            }
+        </script>
     </body>
 </html>

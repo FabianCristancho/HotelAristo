@@ -14,7 +14,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-user-o"></i>
 											</div>
-											<input class="form-control" type="text" placeholder="Nombres" required>
+											<input class="form-control" type="text" placeholder="Nombres" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" required>
 										</div>
 										<small class="form-text text-muted">ej. Pedro Luis</small>
 									</div>
@@ -25,7 +25,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-user-o"></i>
 											</div>
-											<input class="form-control" type="text" placeholder="Apellidos" required>
+											<input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" required>
 										</div>
 										<small class="form-text text-muted">ej. Perez Perez</small>
 									</div>
@@ -54,7 +54,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-id-card"></i>
 											</div>
-											 <input class="form-control" type="number" placeholder="Número de documento" pattern="[0-9]{6,15}">
+											 <input class="form-control" type="number" placeholder="Número de documento" minlength="6" maxlength="15">
 										</div>
 										<small class="form-text text-muted">ej. 12345678</small>
 									</div>
@@ -105,7 +105,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-phone"></i>
 											</div>
-											<input class="form-control" type="tel" placeholder="Telefono" pattern="[3]{1}[0-9]{9}"  required>
+											<input class="form-control" type="number" placeholder="Telefono" maxlength="15" minlength="7" required>
 										</div>
 										<small class="form-text text-muted">ej. 3123334466</small>
 									</div>

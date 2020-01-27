@@ -8,6 +8,10 @@ body{
     font-family: "Open Sans", sans-serif;
 }
 
+form{
+    margin-block-end: 0;
+}
+
 .row.hideable{
   display: none;
 }
