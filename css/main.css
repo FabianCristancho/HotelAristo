@@ -419,11 +419,6 @@ input:checked + .slider:before {
     border: 2px solid #18347D;
 }
 
-.padd{
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
 .wrap-vertical{
     min-height: 100%;
 }
@@ -537,5 +532,10 @@ input:checked + .slider:before {
 
     .switch-group-margin-min{
       margin-left: 10px;
+    }
+    
+    .padd{
+        padding-right: 15px;
+        padding-left: 15px;
     }
 }

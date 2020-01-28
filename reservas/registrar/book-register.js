@@ -363,9 +363,11 @@ function showCustomTariff(index,input){
 	if(input.value=="O"){
 		formGroup.style.display="block";
 		input.nextElementSibling.style.display="none";
+		formGroup.getElementsByTagName("input")[0].required=true;
 	}else{
 		formGroup.style.display="none";
 		input.nextElementSibling.style.display="inline-block";
+		formGroup.getElementsByTagName("input")[0].required=false;
 	}
 }
 
