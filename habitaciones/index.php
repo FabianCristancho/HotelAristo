@@ -67,7 +67,6 @@
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
                     <h2 class="title-form col-10">HISTORIAL DE HABITACIONES</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
                 </div>
                 
                 <div class="history-room">

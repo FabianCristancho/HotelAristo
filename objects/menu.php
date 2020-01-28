@@ -20,8 +20,7 @@
 </script>
 
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
-    <?php 
-            include "loader.php";?>
+    <?php include "loader.php";?>
     <header class="col-12">
         <a href="/inicio">
             <img id="logo-hotel" src="/res/img/logoA.png">
@@ -45,7 +44,6 @@
                 <div class="dropdown-content">
                     <a href="/reservas/registrar">Registar reserva</a>
                     <a href="/empresas/registrar">Registrar empresas</a>
-                    <a href="/clientes/registrar">Registrar clientes</a>
                     <a href="/usuarios/registrar">Registrar usuarios</a>
                 </div>
             </div>
@@ -59,8 +57,8 @@
                 <div class="dropdown-content">
                     <a href="/reservas">Consultar reservas</a>
                     <a href="/empresas">Consultar empresas</a>
-                    <a href="/clientes">Consultar clientes</a>
                     <a href="/habitaciones">Consultar habitaciones</a>
+                    <a href="/clientes">Consultar clientes</a>
                 </div>
             </div>
             

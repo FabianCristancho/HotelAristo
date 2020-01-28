@@ -534,4 +534,8 @@ input:checked + .slider:before {
     .switch-group-margin{
       margin-left: 50px;
     }
+
+    .switch-group-margin-min{
+      margin-left: 10px;
+    }
 }

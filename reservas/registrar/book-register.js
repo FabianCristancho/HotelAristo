@@ -68,10 +68,13 @@ function assignAttributes(){
 function assignAttributesToGroup(i){
 	var group=document.getElementsByClassName('room-group')[i].getElementsByClassName('card-room')[0];
 	var selects=group.getElementsByTagName('select');
+	var input=group.getElementsByTagName('input')[0];
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
 	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
 	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
+	selects[3].setAttribute('onchange','showCustomTariff('+i+',this);');
+	input.setAttribute('onchange','applyDiscount('+i+',this);');
 	assignAttributesToClients(i);
 }
 
@@ -225,6 +228,7 @@ function setPreviewBook(){
 	}
 
 	var roomSelects;
+	var roomInput;
 	var guests;
 	var guestsNames;
 	var tariff;
@@ -234,8 +238,12 @@ function setPreviewBook(){
 		row =document.createElement("div");
 		row.classList.add("row");
 		roomSelects=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("select");
+		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[1];
 		row.appendChild(createFormGroupLabel("Habitación "+(i+1),getSelectedOptionNameFrom(roomSelects[2])+" ("+getSelectedOptionNameFrom(roomSelects[1])+")","bed"));
 		tariff=getSelectedOptionNameFrom(roomSelects[3]);
+		if(tariff=="Otro")
+			tariff=roomInput.value;
+		console.log(tariff);
 		totalTariffs+=parseInt(tariff);
 		row.appendChild(createFormGroupLabel("Tarifa",tariff,"dollar"));
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");
@@ -347,4 +355,27 @@ function showInPlace(input){
 		p.style.display="block";
 	else
 		p.style.display="none";
+}
+
+function showCustomTariff(index,input){
+	var formGroup=document.getElementsByClassName('room-group')[index].getElementsByClassName('card-room')[0].getElementsByClassName("form-group")[4];
+	
+	if(input.value=="O"){
+		formGroup.style.display="block";
+		input.nextElementSibling.style.display="none";
+	}else{
+		formGroup.style.display="none";
+		input.nextElementSibling.style.display="inline-block";
+	}
+}
+
+function applyDiscount(index, input){
+	var select=document.getElementsByClassName('room-group')[index].getElementsByClassName('card-room')[0].getElementsByTagName('select')[3];
+	var options=select.getElementsByTagName("option");
+
+	if(input.checked){
+		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML)-5000)+" (Descuento)";
+	}else{
+		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML.replace(" (Descuento)"))+5000);
+	}
 }
