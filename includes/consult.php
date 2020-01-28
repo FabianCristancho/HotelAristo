@@ -63,7 +63,7 @@
         function cityList($country){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar 
                 FROM lugares 
-                WHERE tipo_lugar="C" AND id_ubicacion=:country');
+                WHERE tipo_lugar="C" AND id_ubicacion=:country ORDER BY nombre_lugar');
             $query->execute(['country'=>$country]);
 
             foreach ($query as $current) {
@@ -138,12 +138,13 @@
         }
 
         public function tariffList($quantity,$roomType){
-            $query = $this->connect()->prepare('SELECT id_tarifa,valor_ocupacion FROM tarifas WHERE cantidad_huespedes=:quantity AND id_tipo_habitacion=:roomType');
+            $query = $this->connect()->prepare('SELECT id_tarifa,valor_ocupacion FROM tarifas WHERE cantidad_huespedes=:quantity AND id_tipo_habitacion=:roomType ORDER BY valor_ocupacion');
             $query->execute([':quantity'=>$quantity,':roomType'=>$roomType]);
 
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_tarifa'].'">'.$current['valor_ocupacion'].'</option>';
             }
+            echo "<option value='O'>Otro</option>";
             return false;
         }
 
@@ -220,8 +221,8 @@
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td><label class="switch switch-table"><input type="checkbox" disabled><span class="slider slider-red round green"></span></label></td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox" '.$this->selectCheck($current['retefuente']).' disabled><span class="slider slider-red round green"></span></label></td>';
+                echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>';
+                echo '<td>'.($current['ica']==1?'Si':'No').'</td>';
                 echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }

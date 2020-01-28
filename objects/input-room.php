@@ -58,6 +58,22 @@
 												<select class="form-control" required>
 							                        <?php $consult->getList('tariff','S','1');?>
 							                    </select>
+							                    <div class="switch-group switch-group-margin-min">
+							                    	<label class="switch switch-container">
+							                    		<input type="checkbox">
+							                    		<span class="slider slider-gray round green"></span>
+							                    	</label>
+							                    	<label class="switch-label">Descuento</label>
+							                    </div>
+											</div>
+										</div>
+										<div class="form-group in-row hideable">
+											<label class="form-control-label">Tarifa personalizada</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-dollar"></i>
+												</div>
+												<input type="number" class="form-control">
 											</div>
 										</div>
 									</div>
