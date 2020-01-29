@@ -182,7 +182,7 @@
                     <h2>Revisar reserva</h2>
                 </div>
                 <div class="modal-body scroll-block">
-	                <form onsubmit="return false;">
+	                <form onsubmit="sendReservation(); return false;">
 	                	<div class="card">
 						    <div class="card-header">
 						        <strong class="card-title">Resumen de la reserva</strong>
