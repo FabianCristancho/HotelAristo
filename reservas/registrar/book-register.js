@@ -305,6 +305,7 @@ function changeHolderPosition(guest){
 		document.getElementById("holder-label").innerHTML="El titular se hospedará";
 		selectHolder.style.display="none";
 		holderCheckIn.style.display="inline-block";
+		showPersonHolder();
 	}else{
 		if(holder.getElementsByClassName("card-body").length==1){
 			var parent=holder.getElementsByClassName("card-body")[0].parentElement;
@@ -407,17 +408,6 @@ function showCustomTariff(index,input){
 	}
 }
 
-function applyDiscount(index, input){
-	var select=document.getElementsByClassName('room-group')[index].getElementsByClassName('card-room')[0].getElementsByTagName('select')[3];
-	var options=select.getElementsByTagName("option");
-
-	if(input.checked){
-		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML)-5000)+" (Descuento)";
-	}else{
-		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML.replace(" (Descuento)"))+5000);
-	}
-}
-
 function showEnterpriseHolder(button){
 	var enterpriseBody=document.getElementById("enterprise-holder");
 	var clientBody=enterpriseBody.parentElement.firstElementChild.nextElementSibling;
@@ -433,11 +423,14 @@ function showEnterpriseHolder(button){
 }
 
 function showPersonHolder(button){
+	if(button!=null){
+		button.classList.add("btn-header-selected");
+		button.nextElementSibling.classList.remove("btn-header-selected");
+	}
+
 	var enterpriseBody=document.getElementById("enterprise-holder");
 	var clientBody=enterpriseBody.parentElement.firstElementChild.nextElementSibling;
 	var clientInputs=clientBody.getElementsByTagName("input");
-	button.classList.add("btn-header-selected");
-	button.nextElementSibling.classList.remove("btn-header-selected");
 	enterpriseBody.style.display="";
 	clientBody.style.display="block";
 	clientInputs[0].required=true;
