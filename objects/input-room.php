@@ -14,11 +14,11 @@
 												</div>
 
 												<select class="form-control guests-quantity" required>
-							                        <option value="1">1 (Sencilla)</option>
-							                        <option value="2">2 (Pareja)</option>
-							                        <option value="2">2 (Doble)</option>
-							                        <option value="3">3 (Triple)</option>
-							                        <option value="4">3 (Triple + Sofacama)</option>
+							                        <option value="S">1 (Sencilla)</option>
+							                        <option value="P">2 (Pareja)</option>
+							                        <option value="D">2 (Doble)</option>
+							                        <option value="T">3 (Triple)</option>
+							                        <option value="TS">4 (Triple + Sofacama)</option>
 							                    </select>
 											</div>
 										</div>
@@ -31,10 +31,7 @@
 												</div>
 
 												<select class="form-control" required>
-							                        <option value="JOLIOT" selected>JOLIOT</option>
-							                        <option value="HAWKING">HAWKING</option>
-							                        <option value="LISPECTOR">LISPECTOR</option>
-							                        <option value="MAKKAH">MAKKAH</option>
+													<?php $consult->getList('roomQuantity','S'); ?>
 							                    </select>
 											</div>
 										</div>
@@ -47,7 +44,7 @@
 												</div>
 
 												<select  class="form-control" required>
-												 	<?php $consult->getList('roomType','JOLIOT'); ?>
+												 	<?php $consult->getList('roomType','1'); ?>
 												</select>
 											</div>
 										</div>
@@ -59,8 +56,24 @@
 													<i class="fa fa-dollar"></i>
 												</div>
 												<select class="form-control" required>
-							                        <option value="NULL">PENDIENTE</option>
+							                        <?php $consult->getList('tariff','S','1');?>
 							                    </select>
+							                    <div class="switch-group switch-group-margin-min">
+							                    	<label class="switch switch-container">
+							                    		<input type="checkbox">
+							                    		<span class="slider slider-gray round green"></span>
+							                    	</label>
+							                    	<label class="switch-label">Descuento</label>
+							                    </div>
+											</div>
+										</div>
+										<div class="form-group in-row hideable">
+											<label class="form-control-label">Tarifa personalizada</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-dollar"></i>
+												</div>
+												<input type="number" class="form-control">
 											</div>
 										</div>
 									</div>

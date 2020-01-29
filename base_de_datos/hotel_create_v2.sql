@@ -11,15 +11,16 @@ use hotelaristo;
 /**Borrado de tablas en caso de que existan**/
 
 DROP TABLE IF EXISTS facturas;
-DROP TABLE IF EXISTS peticiones,
+DROP TABLE IF EXISTS peticiones;
 DROP TABLE IF EXISTS control_diario;
-DROP TABLE IF EXISTS registros_huesped,
+DROP TABLE IF EXISTS registros_huesped;
 DROP TABLE IF EXISTS registros_habitacion;
 DROP TABLE IF EXISTS reservas;
 DROP TABLE IF EXISTS personas;
 DROP TABLE IF EXISTS lugares;
 DROP TABLE IF EXISTS habitaciones;
 DROP TABLE IF EXISTS tarifas;
+DROP TABLE IF EXISTS tipos_desayuno;
 DROP TABLE IF EXISTS tipos_habitacion;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS tipos_producto;
@@ -86,13 +87,13 @@ CREATE TABLE IF NOT EXISTS productos(
 
 CREATE TABLE IF NOT EXISTS tipos_habitacion(
 	id_tipo_habitacion INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_tipo_habitacion VARHCAR(30) NOT NULL,
+	nombre_tipo_habitacion VARCHAR(30) NOT NULL,
 	CONSTRAINT tih_pk_idt PRIMARY KEY(id_tipo_habitacion)
 );
 
 
 CREATE TABLE IF NOT EXISTS tipos_desayuno(
-	id_tipo_desayuno INT(2) NOT NULL,
+	id_tipo_desayuno INT(2) NOT NULL AUTO_INCREMENT,
 	nombre_tipo_desayuno VARCHAR(20) NOT NULL,
 	valor_desayuno INT(5) NOT NULL,
 	CONSTRAINT tdes_pk_idt PRIMARY KEY (id_tipo_desayuno)
@@ -102,7 +103,7 @@ CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	id_tipo_desayuno INT(2) NOT NULL,
-	cantidad_huespedes INT(2) NOT NULL,
+	cantidad_huespedes VARCHAR(2) NOT NULL,
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
@@ -112,7 +113,7 @@ CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
-	fuera_de servicio BOOLEAN NOT NULL,
+	fuera_de_servicio BOOLEAN NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -187,6 +188,7 @@ CREATE TABLE IF NOT EXISTS control_diario(
    	id_control INT(8) NOT NULL AUTO_INCREMENT,
    	id_registro_habitacion INT(8) NOT NULL,
    	fecha_control DATE NOT NULL,
+   	movimiento BOOLEAN NOT NULL,
    	CONSTRAINT con_pk_idc PRIMARY KEY(id_control)
 );
 
@@ -262,7 +264,7 @@ ALTER TABLE personas ADD(
 
 
 ALTER TABLE reservas ADD (
-	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/)),
+	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/, 'TE' /*Terminada*/)),
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),

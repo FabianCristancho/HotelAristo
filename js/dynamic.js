@@ -105,12 +105,140 @@ function changeColor(room){
 	}
 }
 
-function checkColors(){
-	var cells=document.getElementsByClassName("room-cell");
-	for (var i = 0; i < cells.length; i++) {
-		changeColor(cells[i].id.replace("room-",""));
+function changeColors(room){
+	var cell= document.getElementById("room-"+room);
+	var value=cell.getElementsByClassName("room-state")[0].innerHTML;
+
+	switch(value){
+		case "Ocupada":
+			cell.style.background='#f44336';
+			break;
+
+		case "Disponible":
+			cell.style.background='yellow';
+			break;
+
+		case "Con reserva":
+			cell.style.background='#ff9800';
+			break;
+
+		case "Fuera de servicio":
+			cell.style.background='gray';
+			break;
 	}
 }
+
+function checkColors(){
+	var cells=document.getElementsByClassName("room-cell");
+
+	for (var i = 0; i < cells.length; i++) {
+		changeColors(cells[i].id.replace("room-",""));
+	}
+}
+
+function cleanBizz(){
+	var bizz=document.getElementById("add-bizz");
+	var inputs= bizz.getElementsByTagName("input");
+
+	bizz.style.display = "none";
+	bizz.getElementsByTagName("select")[0].value="NULL";
+	for (var i = 0; i < inputs.length-2; i++) {
+		inputs[i].value="";
+	}
+	inputs[4].checked=false;
+	inputs[5].checked=true;
+}
+
+function cleanProf(){
+	var prof=document.getElementById("add-prof");
+	prof.style.display = "none";
+	prof.getElementsByTagName("input")[0].value="";
+}
+
+function reduceCard(state,card, col){
+	if(state){
+		card.classList.remove("col-"+col);
+		card.classList.add("col-12");
+	}else{
+		card.classList.add("col-"+col);
+		card.classList.remove("col-12");
+	}
+}
+
+function changeStateCard(state,card){
+	if(state){
+		card.getElementsByClassName("card-preview")[0].style.display="none";
+		card.getElementsByClassName("card-body")[0].style.display="";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
+	}else{
+		card.getElementsByClassName("card-preview")[0].style.display="block";
+		card.getElementsByClassName("card-body")[0].style.display="none";
+		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
+	}
+}
+
+function checkInputOnlyLetters(event,input){
+	$(input).bind('keypress', function(event){
+		var regex = new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$");
+		var key= String.fromCharCode(!event.charCode? event.which:event.charCode);
+		if(!regex.test(key)){
+			event.preventDefault();
+			return false;
+		}
+	});
+}
+
+/* AJAX */
+
+function updateRoomTypes(index){
+	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+	 $.ajax({
+		type: 'post',
+		url: '/includes/get.php',
+		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value,
+		success: function (ans) {
+			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
+		}
+	});
+}
+
+function updateRooms(index){
+	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+	 $.ajax({
+		type: 'post',
+		url: '/includes/get.php',
+		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value,
+		success: function (ans) {
+			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
+			assignAttributesToClients(index);
+		}
+	});
+}
+
+function updateRoomTariff(index){
+	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+	var selects=cardRoom.getElementsByTagName("select");
+	 $.ajax({
+		type: 'post',
+		url: '/includes/get.php',
+		data: 'entity=roomTariff&roomQuantity='+selects[0].value+'&roomType='+selects[1].value,
+		success: function (ans) {
+			selects[3].innerHTML=ans;
+		}
+	});
+}
+
+function updateCities(obj){
+	$.ajax({
+		type:'post',
+		url:'/includes/get.php',
+		data:'entity=country&country='+obj.value,
+		success:function(ans){
+			obj.parentElement.parentElement.parentElement.getElementsByTagName("select")[1].innerHTML=ans;
+		}
+	});
+}
+
 
 function updateProfession(){
 	sendProfession();
@@ -148,68 +276,4 @@ function updateEnterprise(){
 			}
 		});
 	},1000);
-}
-
-function cleanBizz(){
-	var bizz=document.getElementById("add-bizz");
-	var inputs= bizz.getElementsByTagName("input");
-
-	bizz.style.display = "none";
-	bizz.getElementsByTagName("select")[0].value="NULL";
-	for (var i = 0; i < inputs.length-2; i++) {
-		inputs[i].value="";
-	}
-	inputs[4].checked=false;
-	inputs[5].checked=true;
-}
-
-function cleanProf(){
-	var prof=document.getElementById("add-prof");
-	prof.style.display = "none";
-	prof.getElementsByTagName("input")[0].value="";
-}
-
-function updateRooms(index){
-	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
-	 $.ajax({
-		type: 'post',
-		url: '/includes/get.php',
-		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value,
-		success: function (ans) {
-			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
-		}
-	});
-}
-
-function updateCities(obj){
-	$.ajax({
-		type:'post',
-		url:'/includes/get.php',
-		data:'entity=country&country='+obj.value,
-		success:function(ans){
-			obj.parentElement.parentElement.parentElement.getElementsByTagName("select")[1].innerHTML=ans;
-		}
-	});
-}
-
-function reduceCard(state,card, col){
-	if(state){
-		card.classList.remove("col-"+col);
-		card.classList.add("col-12");
-	}else{
-		card.classList.add("col-"+col);
-		card.classList.remove("col-12");
-	}
-}
-
-function changeStateCard(state,card){
-	if(state){
-		card.getElementsByClassName("card-preview")[0].style.display="none";
-		card.getElementsByClassName("card-body")[0].style.display="";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Listo";
-	}else{
-		card.getElementsByClassName("card-preview")[0].style.display="block";
-		card.getElementsByClassName("card-body")[0].style.display="none";
-		card.getElementsByClassName("btn-done")[0].innerHTML="Editar";
-	}
 }

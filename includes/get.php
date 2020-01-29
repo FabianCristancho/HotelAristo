@@ -4,8 +4,14 @@
     $consult=new Consult();
 
     switch($_POST['entity']){
+        case 'roomTariff':
+            $consult->tariffList($_POST['roomQuantity'],$_POST['roomType']);
+            break;
         case 'roomType':
             $consult->roomTypeList($_POST['roomType']);
+            break;
+        case 'roomQuantity':
+            $consult->roomQuantityList($_POST['roomQuantity']);
             break;
         case 'enterprise':
             $consult->enterpriseList();
