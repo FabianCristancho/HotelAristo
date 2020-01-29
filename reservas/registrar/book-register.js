@@ -260,11 +260,13 @@ function setPreviewBook(){
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");
 		
 		for (var j = 0; j < guests.length; j++) {
-			guestsNames+=guests[j].getElementsByTagName("input")[0].value;
-			clientsQuantity++;
+			if(guests[j].id!="enterprise-holder"){
+				guestsNames+=guests[j].getElementsByTagName("input")[0].value;
+				clientsQuantity++;
 
-			if(j!=guests.length-1)
-				guestsNames+=",";
+				if(j!=guests.length-1)
+					guestsNames+=",";
+			}
 		}
 
 		row.appendChild(createFormGroupLabel("Huespedes",guestsNames,"group"));
@@ -398,13 +400,9 @@ function showCustomTariff(index,input){
 	
 	if(input.value=="O"){
 		formGroup.style.display="block";
-		input.nextElementSibling.style.display="none";
 		formGroup.getElementsByTagName("input")[0].required=true;
-		input.nextElementSibling.getElementsByTagName("input")[0].checked=false;
-		applyDiscount(index,input.nextElementSibling.getElementsByTagName("input")[0]);
 	}else{
 		formGroup.style.display="none";
-		input.nextElementSibling.style.display="inline-block";
 		formGroup.getElementsByTagName("input")[0].required=false;
 	}
 }

@@ -186,7 +186,7 @@
 						                    </div>
 										</div>
 
-										<div class="form-group in-row col-3 padd">
+										<div class="hideable form-group in-row col-3 padd">
 											<label class="form-control-label">Empresa</label>
 											<div class="input-group">
 												<div class="input-group-icon">
