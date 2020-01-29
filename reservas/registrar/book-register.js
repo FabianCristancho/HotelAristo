@@ -87,6 +87,7 @@ function assignAttributesToClients(index){
 	var roomNumber=getSelectedOptionNameFrom(selectRoom);
 	var title;
 	var header;
+
 	if(roomNumber)
 		for (var i = 0; i < cards.length; i++) {
 			header=cards[i].getElementsByClassName("card-header")[0];
@@ -203,6 +204,7 @@ function setRequired(row, bool){
 function setPreviewBook(){
 	var mainRow=document.getElementById("main-row");
 	var confirm= document.getElementById("confirm-modal").getElementsByClassName("card-body")[0];
+	var switches= document.getElementById("confirm-modal").getElementsByClassName("card-body")[1];
 	var primeInputs=mainRow.getElementsByClassName('card-prime')[0].getElementsByTagName("input");
 	var roomGroups= mainRow.getElementsByClassName("room-group");
 	var clientCards=mainRow.getElementsByClassName("card-client");
@@ -223,7 +225,13 @@ function setPreviewBook(){
 	if(!holderInputs[0].checked){
 		row =document.createElement("div");
 		row.classList.add("row");
-		row.appendChild(createFormGroupLabel("Titular",holderInputs[1].value+" "+holderInputs[2].value,"user"));
+		var bodies=holderCard.getElementsByClassName("card-body");
+
+		if(bodies[1].style.display=="")
+			row.appendChild(createFormGroupLabel("Titular",holderInputs[1].value+" "+holderInputs[2].value,"user"));
+		else
+			row.appendChild(createFormGroupLabel("Empresa",getSelectedOptionNameFrom(bodies[1].getElementsByTagName("select")[0]),"user"));
+		
 		confirm.appendChild(row);
 	}
 
@@ -233,6 +241,8 @@ function setPreviewBook(){
 	var guestsNames;
 	var tariff;
 	var totalTariffs=0;
+	var clientsQuantity=0;
+
 	for (var i = 0; i < roomGroups.length; i++) {
 		guestsNames="";
 		row =document.createElement("div");
@@ -241,15 +251,18 @@ function setPreviewBook(){
 		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[1];
 		row.appendChild(createFormGroupLabel("Habitación "+(i+1),getSelectedOptionNameFrom(roomSelects[2])+" ("+getSelectedOptionNameFrom(roomSelects[1])+")","bed"));
 		tariff=getSelectedOptionNameFrom(roomSelects[3]);
+		
 		if(tariff=="Otro")
 			tariff=roomInput.value;
-		console.log(tariff);
+		
 		totalTariffs+=parseInt(tariff);
 		row.appendChild(createFormGroupLabel("Tarifa",tariff,"dollar"));
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");
 		
 		for (var j = 0; j < guests.length; j++) {
 			guestsNames+=guests[j].getElementsByTagName("input")[0].value;
+			clientsQuantity++;
+
 			if(j!=guests.length-1)
 				guestsNames+=",";
 		}
@@ -257,10 +270,16 @@ function setPreviewBook(){
 		row.appendChild(createFormGroupLabel("Huespedes",guestsNames,"group"));
 		confirm.appendChild(row);
 	}
+
 	row =document.createElement("div");
 	row.classList.add("row");
 	row.appendChild(createFormGroupLabel("Total (Habitaciones)",totalTariffs,"dollar"));
 	confirm.appendChild(row);
+
+	if(clientsQuantity==1)
+		switches.getElementsByClassName("switch-label")[0].innerHTML="El huesped realiza check on";
+	else
+		switches.getElementsByClassName("switch-label")[0].innerHTML="Los huespedes realizan check on";
 }
 
 function convertDate(date){
@@ -269,18 +288,35 @@ function convertDate(date){
 }
 
 function changeHolderPosition(guest){
+	var primeZone = document.getElementById("main-row").getElementsByTagName("div")[0];
+	var enterpriseBody=document.getElementById("enterprise-holder");
+	var selectHolder=document.getElementById("select-holder");
 	var roomGroup=document.getElementsByClassName("room-group")[0];
 	var clientCards = roomGroup.getElementsByClassName("client-cards")[0];
-	var primeZone = document.getElementById("main-row").getElementsByTagName("div")[0];
 	var holder= document.getElementsByClassName("card-client")[0];
+	var holderCheckIn=holder.getElementsByClassName("btn-check-in")[0];
+
 
 	if(guest.checked){
 		primeZone.removeChild(holder);
 		clientCards.insertBefore(holder,clientCards.firstElementChild);
 		document.getElementById("holder-label").innerHTML="El titular se hospedará";
+		selectHolder.style.display="none";
+		holderCheckIn.style.display="inline-block";
 	}else{
+		if(holder.getElementsByClassName("card-body").length==1){
+			var parent=holder.getElementsByClassName("card-body")[0].parentElement;
+			enterpriseBody.parentElement.removeChild(enterpriseBody);
+			selectHolder.parentElement.removeChild(selectHolder);
+			parent.appendChild(enterpriseBody);
+			parent.insertBefore(selectHolder,parent.firstElementChild);
+		}else{
+			selectHolder.style.display="inline-block";
+		}
+
+		holderCheckIn.style.display="none";
 		clientCards.removeChild(holder);
-		holder.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0].innerHTML="Información personal (Titular)";
+		holder.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0].innerHTML="Información (Titular)";
 		primeZone.insertBefore(holder,primeZone.firstElementChild.nextElementSibling);
 		document.getElementById("holder-label").innerHTML="El titular no se hospedará";
 	}
@@ -363,9 +399,13 @@ function showCustomTariff(index,input){
 	if(input.value=="O"){
 		formGroup.style.display="block";
 		input.nextElementSibling.style.display="none";
+		formGroup.getElementsByTagName("input")[0].required=true;
+		input.nextElementSibling.getElementsByTagName("input")[0].checked=false;
+		applyDiscount(index,input.nextElementSibling.getElementsByTagName("input")[0]);
 	}else{
 		formGroup.style.display="none";
 		input.nextElementSibling.style.display="inline-block";
+		formGroup.getElementsByTagName("input")[0].required=false;
 	}
 }
 
@@ -378,4 +418,31 @@ function applyDiscount(index, input){
 	}else{
 		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML.replace(" (Descuento)"))+5000);
 	}
+}
+
+function showEnterpriseHolder(button){
+	var enterpriseBody=document.getElementById("enterprise-holder");
+	var clientBody=enterpriseBody.parentElement.firstElementChild.nextElementSibling;
+	var clientInputs=clientBody.getElementsByTagName("input");
+	button.classList.add("btn-header-selected");
+	button.parentElement.firstElementChild.classList.remove("btn-header-selected");
+	enterpriseBody.style.display="block";
+	clientBody.style.display="none";
+	clientInputs[0].required=false;
+	clientInputs[1].required=false;
+	clientInputs[4].required=false;
+
+}
+
+function showPersonHolder(button){
+	var enterpriseBody=document.getElementById("enterprise-holder");
+	var clientBody=enterpriseBody.parentElement.firstElementChild.nextElementSibling;
+	var clientInputs=clientBody.getElementsByTagName("input");
+	button.classList.add("btn-header-selected");
+	button.nextElementSibling.classList.remove("btn-header-selected");
+	enterpriseBody.style.display="";
+	clientBody.style.display="block";
+	clientInputs[0].required=true;
+	clientInputs[1].required=true;
+	clientInputs[4].required=true;
 }
