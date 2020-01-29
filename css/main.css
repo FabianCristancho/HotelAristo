@@ -114,6 +114,23 @@ a{
     box-shadow: 0px 0px 3px grey;
 }
 
+.btn-header{
+  float: left;
+}
+
+.btn-blue{
+  background-color: blue;
+}
+
+.btn-green{
+  background-color: green;
+}
+
+.btn-header-selected{
+  background-color: #493;
+  color: white;
+}
+
 .scroll-block{
     width: 100%;
     overflow: auto;
