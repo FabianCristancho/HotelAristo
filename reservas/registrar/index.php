@@ -282,7 +282,7 @@
 
         	<div id="enterprise-holder" class="card-body hideable">
         		<div class="row">
-        			<div class="form-group in-row col-11 padd">
+        			<div class="form-group in-row col-12 padd">
         				<label class="form-control-label">Empresa</label>
 						<div class="input-group">
 							<div class="input-group-icon">

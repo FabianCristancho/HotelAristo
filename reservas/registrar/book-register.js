@@ -68,13 +68,11 @@ function assignAttributes(){
 function assignAttributesToGroup(i){
 	var group=document.getElementsByClassName('room-group')[i].getElementsByClassName('card-room')[0];
 	var selects=group.getElementsByTagName('select');
-	var input=group.getElementsByTagName('input')[0];
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
 	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
 	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
 	selects[3].setAttribute('onchange','showCustomTariff('+i+',this);');
-	input.setAttribute('onchange','applyDiscount('+i+',this);');
 	assignAttributesToClients(i);
 }
 
@@ -248,7 +246,7 @@ function setPreviewBook(){
 		row =document.createElement("div");
 		row.classList.add("row");
 		roomSelects=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("select");
-		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[1];
+		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[0];
 		row.appendChild(createFormGroupLabel("Habitación "+(i+1),getSelectedOptionNameFrom(roomSelects[2])+" ("+getSelectedOptionNameFrom(roomSelects[1])+")","bed"));
 		tariff=getSelectedOptionNameFrom(roomSelects[3]);
 		
