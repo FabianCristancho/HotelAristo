@@ -198,7 +198,7 @@
 							    		<input type="checkbox" onchange="showInPlace(this);">
 							    		<span class="slider slider-gray round green"></span>
 							    	</label>
-							    	<label class="switch-label">Los huespedes estan en el hotel. (Check on)</label>
+							    	<label class="switch-label"></label>
 							    </div>
 
 	                			<div id="in-place-form" class="hideable">
@@ -208,7 +208,7 @@
 							    			<input type="checkbox" onchange="showPayments(this);">
 							    			<span class="slider slider-gray round green"></span>
 							    		</label>
-							    		<label class="switch-label">El titular de la reserva pagará en este momento.</label>
+							    		<label class="switch-label">Efectuar pago en este momento.</label>
 							    	</div>
 
 							    	<div id="payment-methods" class="form-group hideable">
@@ -272,6 +272,28 @@
         				<i class="fa"></i>
         			</div>
         		<label class="form-control"></label>
+        		</div>
+        	</div>
+
+        	<div id="select-holder" class="col-12">
+        		<button type="button" class="col-6 btn btn-header btn-header-selected" onclick="showPersonHolder(this);">Persona natural</button>
+        		<button type="button" class="col-6 btn btn-header" onclick="showEnterpriseHolder(this);">Empresa</button>
+        	</div>
+
+        	<div id="enterprise-holder" class="card-body hideable">
+        		<div class="row">
+        			<div class="form-group in-row col-11 padd">
+        				<label class="form-control-label">Empresa</label>
+						<div class="input-group">
+							<div class="input-group-icon">
+								<i class="fa fa-bank"></i>
+							</div>
+							<select class="form-control">
+								<?php $consult->getList('enterprise',''); ?>
+							</select>
+							<button type="button" onclick="showModal('add-bizz');" class="btn-circle"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
         		</div>
         	</div>
         </div>
