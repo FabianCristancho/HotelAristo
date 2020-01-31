@@ -20,7 +20,7 @@ INSERT INTO reservas(`fecha_ingreso`, `fecha_salida`, `medio_pago`) VALUES
 INSERT INTO reservas(`fecha_ingreso`, `fecha_salida`, `medio_pago`) VALUES 
 ('2019-11-03', '2019-11-03', 'T') (301, 303),
 ('2019-11-03', '2019-11-03', 'E') (302, 403, 602),
-('2019-11-03', '2019-11-04', 'E') (601);
+('2019-11-03', '2019-11-04', 'T') (601);
 
 
 INSERT INTO reservas(`fecha_ingreso`, `fecha_salida`, `medio_pago`) VALUES 
@@ -57,7 +57,7 @@ INSERT INTO reservas(`fecha_ingreso`, `fecha_salida`, `medio_pago`) VALUES
 INSERT INTO reservas(`fecha_ingreso`, `fecha_salida`, `medio_pago`) VALUES 
 ('2019-11-08', '2019-11-08', 'E') (202, 302, 403),
 ('2019-11-08', '2019-11-09', 'E') (201),
-('2019-11-08', '2019-11-08', 'c') (401);
+('2019-11-08', '2019-11-08', 'C') (401);
 ('2019-11-08', '2019-11-08', 'T') (304, 502);
 
 
@@ -326,7 +326,7 @@ INSERT INTO registros_habitacion (`id_reserva`, `id_habitacion`, `id_tarifa`) VA
 (16,16,10)
 ;
 
-('2019-11-03', '2019-11-04', 'E') (601);
+('2019-11-03', '2019-11-04', 'T') (601);
 INSERT INTO registros_habitacion (`id_reserva`, `id_habitacion`, `id_tarifa`) VALUES
 (17,15,1)
 ;
@@ -843,7 +843,7 @@ INSERT INTO registros_habitacion (`id_reserva`, `id_habitacion`, `id_tarifa`) VA
 ('2019-11-28', '2019-11-28', 'CC') (502, 503)
 INSERT INTO registros_habitacion (`id_reserva`, `id_habitacion`, `id_tarifa`) VALUES
 (101,12,2),
-(102,13,2)
+(101,13,2)
 ;
 
 ('2019-11-28', '2019-11-28', 'E') (504, 602)
@@ -890,3 +890,20 @@ INSERT INTO registros_habitacion (`id_reserva`, `id_habitacion`, `id_tarifa`) VA
 (106,13,1),
 (106,16,6)
 ;
+
+
+-- CONTEO TOTAL POR HABITACION
+SELECT COUNT(fecha_salida - fecha_ingreso) 
+FROM reservas r INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
+WHERE numero_habitacion = 201;
+
+
+SELECT fecha_ingreso, fecha_salida, valor_ocupacion
+FROM reservas r INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+INNER JOIN tarifas t ON t.id_tarifa=rh.id_tarifa
+WHERE numero_habitacion = 201
+ORDER BY fecha_ingreso, fecha_salida; 
+
+SELECT (CASE WHEN FECHA)
