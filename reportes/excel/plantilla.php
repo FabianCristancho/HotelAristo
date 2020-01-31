@@ -11,8 +11,16 @@
     use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
     use PhpOffice\PhpSpreadsheet\Shared\Date;
     use PhpOffice\PhpSpreadsheet\Calculation\DateTime;
+    use PhpOffice\PhpSpreadsheet\Style\Border;
 
     
+    $desiredMonth = 11;
+    $desiredYear = 2019;
+    $rs = new ReportSpreadsheet();
+
+    //Numero de días de la fecha que se quiere averiguar
+    $cantDays = cal_days_in_month(CAL_GREGORIAN, $desiredMonth, $desiredYear);
+
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
     $database = new Database2();
@@ -21,6 +29,22 @@
         ->getFont()
         ->setName('Arial')
         ->setSize(11);
+
+ 
+    // Se le da borde delgado a las tablas que lo requieran   
+    $rs->createBorder('A1:S35', $spreadsheet);
+    $rs->createBorder('U2:Z3', $spreadsheet);
+    $rs->createBorder('U6:X9', $spreadsheet);
+    $rs->createBorder('U11:AF13', $spreadsheet);
+    $rs->createBorder('U15:AF17', $spreadsheet);
+    $rs->createBorder('U19:AB21', $spreadsheet);
+    $rs->createBorder('U23:X25', $spreadsheet);
+
+    //Se asigna un color de fondo al rango de celdas correspondientes
+    $rs->setBackgroundColor('U6:X6', '9bc2e6', $spreadsheet);
+    $rs->setBackgroundColor('U7:X7', '00ff00', $spreadsheet);
+    $rs->setBackgroundColor('U8:X8', 'ffc000', $spreadsheet);
+    $rs->setBackgroundColor('U9:X9', 'ff33cc', $spreadsheet);
 
        
 
@@ -92,10 +116,15 @@
     
 
     
-    $rs = new ReportSpreadsheet();
-    $rs->fullRoom('C', 2, 201, 17, $spreadsheet);
-   
     
+    $rs->fullRoom('C', 2, 201, 17, $spreadsheet);
+    
+    $rs->changeDollarFormat('X6:X9', $spreadsheet);
+    $spreadsheet->getActiveSheet()->setCellValue('X6', $rs->getTotalPaymentMethod('E', $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X7', $rs->getTotalPaymentMethod('T', $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X8', $rs->getTotalPaymentMethod('C', $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X9', $rs->getTotalPaymentMethod('CC', $spreadsheet));
+
     $spreadsheet->getActiveSheet()->setCellValue('U2', "Venta Total de Hospedaje");
     $spreadsheet->getActiveSheet()->setCellValue('V2', "Venta Promedio por Habitación");
     $spreadsheet->getActiveSheet()->setCellValue('W2', "Venta Promedio por Día");
@@ -108,8 +137,9 @@
     $rs->activeBoldCell($spreadsheet, 'W15:AF16');
     $rs->activeBoldCell($spreadsheet, 'W19:AF20');
     $rs->activeBoldCell($spreadsheet, 'W23:AF24');
-    $rs->activeBoldCell($spreadsheet, 'A34');
-    $rs->activeBoldCell($spreadsheet, 'A35');
+    $rs->activeBoldCell($spreadsheet, 'B3:B33');
+    $rs->activeBoldCell($spreadsheet, 'A34:S35');
+   
     
 
     $spreadsheet->getActiveSheet()->mergeCells("U6:V6");
@@ -200,11 +230,11 @@
 
     
     $spreadsheet->getActiveSheet()
-        ->getStyle('C34:S34')
+        ->getStyle('C3:S34')
         ->getNumberFormat()
         ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD);
     
-    $rs->getSalePerRoom('C', '34', $spreadsheet);
+   // $rs->getSalePerRoom('C', '34', $spreadsheet);
     
     
 
@@ -213,13 +243,144 @@
     $spreadsheet->getActiveSheet()->setCellValue('E5', Date::PHPToExcel($dateTimeNow));*/
 
     $rs->getDateMonth(11, 2019, $spreadsheet);
-    $rs->fullValuesPerRoom(201, 'C', $spreadsheet, 11, 2019);
-
-    /*$value = $worksheet->getCell('A1')->getValue();
-    $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($value);*/
+    $rs->fullAllRooms('C', $spreadsheet);
+    $rs->getValueTotalPerRoom('C', 17, $spreadsheet);
+    $rs->getTotalCountPerRoom('C', 17, $spreadsheet);
     
-    /*$spreadsheet->getActiveSheet()->setCellValue('U2', "Venta Total de Hospedaje");
-    $spreadsheet->getActiveSheet()->setCellValue('U2', "Venta Total de Hospedaje");*/
+    $rs->changeDollarFormat('A3:A33', $spreadsheet);
+    $rs->getSalePerDay('A', $cantDays, $spreadsheet);
+
+
+    $spreadsheet->getActiveSheet()
+        ->getStyle('U3:W3')
+        ->getNumberFormat()
+        ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD);
+    
+    //Venta total de hospedaje
+    $spreadsheet->getActiveSheet()->setCellValue('U3', "=SUM(C34:S34)");
+
+    //Venta promedio por habitación
+    $spreadsheet->getActiveSheet()->setCellValue('V3', "=U3/17");
+
+    //Venta promedio por día
+    $spreadsheet->getActiveSheet()->setCellValue('V3', "=U3/17");
+    
+    //Venta promedio por día
+    $spreadsheet->getActiveSheet()->setCellValue('W3', "=U3/".$cantDays);
+
+    //Total Ocupación
+    $spreadsheet->getActiveSheet()->setCellValue('X3', "=SUM(C35:S35)");
+
+    //Ocupación Promedio por habitación
+    $spreadsheet->getActiveSheet()->setCellValue('Y3', '=TEXT(X3/17,"0.0")');
+
+    //Ocupación Promedio por día
+    $spreadsheet->getActiveSheet()->setCellValue('Z3', '=TEXT(X3/'.$cantDays.',"0.0")');
+
+
+    $rs->changeDollarFormat('X13', $spreadsheet);
+    $rs->changeDollarFormat('Z13', $spreadsheet);
+    $rs->changeDollarFormat('AB13', $spreadsheet);
+    $rs->changeDollarFormat('AD13', $spreadsheet);
+    $rs->changeDollarFormat('AF13', $spreadsheet);
+
+    $rs->changeDollarFormat('X17', $spreadsheet);
+    $rs->changeDollarFormat('Z17', $spreadsheet);
+    $rs->changeDollarFormat('AB17', $spreadsheet);
+    $rs->changeDollarFormat('AD17', $spreadsheet);
+    $rs->changeDollarFormat('AF17', $spreadsheet);
+
+    $rs->changeDollarFormat('X21', $spreadsheet);
+    $rs->changeDollarFormat('Z21', $spreadsheet);
+    $rs->changeDollarFormat('AB21', $spreadsheet);
+
+    $rs->changeDollarFormat('X25', $spreadsheet);
+
+
+    //Venta ($85.000)
+    $spreadsheet->getActiveSheet()->setCellValue('X13', '=SUMIFS(C3:S33,C3:S33,85000)');
+
+    //Conteo ($85.000)
+    $spreadsheet->getActiveSheet()->setCellValue('W13', '=X13/W11');
+
+    //Venta ($80.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Z13', '=SUMIFS(C3:S33,C3:S33,80000)');
+
+    //Conteo ($80.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Y13', '=Z13/Y11');
+
+    //Venta ($75.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AB13', '=SUMIFS(C3:S33,C3:S33,75000)');
+
+    //Conteo ($75.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AA13', '=AB13/AA11');
+
+    //Venta ($70.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AD13', '=SUMIFS(C3:S33,C3:S33,70000)');
+
+    //Conteo ($70.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AC13', '=AD13/AC11');
+
+    //Total Habitacion sencilla
+    $spreadsheet->getActiveSheet()->setCellValue('AF13', '=X13+Z13+AB13+AD13');
+
+    //Conteo Total Habitacion sencilla
+    $spreadsheet->getActiveSheet()->setCellValue('AE13', '=W13+Y13+AA13+AC13');
+
+    //Venta ($115.000)
+    $spreadsheet->getActiveSheet()->setCellValue('X17', '=SUMIFS(C3:S33,C3:S33,115000)');
+
+    //Conteo ($115.000)
+    $spreadsheet->getActiveSheet()->setCellValue('W17', '=X17/W15');
+
+    //Venta ($110.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Z17', '=SUMIFS(C3:S33,C3:S33,110000)');
+
+    //Conteo ($110.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Y17', '=Z17/Y15');
+
+    //Venta ($105.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AB17', '=SUMIFS(C3:S33,C3:S33,105000)');
+
+    //Conteo($105.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AA17', '=AB17/AA15');
+
+    //Venta ($100.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AD17', '=SUMIFS(C3:S33,C3:S33,100000)');
+
+    //Conteo ($100.000)
+    $spreadsheet->getActiveSheet()->setCellValue('AC17', '=AD17/AC15');
+
+    //Total Habitacion pareja
+    $spreadsheet->getActiveSheet()->setCellValue('AF17', '=X17+Z17+AB17+AD17');
+
+    //Conteo Total Habitacion pareja
+    $spreadsheet->getActiveSheet()->setCellValue('AE17', '=W17+Y17+AA17+AC17');
+
+    //Venta ($125.000)
+    $spreadsheet->getActiveSheet()->setCellValue('X21', '=SUMIFS(C3:S33,C3:S33,125000)');
+
+    //Conteo ($125.000)
+    $spreadsheet->getActiveSheet()->setCellValue('W21', '=X21/W19');
+
+    //Venta ($120.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Z21', '=SUMIFS(C3:S33,C3:S33,120000)');
+
+    //Conteo ($120.000)
+    $spreadsheet->getActiveSheet()->setCellValue('Y21', '=Z21/Y19');
+
+    //Total Habitacion doble
+    $spreadsheet->getActiveSheet()->setCellValue('AB21', '=X21+Z21');
+
+    //Conteo Total Habitacion doble
+    $spreadsheet->getActiveSheet()->setCellValue('AA21', '=W21+Y21');
+
+    //Venta (>$130.000)
+    $spreadsheet->getActiveSheet()->setCellValue('X25', '=SUMIFS(C3:S33,C3:S33,">130000")');
+
+    //Conteo (>$130.000)
+    $spreadsheet->getActiveSheet()->setCellValue('W25', '=COUNTIFS(C3:S33,">130000")');
+
 
     
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
