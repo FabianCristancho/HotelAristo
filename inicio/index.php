@@ -83,6 +83,10 @@
                         <p>Facturación</p>
                         <img src="/res/img/bill-icon-white.png">
                     </a>
+                    <a href="/reportes/" class="button">
+                        <p>Reportes</p>
+                        <img src="/res/img/report-white.png">
+                    </a>
             </div>
         </div>
         
