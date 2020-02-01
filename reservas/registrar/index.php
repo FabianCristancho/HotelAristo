@@ -195,7 +195,7 @@
 	                		<div class="card-body">
 	                			<div class="switch-group">
 	                				<label class="switch switch-container">
-							    		<input type="checkbox" onchange="showInPlace(this);">
+							    		<input id="checkon-check" type="checkbox" onchange="showInPlace(this);">
 							    		<span class="slider slider-gray round green"></span>
 							    	</label>
 							    	<label class="switch-label"></label>
@@ -205,7 +205,7 @@
 	                				<br>
 	                				<div class="switch-group">
 							    		<label class="switch switch-container">
-							    			<input type="checkbox" onchange="showPayments(this);">
+							    			<input id="payment-check" type="checkbox" onchange="showPayments(this);">
 							    			<span class="slider slider-gray round green"></span>
 							    		</label>
 							    		<label class="switch-label">Efectuar pago en este momento.</label>

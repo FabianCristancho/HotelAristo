@@ -33,6 +33,14 @@ DROP TABLE IF EXISTS profesiones;
 
 /**Creación de tablas**/
 
+CREATE TABLE IF NOT EXISTS lugares(
+	id_lugar INT(8) NOT NULL AUTO_INCREMENT,
+	id_ubicacion INT(8),
+	nombre_lugar VARCHAR(100) NOT NULL,
+	tipo_lugar CHAR(1) NOT NULL,
+	CONSTRAINT lug_pk_idl PRIMARY KEY (id_lugar)
+);
+
 CREATE TABLE IF NOT EXISTS profesiones(
 	id_profesion INT(4) NOT NULL AUTO_INCREMENT,
 	nombre_profesion VARCHAR(100) NOT NULL,
@@ -91,23 +99,13 @@ CREATE TABLE IF NOT EXISTS tipos_habitacion(
 	CONSTRAINT tih_pk_idt PRIMARY KEY(id_tipo_habitacion)
 );
 
-
-CREATE TABLE IF NOT EXISTS tipos_desayuno(
-	id_tipo_desayuno INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_tipo_desayuno VARCHAR(20) NOT NULL,
-	valor_desayuno INT(5) NOT NULL,
-	CONSTRAINT tdes_pk_idt PRIMARY KEY (id_tipo_desayuno)
-);
-
 CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
-	id_tipo_desayuno INT(2) NOT NULL,
 	cantidad_huespedes VARCHAR(2) NOT NULL,
 	valor_ocupacion  INT(7) NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
-
 
 CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
@@ -117,22 +115,11 @@ CREATE TABLE IF NOT EXISTS habitaciones(
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
-
-CREATE TABLE IF NOT EXISTS lugares(
-	id_lugar INT(8) NOT NULL AUTO_INCREMENT,
-	id_ubicacion INT(8),
-	nombre_lugar VARCHAR(100) NOT NULL,
-	tipo_lugar CHAR(1) NOT NULL,
-	CONSTRAINT lug_pk_idl PRIMARY KEY (id_lugar)
-);
-
-
 CREATE TABLE IF NOT EXISTS personas(
 	id_persona INT(8) NOT NULL AUTO_INCREMENT,
 	id_lugar_nacimiento INT(8),
 	id_lugar_expedicion INT(8),
 	id_profesion INT(4),
-	id_empresa INT(6),
 	id_cargo INT(1),
 	nombres_persona VARCHAR(150) NOT NULL,
 	apellidos_persona VARCHAR(150) NOT NULL,
@@ -153,11 +140,12 @@ CREATE TABLE IF NOT EXISTS personas(
 CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
 	id_usuario INT(2) NOT NULL,
-	id_titular INT(8) NOT NULL,
+	id_titular INT(8),
+	id_empresa INT(6),
 	fecha_ingreso DATE NOT NULL,
 	fecha_salida DATE NOT NULL,
 	observaciones VARCHAR(100),
-	medio_pago CHAR(2) NOT NULL,
+	medio_pago CHAR(2),
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
 	valor_pagado INT(7) NOT NULL,
@@ -222,6 +210,13 @@ CREATE TABLE IF NOT EXISTS facturas(
 
 /** Actualización de tablas **/
 
+
+ALTER TABLE lugares ADD(
+	CONSTRAINT lug_fk_idu FOREIGN KEY (id_ubicacion) REFERENCES lugares (id_lugar),
+	CONSTRAINT lug_ck_tpl CHECK (tipo_lugar IN ('P' /*PAIS*/, 'D' /*DEPARTAMENTO*/, 'C' /*CIUDAD*/))
+);
+
+
 ALTER TABLE servicios ADD(
 	CONSTRAINT serv_ck_val CHECK (valor_servicio > 0)
 );
@@ -235,7 +230,6 @@ ALTER TABLE productos ADD(
 
 ALTER TABLE tarifas ADD(
 	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
-	CONSTRAINT tar_fk_idtd FOREIGN KEY (id_tipo_desayuno) REFERENCES tipos_desayuno(id_tipo_desayuno),
 	CONSTRAINT tar_ck_val CHECK (valor_ocupacion > 0)
 );
 
@@ -244,13 +238,6 @@ ALTER TABLE habitaciones ADD(
 	CONSTRAINT hab_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion)
 );
 
-
-ALTER TABLE lugares ADD(
-	CONSTRAINT lug_fk_idu FOREIGN KEY (id_ubicacion) REFERENCES lugares (id_lugar),
-	CONSTRAINT lug_ck_tpl CHECK (tipo_lugar IN ('P' /*PAIS*/, 'D' /*DEPARTAMENTO*/, 'C' /*CIUDAD*/))
-);
-
-
 ALTER TABLE personas ADD(
 	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/)),
 	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M' /*MASCULINO*/, 'F' /*FEMENINO*/, 'O'/*OTRO*/)),
@@ -258,7 +245,6 @@ ALTER TABLE personas ADD(
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),
 	CONSTRAINT per_fk_idle FOREIGN KEY (id_lugar_expedicion) REFERENCES lugares (id_lugar),
 	CONSTRAINT per_fk_idp FOREIGN KEY (id_profesion) REFERENCES profesiones (id_profesion),
-	CONSTRAINT per_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa),
 	CONSTRAINT per_fk_idc FOREIGN KEY (id_cargo) REFERENCES cargos (id_cargo)
 );
 
@@ -268,7 +254,8 @@ ALTER TABLE reservas ADD (
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),
-	CONSTRAINT res_fk_idp FOREIGN KEY (id_titular) REFERENCES personas (id_persona)
+	CONSTRAINT res_fk_idp FOREIGN KEY (id_titular) REFERENCES personas (id_persona),
+	CONSTRAINT res_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa)
 );
 
 

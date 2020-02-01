@@ -273,7 +273,7 @@ function setPreviewBook(){
 
 	row =document.createElement("div");
 	row.classList.add("row");
-	row.appendChild(createFormGroupLabel("Total (Habitaciones)",totalTariffs,"dollar"));
+	row.appendChild(createFormGroupLabel("Total (Habitaciones)",totalTariffs,"dollar","total-label"));
 	confirm.appendChild(row);
 
 	if(clientsQuantity==1)
@@ -357,7 +357,7 @@ function evaluateRoomNameQuantity(value){
 	}
 }
 
-function createFormGroupLabel(title,value,icon){
+function createFormGroupLabel(title,value,icon,id){
 	var base =document.getElementById("form-group");
 	var formGroup=document.createElement("div");
 	formGroup.classList=base.classList;
@@ -366,6 +366,8 @@ function createFormGroupLabel(title,value,icon){
 	var iconLabel= formGroup.getElementsByTagName("i")[0];
 	labels[0].innerHTML=title;
 	labels[1].innerHTML=value;
+	if(id != undefined)
+		labels[1].id=id;
 	iconLabel.classList.add("fa-"+icon);
 
 	return formGroup;
