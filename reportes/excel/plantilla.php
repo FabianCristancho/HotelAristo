@@ -14,8 +14,12 @@
     use PhpOffice\PhpSpreadsheet\Style\Border;
 
     
-    $desiredMonth = 11;
-    $desiredYear = 2019;
+    if (isset($_POST['dateReport'])) {
+        $timestamp = strtotime($_POST['dateReport']); 
+        $desiredMonth=date('m',$timestamp);
+        $desiredYear=date('Y',$timestamp);
+    }
+    
     $rs = new ReportSpreadsheet();
 
     //Numero de días de la fecha que se quiere averiguar
@@ -52,10 +56,7 @@
     $spreadsheet->getActiveSheet()->getStyle('A1:AF100')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $spreadsheet->getActiveSheet()->getStyle('A1:AF100')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-    //Titulo
-    /*$spreadsheet->getActiveSheet()
-        ->setCellValue('A1', "HOTEL ARISTO");
-*/
+
     $spreadsheet->getActiveSheet()->getRowDimension(1)->setRowHeight(30);
     $richText = new RichText();
     $payable = $richText->createTextRun('HOTEL ARISTO');
@@ -64,6 +65,8 @@
     $payable->getFont()->setName('Arial');
     $payable->getFont()->setColor( new Color(Color::COLOR_BLUE));
     $spreadsheet->getActiveSheet()->getCell('A1')->setValue($richText);
+
+    
     
     $spreadsheet->getActiveSheet()
         ->getCell('A1')
@@ -81,8 +84,8 @@
     //Ancho de celda
     $spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(12);
     $spreadsheet->getActiveSheet()->getRowDimension(2)->setRowHeight(48);
-
     $spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(12);
+
 
     $box = ord('C');
     for ($i = 1; $i <= 17; $i++) {
@@ -109,21 +112,17 @@
     
     // Texto de encabezado
     $spreadsheet->getActiveSheet()->getStyle('A2:Z2')->getFont()->setBold(true);
-    $spreadsheet->getActiveSheet()
-        ->setCellValue('A2', "Venta por día");
-    $spreadsheet->getActiveSheet()
-        ->setCellValue('B2', "Días");
-    
-
+    $spreadsheet->getActiveSheet()->setCellValue('A2', "Venta por día");
+    $spreadsheet->getActiveSheet()->setCellValue('B2', "Días");
     
     
     $rs->fullRoom('C', 2, 201, 17, $spreadsheet);
     
     $rs->changeDollarFormat('X6:X9', $spreadsheet);
-    $spreadsheet->getActiveSheet()->setCellValue('X6', $rs->getTotalPaymentMethod('E', $spreadsheet));
-    $spreadsheet->getActiveSheet()->setCellValue('X7', $rs->getTotalPaymentMethod('T', $spreadsheet));
-    $spreadsheet->getActiveSheet()->setCellValue('X8', $rs->getTotalPaymentMethod('C', $spreadsheet));
-    $spreadsheet->getActiveSheet()->setCellValue('X9', $rs->getTotalPaymentMethod('CC', $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X6', $rs->getTotalPaymentMethod('E', $desiredMonth, $desiredYear, $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X7', $rs->getTotalPaymentMethod('T', $desiredMonth, $desiredYear, $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X8', $rs->getTotalPaymentMethod('C', $desiredMonth, $desiredYear, $spreadsheet));
+    $spreadsheet->getActiveSheet()->setCellValue('X9', $rs->getTotalPaymentMethod('CC', $desiredMonth, $desiredYear, $spreadsheet));
 
     $spreadsheet->getActiveSheet()->setCellValue('U2', "Venta Total de Hospedaje");
     $spreadsheet->getActiveSheet()->setCellValue('V2', "Venta Promedio por Habitación");
@@ -234,7 +233,7 @@
         ->getNumberFormat()
         ->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD);
     
-   // $rs->getSalePerRoom('C', '34', $spreadsheet);
+   // $rs->getSalePerRoom('C', '34', $desiredMonth, $desiredYear, $spreadsheet);
     
     
 
@@ -242,8 +241,12 @@
     $spreadsheet->getActiveSheet()->getStyle('E5')->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_DATE_DDMMYYYY);
     $spreadsheet->getActiveSheet()->setCellValue('E5', Date::PHPToExcel($dateTimeNow));*/
 
-    $rs->getDateMonth(11, 2019, $spreadsheet);
-    $rs->fullAllRooms('C', $spreadsheet);
+
+    // Se llenan los valores con todos los días del mes especificado  
+    $rs->getDateMonth($desiredMonth, $desiredYear, $spreadsheet);
+
+    // Se encarga de llenar todos los valores de las reservas de acuerdo a la fecha especificada
+    $rs->fullAllRooms('C', $desiredMonth, $desiredYear, $spreadsheet);
     $rs->getValueTotalPerRoom('C', 17, $spreadsheet);
     $rs->getTotalCountPerRoom('C', 17, $spreadsheet);
     
