@@ -68,13 +68,11 @@ function assignAttributes(){
 function assignAttributesToGroup(i){
 	var group=document.getElementsByClassName('room-group')[i].getElementsByClassName('card-room')[0];
 	var selects=group.getElementsByTagName('select');
-	var input=group.getElementsByTagName('input')[0];
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
 	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
 	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
 	selects[3].setAttribute('onchange','showCustomTariff('+i+',this);');
-	input.setAttribute('onchange','applyDiscount('+i+',this);');
 	assignAttributesToClients(i);
 }
 
@@ -166,7 +164,7 @@ function showAllInputs(index,value){
 		rows[2].style.display="none";
 		rows[4].style.display="none";
 		rows[5].getElementsByClassName("form-group")[0].style.display="none";
-		rows[5].getElementsByClassName("form-group")[2].style.display="none";
+		rows[5].getElementsByClassName("form-group")[1].style.display="none";
 	}else{
 		setRequired(rows[1],true);
 		setRequired(rows[2],true);
@@ -175,7 +173,7 @@ function showAllInputs(index,value){
 		rows[2].style.display="flex";
 		rows[4].style.display="flex";
 		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
-		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
+		rows[5].getElementsByClassName("form-group")[1].style.display="initial";
 	}
 }
 
@@ -248,7 +246,7 @@ function setPreviewBook(){
 		row =document.createElement("div");
 		row.classList.add("row");
 		roomSelects=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("select");
-		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[1];
+		roomInput=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("input")[0];
 		row.appendChild(createFormGroupLabel("Habitación "+(i+1),getSelectedOptionNameFrom(roomSelects[2])+" ("+getSelectedOptionNameFrom(roomSelects[1])+")","bed"));
 		tariff=getSelectedOptionNameFrom(roomSelects[3]);
 		
@@ -260,11 +258,13 @@ function setPreviewBook(){
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");
 		
 		for (var j = 0; j < guests.length; j++) {
-			guestsNames+=guests[j].getElementsByTagName("input")[0].value;
-			clientsQuantity++;
+			if(guests[j].id!="enterprise-holder"){
+				guestsNames+=guests[j].getElementsByTagName("input")[0].value;
+				clientsQuantity++;
 
-			if(j!=guests.length-1)
-				guestsNames+=",";
+				if(j!=guests.length-1)
+					guestsNames+=",";
+			}
 		}
 
 		row.appendChild(createFormGroupLabel("Huespedes",guestsNames,"group"));
@@ -303,6 +303,7 @@ function changeHolderPosition(guest){
 		document.getElementById("holder-label").innerHTML="El titular se hospedará";
 		selectHolder.style.display="none";
 		holderCheckIn.style.display="inline-block";
+		showPersonHolder();
 	}else{
 		if(holder.getElementsByClassName("card-body").length==1){
 			var parent=holder.getElementsByClassName("card-body")[0].parentElement;
@@ -398,25 +399,10 @@ function showCustomTariff(index,input){
 	
 	if(input.value=="O"){
 		formGroup.style.display="block";
-		input.nextElementSibling.style.display="none";
 		formGroup.getElementsByTagName("input")[0].required=true;
-		input.nextElementSibling.getElementsByTagName("input")[0].checked=false;
-		applyDiscount(index,input.nextElementSibling.getElementsByTagName("input")[0]);
 	}else{
 		formGroup.style.display="none";
-		input.nextElementSibling.style.display="inline-block";
 		formGroup.getElementsByTagName("input")[0].required=false;
-	}
-}
-
-function applyDiscount(index, input){
-	var select=document.getElementsByClassName('room-group')[index].getElementsByClassName('card-room')[0].getElementsByTagName('select')[3];
-	var options=select.getElementsByTagName("option");
-
-	if(input.checked){
-		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML)-5000)+" (Descuento)";
-	}else{
-		options[options.length-2].innerHTML=(parseInt(options[options.length-2].innerHTML.replace(" (Descuento)"))+5000);
 	}
 }
 
@@ -435,11 +421,14 @@ function showEnterpriseHolder(button){
 }
 
 function showPersonHolder(button){
+	if(button!=null){
+		button.classList.add("btn-header-selected");
+		button.nextElementSibling.classList.remove("btn-header-selected");
+	}
+
 	var enterpriseBody=document.getElementById("enterprise-holder");
 	var clientBody=enterpriseBody.parentElement.firstElementChild.nextElementSibling;
 	var clientInputs=clientBody.getElementsByTagName("input");
-	button.classList.add("btn-header-selected");
-	button.nextElementSibling.classList.remove("btn-header-selected");
 	enterpriseBody.style.display="";
 	clientBody.style.display="block";
 	clientInputs[0].required=true;

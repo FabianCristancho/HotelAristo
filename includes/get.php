@@ -8,10 +8,10 @@
             $consult->tariffList($_POST['roomQuantity'],$_POST['roomType']);
             break;
         case 'roomType':
-            $consult->roomTypeList($_POST['roomType']);
+            $consult->roomTypeList($_POST['roomType'],$_POST['startDate'],$_POST['finishDate']);
             break;
         case 'roomQuantity':
-            $consult->roomQuantityList($_POST['roomQuantity']);
+            $consult->roomQuantityList($_POST['roomQuantity'],$_POST['startDate'],$_POST['finishDate']);
             break;
         case 'enterprise':
             $consult->enterpriseList();

@@ -31,7 +31,7 @@
 												</div>
 
 												<select class="form-control" required>
-													<?php $consult->getList('roomQuantity','S'); ?>
+													<?php $consult->roomQuantityList('S',"'".date("Y-m-d")."'","'".date_format(date_add(date_create(date("Y-m-d")),new DateInterval('P1D')),"Y-m-d")."'"); ?>
 							                    </select>
 											</div>
 										</div>
@@ -44,7 +44,7 @@
 												</div>
 
 												<select  class="form-control" required>
-												 	<?php $consult->getList('roomType','1'); ?>
+												 	<?php $consult->roomTypeList("1","'".date("Y-m-d")."'","'".date_format(date_add(date_create(date("Y-m-d")),new DateInterval('P1D')),"Y-m-d")."'"); ?>
 												</select>
 											</div>
 										</div>
@@ -58,13 +58,6 @@
 												<select class="form-control" required>
 							                        <?php $consult->getList('tariff','S','1');?>
 							                    </select>
-							                    <div class="switch-group switch-group-margin-min">
-							                    	<label class="switch switch-container">
-							                    		<input type="checkbox">
-							                    		<span class="slider slider-gray round green"></span>
-							                    	</label>
-							                    	<label class="switch-label">Descuento</label>
-							                    </div>
 											</div>
 										</div>
 										<div class="form-group in-row hideable">
