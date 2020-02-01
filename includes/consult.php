@@ -99,16 +99,22 @@
             }
         }
 
-        public function roomTypeList($type){
+        public function roomTypeList($type,$startDate,$finishDate){
             $query = $this->connect()->prepare('SELECT id_habitacion,numero_habitacion 
                 FROM habitaciones h 
                 INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion 
-                WHERE th.id_tipo_habitacion=:type 
+                WHERE th.id_tipo_habitacion=:type
                 AND id_habitacion NOT IN (
                 SELECT id_habitacion
                 FROM registros_habitacion rh 
                 INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
-                WHERE (r.estado_reserva="AC" OR r.estado_reserva="RE"))');
+                WHERE r.fecha_ingreso <'.$finishDate.' 
+                AND ((r.fecha_salida>'.$startDate.' AND r.fecha_salida>'.$finishDate.' 
+                AND (r.fecha_ingreso<'.$startDate.' OR r.fecha_ingreso>'.$startDate.')) 
+                OR (r.fecha_ingreso<'.$startDate.' AND r.fecha_salida>'.$startDate.' AND r.fecha_salida<'.$finishDate.')) 
+                AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))');
+
+
             $query->execute([':type'=>$type]);
 
             foreach ($query as $current) {
@@ -117,7 +123,7 @@
             return false;
         }
 
-        public function roomQuantityList($quantity){
+        public function roomQuantityList($quantity,$startDate,$finishDate){
             $query = $this->connect()->prepare('SELECT DISTINCT th.id_tipo_habitacion,th.nombre_tipo_habitacion
                 FROM tipos_habitacion th 
                 INNER JOIN tarifas t ON t.id_tipo_habitacion=th.id_tipo_habitacion
@@ -128,9 +134,14 @@
                 FROM habitaciones h
                 INNER JOIN registros_habitacion rh ON rh.id_habitacion=h.id_habitacion 
                 INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
-                WHERE (r.estado_reserva="AC" OR r.estado_reserva="RE"))');
+                WHERE r.fecha_ingreso <'.$finishDate.' 
+                AND ((r.fecha_salida>'.$startDate.' AND r.fecha_salida>'.$finishDate.' 
+                AND (r.fecha_ingreso<='.$startDate.' OR r.fecha_ingreso>'.$startDate.')) 
+                OR (r.fecha_ingreso<'.$startDate.' AND r.fecha_salida>'.$startDate.' AND r.fecha_salida<'.$finishDate.')) 
+                AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))
+                ORDER BY th.id_tipo_habitacion');
             $query->execute([':quantity'=>$quantity]);
-
+            echo $startDate.$finishDate;
             foreach ($query as $current) {
                 echo '<option value="'.$current['id_tipo_habitacion'].'">'.$current['nombre_tipo_habitacion'].'</option>';
             }
@@ -150,10 +161,10 @@
 
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,e.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux 
+            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,r.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux 
                 FROM reservas r 
                 LEFT JOIN personas c ON r.id_titular=c.id_persona 
-                LEFT JOIN empresas e ON c.id_empresa=e.id_empresa 
+                LEFT JOIN empresas e ON r.id_empresa=e.id_empresa 
                 WHERE r.estado_reserva="AC"');
             $query->execute();
 
@@ -164,7 +175,7 @@
                 echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==1?'disabled':'').'><span class="slider slider-red round green"></span></label></td>';
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.($current['fecha_ingreso']==date("Y-m-d")?$current['fecha_ingreso']:"No").'</td>'.PHP_EOL;
+                echo '<td>'.($current['fecha_ingreso']>=date("Y-m-d")?$current['fecha_ingreso']:"Vencido").'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
                 echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
@@ -176,7 +187,7 @@
         function enterpriseCustomTable($idEnterprise){
             $query = $this->connect()->prepare('SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, valor_total FROM personas p 
                 LEFT JOIN reservas r ON r.id_cliente = p.id_persona 
-                LEFT JOIN empresas e ON p.id_empresa = e.id_empresa 
+                LEFT JOIN empresas e ON r.id_empresa = e.id_empresa 
                 LEFT JOIN facturas f ON f.id_reserva = r.id_reserva 
                 WHERE e.id_empresa = :idEnterprise');
             $query->execute(['idEnterprise'=>$idEnterprise]);

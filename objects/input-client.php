@@ -186,20 +186,6 @@
 						                    </div>
 										</div>
 
-										<div class="form-group in-row col-3 padd">
-											<label class="form-control-label">Empresa</label>
-											<div class="input-group">
-												<div class="input-group-icon">
-													<i class="fa fa-bank"></i>
-												</div>
-						                       <select class="form-control">
-							                        <option value="NULL">NINGUNA</option>
-							                        <?php $consult->getList('enterprise',''); ?>
-							                    </select>
-						                        <button type="button" onclick="showModal('add-bizz');" class="btn-circle"><i class="fa fa-plus"></i></button>
-						                    </div>
-										</div>
-
 										<div class="hideable form-group in-row col-6 padd">
 											<label class="form-control-label">Nacionalidad*</label>
 											<div class="input-group">

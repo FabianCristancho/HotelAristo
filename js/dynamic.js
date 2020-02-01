@@ -37,17 +37,20 @@ function hideAlert(alert){
 }
 
 function showAlert(type,message){
+	console.log(type+" "+message);
 	var base=document.getElementById(type);
 	var alert = document.createElement("div");
-	alert.classList=base.classList;
-	alert.innerHTML=base.innerHTML;
-	alert.getElementsByTagName("p")[0].innerText=message;
-	document.getElementById("alerts").appendChild(alert);
-	alert.style.opacity = 1;
-	alert.style.display = "block"; 
-	setTimeout(function(){
-		hideAlert(alert);
-	}, 5000);
+	if(base){
+		alert.classList=base.classList;
+		alert.innerHTML=base.innerHTML;
+		alert.getElementsByTagName("p")[0].innerText=message;
+		document.getElementById("alerts").appendChild(alert);
+		alert.style.opacity = 1;
+		alert.style.display = "block"; 
+		setTimeout(function(){
+			hideAlert(alert);
+		}, 5000);
+	}
 }
 
 function showModal(modal){
@@ -195,7 +198,7 @@ function updateRoomTypes(index){
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
-		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value,
+		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
 		}
@@ -207,7 +210,7 @@ function updateRooms(index){
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
-		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value,
+		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
 			assignAttributesToClients(index);
