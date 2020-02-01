@@ -164,7 +164,7 @@ function showAllInputs(index,value){
 		rows[2].style.display="none";
 		rows[4].style.display="none";
 		rows[5].getElementsByClassName("form-group")[0].style.display="none";
-		rows[5].getElementsByClassName("form-group")[2].style.display="none";
+		rows[5].getElementsByClassName("form-group")[1].style.display="none";
 	}else{
 		setRequired(rows[1],true);
 		setRequired(rows[2],true);
@@ -173,7 +173,7 @@ function showAllInputs(index,value){
 		rows[2].style.display="flex";
 		rows[4].style.display="flex";
 		rows[5].getElementsByClassName("form-group")[0].style.display="initial";
-		rows[5].getElementsByClassName("form-group")[2].style.display="initial";
+		rows[5].getElementsByClassName("form-group")[1].style.display="initial";
 	}
 }
 

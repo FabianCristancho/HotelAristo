@@ -13,6 +13,12 @@ body{
     min-height: 100vh;
 }
 
+
+.padd{
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
 .aux-content{
     height: 80px;
 }
@@ -549,10 +555,5 @@ input:checked + .slider:before {
 
     .switch-group-margin-min{
       margin-left: 10px;
-    }
-    
-    .padd{
-        padding-right: 15px;
-        padding-left: 15px;
     }
 }
