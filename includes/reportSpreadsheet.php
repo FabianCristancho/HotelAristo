@@ -53,15 +53,16 @@
         }
         
         
-        function getSalePerRoom($firstCol, $row, $spreadsheet){
+        function getSalePerRoom($firstCol, $row, $month, $year, $spreadsheet){
             $query = $this->connect()->prepare('SELECT numero_habitacion, SUM(valor_ocupacion*(fecha_salida-fecha_ingreso+1)) AS value 
             FROM tarifas t INNER JOIN registros_habitacion rh ON t.id_tarifa=rh.id_tarifa
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
             INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+            WHERE MONTH(fecha_ingreso) = :month
+            AND YEAR(fecha_ingreso) = :year
             GROUP BY numero_habitacion
             ORDER BY numero_habitacion;');
-            $query->execute();
-            $cantCharges;
+            $query->execute(['month'=>$month, 'year'=>$year]);
             $numberCol = ord($firstCol);
 
             foreach ($query as $current) {
@@ -119,7 +120,7 @@
         }
         
         
-        public function fullValuesPerRoom2($room, $col, $spreadsheet){
+        public function fullValuesPerRoom2($room, $col, $month, $year, $spreadsheet){
             
             $row = 3;
             $colExcelDate = 2;
@@ -130,9 +131,11 @@
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
             INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
             WHERE h.numero_habitacion = :room
+            AND MONTH (r.fecha_ingreso) = :enterMonth
+            AND YEAR (r.fecha_ingreso) = :enterYear
             GROUP BY 1, 2
             ORDER BY fecha_ingreso');
-            $query->execute(['room'=>$room]);
+            $query->execute(['room'=>$room, 'enterMonth'=>$month, 'enterYear'=>$year]);
             
 
             foreach ($query as $current) {
@@ -151,13 +154,15 @@
         }
         
         
-        function getTotalPaymentMethod($paymentMethod, $spreadsheet){
+        function getTotalPaymentMethod($paymentMethod, $month, $year, $spreadsheet){
             $totalPaymentMethod = 0;
             $query = $this->connect()->prepare('SELECT SUM(valor_ocupacion*(fecha_salida-fecha_ingreso+1)) AS total
             FROM tarifas t INNER JOIN registros_habitacion rh ON t.id_tarifa=rh.id_tarifa
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
-            WHERE r.medio_pago = :medio');
-            $query->execute(['medio'=>$paymentMethod]);
+            WHERE r.medio_pago = :medio
+            AND MONTH (r.fecha_ingreso) = :enterMonth
+            AND YEAR (r.fecha_ingreso) = :enterYear');
+            $query->execute(['medio'=>$paymentMethod, 'enterMonth'=>$month, 'enterYear'=>$year]);
             foreach ($query as $current) {
                 $totalPaymentMethod += $current['total'];
             }
@@ -183,12 +188,13 @@
         }
         
         
-        function fullAllRooms($numberCol, $spreadsheet){
+        
+        function fullAllRooms($numberCol, $month, $year, $spreadsheet){
             $box = ord($numberCol);
             $room = 201;
     
             for ($i = 0; $i < 17; $i++) {
-                $this->fullValuesPerRoom2($room, chr($box), $spreadsheet);
+                $this->fullValuesPerRoom2($room, chr($box), $month, $year, $spreadsheet);
                 if($room==202){
                     $room=301;
                 }else if(($room==304)||($room==404)||($room==504)){
