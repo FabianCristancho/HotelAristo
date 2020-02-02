@@ -60,7 +60,7 @@ function sendUpdate(data){
 function sendBooking(booking){
 	var p= (booking.holder instanceof Person ?send(booking.holder):new Promise(function(resolve){resolve(booking.holder+";Se ha insertado a un usuario existente")})).then(function(ans){
 		var data=ans.split(";");
-		 setMessageOnLoading(data[1]);
+		 setMessageOnLoading(data[1],"Holder");
 		return send(booking,"&holder="+data[0]);
 	});
 
@@ -73,7 +73,10 @@ function sendReservation(user){
 	return sendBooking(booking).then(function(ans){
 		var data=ans.split(";");
 		var promises=[];
-		setMessageOnLoading(data[2]);
+		if(data[2]=='')
+			setMessageOnLoading(data[1],"Booking");
+		else
+			setMessageOnLoading(data[2],"Booking");
 
 		for (var i = 0; i < booking.rooms.length; i++) {
 			promises.push(sendRoom(booking.rooms[i], data[0], booking.isStaying, data[1]));
@@ -99,6 +102,7 @@ function sendReservation(user){
 
 		return promises;
 	}).then(function(ans3){
+		setMessageOnLoading(ans3);
 		setTimeout(function(){
 			hideModal("ajax-loading");
 			showAlert("alert-s","Se ha registrado una nueva reserva");

@@ -465,8 +465,8 @@ function showInputPaid(input){
 		document.getElementById("input-paid-group").style.display="none";
 }
 
-function setMessageOnLoading(message){
-	console.log(message);
+function setMessageOnLoading(message, entity){
+	console.log("LOG: ["+entity+"]"+message);
 	document.getElementById("ajax-loading").getElementsByTagName("label")[1].innerHTML=message;
 }
 

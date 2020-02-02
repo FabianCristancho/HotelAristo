@@ -66,7 +66,7 @@
                     <h2 class="title-form">REGISTRAR RESERVA</h2>
                 </div>
 
-                <form onsubmit="setPreviewBook(<?php $user->getId();?>); showModal('confirm-modal'); return false;">
+                <form onsubmit="setPreviewBook(); showModal('confirm-modal'); return false;">
 					<div id="main-row" class="row">
 						<div class="col-12 padd row-simple">
 							<div class="card card-prime col-12">
@@ -198,7 +198,7 @@
                     <h2>Revisar reserva</h2>
                 </div>
                 <div class="modal-body scroll-block">
-	                <form onsubmit="sendReservation(); return false;">
+	                <form onsubmit="sendReservation(<?php echo $user->getId();?>); return false;">
 	                	<div class="card">
 						    <div class="card-header">
 						        <strong class="card-title">Resumen de la reserva</strong>
