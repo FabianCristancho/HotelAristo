@@ -137,8 +137,8 @@
 
 		<!----FIN DE LA PAGINA PRINCIPAL---->
 
-		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
-			<div class="modal-content">
+		<div id="add-bizz" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-8 wrap-8">
                 <div class="modal-header">
                     <span onclick="hideModal('add-bizz');" class="close">&times;</span>
                     <h2>Agregar empresa</h2>
@@ -156,8 +156,8 @@
             </div>
 		</div>
 
-		<div id="add-prof" class="modal" onclick="touchOutside(this);";>
-			<div class="modal-content">
+		<div id="add-prof" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-4 wrap-4">
                 <div class="modal-header">
                     <span onclick="hideModal('add-prof');" class="close">&times;</span>
                     <h2>Agregar profesión</h2>
@@ -175,8 +175,24 @@
             </div>
 		</div>
 
-		<div id="confirm-modal" class="modal" onclick="touchOutside(this);";>
-			<div class="modal-content">
+		<div id="ajax-loading" class="modal ajax-loading hideable" >
+			<div class="modal-content col-3 wrap-3">
+				<div class="modal-body">
+					<div class="card">
+						<div class="card-header">
+							<strong class="card-title">Por favor espere...</strong>
+						</div>
+						<div class="card-body">
+							<label>Insertando en la base de datos</label><br>
+							<label></label>
+						</div>
+					</div>
+				</div>
+            </div>
+		</div>
+
+		<div id="confirm-modal" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-8 wrap-8">
 				<div class="modal-header">
                     <span onclick="hideModal('confirm-modal');" class="close">&times;</span>
                     <h2>Revisar reserva</h2>
@@ -195,7 +211,7 @@
 	                		<div class="card-body">
 	                			<div class="switch-group">
 	                				<label class="switch switch-container">
-							    		<input type="checkbox" onchange="showInPlace(this);">
+							    		<input id="checkon-check" type="checkbox" onchange="showInPlace(this);">
 							    		<span class="slider slider-gray round green"></span>
 							    	</label>
 							    	<label class="switch-label"></label>
@@ -205,7 +221,7 @@
 	                				<br>
 	                				<div class="switch-group">
 							    		<label class="switch switch-container">
-							    			<input type="checkbox" onchange="showPayments(this);">
+							    			<input id="payment-check" type="checkbox" onchange="showPayments(this);">
 							    			<span class="slider slider-gray round green"></span>
 							    		</label>
 							    		<label class="switch-label">Efectuar pago en este momento.</label>
@@ -218,13 +234,24 @@
 						        			<div class="input-group-icon">
 						        				<i class="fa fa-dollar"></i>
 						        			</div>
-							        		<select class="form-control">
+							        		<select id="payment-method" onchange="showInputPaid(this);" class="form-control">
 							        			<option value="E">EFECTIVO</option>
 							        			<option value="T">TARJETA</option>
 							        			<option value="C">CONSIGNACIÓN</option>
 							        			<option value="CC">CUENTAS POR COBRAR</option>
 							        		</select>
 						        		</div>
+						        	</div>
+						        	<div id="input-paid-group" class="form-group hideable">
+							    		<br>
+						        		<label class="form-control-label">Monto a pagar</label>
+						        		<div class="input-group">
+						        			<div class="input-group-icon">
+						        				<i class="fa fa-dollar"></i>
+						        			</div>
+							        		<input type="number" id="input-paid" class="form-control" placeholder="Monto a pagar">
+						        		</div>
+						        		<small class="form-text text-muted">ej. 85000</small>
 						        	</div>
 	                			</div>
 	                		</div>

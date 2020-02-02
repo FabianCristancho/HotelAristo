@@ -32,6 +32,22 @@ form{
     opacity: 0.8;
 }
 
+.btn-edit-hover:hover{
+    background: blue;
+}
+
+.btn-edit-hover:hover span{
+    display: none;
+}
+
+.btn-edit-hover {
+    min-width: 120px;
+}
+
+.btn-edit-hover:hover:before {
+    content: 'Editar';
+}
+
 .btn, .button {
     display: inline-block;
     font-weight: 400;
@@ -181,7 +197,7 @@ label {
   justify-content: flex-end;
 }
 
-.card .card-body, .card-preview {
+.card .card-body, .card .card-search {
     float: left;
     padding: 1.25em;
     position: relative;

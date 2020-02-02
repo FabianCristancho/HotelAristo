@@ -4,6 +4,9 @@
     $consult=new Consult();
 
     switch($_POST['entity']){
+        case 'searchPerson':
+            $consult->getPerson($_POST['idPerson']);
+            break;
         case 'roomTariff':
             $consult->tariffList($_POST['roomQuantity'],$_POST['roomType']);
             break;

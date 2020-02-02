@@ -38,7 +38,9 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/hotel-db.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="registrar/book-register.js"></script>
     </head>
     
     <!--Construcción de la vista-->
@@ -87,26 +89,73 @@
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../objects/footer.php"; 
+            include "../objects/alerts.php"; 
         ?>
 
-        <div id="confirm-check-on" class="modal" onclick="touchOutside(this);";>
-            <div class="modal-content">
+        <div id="confirm-check-on" class="modal hideable">
+            <div class="modal-content col-3 wrap-3">
+                 <div class="modal-header">
+                    <span onclick="hideModal('confirm-check-on');" class="close">&times;</span>
+                    <h2>Confirmar Check on</h2>
+                </div>
+
                 <div class="modal-body">
-                    
                     <div>
-                        <button class="btn btn-block btn-register" onclick="updateProfession();">
-                            <i class="fa fa-check"></i>
-                            <span>Confirmar check on</span>
-                        </button>
+                        <div class="card-body">
+                            <div style="margin-top: 10px;">
+                                Por favor, confirme si el/los huespedes de la reserva <label></label> ya llegaron al hotel.
+                                <br>
+                                Recuerde que la reserva pasará a <strong>control diario.</strong>
+                            </div>
+
+                            <div id="in-place-form">
+                                <br>
+                                <div class="switch-group">
+                                    <label class="switch switch-container">
+                                        <input id="payment-check" type="checkbox" onchange="showPayments(this);">
+                                        <span class="slider slider-gray round green"></span>
+                                    </label>
+                                    <label class="switch-label">Efectuar pago en este momento.</label>
+                                </div>
+
+                                <div id="payment-methods" class="form-group hideable">
+                                    <br>
+                                    <label class="form-control-label">Medio de pago</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-dollar"></i>
+                                        </div>
+
+                                        <select id="payment-method" onchange="showInputPaid(this);" class="form-control">
+                                            <option value="E">EFECTIVO</option>
+                                            <option value="T">TARJETA</option>
+                                            <option value="C">CONSIGNACIÓN</option>
+                                            <option value="CC">CUENTAS POR COBRAR</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="input-paid-group" class="form-group hideable">
+                                    <br>
+                                    <label class="form-control-label">Monto a pagar</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-dollar"></i>
+                                        </div>
+                                        <input type="number" id="input-paid" class="form-control" placeholder="Monto a pagar">
+                                    </div>
+                                    <small class="form-text text-muted">ej. 85000</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <button class="btn btn-block btn-register" onclick="">
+                        <i class="fa fa-check"></i>
+                        <span>Confirmar</span>
+                    </button>
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            function setCheckOn(reservation, input){
-                if(input.checked)
-                    showModal('confirm-check-on');
-            }
-        </script>
     </body>
 </html>

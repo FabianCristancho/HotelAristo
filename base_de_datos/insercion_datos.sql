@@ -31,17 +31,17 @@ INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,ape
 
 
 -- ==========================================PERSONAS (CLIENTES) (EJEMPLO)==================================================================================================================================================================================================
-INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `id_empresa`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
-(40040, 39828, 1, 'CARLOS ANDRES','CHAPARRO RINCON','CC','1052434460','M','1987-11-25','B+','3125671293', 'C'),
-(40040, 39828, 1, 'FELIPE ANTOIO','ROSAS BARRERA','CC','1045411460','M','1990-10-19','O+','3122371293', 'C'), 
-(40040, 39828, 1, 'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1052451460','M','1999-05-28','B+','3125743447', 'C'), 
-(40040, 39828, 1, 'MARIA HELENA','ROJAS VELEZ','TI','10534567654','F','1988-12-21','O-','3103321293', 'C'),
-(40040, 39828, 1, 'MARIA FERNANDA','TELLEZ PEREZ','CC','1051451460','M','1998-11-23','A+','3123878793', 'C'), 
-(40040, 39828, 2, 'ERNESTO','CHAPARRO ROSAS','CC','1053455460','M','2000-10-23','B+','3103471293', 'C'),
-(40040, 39828, 2, 'CAMILO ANDRES','BARRERA ROSAS','CC','10504563728','M','1993-10-23','B+','3123982293', 'C'), 
-(40040, 39828, 2, 'ANA PATRICIA','CARDENAS PEREZ','CC','1052391460','F','1992-03-04','B+','3123871293', 'C'),
-(40040, 39828, 1, 'ANA DEISY','SEPULVEDA GIRALDO','CC','10535446732','F','1990-05-26','A+','3123871323', 'C'), 
-(40040, 39828, 3, 'FELIPE ALEJANDRO','ROSAS RINCON','CC','1053565460','M','1994-11-27','B+','3123871293', 'C');
+INSERT INTO personas (`id_lugar_nacimiento`, `id_lugar_expedicion`, `nombres_persona`, `apellidos_persona`, `tipo_documento`, `numero_documento`, `genero_persona`, `fecha_nacimiento`, `tipo_sangre_rh`, `telefono_persona`, `tipo_persona`) VALUES 
+(40040, 39828,  'CARLOS ANDRES','CHAPARRO RINCON','CC','1052434460','M','1987-11-25','B+','3125671293', 'C'),
+(40040, 39828,  'FELIPE ANTOIO','ROSAS BARRERA','CC','1045411460','M','1990-10-19','O+','3122371293', 'C'), 
+(40040, 39828,  'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1052451460','M','1999-05-28','B+','3125743447', 'C'), 
+(40040, 39828,  'MARIA HELENA','ROJAS VELEZ','TI','10534567654','F','1988-12-21','O-','3103321293', 'C'),
+(40040, 39828,  'MARIA FERNANDA','TELLEZ PEREZ','CC','1051451460','M','1998-11-23','A+','3123878793', 'C'), 
+(40040, 39828,  'ERNESTO','CHAPARRO ROSAS','CC','1053455460','M','2000-10-23','B+','3103471293', 'C'),
+(40040, 39828,  'CAMILO ANDRES','BARRERA ROSAS','CC','10504563728','M','1993-10-23','B+','3123982293', 'C'), 
+(40040, 39828,  'ANA PATRICIA','CARDENAS PEREZ','CC','1052391460','F','1992-03-04','B+','3123871293', 'C'),
+(40040, 39828,  'ANA DEISY','SEPULVEDA GIRALDO','CC','10535446732','F','1990-05-26','A+','3123871323', 'C'), 
+(40040, 39828,  'FELIPE ALEJANDRO','ROSAS RINCON','CC','1053565460','M','1994-11-27','B+','3123871293', 'C');
 -- ==============================================================================================================================================================
 
 

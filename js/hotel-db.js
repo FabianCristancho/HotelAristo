@@ -1,9 +1,79 @@
+function prepareReservation(){
+	showModal("ajax-loading");
+	hideModal("confirm-modal");
+
+	var main=document.getElementById("main-row");
+	var primeCard=main.getElementsByClassName("card-prime")[0].getElementsByClassName("card-body")[0];
+	var primeInputs=primeCard.getElementsByTagName("input");
+	var holder, clients=[], rooms=[];
+	var roomGroups=main.getElementsByClassName("room-group");
+	var clientCards;
+
+
+	for (var i = 0; i < roomGroups.length; i++) {
+		clientCards=roomGroups[i].getElementsByClassName("card-client");
+		
+		for (var j = 0; j < clientCards.length; j++) {
+			if(clientCards[j].getElementsByClassName("id-container")[0].innerHTML=="")
+				clients.push(fillClient(clientCards[j].getElementsByClassName("card-body")[0]));
+			else
+				clients.push(clientCards[j].getElementsByClassName("id-container")[0].innerHTML);
+		}
+		
+		rooms.push(fillRoom(roomGroups[i].getElementsByClassName("card-room")[0].getElementsByClassName("card-body")[0],clients));
+	}
+
+	if(primeCard.parentElement.nextElementSibling){
+		holder=fillClient(primeCard.parentElement.nextElementSibling.getElementsByClassName("card-body")[0]);
+	}else
+		holder=clients[0];
+
+	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,1,
+		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
+		(document.getElementById("checkon-check").checked?"RE":"AC"),
+		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
+}
+
+function send(entity, extra){
+	if(extra==undefined)
+		extra="";
+
+	var p= $.ajax({
+		type: 'post',
+		url: 'insert.php',
+		data: (entity!=null?entity.getSendData():"")+extra
+	});
+
+	return p;
+}
+
+function sendUpdate(data){
+	var p= $.ajax({
+		type: 'post',
+		url: '/includes/update.php',
+		data: data
+	});
+
+	return p;
+}
+
+function sendBooking(booking){
+	var p= (booking.holder instanceof Person ?send(booking.holder):new Promise(function(resolve){resolve(booking.holder+";Se ha insertado a un usuario existente")})).then(function(ans){
+		var data=ans.split(";");
+		 setMessageOnLoading(data[1]);
+		return send(booking,"&holder="+data[0]);
+	});
+
+	return p;
+}
+
 function sendReservation(){
 	const booking=prepareReservation();
 
 	return sendBooking(booking).then(function(ans){
 		var data=ans.split(";");
 		var promises=[];
+		setMessageOnLoading(data[2]);
 
 		for (var i = 0; i < booking.rooms.length; i++) {
 			promises.push(sendRoom(booking.rooms[i], data[0], booking.isStaying, data[1]));
@@ -11,6 +81,8 @@ function sendReservation(){
 
 		return promises;
 	}).then(function (ans2){
+		var promises=[];
+
 		for (var i = 0; i < ans2.length; i++) {
 			ans2[i].then(function(ans){
 				var data=ans[0].split(";");
@@ -20,28 +92,24 @@ function sendReservation(){
 				for (var j = 1; j < ans.length; j++) {
 					data=ans[j].split(";");
 					clientId=data[0];
-
-					$.ajax({
-						type: 'post',
-						url: 'insert.php',
-						data: 'entity=guestReg&roomReg='+roomId+'&guestId='+clientId
-					}).then(function(ans3){
-						var data=ans3.split(";");
-					});
+					promises.push(send(null,'entity=guestReg&roomReg='+roomId+'&guestId='+clientId));
 				}
 			});
 		}
+
+		return promises;
+	}).then(function(ans3){
+		setTimeout(function(){
+			hideModal("ajax-loading");
+			showAlert("alert-s","Se ha registrado una nueva reserva");
+		}, 1000);
 	});
 }
 
 function sendRoom(room, bookingId, isStaying, holder){
 	var promises=[];
 
-	promises.push($.ajax({
-		type: 'post',
-		url: 'insert.php',
-		data: room.getSendData()+"&bookingId="+bookingId
-	}));
+	promises.push(send(room,"&bookingId="+bookingId));
 
 	if(isStaying)
 		promises.push(new Promise(function(resolve){
@@ -49,61 +117,15 @@ function sendRoom(room, bookingId, isStaying, holder){
 		}));
 
 	for (var i = (isStaying?1:0); i < room.guests.length; i++) {
-		promises.push(sendClient(room.guests[i]));
+		if(guests[i] instanceof Person)
+			promises.push(send(room.guests[i]));
+		else
+			promises.push(new Promise(function(resolve){
+				resolve(guests[i]);
+			}));
 	}
 	
 	return Promise.all(promises);
-}
-
-function sendBooking(booking){
-	var p= sendClient(booking.holder).then(function(ans){
-		var data=ans.split(";");
-
-		return $.ajax({
-			type: 'post',
-			url: 'insert.php',
-			data: booking.getSendData()+"&holder="+data[0]+"&state=AC"
-		});
-	});
-
-	return p;
-}
-
-function sendClient(client){
-	var p= $.ajax({
-		type: 'post',
-		url: 'insert.php',
-		data: client.getSendData()
-	});
-	return p;
-}
-
-function prepareReservation(){
-	var main=document.getElementById("main-row");
-	var primeCard=main.getElementsByClassName("card-prime")[0].getElementsByClassName("card-body")[0];
-	var primeInputs=primeCard.getElementsByTagName("input");
-	var holder, clients=[], rooms=[];
-
-	var roomGroups=main.getElementsByClassName("room-group");
-	var clientCards;
-
-
-	for (var i = 0; i < roomGroups.length; i++) {
-		clientCards=roomGroups[i].getElementsByClassName("card-client");
-		
-		for (var j = 0; j < clientCards.length; j++) {
-			clients.push(fillClient(clientCards[j].getElementsByClassName("card-body")[0]));
-		}
-		
-		rooms.push(fillRoom(roomGroups[i].getElementsByClassName("card-room")[0].getElementsByClassName("card-body")[0],clients));
-	}
-
-	if(primeCard.parentElement.nextElementSibling)
-		holder=fillClient(primeCard.parentElement.nextElementSibling.getElementsByClassName("card-body")[0]);
-	else
-		holder=clients[0];
-
-	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,1,true);
 }
 
 function fillClient(clientBody){
@@ -151,17 +173,25 @@ function fillRoom(roomBody,clients){
 }
 
 class Booking{
-	constructor(startDate, finishDate,rooms, holder, user, isStaying){
+	constructor(startDate, finishDate,rooms, holder, user, isStaying, amount, isCheckon, paymentMethod){
 		this.startDate=startDate;
 		this.finishDate=finishDate;
 		this.rooms=rooms;
 		this.holder=holder;
 		this.user=user;
 		this.isStaying=isStaying;
+		this.amount=amount;
+		this.isCheckon=isCheckon;
+		this.paymentMethod=paymentMethod;
 	}
 
 	getSendData(){
-		return "entity=reservation&startDate="+this.startDate+"&finishDate="+this.finishDate+"&user="+this.user;
+		var data="entity=reservation&startDate="+this.startDate+"&finishDate="+this.finishDate+"&user="+this.user+"&amount="+this.amount+"&state="+this.isCheckon;
+		
+		if(this.paymentMethod!=null)
+			data+="&paymentMethod="+this.paymentMethod;
+
+		return data;
 	}
 }
 
@@ -210,6 +240,24 @@ class Person {
 	}
 }
 
+class Enterprise{
+	constructor(nit,name, phone, email){
+		this.nit=nit;
+		this.name=name;
+		this.phone=phone;
+		this.email=email;
+	}
+
+	getSendData(){
+		var data="entity=enterprise&nit="+this.nit+"&name="+this.name+"&phone="+this.phone;
+		
+		if(this.email)
+			data+="&email="+this.email;
+
+		return data;
+	}
+}
+
 class Document{
 	constructor(number,type,expeditionDate,expeditionCity){
 		this.number=number;
@@ -224,39 +272,6 @@ class Document{
 	}
 }
 
-
-function sendEnterprise(){
-	var card=document.getElementsByClassName("card-enterprise")[0];
-	var inputs=card.getElementsByTagName("input");
-	var select=card.getElementsByTagName("select")[0];
-
-	var nit=inputs[0].value==""?"NULL":inputs[0].value;
-	var name=inputs[1].value==""?"NULL":inputs[1].value;
-	var phone=inputs[2].value==""?"NULL":inputs[2].value;
-	var email=inputs[3].value==""?"NULL":inputs[2].value;
-	var ret=inputs[4].checked?"1":"0";
-	var other=select.value;
-
-	var data="entity=enterprise&nit="+nit+
-	"&name="+name+
-	"&phone="+phone+
-	"&email="+email+
-	"&ret="+ret+
-	"&other="+other;
-
-	$.ajax({
-		type: 'post',
-		url: '/includes/insert.php',
-		data: data,
-		success: function (ans) {
-			var data=ans.split(";");
-			showAlert(data[0],data[1]);
-		},
-		error: function (ans) {
-			showAlert('alert-d','No se pudo conectar con la base de datos');
-		}
-	});
-}
 
 function sendProfession(){
 	var card=document.getElementsByClassName("card-profession")[0];
@@ -274,3 +289,12 @@ function sendProfession(){
 		}
 	});
 }
+
+
+ function confirmCheckOn(reservation){
+ 	sendUpdate("action=setCheckOn&idBooking="+reservation).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
+ 		location.reload(true);
+ 	});
+ }

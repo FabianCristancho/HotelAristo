@@ -102,17 +102,17 @@
         public function roomTypeList($type,$startDate,$finishDate){
             $query = $this->connect()->prepare('SELECT id_habitacion,numero_habitacion 
                 FROM habitaciones h 
-                INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion 
+                INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion
                 WHERE th.id_tipo_habitacion=:type
                 AND id_habitacion NOT IN (
                 SELECT id_habitacion
                 FROM registros_habitacion rh 
                 INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
-                WHERE r.fecha_ingreso <'.$finishDate.' 
-                AND ((r.fecha_salida>'.$startDate.' AND r.fecha_salida>'.$finishDate.' 
-                AND (r.fecha_ingreso<'.$startDate.' OR r.fecha_ingreso>'.$startDate.')) 
-                OR (r.fecha_ingreso<'.$startDate.' AND r.fecha_salida>'.$startDate.' AND r.fecha_salida<'.$finishDate.')) 
-                AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))');
+                WHERE (date_format(r.fecha_ingreso,"%X-%m-%d")='.$startDate.'
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_ingreso,"%X-%m-%d")='.$finishDate.')
+                OR (date_format(r.fecha_salida,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")='.$finishDate.')
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")='.$finishDate.')
+                ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))');
 
 
             $query->execute([':type'=>$type]);
@@ -134,12 +134,13 @@
                 FROM habitaciones h
                 INNER JOIN registros_habitacion rh ON rh.id_habitacion=h.id_habitacion 
                 INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
-                WHERE r.fecha_ingreso <'.$finishDate.' 
-                AND ((r.fecha_salida>'.$startDate.' AND r.fecha_salida>'.$finishDate.' 
-                AND (r.fecha_ingreso<='.$startDate.' OR r.fecha_ingreso>'.$startDate.')) 
-                OR (r.fecha_ingreso<'.$startDate.' AND r.fecha_salida>'.$startDate.' AND r.fecha_salida<'.$finishDate.')) 
-                AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))
+                WHERE (date_format(r.fecha_ingreso,"%X-%m-%d")='.$startDate.'
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_ingreso,"%X-%m-%d")='.$finishDate.')
+                OR (date_format(r.fecha_salida,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")='.$finishDate.')
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")='.$finishDate.')
+                ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))
                 ORDER BY th.id_tipo_habitacion');
+
             $query->execute([':quantity'=>$quantity]);
             echo $startDate.$finishDate;
             foreach ($query as $current) {
@@ -161,7 +162,7 @@
 
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,r.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, r.fecha_ingreso, TIMESTAMPDIFF(DAY, r.fecha_ingreso,r.fecha_salida) dias, NVL2(tipo_documento,0,1) aux 
+            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,r.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, TIMESTAMPDIFF(DAY, date_format(r.fecha_ingreso,"%X-%m-%d"),date_format(r.fecha_salida,"%X-%m-%d")) dias, NVL2(tipo_documento,0,1) aux 
                 FROM reservas r 
                 LEFT JOIN personas c ON r.id_titular=c.id_persona 
                 LEFT JOIN empresas e ON r.id_empresa=e.id_empresa 
@@ -171,8 +172,8 @@
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
-                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table '.($current['aux']==0?"btn-success":"btn-complete").'">'.($current['aux']==0?"Listo":"Completar").'</button></td>'.PHP_EOL;
-                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==1?'disabled':'').'><span class="slider slider-red round green"></span></label></td>';
+                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table btn-edit-hover '.($current['aux']==0?"btn-success":"btn-complete").'"><span>'.($current['aux']==0?"Listo":"Completar").'</span></button></td>'.PHP_EOL;
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==1?'disabled':'').'><span class="slider '.($current['aux']==1?'slider-gray':'slider-red').' round green"></span></label></td>';
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.($current['fecha_ingreso']>=date("Y-m-d")?$current['fecha_ingreso']:"Vencido").'</td>'.PHP_EOL;
@@ -243,13 +244,13 @@
             $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva 
                 FROM habitaciones h 
                 LEFT JOIN (
-                SELECT rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,r.fecha_ingreso,"'.$date.'"),TIMESTAMPDIFF(DAY,r.fecha_ingreso, r.fecha_salida)) conteo 
+                SELECT rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo 
                 FROM reservas r 
                 INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva 
                 INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion 
                 INNER JOIN personas c ON rh.id_huesped=c.id_persona  
-                WHERE r.fecha_ingreso<="'.$date.'" 
-                AND r.fecha_salida >="'.$date.'" 
+                WHERE date_format(r.fecha_ingreso,"%X-%m-%d")<="'.$date.'" 
+                AND date_format(r.fecha_salida,"%X-%m-%d") >="'.$date.'" 
                 AND (r.estado_reserva="RE" OR r.estado_reserva="AC") 
                 GROUP BY id_habitacion) rg ON rg.id_habitacion=h.id_habitacion 
                 LEFT JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion');
@@ -413,5 +414,24 @@
             }
             
         }
+
+        public function getPerson($id){
+            $query = $this->connect()->prepare('SELECT id_persona,id_lugar_nacimiento,id_lugar_expedicion,id_profesion,id_cargo,nombres_persona,apellidos_persona,tipo_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona  FROM personas p  WHERE tipo_persona = "C" AND numero_documento=:idPerson');
+            $query->execute([':idPerson'=>$id]);
+
+            foreach ($query as $current){
+                echo $current['id_persona'].';';
+                echo $current['id_lugar_nacimiento'].';';
+                echo $current['id_lugar_expedicion'].';';
+                echo $current['id_profesion'].';';
+                echo $current['nombres_persona'].';';
+                echo $current['apellidos_persona'].';';
+                echo $current['tipo_documento'].';';
+                echo $current['genero_persona'].';';
+                echo $current['fecha_nacimiento'].';';
+                echo $current['tipo_sangre_rh'].';';
+                echo $current['telefono_persona'].';';
+                echo $current['correo_persona'];
+            }
+        }
     }
-?>
