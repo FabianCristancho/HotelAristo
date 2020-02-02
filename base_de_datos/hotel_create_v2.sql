@@ -201,7 +201,6 @@ CREATE TABLE IF NOT EXISTS facturas(
    	id_reserva INT(8) NOT NULL,
    	id_control INT(8) NOT NULL,
    	serie_factura VARCHAR(5) NOT NULL,
-   	medio_pago_factura CHAR(2) NOT NULL,
    	estado_factura CHAR(1) NOT NULL,
    	tipo_factura CHAR(1) NOT NULL,
    	CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
