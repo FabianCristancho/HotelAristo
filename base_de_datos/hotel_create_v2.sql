@@ -199,7 +199,6 @@ CREATE TABLE IF NOT EXISTS peticiones(
 CREATE TABLE IF NOT EXISTS facturas(
    	id_factura INT(5) NOT NULL AUTO_INCREMENT,
    	id_reserva INT(8) NOT NULL,
-   	id_control INT(8) NOT NULL,
    	serie_factura VARCHAR(5) NOT NULL,
    	estado_factura CHAR(1) NOT NULL,
    	tipo_factura CHAR(1) NOT NULL,
@@ -286,10 +285,7 @@ ALTER TABLE peticiones ADD (
 
 ALTER TABLE facturas ADD(
 	CONSTRAINT fac_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
-   	CONSTRAINT fac_fk_idc FOREIGN KEY (id_control) REFERENCES control_diario(id_control),
-   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/)),
-   	CONSTRAINT fac_ck_med CHECK (medio_pago_factura IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/, 'M' /*MIXTO*/, 'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-   	CONSTRAINT fac_ck_es CHECK (estado_factura IN ('C' /*COBRADA*/, 'A' /*ANULADA*/))
+   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/))
 );
 
 
