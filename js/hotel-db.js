@@ -1,4 +1,4 @@
-function prepareReservation(){
+function prepareReservation(user){
 	showModal("ajax-loading");
 	hideModal("confirm-modal");
 
@@ -28,7 +28,7 @@ function prepareReservation(){
 	}else
 		holder=clients[0];
 
-	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,1,
+	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
 		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
 		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
@@ -67,8 +67,8 @@ function sendBooking(booking){
 	return p;
 }
 
-function sendReservation(){
-	const booking=prepareReservation();
+function sendReservation(user){
+	const booking=prepareReservation(user);
 
 	return sendBooking(booking).then(function(ans){
 		var data=ans.split(";");

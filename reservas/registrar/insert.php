@@ -92,7 +92,9 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';'.$_POST['holder'].';Se ha registrado una nueva reserva.';
+			$idBooking=$pdo->lastInsertId();
+			$database->connect()->exec('CALL proc_serie('.$idBooking.');');
+			echo $idBooking.';'.$_POST['holder'].';Se ha registrado una nueva reserva.';
 		}catch(PDOException $e){
 			echo 'null;Error C3.1. Error al ingresar nueva reserva'.$e->getMessage()."\n".$insert;
 		}

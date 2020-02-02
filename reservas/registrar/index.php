@@ -66,7 +66,7 @@
                     <h2 class="title-form">REGISTRAR RESERVA</h2>
                 </div>
 
-                <form onsubmit="setPreviewBook(); showModal('confirm-modal'); return false;">
+                <form onsubmit="setPreviewBook(<?php $user->getId();?>); showModal('confirm-modal'); return false;">
 					<div id="main-row" class="row">
 						<div class="col-12 padd row-simple">
 							<div class="card card-prime col-12">
