@@ -38,6 +38,7 @@
 		<script type="text/javascript" src="/js/moment.js"></script>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
+		<script type="text/javascript" src="/js/jquerymask.js"></script>
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 		<script type="text/javascript" src="book-register.js"></script>
 	</head>

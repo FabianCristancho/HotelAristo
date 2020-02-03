@@ -41,7 +41,7 @@
 			$query=$pdo->exec($insert);
 			echo $pdo->lastInsertId().';Se ha insertado a '.$_POST['firstSecondName'].' '.$_POST['lastName'];
 		}catch(PDOException $e){
-			echo 'null;Error C1.1. Error al ingresar nuevo cliente'.$e->getMessage().'\n'.$insert;
+			echo 'null;Error C1.1. Error al ingresar nuevo cliente'.$insert."\n".$e->getMessage();
 		}
 
 		$database->connect()->exec('ALTER TABLE personas AUTO_INCREMENT = 1');
@@ -62,7 +62,7 @@
 			$query=$pdo->exec($insert);
 			echo $pdo->lastInsertId().';Se ha asignado una habitacion a la reserva.';
 		}catch(PDOException $e){
-			echo 'null;Error C2.1. Error al ingresar nuevo registro'.$e->getMessage();
+			echo 'null;Error C2.1. Error al ingresar nuevo registro'."\n".$insert.$e->getMessage();;
 		}
 
 		$database->connect()->exec('ALTER TABLE registros_habitacion AUTO_INCREMENT = 1');
@@ -93,8 +93,7 @@
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
 			$idBooking=$pdo->lastInsertId();
-			$database->connect()->exec('CALL proc_serie('.$idBooking.');');
-			echo $idBooking.';'.$_POST['holder'].';Se ha registrado una nueva reserva.';
+			echo $idBooking.';'.(isset($_POST['holder'])?$_POST['holder']:$_POST['enterprise']).';Se ha registrado una nueva reserva.';
 		}catch(PDOException $e){
 			echo 'null;Error C3.1. Error al ingresar nueva reserva'.$e->getMessage()."\n".$insert;
 		}
