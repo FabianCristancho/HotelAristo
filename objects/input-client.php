@@ -124,7 +124,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-phone"></i>
 												</div>
-												<input class="form-control" type="number" placeholder="Telefono" maxlength="15" minlength="7" required>
+												<input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" required>
 											</div>
 											<small class="form-text text-muted">ej. 3123334466</small>
 										</div>

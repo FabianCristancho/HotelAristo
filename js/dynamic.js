@@ -216,6 +216,7 @@ function updateRoomTypes(index){
 		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
+			updateRooms(index);
 		}
 	});
 }
@@ -230,6 +231,7 @@ function updateRooms(index){
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
 			assignAttributesToClients(index);
+			updateRoomTariff(index);
 		}
 	});
 }

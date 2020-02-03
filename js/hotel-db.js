@@ -1,4 +1,4 @@
-function prepareReservation(){
+function prepareReservation(user){
 	showModal("ajax-loading");
 	hideModal("confirm-modal");
 
@@ -24,11 +24,22 @@ function prepareReservation(){
 	}
 
 	if(primeCard.parentElement.nextElementSibling){
-		holder=fillClient(primeCard.parentElement.nextElementSibling.getElementsByClassName("card-body")[0]);
+		var holderContainer=primeCard.parentElement.nextElementSibling;
+		var holderBodies=holderContainer.getElementsByClassName("card-body");
+
+		if(holderBodies[0].style.display!="none"){
+			if(holderContainer.getElementsByClassName("id-container")[0].innerHTML=="")
+				holder=fillClient(holderBodies[0]);
+			else
+				holder=holderContainer.getElementsByClassName("id-container")[0].innerHTML;
+			
+		}else{
+			holder=fillEnterprise(holderBodies[1].getElementsByTagName("select")[0].value);
+		}
 	}else
 		holder=clients[0];
 
-	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,1,
+	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
 		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
 		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
@@ -58,51 +69,84 @@ function sendUpdate(data){
 }
 
 function sendBooking(booking){
-	var p= (booking.holder instanceof Person ?send(booking.holder):new Promise(function(resolve){resolve(booking.holder+";Se ha insertado a un usuario existente")})).then(function(ans){
+	var p= (booking.holder instanceof Person ?
+		send(booking.holder):(
+			booking.holder instanceof Enterprise?
+			new Promise(function(resolve){
+				resolve(booking.holder.id+";Se ha insertado a una empresa existente;E");
+			}):new Promise(function(resolve){
+				resolve(booking.holder+";Se ha insertado a un usuario existente;T")
+			}))
+	).then(function(ans){
 		var data=ans.split(";");
-		 setMessageOnLoading(data[1]);
-		return send(booking,"&holder="+data[0]);
+		 setMessageOnLoading(data[1],"Holder");
+
+		 if(data[2]=="E")
+		 	return send(booking,"&enterprise="+data[0]);
+		 else
+			return send(booking,"&holder="+data[0]);
 	});
 
 	return p;
 }
 
-function sendReservation(){
-	const booking=prepareReservation();
+function sendReservation(user){
+	const booking=prepareReservation(user);
 
 	return sendBooking(booking).then(function(ans){
 		var data=ans.split(";");
 		var promises=[];
-		setMessageOnLoading(data[2]);
 
-		for (var i = 0; i < booking.rooms.length; i++) {
-			promises.push(sendRoom(booking.rooms[i], data[0], booking.isStaying, data[1]));
+		if(data[2]==''){
+			setMessageOnLoading(data[1],"Booking");
+			return null;
+		}else
+			setMessageOnLoading(data[2],"Booking");
+
+		promises.push(sendRoom(booking.rooms[0], data[0], booking.isStaying, data[1]));
+
+		for (var i = 1; i < booking.rooms.length; i++) {
+			promises.push(sendRoom(booking.rooms[i], data[0], false));
 		}
 
-		return promises;
+		return Promise.all(promises);
 	}).then(function (ans2){
-		var promises=[];
+		if(ans2!=null){
+			var promises=[];
 
-		for (var i = 0; i < ans2.length; i++) {
-			ans2[i].then(function(ans){
-				var data=ans[0].split(";");
+			for (var i = 0; i < ans2.length; i++) {
+				var data=ans2[i][0].split(";");
 				var roomId=data[0];
-				var clientId;
+				setMessageOnLoading(data[1],"Habitacion");
 
-				for (var j = 1; j < ans.length; j++) {
-					data=ans[j].split(";");
-					clientId=data[0];
-					promises.push(send(null,'entity=guestReg&roomReg='+roomId+'&guestId='+clientId));
+				for (var j = 1; j < ans2[i].length; j++) {
+					data=ans2[i][j].split(";");
+					setMessageOnLoading((data[1]==undefined?"Asignación del titular a la habitación.":data[1]),"Huesped");
+					promises.push(send(null, 'entity=guestReg&roomReg='+roomId+'&guestId='+data[0]));
 				}
-			});
-		}
+			}
 
-		return promises;
+			return Promise.all(promises);
+		}
 	}).then(function(ans3){
-		setTimeout(function(){
-			hideModal("ajax-loading");
-			showAlert("alert-s","Se ha registrado una nueva reserva");
-		}, 1000);
+		if(ans3!=undefined){
+			var data;
+
+			for (var i = 0; i < ans3.length; i++) {
+				data=ans3[i].split(";");
+				setMessageOnLoading(data[1],"Huesped");
+			}
+
+			setTimeout(function(){
+				showAlert("alert-s","Se ha registrado una nueva reserva");
+				hideModal("ajax-loading");
+				
+				setTimeout(function(){
+					location.reload(true);
+				}, 1000);	
+			}, 2000);
+		}else
+			showAlert("alert-d","Surgió un error en la ejecución. Por favor, reinicie la pagina.");
 	});
 }
 
@@ -117,15 +161,20 @@ function sendRoom(room, bookingId, isStaying, holder){
 		}));
 
 	for (var i = (isStaying?1:0); i < room.guests.length; i++) {
-		if(guests[i] instanceof Person)
+		if(room.guests[i] instanceof Person)
 			promises.push(send(room.guests[i]));
 		else
 			promises.push(new Promise(function(resolve){
-				resolve(guests[i]);
+				resolve(room.guests[i]);
 			}));
 	}
 	
 	return Promise.all(promises);
+}
+
+function fillEnterprise(id,enterpriseBody){
+	if(enterpriseBody==undefined)
+		return new Enterprise(id);
 }
 
 function fillClient(clientBody){
@@ -241,7 +290,8 @@ class Person {
 }
 
 class Enterprise{
-	constructor(nit,name, phone, email){
+	constructor(id,nit,name, phone, email){
+		this.id=id;
 		this.nit=nit;
 		this.name=name;
 		this.phone=phone;

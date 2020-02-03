@@ -38,6 +38,7 @@
 		<script type="text/javascript" src="/js/moment.js"></script>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
+		<script type="text/javascript" src="/js/jquerymask.js"></script>
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 		<script type="text/javascript" src="book-register.js"></script>
 	</head>
@@ -198,7 +199,7 @@
                     <h2>Revisar reserva</h2>
                 </div>
                 <div class="modal-body scroll-block">
-	                <form onsubmit="sendReservation(); return false;">
+	                <form onsubmit="sendReservation(<?php echo $user->getId();?>); return false;">
 	                	<div class="card">
 						    <div class="card-header">
 						        <strong class="card-title">Resumen de la reserva</strong>

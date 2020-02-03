@@ -70,8 +70,8 @@ function assignAttributesToGroup(i){
 	var selects=group.getElementsByTagName('select');
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
-	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
-	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
+	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+');');
+	selects[1].setAttribute('onchange','updateRooms('+i+');');
 	selects[3].setAttribute('onchange','showCustomTariff('+i+',this);');
 	assignAttributesToClients(i);
 }
@@ -154,8 +154,17 @@ function reduceClientCard(index,value){
 }
 
 function showAllInputs(index,value){
-	var rows=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value].getElementsByClassName("card-body")[0].getElementsByClassName("row");
-	var flag=document.getElementsByClassName('room-group')[index].getElementsByClassName("row-flag")[value];
+	var rows, flag;
+
+	if(index==-1){
+		var mn=document.getElementsByClassName('card-prime')[0].parentElement;
+		rows=mn.getElementsByClassName("card-client")[0].getElementsByClassName("card-body")[0].getElementsByClassName("row");
+		flag=mn.getElementsByClassName("row-flag")[value];
+	}else{
+		var rg=document.getElementsByClassName('room-group')[index];
+		rows=rg.getElementsByClassName("card-client")[value].getElementsByClassName("card-body")[0].getElementsByClassName("row");
+		flag=rg.getElementsByClassName("row-flag")[value];
+	}
 
 	if(rows[1].style.display == "flex"){
 		flag.setAttribute("state","hide");
@@ -313,6 +322,7 @@ function changeHolderPosition(guest){
 		document.getElementById("holder-label").innerHTML="El titular se hospedará";
 		selectHolder.style.display="none";
 		holderCheckIn.style.display="inline-block";
+		holderCheckIn.onclick=function(){showAllInputs(-1,0);};
 		showPersonHolder();
 	}else{
 		if(holder.getElementsByClassName("card-body").length==1){
@@ -326,6 +336,7 @@ function changeHolderPosition(guest){
 		}
 
 		holderCheckIn.style.display="none";
+		holderCheckIn.onclick=function(){showAllInputs(-1,0);};
 		clientCards.removeChild(holder);
 		holder.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0].innerHTML="Información (Titular)";
 		primeZone.insertBefore(holder,primeZone.firstElementChild.nextElementSibling);
@@ -465,8 +476,8 @@ function showInputPaid(input){
 		document.getElementById("input-paid-group").style.display="none";
 }
 
-function setMessageOnLoading(message){
-	console.log(message);
+function setMessageOnLoading(message, entity){
+	console.log("LOG: ["+entity+"]"+message);
 	document.getElementById("ajax-loading").getElementsByTagName("label")[1].innerHTML=message;
 }
 
