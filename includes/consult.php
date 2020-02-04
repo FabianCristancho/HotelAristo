@@ -449,4 +449,42 @@
                 echo $current['correo_persona'];
             }
         }
+
+        public function getBooking($id){
+            $query = $this->connect()->prepare('SELECT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+                date_format(r.fecha_salida,"%X-%m-%d") fecha_salida, 
+                COUNT(rh.id_registro_habitacion) cantidad_habitaciones,
+                COUNT(rc.id_registro_huesped) cantidad_huespedes,
+                h.id_habitacion,h.id_tipo_habitacion
+                c.id_persona,c.nombres_persona,c.apellidos_persona,c.tipo_documento,c.numero_documento,c.id_lugar_expedicion,
+                c.id_lugar_nacimiento,c.telefono_persona,c.correo_persona,c.genero_persona,c.fecha_nacimiento,c.tipo_sangre_rh,c.id_profesion
+                FROM reservas r 
+                INNER JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                inner JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
+                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN personas c ON rc.id_huesped=c.id_persona
+                WHERE r.id_reserva=:id
+                GROUP BY fecha_ingreso,fecha_salida,id_huesped');
+
+            $query->execute([':id'=>$id]);
+
+            foreach ($query as $current) {
+                echo $current['fecha_ingreso'].';';
+                echo $current['fecha_salida'].';';
+                echo $current['cantidad_habitaciones'].';';
+                echo $current['cantidad_huespedes'].';';
+                echo $current['id_persona'].';';
+                echo $current['id_lugar_nacimiento'].';';
+                echo $current['id_lugar_expedicion'].';';
+                echo $current['id_profesion'].';';
+                echo $current['nombres_persona'].';';
+                echo $current['apellidos_persona'].';';
+                echo $current['tipo_documento'].';';
+                echo $current['genero_persona'].';';
+                echo $current['fecha_nacimiento'].';';
+                echo $current['tipo_sangre_rh'].';';
+                echo $current['telefono_persona'].';';
+                echo $current['correo_persona'].'?';
+            }
+        }
     }

@@ -25,5 +25,8 @@
         case 'profession':
            $consult->professionList();
             break;
+        case 'booking':
+            $consult->getBooking($_POST['id']);
+            break;
     }
 ?>

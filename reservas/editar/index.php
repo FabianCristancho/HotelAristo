@@ -1,7 +1,7 @@
 <?php
     /**
-    * Archivo que contiene la información de una reserva con el propósito de que pueda ser editada por el usuario
-    * @package   reservas.editar
+    * Archivo que contiene un formulario para el registro de una nueva reserva
+    * @package   reservas.registrar
     * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
     * @copyright Todos los derechos reservados. 2020.
     * @since     Versión 1.0
@@ -27,7 +27,6 @@
     }
 ?>
 
-
 <html>
     <!--Importación de librerias css y javascript -->
 	<head>
@@ -44,18 +43,22 @@
 		<script type="text/javascript" src="/js/moment.js"></script>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
+		<script type="text/javascript" src="/js/jquerymask.js"></script>
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
+		<script type="text/javascript" src="book-editer.js"></script>
+		<script type="text/javascript" src="../registrar/book-register.js"></script>
 	</head>
 
     <!--Construcción de la vista-->
-	<body onload ="assignAttributes();">
-		    <!--Menu de la aplicación web del hotel Aristo la clase main-menu-item pertenece a los botones del menú-->
+	<body onload ="loadBooking(<?php echo $id; ?>);">
+
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../../objects/menu.php"; 
         ?>
+        
         <script type="text/javascript">
             /**
             * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
@@ -63,146 +66,91 @@
             setCurrentPage("registrar");
         </script>
         
-        <!--Bloque que contiene un formulario encargado de facilitar la edición de la reserva elegida-->
+        <!--Contiene el formulario de registro correspondiente para una empresa-->
 		<div class="content col-12 padd">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-				<h2>EDITAR RESERVA</h2>
-				<div class="row">
-					<div class="col-6 padd">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Información primaria</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group in-row">
-										<label class="form-control-label">Fecha de llegada</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-calendar"></i>
-											</div>
-											<input id="start-date" type="date" class="form-control">
-										</div>
-										<small class="form-text text-muted">ej. 01/01/2020</small>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Fecha de salida</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-calendar"></i>
-											</div>
-											<input id="finish-date" type="date" class="form-control">
-										</div>
-										<small class="form-text text-muted">ej. 02/01/2020</small>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Cantidad de noches</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-moon-o"></i>
-											</div>
-											<input id="count-nights" type="number" class="form-control" min="1" value="1">
-										</div>
-										<small class="form-text text-muted">ej. 1</small>
-									</div>
+				<div class="content-header">
+                    <h2 class="title-form">EDITAR RESERVA</h2>
+                </div>
+
+                <form onsubmit="setPreviewBook(); showModal('confirm-modal'); return false;">
+					<div id="main-row" class="row">
+						<div class="col-12 padd row-simple">
+							<div class="card card-prime col-12">
+								<div class="card-header">
+									<strong class="card-title">Información primaria</strong>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-6 padd">
-						<div class="card">
-							<div class="card-header">
-								<strong class="card-title">Habitación</strong>
-							</div>
-							<div class="card-body">
-								<div class="row">
-									<div class="form-group in-row">
-										<label class="form-control-label">Tipo de habitación</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-bed"></i>
+
+								<div class="card-body">
+									<div class="row">
+										<div class="form-group in-row">
+											<label class="form-control-label">Fecha de llegada</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input id="start-date" type="date" class="form-control" onchange="getDays();" name="start-date" required>
 											</div>
-											<select id="room-type" class="form-control" onchange="updateRooms();">
-						                        <option value="J" selected>JOLIOT</option>
-						                        <option value="H">HAWKING</option>
-						                        <option value="L">LISPECTOR</option>
-						                        <option value="M">MAKKAH</option>
-						                    </select>
+											<small class="form-text text-muted">ej. 01/01/2020</small>
 										</div>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Número de habitación</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-bed"></i>
+
+										<div class="form-group in-row">
+											<label class="form-control-label">Fecha de salida</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input id="finish-date" type="date" class="form-control" onchange="getDays();" name="finish-date" autofocus required>
 											</div>
-											<select id="room-select" class="form-control" >
-											 	<?php $consult->getList('roomType','J'); ?>
-											</select>
+											<small class="form-text text-muted">ej. 02/01/2020</small>
 										</div>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Numero de huespedes</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-group"></i>
+
+										<div class="form-group in-row">
+											<label class="form-control-label">Cantidad de noches</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-moon-o"></i>
+												</div>
+												<input id="count-nights" type="number" class="form-control" min="1" value="1" name="count-nights" required>
 											</div>
-											<select id="cantidad-huespedes" class="form-control" onchange ="updateGuest();">
-						                        <option value="1">1 (Sencilla)</option>
-						                        <option value="2">2 (Pareja)</option>
-						                        <option value="2">2 (Doble)</option>
-						                        <option value="3">3 (Triple)</option>
-						                        <option value="4">3 (Triple + Sofacama)</option>
-						                    </select>
+											<small class="form-text text-muted">ej. 1</small>
 										</div>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Tarifa de habitación</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-dollar"></i>
+
+										<div class="form-group in-row">
+											<label class="form-control-label">Cantidad de habitaciones</label>
+											<div class="input-group">
+												<div class="input-group-icon">
+													<i class="fa fa-bed"></i>
+												</div>
+												<input id="rooms-quantity" type="number" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" name="rooms-quantity" required>
 											</div>
-											<input type="text" class="form-control">
-										</div>
-									</div>
-									<div class="form-group in-row">
-										<label class="form-control-label">Adicional</label>
-										<div class="input-group">
-											<div class="input-group-icon">
-												<i class="fa fa-plus"></i>
-											</div>
-											<select id="adiconal" class="form-control">
-						                        <option value="NULL">Ninguno</option>
-						                    </select>
+											<small class="form-text text-muted">ej. 1</small>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-12 padd row-simple">
-						<?php 
-							include "../../objects/input-client.php";
-							include "../../objects/input-client.php"; 
-							include "../../objects/input-client.php";
-							include "../../objects/input-client.php"; 
-						?>
+
+					<div>
+						<button class="btn btn-block btn-register">
+							<i class="fa fa-check"></i>
+							<span>Registrar reserva</span>
+						</button>
 					</div>
-				</div>
-				<div>
-					<button class="btn btn-block btn-register">
-						<i class="fa fa-check"></i>
-						<span>Registrar reserva</span>
-					</button>
-				</div>
+				</form>
 			</div>
 		</div>
-		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
-			<div class="modal-content">
+
+		<!----FIN DE LA PAGINA PRINCIPAL---->
+
+		<div id="add-bizz" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-8 wrap-8">
                 <div class="modal-header">
                     <span onclick="hideModal('add-bizz');" class="close">&times;</span>
                     <h2>Agregar empresa</h2>
                 </div>
+
                 <div class="modal-body">
                 	<?php include "../../objects/input-enterprise.php"; ?>
                 	<div>
@@ -214,12 +162,14 @@
                 </div>
             </div>
 		</div>
-		<div id="add-prof" class="modal" onclick="touchOutside(this);";>
-			<div class="modal-content">
+
+		<div id="add-prof" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-4 wrap-4">
                 <div class="modal-header">
                     <span onclick="hideModal('add-prof');" class="close">&times;</span>
                     <h2>Agregar profesión</h2>
                 </div>
+
                 <div class="modal-body">
                 	<?php include "../../objects/input-profession.php"; ?>
                 	<div>
@@ -231,7 +181,101 @@
                 </div>
             </div>
 		</div>
-        
+
+		<div id="ajax-loading" class="modal ajax-loading hideable" >
+			<div class="modal-content col-3 wrap-3">
+				<div class="modal-body">
+					<div class="card">
+						<div class="card-header">
+							<strong class="card-title">Por favor espere...</strong>
+						</div>
+						<div class="card-body">
+							<label>Insertando en la base de datos</label><br>
+							<label></label>
+						</div>
+					</div>
+				</div>
+            </div>
+		</div>
+
+		<div id="confirm-modal" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-8 wrap-8">
+				<div class="modal-header">
+                    <span onclick="hideModal('confirm-modal');" class="close">&times;</span>
+                    <h2>Revisar reserva</h2>
+                </div>
+                <div class="modal-body scroll-block">
+	                <form onsubmit="sendReservation(<?php echo $user->getId();?>); return false;">
+	                	<div class="card">
+						    <div class="card-header">
+						        <strong class="card-title">Resumen de la reserva</strong>
+						    </div>
+						    <div class="card-body">
+						    </div>
+						</div>
+
+						<div class="card">
+	                		<div class="card-body">
+	                			<div class="switch-group">
+	                				<label class="switch switch-container">
+							    		<input id="checkon-check" type="checkbox" onchange="showInPlace(this);">
+							    		<span class="slider slider-gray round green"></span>
+							    	</label>
+							    	<label class="switch-label"></label>
+							    </div>
+
+	                			<div id="in-place-form" class="hideable">
+	                				<br>
+	                				<div class="switch-group">
+							    		<label class="switch switch-container">
+							    			<input id="payment-check" type="checkbox" onchange="showPayments(this);">
+							    			<span class="slider slider-gray round green"></span>
+							    		</label>
+							    		<label class="switch-label">Efectuar pago en este momento.</label>
+							    	</div>
+
+							    	<div id="payment-methods" class="form-group hideable">
+							    		<br>
+						        		<label class="form-control-label">Medio de pago</label>
+						        		<div class="input-group">
+						        			<div class="input-group-icon">
+						        				<i class="fa fa-dollar"></i>
+						        			</div>
+							        		<select id="payment-method" onchange="showInputPaid(this);" class="form-control">
+							        			<option value="E">EFECTIVO</option>
+							        			<option value="T">TARJETA</option>
+							        			<option value="C">CONSIGNACIÓN</option>
+							        			<option value="CC">CUENTAS POR COBRAR</option>
+							        		</select>
+						        		</div>
+						        	</div>
+						        	<div id="input-paid-group" class="form-group hideable">
+							    		<br>
+						        		<label class="form-control-label">Monto a pagar</label>
+						        		<div class="input-group">
+						        			<div class="input-group-icon">
+						        				<i class="fa fa-dollar"></i>
+						        			</div>
+							        		<input type="number" id="input-paid" class="form-control" placeholder="Monto a pagar">
+						        		</div>
+						        		<small class="form-text text-muted">ej. 85000</small>
+						        	</div>
+	                			</div>
+	                		</div>
+						</div>
+
+	                	<div>
+							<button class="btn btn-block btn-register" onclick="">
+								<i class="fa fa-check"></i>
+								<span>Confirmar registro de reserva</span>
+							</button>
+						</div>
+					</form>
+                </div>
+            </div>
+		</div>
+
+
 		<?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
@@ -239,6 +283,53 @@
             include "../../objects/footer.php";
             include "../../objects/alerts.php"; 
         ?>
-        
+
+        <div style="display: none;">
+        	<div id="room-group" class="room-group col-12">
+        		<div class="col-12 padd row-simple">
+        			<?php 
+        				include "../../objects/input-room.php";
+        			?>
+        		</div>
+
+        		<div class="col-12 padd row-simple client-cards">
+        			<?php 
+        				include "../../objects/input-client.php";
+        			?>
+        		</div>
+        	</div>
+        	
+        	<div id="form-group" class="form-group in-row">
+        		<label class="form-control-label"></label>
+        		<div class="input-group">
+        			<div class="input-group-icon">
+        				<i class="fa"></i>
+        			</div>
+        		<label class="form-control"></label>
+        		</div>
+        	</div>
+
+        	<div id="select-holder" class="col-12">
+        		<button type="button" class="col-6 btn btn-header btn-header-selected" onclick="showPersonHolder(this);">Persona natural</button>
+        		<button type="button" class="col-6 btn btn-header" onclick="showEnterpriseHolder(this);">Empresa</button>
+        	</div>
+
+        	<div id="enterprise-holder" class="card-body hideable">
+        		<div class="row">
+        			<div class="form-group in-row col-12 padd">
+        				<label class="form-control-label">Empresa</label>
+						<div class="input-group">
+							<div class="input-group-icon">
+								<i class="fa fa-bank"></i>
+							</div>
+							<select class="form-control">
+								<?php $consult->getList('enterprise',''); ?>
+							</select>
+							<button type="button" onclick="showModal('add-bizz');" class="btn-circle"><i class="fa fa-plus"></i></button>
+						</div>
+					</div>
+        		</div>
+        	</div>
+        </div>
 	</body>
 </html>
