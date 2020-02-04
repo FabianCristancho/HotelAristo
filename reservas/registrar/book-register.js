@@ -270,6 +270,7 @@ function setPreviewBook(){
 		if(tariff=="Otro")
 			tariff=roomInput.value;
 		
+		tariff=tariff.replace('.','');
 		totalTariffs+=parseInt(tariff);
 		row.appendChild(createFormGroupLabel("Tarifa",tariff,"dollar"));
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");

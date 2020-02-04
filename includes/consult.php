@@ -154,10 +154,25 @@
             $query->execute([':quantity'=>$quantity,':roomType'=>$roomType]);
 
             foreach ($query as $current) {
-                echo '<option value="'.$current['id_tarifa'].'">'.$current['valor_ocupacion'].'</option>';
+                echo '<option value="'.$current['id_tarifa'].'">'.$this->setFormatPrice($current['valor_ocupacion']).'</option>';
             }
             echo "<option value='O'>Otro</option>";
             return false;
+        }
+        
+        public function setFormatPrice($price){
+            $length=strlen($price);
+            $blocks=round($length/3);
+            $rest=($length%3)==0?3:$length%3;
+            $newValue="";
+            
+            for($i=0;$i<$blocks-1;$i++){
+                $newValue=$newValue.'.'.substr($price,$length-3);
+                $price=substr($price,0,$length-3);
+            }
+            $newValue=substr($price,0,$rest).$newValue;
+            
+            return $newValue;
         }
 
 
@@ -345,16 +360,16 @@
         }
 
         function roomType($type){
-        	switch ($type) {
-        		case 'J':
-        		return 'JOLIOT';
-        		case 'H':
-        		return 'HAWKING';
-        		case 'L':
-        		return 'LISPECTOR';
-        		case 'M':
-        		return 'MAKKAH';
-        	}
+            switch ($type) {
+                case 'J':
+                return 'JOLIOT';
+                case 'H':
+                return 'HAWKING';
+                case 'L':
+                return 'LISPECTOR';
+                case 'M':
+                return 'MAKKAH';
+            }
         }
 
         function roomState($state){
