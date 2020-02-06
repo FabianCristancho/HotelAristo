@@ -5,6 +5,25 @@
 								<label></label>
 								<button type="button" onclick="showAllInputs(0);" class="btn-check-in btn">Check in</button>
 							</div>
+
+							<div class="card-search">
+								<div class="row">
+									<div class="form-group in-row">
+										<label class="form-control-label">Busqueda por número de documento</label>
+										<div class="input-group">
+											<div class="input-group-icon">
+												<i class="fa fa-search"></i>
+											</div>
+											<input class="form-control" type="number" placeholder="Documento" maxlength="15" minlength="7" onkeypress="searchEvent(event,this);">
+											<button type="button" onclick="searchPerson(this.previousElementSibling);"><i class="fa fa-search"></i></button>
+										</div>
+										<small class="form-text text-muted">ej. 102055214</small>
+									</div>
+								</div>
+							</div>
+
+							<div class="hideable id-container"></div>
+
 							<div>
 								<div class="card-body">
 									<div class="row">
@@ -31,7 +50,7 @@
 										</div>
 									</div>
 
-									<div class="hideable row">
+									<div class="hideable row row-flag" state="hide">
 										<div class="form-group in-row col-4 padd">
 											<label class="form-control-label">Tipo de documento*</label>
 											<div class="input-group">
@@ -105,7 +124,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-phone"></i>
 												</div>
-												<input class="form-control" type="number" placeholder="Telefono" maxlength="15" minlength="7" required>
+												<input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" required>
 											</div>
 											<small class="form-text text-muted">ej. 3123334466</small>
 										</div>
@@ -194,7 +213,6 @@
 												</div>
 
 						                        <select class="form-control">
-						                        	<option value="51">Colombia</option>
 						                            <?php $consult->getList('country',''); ?>
 						                        </select>
 						                    </div>

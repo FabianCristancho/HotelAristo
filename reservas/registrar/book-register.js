@@ -70,8 +70,8 @@ function assignAttributesToGroup(i){
 	var selects=group.getElementsByTagName('select');
 	var title=group.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0];
 	title.innerHTML="Habitación "+(1+i);
-	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+'); updateRoomTariff('+i+');');
-	selects[1].setAttribute('onchange','updateRooms('+i+'); updateRoomTariff('+i+');');
+	selects[0].setAttribute('onchange','updateGuest('+i+',this); updateRoomTypes('+i+');');
+	selects[1].setAttribute('onchange','updateRooms('+i+');');
 	selects[3].setAttribute('onchange','showCustomTariff('+i+',this);');
 	assignAttributesToClients(i);
 }
@@ -154,9 +154,20 @@ function reduceClientCard(index,value){
 }
 
 function showAllInputs(index,value){
-	var rows=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-client")[value].getElementsByClassName("row");
+	var rows, flag;
+
+	if(index==-1){
+		var mn=document.getElementsByClassName('card-prime')[0].parentElement;
+		rows=mn.getElementsByClassName("card-client")[0].getElementsByClassName("card-body")[0].getElementsByClassName("row");
+		flag=mn.getElementsByClassName("row-flag")[value];
+	}else{
+		var rg=document.getElementsByClassName('room-group')[index];
+		rows=rg.getElementsByClassName("card-client")[value].getElementsByClassName("card-body")[0].getElementsByClassName("row");
+		flag=rg.getElementsByClassName("row-flag")[value];
+	}
 
 	if(rows[1].style.display == "flex"){
+		flag.setAttribute("state","hide");
 		setRequired(rows[1],false);
 		setRequired(rows[2],false);
 		setRequired(rows[4],false);
@@ -166,6 +177,7 @@ function showAllInputs(index,value){
 		rows[5].getElementsByClassName("form-group")[0].style.display="none";
 		rows[5].getElementsByClassName("form-group")[1].style.display="none";
 	}else{
+		flag.setAttribute("state","show");
 		setRequired(rows[1],true);
 		setRequired(rows[2],true);
 		setRequired(rows[4],true);
@@ -206,19 +218,24 @@ function setPreviewBook(){
 	var primeInputs=mainRow.getElementsByClassName('card-prime')[0].getElementsByTagName("input");
 	var roomGroups= mainRow.getElementsByClassName("room-group");
 	var clientCards=mainRow.getElementsByClassName("card-client");
-
 	var holderCard=clientCards[0];
 	var holderInputs=holderCard.getElementsByTagName("input");
-
 	confirm.innerHTML="";
-
 	var row =document.createElement("div");
 	row.classList.add("row");
 	row.appendChild(createFormGroupLabel("Fecha de llegada",convertDate(primeInputs[0].value),"calendar"));
 	row.appendChild(createFormGroupLabel("Fecha de salida",convertDate(primeInputs[1].value),"calendar"));
 	row.appendChild(createFormGroupLabel("Cantidad de habitaciones",primeInputs[3].value,"bed"));
 	confirm.appendChild(row);
-	
+	var flags=document.getElementById("main-row").getElementsByClassName("row-flag");
+	var isComplete=true;
+
+	for (var i = 0; i < flags.length; i++) {
+		if(flags[i].getAttribute("state")!="show"){
+			isComplete=false;
+			break;
+		}
+	}
 	
 	if(!holderInputs[0].checked){
 		row =document.createElement("div");
@@ -273,13 +290,16 @@ function setPreviewBook(){
 
 	row =document.createElement("div");
 	row.classList.add("row");
-	row.appendChild(createFormGroupLabel("Total (Habitaciones)",totalTariffs,"dollar"));
+	row.appendChild(createFormGroupLabel("Total (Habitaciones)",totalTariffs,"dollar","total-label"));
 	confirm.appendChild(row);
+	document.getElementById("input-paid").value=totalTariffs;
+	document.getElementById("checkon-check").disabled=!isComplete;
+	var tot=(isComplete?"":"(Los campos check-in no se han llenado en su totalidad).");
 
 	if(clientsQuantity==1)
-		switches.getElementsByClassName("switch-label")[0].innerHTML="El huesped realiza check on";
+		switches.getElementsByClassName("switch-label")[0].innerHTML="El huesped realiza check on. "+tot;
 	else
-		switches.getElementsByClassName("switch-label")[0].innerHTML="Los huespedes realizan check on";
+		switches.getElementsByClassName("switch-label")[0].innerHTML="Los huespedes realizan check on. "+tot;
 }
 
 function convertDate(date){
@@ -296,13 +316,13 @@ function changeHolderPosition(guest){
 	var holder= document.getElementsByClassName("card-client")[0];
 	var holderCheckIn=holder.getElementsByClassName("btn-check-in")[0];
 
-
 	if(guest.checked){
 		primeZone.removeChild(holder);
 		clientCards.insertBefore(holder,clientCards.firstElementChild);
 		document.getElementById("holder-label").innerHTML="El titular se hospedará";
 		selectHolder.style.display="none";
 		holderCheckIn.style.display="inline-block";
+		holderCheckIn.onclick=function(){showAllInputs(-1,0);};
 		showPersonHolder();
 	}else{
 		if(holder.getElementsByClassName("card-body").length==1){
@@ -316,6 +336,7 @@ function changeHolderPosition(guest){
 		}
 
 		holderCheckIn.style.display="none";
+		holderCheckIn.onclick=function(){showAllInputs(-1,0);};
 		clientCards.removeChild(holder);
 		holder.getElementsByClassName("card-header")[0].getElementsByTagName("strong")[0].innerHTML="Información (Titular)";
 		primeZone.insertBefore(holder,primeZone.firstElementChild.nextElementSibling);
@@ -357,7 +378,7 @@ function evaluateRoomNameQuantity(value){
 	}
 }
 
-function createFormGroupLabel(title,value,icon){
+function createFormGroupLabel(title,value,icon,id){
 	var base =document.getElementById("form-group");
 	var formGroup=document.createElement("div");
 	formGroup.classList=base.classList;
@@ -366,6 +387,10 @@ function createFormGroupLabel(title,value,icon){
 	var iconLabel= formGroup.getElementsByTagName("i")[0];
 	labels[0].innerHTML=title;
 	labels[1].innerHTML=value;
+
+	if(id != undefined)
+		labels[1].id=id;
+
 	iconLabel.classList.add("fa-"+icon);
 
 	return formGroup;
@@ -373,21 +398,29 @@ function createFormGroupLabel(title,value,icon){
 
 function getSelectedOptionNameFrom(select){
 	var option=select.getElementsByTagName("option")[select.selectedIndex];
+
 	if(option)
 		return option.innerHTML;
+	
 	return false;
 }
 
 function showPayments(input){
 	var p=document.getElementById("payment-methods");
-	if(input.checked)
+	var pi=document.getElementById("input-paid-group");
+
+	if(input.checked){
 		p.style.display="block";
-	else
+		pi.style.display="block";
+	}else{
 		p.style.display="none";
+		pi.style.display="none";
+	}
 }
 
 function showInPlace(input){
 	var p=document.getElementById("in-place-form");
+
 	if(input.checked)
 		p.style.display="block";
 	else
@@ -434,4 +467,69 @@ function showPersonHolder(button){
 	clientInputs[0].required=true;
 	clientInputs[1].required=true;
 	clientInputs[4].required=true;
+}
+
+function showInputPaid(input){
+	if(input.value=="E"||input.value=="T")
+		document.getElementById("input-paid-group").style.display="block";
+	else
+		document.getElementById("input-paid-group").style.display="none";
+}
+
+function setMessageOnLoading(message, entity){
+	console.log("LOG: ["+entity+"]"+message);
+	document.getElementById("ajax-loading").getElementsByTagName("label")[1].innerHTML=message;
+}
+
+function searchEvent(event,input){
+	if(event!=undefined){
+		if(event.keyCode==13)
+			searchPerson(input);
+	}else
+	 console.log(input);
+
+}
+
+function searchPerson(input){
+	$.ajax({
+		type: 'post',
+		url: '/includes/get.php',
+		data: 'entity=searchPerson&idPerson='+input.value,
+		success:function(ans){
+			var data=ans.split(";");
+			if(data.length==12){
+				var searchs=document.getElementsByClassName("card-search");
+				var search;
+
+				for (var i = 0; i < searchs.length; i++) {
+					if(searchs[i].getElementsByTagName("input")[0]==input)
+						search=searchs[i];
+				}
+
+				var body=search.parentElement.getElementsByClassName("card-body")[0];
+				var inputs=body.getElementsByTagName("input");
+				var selects=body.getElementsByTagName("select");
+				inputs[0].value=data[4];
+				inputs[1].value=data[5];
+				inputs[2].value=input.value;
+				inputs[3].value=data[8];//resolve
+				inputs[4].value=data[10];
+				inputs[5].value=data[11];
+				inputs[6].value=data[8];
+				search.parentElement.getElementsByClassName("id-container")[0].innerHTML=data[0];
+				selects[0].value=data[6];
+				selects[1].value=1;
+				selects[2].value=data[2];
+				selects[3].value=data[7];
+				selects[4].value=data[9].charAt(0);
+				selects[5].value=data[9].charAt(1);
+				selects[6].value=(data[3]==""?"NULL":data[3]);
+				selects[7].value=data[1];
+
+				search.parentElement.getElementsByClassName("btn-check-in")[0].onclick.call();
+				showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
+			}else
+				showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+		}
+	});
 }

@@ -3,6 +3,7 @@ function getDate(days, input){
 	var date= new Date();
 	date.setDate(date.getDate()+parseInt(days));
 	ret=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+
 	if(input!=null)
 		document.getElementById(input).value =ret;
 	return ret;
@@ -11,12 +12,14 @@ function getDate(days, input){
 function calculateDate(date,days){
 	var date= new Date(date);
 	date.setDate(date.getDate()+1+parseInt(days));
+
 	return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 }
 
 function getDays(){
 	var d1=document.getElementById('start-date').value;
 	var d2=document.getElementById('finish-date').value;
+
 	if(d1!=d2)
 		document.getElementById("count-nights").value=moment(d2).diff(moment(d1),'days');
 	else
@@ -26,10 +29,13 @@ function getDays(){
 function hideAlert(alert){
 	if(alert.tagName=="SPAN")
 		alert=alert.parentElement;
+
 	alert.style.opacity = "0";
+
 	setTimeout(
 		function(){ 
 			alert.style.display="none"; 
+
 			try{
 				document.getElementById("alerts").removeChild(alert);
 			}catch(error){}
@@ -40,6 +46,7 @@ function showAlert(type,message){
 	console.log(type+" "+message);
 	var base=document.getElementById(type);
 	var alert = document.createElement("div");
+
 	if(base){
 		alert.classList=base.classList;
 		alert.innerHTML=base.innerHTML;
@@ -47,6 +54,7 @@ function showAlert(type,message){
 		document.getElementById("alerts").appendChild(alert);
 		alert.style.opacity = 1;
 		alert.style.display = "block"; 
+
 		setTimeout(function(){
 			hideAlert(alert);
 		}, 5000);
@@ -59,6 +67,7 @@ function showModal(modal){
 
 function hideModal(modal){
 	document.getElementById(modal).style.display = "none";
+
 	switch(modal){
 		case 'add-bizz':
 		cleanBizz();
@@ -73,6 +82,7 @@ function touchOutside(modal){
 	window.onclick = function(event) {
 		if (event.target == modal) {
 			modal.style.display = "none";
+
 			switch(modal.id){
 				case 'add-bizz':
 				cleanBizz();
@@ -88,6 +98,7 @@ function touchOutside(modal){
 function changeColor(room){
 	var cell= document.getElementById("room-"+room);
 	var value=document.getElementById("state-"+room).value;
+
 	switch(value){
 		case "O":
 		cell.style.background='#f44336';
@@ -145,9 +156,11 @@ function cleanBizz(){
 
 	bizz.style.display = "none";
 	bizz.getElementsByTagName("select")[0].value="NULL";
+
 	for (var i = 0; i < inputs.length-2; i++) {
 		inputs[i].value="";
 	}
+
 	inputs[4].checked=false;
 	inputs[5].checked=true;
 }
@@ -184,6 +197,7 @@ function checkInputOnlyLetters(event,input){
 	$(input).bind('keypress', function(event){
 		var regex = new RegExp("^[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$");
 		var key= String.fromCharCode(!event.charCode? event.which:event.charCode);
+
 		if(!regex.test(key)){
 			event.preventDefault();
 			return false;
@@ -195,18 +209,21 @@ function checkInputOnlyLetters(event,input){
 
 function updateRoomTypes(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
 		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
+			updateRooms(index);
 		}
 	});
 }
 
 function updateRooms(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
+
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
@@ -214,6 +231,7 @@ function updateRooms(index){
 		success: function (ans) {
 			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
 			assignAttributesToClients(index);
+			updateRoomTariff(index);
 		}
 	});
 }
@@ -221,6 +239,7 @@ function updateRooms(index){
 function updateRoomTariff(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
 	var selects=cardRoom.getElementsByTagName("select");
+	
 	 $.ajax({
 		type: 'post',
 		url: '/includes/get.php',
@@ -280,3 +299,21 @@ function updateEnterprise(){
 		});
 	},1000);
 }
+
+ function setCheckOn(reservation, input){
+ 	var modal= document.getElementById("confirm-check-on");
+ 	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
+ 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
+ 	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
+	
+ 	if(input.checked){
+ 		modal.addEventListener("click", function(){
+ 			window.onclick = function(event) {
+ 				if (event.target == modal){ 
+ 					input.checked=false;
+ 					modal.style.display="none";
+ 				}
+ 			}});
+ 		showModal('confirm-check-on');
+ 	}
+ }

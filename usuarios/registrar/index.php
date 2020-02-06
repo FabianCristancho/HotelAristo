@@ -140,6 +140,7 @@
                 * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
                 */
                 include "../../objects/footer.php"; 
+            include "../../objects/alerts.php"; 
             ?>
         
         <script src="/js/formulario.js"></script>

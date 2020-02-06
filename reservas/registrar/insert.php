@@ -39,9 +39,9 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';';
+			echo $pdo->lastInsertId().';Se ha insertado a '.$_POST['firstSecondName'].' '.$_POST['lastName'];
 		}catch(PDOException $e){
-			echo 'null;Error C1.1. Error al ingresar nuevo cliente';
+			echo 'null;Error C1.1. Error al ingresar nuevo cliente'.$insert."\n".$e->getMessage();
 		}
 
 		$database->connect()->exec('ALTER TABLE personas AUTO_INCREMENT = 1');
@@ -60,9 +60,9 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';';
+			echo $pdo->lastInsertId().';Se ha asignado una habitacion a la reserva.';
 		}catch(PDOException $e){
-			echo 'null;Error C2.1. Error al ingresar nuevo registro'.$e->getMessage();
+			echo 'null;Error C2.1. Error al ingresar nuevo registro'."\n".$insert.$e->getMessage();;
 		}
 
 		$database->connect()->exec('ALTER TABLE registros_habitacion AUTO_INCREMENT = 1');
@@ -70,9 +70,21 @@
 
 	function insertReservation(){
 		$database= new Database();
+		$insert='INSERT INTO reservas (fecha_ingreso, fecha_salida,id_usuario,estado_reserva, estado_pago_reserva,valor_pagado,saldo';
+		$values=($_POST['state']=="RE"?"sysdate()":"'".$_POST['startDate']."'").",'".$_POST['finishDate']."',".$_POST['user'].",'".$_POST['state']."','P',0,".$_POST['amount'];
 
-		$insert='INSERT INTO reservas (fecha_ingreso, fecha_salida,id_titular,id_usuario,estado_reserva';
-		$values="'".$_POST['startDate']."','".$_POST['finishDate']."',".$_POST['holder'].",".$_POST['user'].",'".$_POST['state']."'";
+		if(isset($_POST['holder'])){
+			$insert=$insert.",id_titular";
+			$values=$values.",".$_POST['holder'];
+		}else{
+			$insert=$insert.",id_empresa";
+			$values=$values.",".$_POST['enterprise'];
+		}
+
+		if(isset($_POST['paymentMethod'])){
+			$insert=$insert.",medio_pago";
+			$values=$values.",'".$_POST['paymentMethod']."'";
+		}
 
 		$insert=$insert.")\n VALUES (".$values.");";
 		$database->connect()->exec('ALTER TABLE reservas AUTO_INCREMENT = 1');
@@ -80,9 +92,10 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';'.$_POST['holder'];
+			$idBooking=$pdo->lastInsertId();
+			echo $idBooking.';'.(isset($_POST['holder'])?$_POST['holder']:$_POST['enterprise']).';Se ha registrado una nueva reserva.';
 		}catch(PDOException $e){
-			echo 'null;Error C3.1. Error al ingresar nueva reserva'.$e->getMessage();
+			echo 'null;Error C3.1. Error al ingresar nueva reserva'.$e->getMessage()."\n".$insert;
 		}
 
 		$database->connect()->exec('ALTER TABLE reservas AUTO_INCREMENT = 1');
@@ -100,7 +113,7 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';';
+			echo $pdo->lastInsertId().';Se ha asignado un huesped a la reserva.';
 		}catch(PDOException $e){
 			echo 'null;Error C3.1. Error al ingresar nuevo registro'.$e->getMessage().'\n'.$insert;
 		}

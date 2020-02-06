@@ -120,6 +120,7 @@ a{
     box-shadow: 0px 0px 3px grey;
 }
 
+
 .btn-header{
   float: left;
 }
@@ -183,6 +184,10 @@ a{
 
 .general-info .region{
     padding: 5px 25px 5px 25px;
+}
+
+.ajax-loading{
+  z-index: 50;
 }
 
 .button-return{
@@ -517,43 +522,55 @@ input:checked + .slider:before {
     max-width: 100%;
   }
 
+  .wrap-1{
+      margin-left: 45.833%;
+  }
+
+  .wrap-2{
+      margin-left: 41.66%;
+  }
+
+  .wrap-3{
+      margin-left: 37.5%;
+  }
+
   .wrap-4{
         margin-left: 33.33%;
-    }
+  }
 
-    .wrap-5{
-        margin-left: 29.166%;
-    }
+  .wrap-5{ 
+    margin-left: 29.166%;
+  }
 
-    .wrap-6{
-        margin-left: 25%;
-    }
+  .wrap-6{
+      margin-left: 25%;
+  }
 
-    .wrap-7{
-        margin-left: 20.833%;
-    }
+  .wrap-7{
+      margin-left: 20.833%;
+  }
 
-    .wrap-8{
-        margin-left: 16.66%;
-    }
+  .wrap-8{
+      margin-left: 16.66%;
+  }
 
-    .wrap-9{
-        margin-left: 12.5%;
-    }
+  .wrap-9{
+      margin-left: 12.5%;
+  }
 
-    .wrap-10{
-        margin-left: 8.33%;
-    }
+  .wrap-10{
+      margin-left: 8.33%;
+   }
 
-    .wrap-11{
-        margin-left: 4.166%;
-    }
+  .wrap-11{
+      margin-left: 4.166%;
+  }
 
-    .switch-group-margin{
-      margin-left: 50px;
-    }
+  .switch-group-margin{
+    margin-left: 50px;
+  }
 
-    .switch-group-margin-min{
-      margin-left: 10px;
-    }
+  .switch-group-margin-min{
+    margin-left: 10px;
+  }
 }

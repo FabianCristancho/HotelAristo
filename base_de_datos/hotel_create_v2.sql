@@ -91,20 +91,12 @@ CREATE TABLE IF NOT EXISTS tipos_habitacion(
 	CONSTRAINT tih_pk_idt PRIMARY KEY(id_tipo_habitacion)
 );
 
-
-CREATE TABLE IF NOT EXISTS tipos_desayuno(
-	id_tipo_desayuno INT(2) NOT NULL AUTO_INCREMENT,
-	nombre_tipo_desayuno VARCHAR(20) NOT NULL,
-	valor_desayuno INT(5) NOT NULL,
-	CONSTRAINT tdes_pk_idt PRIMARY KEY (id_tipo_desayuno)
-);
-
 CREATE TABLE IF NOT EXISTS tarifas(
 	id_tarifa INT(3) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
-	id_tipo_desayuno INT(2) NOT NULL,
 	cantidad_huespedes VARCHAR(2) NOT NULL,
 	valor_ocupacion  INT(7) NOT NULL,
+	predeterminado BOOLEAN NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
 
@@ -132,12 +124,12 @@ CREATE TABLE IF NOT EXISTS personas(
 	id_lugar_nacimiento INT(8),
 	id_lugar_expedicion INT(8),
 	id_profesion INT(4),
-	id_empresa INT(6),
 	id_cargo INT(1),
 	nombres_persona VARCHAR(150) NOT NULL,
 	apellidos_persona VARCHAR(150) NOT NULL,
 	tipo_documento VARCHAR(2),
 	numero_documento VARCHAR(20),
+	fecha_expedicion DATE,
 	genero_persona CHAR(1),
 	fecha_nacimiento DATE,
 	tipo_sangre_rh VARCHAR(2),
@@ -153,11 +145,12 @@ CREATE TABLE IF NOT EXISTS personas(
 CREATE TABLE IF NOT EXISTS reservas (
 	id_reserva INT(8) NOT NULL AUTO_INCREMENT,
 	id_usuario INT(2) NOT NULL,
-	id_titular INT(8) NOT NULL,
-	fecha_ingreso DATE NOT NULL,
-	fecha_salida DATE NOT NULL,
+	id_titular INT(8),
+	id_empresa INT(6),
+	fecha_ingreso DATETIME NOT NULL,
+	fecha_salida DATETIME NOT NULL,
 	observaciones VARCHAR(100),
-	medio_pago CHAR(2) NOT NULL,
+	medio_pago CHAR(2),
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
 	valor_pagado INT(7) NOT NULL,
@@ -211,9 +204,7 @@ CREATE TABLE IF NOT EXISTS peticiones(
 CREATE TABLE IF NOT EXISTS facturas(
    	id_factura INT(5) NOT NULL AUTO_INCREMENT,
    	id_reserva INT(8) NOT NULL,
-   	id_control INT(8) NOT NULL,
    	serie_factura VARCHAR(5) NOT NULL,
-   	medio_pago_factura CHAR(2) NOT NULL,
    	estado_factura CHAR(1) NOT NULL,
    	tipo_factura CHAR(1) NOT NULL,
    	CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
@@ -235,7 +226,6 @@ ALTER TABLE productos ADD(
 
 ALTER TABLE tarifas ADD(
 	CONSTRAINT tar_fk_idt FOREIGN KEY (id_tipo_habitacion) REFERENCES tipos_habitacion(id_tipo_habitacion),
-	CONSTRAINT tar_fk_idtd FOREIGN KEY (id_tipo_desayuno) REFERENCES tipos_desayuno(id_tipo_desayuno),
 	CONSTRAINT tar_ck_val CHECK (valor_ocupacion > 0)
 );
 
@@ -258,7 +248,6 @@ ALTER TABLE personas ADD(
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),
 	CONSTRAINT per_fk_idle FOREIGN KEY (id_lugar_expedicion) REFERENCES lugares (id_lugar),
 	CONSTRAINT per_fk_idp FOREIGN KEY (id_profesion) REFERENCES profesiones (id_profesion),
-	CONSTRAINT per_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa),
 	CONSTRAINT per_fk_idc FOREIGN KEY (id_cargo) REFERENCES cargos (id_cargo)
 );
 
@@ -268,6 +257,7 @@ ALTER TABLE reservas ADD (
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),
+	CONSTRAINT res_fk_ide FOREIGN KEY (id_empresa) REFERENCES empresas (id_empresa),
 	CONSTRAINT res_fk_idp FOREIGN KEY (id_titular) REFERENCES personas (id_persona)
 );
 
@@ -300,10 +290,7 @@ ALTER TABLE peticiones ADD (
 
 ALTER TABLE facturas ADD(
 	CONSTRAINT fac_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
-   	CONSTRAINT fac_fk_idc FOREIGN KEY (id_control) REFERENCES control_diario(id_control),
-   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/)),
-   	CONSTRAINT fac_ck_med CHECK (medio_pago_factura IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/, 'M' /*MIXTO*/, 'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
-   	CONSTRAINT fac_ck_es CHECK (estado_factura IN ('C' /*COBRADA*/, 'A' /*ANULADA*/))
+   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/))
 );
 
 

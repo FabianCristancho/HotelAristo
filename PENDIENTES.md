@@ -6,10 +6,9 @@
 
   Entidad | Registro | Consulta | Edición | Eliminación | Observaciones
   ------- | -------- | -------- | ------- | ----------- | -------------
-  Cliente |    Si    |    Si    |         |             |
   Usuario |          |          |         |             |
   Empresa |    Si    |    Si    |         |             |
-  Reserva |          |          |         |             |
+  Reserva |    Si    |    Si    |         |             |
  
 --------------------------------------------------------------------------------
 
