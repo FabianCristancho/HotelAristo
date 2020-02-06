@@ -4,14 +4,20 @@ h1{
 
 .series{
     text-align: center;
-    width: 10%;
+    width: 15%;
     float: right;
     border-style: solid;
     border-width: 1px;
     border-color: #18347D;
     border-radius: 10px;
     margin-right: 5%;
-    padding: 5px; 
+}
+
+.series select{
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: red;
 }
 
 .series p{
@@ -20,9 +26,8 @@ h1{
 }
 
 .series .types {
-    font-size: 90%;
+    font-size: 100%;
     color: #18347D;
-    padding-bottom: 5px;
 }
 
 .infos{
@@ -37,12 +42,11 @@ h1{
 
 .tables{
     width: 90%;
-    margin-left: 10%;
-    margin-top: 10PX;
+    text-align: center;
+    margin-top: 10px;
 }
 
 table {
-    width: 90%;
   font-family: "arial", sans-serif;
   border-collapse: collapse;
 }
@@ -62,8 +66,12 @@ th {
 }
 
 .table_totals{
-    width: 90%;
-    margin-left: 10%;
+    width: 100%;
+    margin-right: auto;
+}
+
+.long_totals{
+    width: 50%;
 }
 
 tr:nth-child(even) {
@@ -71,14 +79,12 @@ tr:nth-child(even) {
 }
 
 .option_bill {
-    margin-left: 30%;
-    margin-top: 15px;
+    margin-top: 30px;
     margin-bottom: 50px;
-    width: 78%;
     text-align: center;
 }
 
-.option_bill input{
+.option_bill form input{
     padding: 10px;
     background-color: #18347D;
     border: none;   
@@ -86,7 +92,6 @@ tr:nth-child(even) {
     position: absolute;
     border-radius: 5px;
     color: #fff;
-    font-size: 15px;
 }
 
 .option_bill a{
@@ -101,7 +106,5 @@ tr:nth-child(even) {
     font-size: 15px;
 }
 
-.option_bill form{
-    float: left;
-}
+
 
