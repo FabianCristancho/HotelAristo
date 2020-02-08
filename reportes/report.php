@@ -21,15 +21,22 @@
         function Header($title)
         {
             // Logo
-            $this->Image('../../res/img/logoA.png',10,8,20);
-            $this->Image('../../res/img/titulo_aristo.png',35,13,35);
+            $this->Image('../../res/img/logoA.png',5,6,23);
+            $this->Image('../../res/img/titulo_aristo.png',32,9,44);
             // Arial bold 18
             $this->SetFont('Arial','B',18);
             // Movernos a la derecha
             $this->Cell(55);
             // Título
-            $this->Cell(100,70,$title,0,0,'C');
+            $this->Cell(150,70,$title,0,0,'C');
             $this->SetFont('Arial','',8);
+            //Color de letra
+            $this->SetTextColor(24, 52, 125);
+            //Información Administración del hotel
+            $this->Cell(-200);
+            $this->Cell(200,2,utf8_decode('HENRY QUINTERO'),0,0,'C');
+            $this->Cell(-200,10,utf8_decode('NIT. 16.136.920-4'),0,0,'C');
+            $this->Cell(200,18,utf8_decode('RÉGIMEN SIMPLIFICADO'),0,0,'C');
             // Movernos a la derecha
             $this->Cell(50);
             // Información del hotel
