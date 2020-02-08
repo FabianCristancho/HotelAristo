@@ -335,18 +335,6 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
-.room-state-change{
-    display: none;
-}
-
-.room-cell:hover .room-state-change{
-    display: block;
-}
-
-.room-cell:hover .room-state{
-    display: none;
-}
-
 .container{
     top: 20px;
     width: 90%;

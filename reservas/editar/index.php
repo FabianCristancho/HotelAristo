@@ -73,7 +73,7 @@
                     <h2 class="title-form">EDITAR RESERVA</h2>
                 </div>
 
-                <form onsubmit="setPreviewBook(); showModal('confirm-modal'); return false;">
+                <form onsubmit="setUpdatePreviewBook(); showModal('confirm-modal'); return false;">
 					<div id="main-row" class="row">
 						<div class="col-12 padd row-simple">
 							<div class="card card-prime col-12">
@@ -135,7 +135,7 @@
 					<div>
 						<button class="btn btn-block btn-register">
 							<i class="fa fa-check"></i>
-							<span>Registrar reserva</span>
+							<span>Actualizar reserva</span>
 						</button>
 					</div>
 				</form>
@@ -205,7 +205,7 @@
                     <h2>Revisar reserva</h2>
                 </div>
                 <div class="modal-body scroll-block">
-	                <form onsubmit="sendReservation(<?php echo $user->getId();?>); return false;">
+	                <form onsubmit="updateReservation(<?php echo $user->getId();?>); return false;">
 	                	<div class="card">
 						    <div class="card-header">
 						        <strong class="card-title">Resumen de la reserva</strong>
@@ -216,15 +216,7 @@
 
 						<div class="card">
 	                		<div class="card-body">
-	                			<div class="switch-group">
-	                				<label class="switch switch-container">
-							    		<input id="checkon-check" type="checkbox" onchange="showInPlace(this);">
-							    		<span class="slider slider-gray round green"></span>
-							    	</label>
-							    	<label class="switch-label"></label>
-							    </div>
-
-	                			<div id="in-place-form" class="hideable">
+	                			<div id="in-place-form">
 	                				<br>
 	                				<div class="switch-group">
 							    		<label class="switch switch-container">
@@ -267,7 +259,7 @@
 	                	<div>
 							<button class="btn btn-block btn-register" onclick="">
 								<i class="fa fa-check"></i>
-								<span>Confirmar registro de reserva</span>
+								<span>Confirmar actualización de reserva</span>
 							</button>
 						</div>
 					</form>

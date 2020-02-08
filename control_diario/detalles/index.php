@@ -19,6 +19,10 @@
     }else{
         header('location: /login');
     }
+
+    $id="";
+    if(isset($_GET['id']))
+        $id=$_GET['id'];
 ?>
 
 
@@ -26,12 +30,12 @@
 <html>
     <!--Importación de librerias css y javascript -->
 	<head>
-		<title>Control por Habitación | Hotel Aristo</title>
+		<title>Control por habitación | Hotel Aristo</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" href="/res/img/famicon.png" />
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
@@ -43,7 +47,7 @@
 	</head>
 
 	<!--Construcción de la vista-->
-	<body onload ="getDate('start-date',0); getDate('finish-date',1);">
+	<body>
 	
         <?php
             /**
@@ -60,177 +64,39 @@
         </script>
         
         <!--El bloque contiene la información correspondiente a los detalles de control de una habitación en una fecha especificada-->
-        <div class="content col-12">
-             <div class="col-11 wrap-11 wrap-vertical padd">
-                <div class="marco col-4 padd">
-                    <h3><b>Habitación</b></h3>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Número de habitación</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-bed"></i>
-                            </div>
-                            <select  class="form-control">
-                                    <option>201</option>
-                                    <option>202</option>
-                                    <option>301</option>
-                                    <option>302</option>
-                                    <option>303</option>
-                                    <option>304</option>
-                                    <option>401</option>
-                                    <option>402</option>
-                                    <option>403</option>
-                                    <option>404</option>
-                                    <option>501</option>
-                                    <option>502</option>
-                                    <option>503</option>
-                                    <option>504</option>
-                                    <option>601</option>
-                                    <option>602</option>
-                                    <option>603</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label><b>Tipo de Habitación</b></label>
-                        <br><br>
-                        <label>Lispector</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label><b>Estado</b></label>
-                        <br><br>
-                        <label>Ocupada</label>
-                    </div>
-                    <div class="form-group">
-                        <label><b>Saldo Total ($)</b></label>
-                        <br><br>
-                        <label>320.000</label>
-                    </div>
+        <div class="content col-12 padd">
+            <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
+                <div class="content-header">
+                    <h2 class="title-form">DETALLES DE LA RESERVA</h2>
                 </div>
 
-                <div class="marco col-8 padd">
-                    <div class="scroll-block">
-                        <h3><b>Huéspedes</b></h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Número de Documento</th>
-                                    <th>Tipo de sangre</th>
-                                    <th>Empresa</th>
-                                    <th>Nacionalidad</th>
-                                    <th>Profesión</th>
-                                    <th>Teléfono</th>
-                                </tr>
-                            </thead>
-                            <tr>
-                                <td>Giacomo Guilizzoni</td>
-                                <td>1034543</td>
-                                <td>B+</td>
-                                <td>Falabella</td>
-                                <td>Italia</td>
-                                <td>Médico</td>
-                                <td>3125435432</td>
-                            </tr>
-                            <tr>
-                                <td>Gugleimo Guilizzoni</td>
-                                <td>1035443</td>
-                                <td>O+</td>
-                                <td>Falabella</td>
-                                <td>Italia</td>
-                                <td>Contador</td>
-                                <td>3143214323</td>
-                            </tr>
-                            <tr>
-                                <td>Martha Guilizzoni</td>
-                                <td>1035443</td>
-                                <td>B+</td>
-                                <td>Falabella</td>
-                                <td>Italia</td>
-                                <td>Estudiante</td>
-                                <td>3103213198</td>
-                            </tr>
-                        </table>
-                        <br>
-                    </div>
-                        
-                    <div class="form-group">
-                        <label><b>Conteo días</b></label>
-                        <br>
-                        <label>1 de 4</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label><b>Hora Ingreso</b></label>
-                        <br>
-                        <label>Ocupada</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><b>¿Huésped se encuentra en habitación?</b></label>
-                        <br>
-                        <input type="radio" name="ocupacion" value="Presencia" checked>Sí
-                        <input type="radio" name="ocupacion" value="Ausencia">No
-                    </div>
+                <div class="sub-menu col-12">
+                    <button id="back-btn">Volver</button>
+                    <button id="edit-btn">Editar</button>
+                    <button id="delete-btn">Eliminar</button>
                 </div>
 
-                
-                <div  class="marco col-12 padd">
-                    <h3><b>Consumo de Servicios</b></h3>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Valor consumo en minibar ($)</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
+                <div class="card-row">
+                    <div class="col-3 padd">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Información primaria</strong>
                             </div>
-                            <input class="form-control col-12" type="text" placeholder="Valor en minibar">
+
+                            <div class="card-body">
+                                    
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Valor consumo en lavandería ($)</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
+                    <div class="col-9 padd">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Titular</strong>
                             </div>
-                            <input class="form-control col-12" type="text" placeholder="Valor en lavandería">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Valor consumo en restaurante ($)</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
+
+                            <div class="card-body">
+                                    
                             </div>
-                            <input class="form-control col-12" type="text" placeholder="Valor en restaurante">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Valor consumo en adicional ($)</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
-                            </div>
-                            <input class="form-control col-12" type="text" placeholder="Valor adicional">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Saldo de consumo ($)</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
-                            </div>
-                            <input class="form-control col-12" type="text" placeholder="Saldo">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-control-label"><b>Observaciones</b></label>
-                        <div class="input-group">
-                            <div class="input-group-icon">
-                                <i class="fa fa-dollar"></i>
-                            </div>
-                           <textarea id="textarea-com" name="comentarios" rows="3" cols="30" placeholder="Escriba aquí información adicional" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>

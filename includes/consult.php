@@ -431,8 +431,14 @@
         }
 
         public function getPerson($id){
-            $query = $this->connect()->prepare('SELECT id_persona,id_lugar_nacimiento,id_lugar_expedicion,id_profesion,id_cargo,nombres_persona,apellidos_persona,tipo_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona  FROM personas p  WHERE tipo_persona = "C" AND numero_documento=:idPerson');
-            $query->execute([':idPerson'=>$id]);
+            $consult='SELECT id_persona,id_lugar_nacimiento,id_lugar_expedicion,id_profesion,
+            nombres_persona,apellidos_persona,tipo_documento,numero_documento,
+            genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona  
+            FROM personas p  
+            WHERE tipo_persona = "C" AND (numero_documento='.$id.' OR id_persona='.$id.')';
+
+            $query = $this->connect()->prepare($consult);
+            $query->execute();
 
             foreach ($query as $current){
                 echo $current['id_persona'].';';
@@ -442,6 +448,7 @@
                 echo $current['nombres_persona'].';';
                 echo $current['apellidos_persona'].';';
                 echo $current['tipo_documento'].';';
+                echo $current['numero_documento'].';';
                 echo $current['genero_persona'].';';
                 echo $current['fecha_nacimiento'].';';
                 echo $current['tipo_sangre_rh'].';';
@@ -451,20 +458,14 @@
         }
 
         public function getBooking($id){
-            $query = $this->connect()->prepare('SELECT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+            $query = $this->connect()->prepare('SELECT DISTINCT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
                 date_format(r.fecha_salida,"%X-%m-%d") fecha_salida, 
                 COUNT(rh.id_registro_habitacion) cantidad_habitaciones,
-                COUNT(rc.id_registro_huesped) cantidad_huespedes,
-                h.id_habitacion,h.id_tipo_habitacion
-                c.id_persona,c.nombres_persona,c.apellidos_persona,c.tipo_documento,c.numero_documento,c.id_lugar_expedicion,
-                c.id_lugar_nacimiento,c.telefono_persona,c.correo_persona,c.genero_persona,c.fecha_nacimiento,c.tipo_sangre_rh,c.id_profesion
+                r.id_titular, r.id_empresa
                 FROM reservas r 
                 INNER JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
-                inner JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
-                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
-                INNER JOIN personas c ON rc.id_huesped=c.id_persona
                 WHERE r.id_reserva=:id
-                GROUP BY fecha_ingreso,fecha_salida,id_huesped');
+                GROUP BY fecha_ingreso');
 
             $query->execute([':id'=>$id]);
 
@@ -472,19 +473,33 @@
                 echo $current['fecha_ingreso'].';';
                 echo $current['fecha_salida'].';';
                 echo $current['cantidad_habitaciones'].';';
+                echo $current['id_titular'].';';
+                echo $current['id_empresa'];
+            }
+        }
+
+        public function getBookingRooms($id){
+            $query = $this->connect()->prepare('SELECT t.cantidad_huespedes, t.id_tipo_habitacion,rh.id_habitacion, rc.id_huesped, p.numero_documento,t.id_tarifa, GROUP_CONCAT(rc.id_huesped) ids_huespedes,GROUP_CONCAT(p.numero_documento) docs_huespedes,
+                t.valor_ocupacion
+                FROM registros_habitacion rh
+                INNER JOIN tarifas t ON rh.id_tarifa=t.id_tarifa
+                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN personas p ON rc.id_huesped=p.id_persona
+                WHERE rh.id_reserva=:id
+                GROUP BY id_habitacion');
+
+            $query->execute([':id'=>$id]);
+
+            foreach ($query as $current) {
                 echo $current['cantidad_huespedes'].';';
-                echo $current['id_persona'].';';
-                echo $current['id_lugar_nacimiento'].';';
-                echo $current['id_lugar_expedicion'].';';
-                echo $current['id_profesion'].';';
-                echo $current['nombres_persona'].';';
-                echo $current['apellidos_persona'].';';
-                echo $current['tipo_documento'].';';
-                echo $current['genero_persona'].';';
-                echo $current['fecha_nacimiento'].';';
-                echo $current['tipo_sangre_rh'].';';
-                echo $current['telefono_persona'].';';
-                echo $current['correo_persona'].'?';
+                echo $current['id_tipo_habitacion'].';';
+                echo $current['id_habitacion'].';';
+                echo $current['id_tarifa'].';';
+                echo $current['ids_huespedes'].';';
+                echo $current['docs_huespedes'].';';
+                echo $current['valor_ocupacion'].'?';
             }
         }
     }
+
+?>

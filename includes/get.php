@@ -28,5 +28,8 @@
         case 'booking':
             $consult->getBooking($_POST['id']);
             break;
+        case 'bookingRooms':
+            $consult->getBookingRooms($_POST['id']);
+            break;
     }
 ?>

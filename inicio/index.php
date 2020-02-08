@@ -12,10 +12,13 @@
     * Incluye la implementación de la clase denominada classes
     */
     require_once '../includes/classes.php';
+
+    $consult=new Consult();
     $user = new User();
     $userSession = new UserSession();
     
     if(isset($_SESSION['user'])){
+        $user->updateDBUser($userSession->getSession());
     }else{
         header('location: /login');
     }
@@ -32,7 +35,7 @@
         <link rel="manifest" href="/manifest.json">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/inicio.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
