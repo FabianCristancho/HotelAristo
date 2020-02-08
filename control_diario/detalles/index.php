@@ -23,6 +23,8 @@
     $id="";
     if(isset($_GET['id']))
         $id=$_GET['id'];
+    $reservation=new Reservation();
+    $reservation->setId($id);
 ?>
 
 
@@ -47,7 +49,7 @@
 	</head>
 
 	<!--Construcción de la vista-->
-	<body>
+	<body onload ="getDays();">
 	
         <?php
             /**
@@ -70,13 +72,15 @@
                     <h2 class="title-form">DETALLES DE LA RESERVA</h2>
                 </div>
 
-                <div class="sub-menu col-12">
-                    <button id="back-btn">Volver</button>
-                    <button id="edit-btn">Editar</button>
-                    <button id="delete-btn">Eliminar</button>
+                <div class="sub-menu col-12 padd">
+                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <div class="sub-menu-right">
+                        <button id="edit-btn" class="btn">Editar</button>
+                        <button id="delete-btn" class="btn btn-red">Eliminar</button>
+                    </div>
                 </div>
 
-                <div class="card-row">
+                <div class="row-simple">
                     <div class="col-3 padd">
                         <div class="card">
                             <div class="card-header">
@@ -84,10 +88,49 @@
                             </div>
 
                             <div class="card-body">
-                                    
+                                <div class="form-group in-row">
+                                    <label class="form-control-label">Fecha de llegada</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input id="start-date" type="date" class="form-control" value="<?php echo $reservation->getStartDate();?>" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group in-row">
+                                    <label class="form-control-label">Fecha de salida</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input id="finish-date" type="date" class="form-control" value="<?php echo $reservation->getFinishDate();?>" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group in-row">
+                                    <label class="form-control-label">Cantidad de noches</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-moon-o"></i>
+                                        </div>
+                                        <input id="count-nights" type="text" class="form-control"  disabled>
+                                    </div>
+                                </div>
+
+                                <div class="form-group in-row">
+                                    <label class="form-control-label">Cantidad de habitaciones</label>
+                                    <div class="input-group">
+                                        <div class="input-group-icon">
+                                            <i class="fa fa-bed"></i>
+                                        </div>
+                                        <input id="rooms" type="text" value="<?php echo $reservation->getRoomsQuantity();?>" class="form-control" disabled>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-9 padd">
                         <div class="card">
                             <div class="card-header">
@@ -95,8 +138,61 @@
                             </div>
 
                             <div class="card-body">
-                                    
+                                <div class="row">
+                                    <div class="form-group in-row col-6 padd">
+                                        <label class="form-control-label">Nombre</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-user-o"></i>
+                                            </div>
+                                            <input class="form-control" type="text"  onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" value="<?php echo $reservation->getTitular()->getName();?>" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group in-row col-6 padd">
+                                        <label class="form-control-label">Documento</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-id-card"></i>
+                                            </div>
+                                            <input class="form-control" type="text" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" value="<?php echo $reservation->getTitular()->getIdentification();?>" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group in-row col-6 padd">
+                                        <label class="form-control-label">Telefono</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            <input class="form-control" type="text" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" value="<?php echo $reservation->getTitular()->getPhone();?>" minlength="2" disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group in-row col-6 padd">
+                                        <label class="form-control-label">Correo</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                            <input class="form-control" type="text" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" value="<?php echo $reservation->getTitular()->getEmail();?>" disabled>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="marco col-12">
+                        <div class="scroll-block">
+                            <table>
+                                <tr>
+                                    <th>Habitación</th>
+                                    <th>Huesped</th>
+                                    <th>Check up</th>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

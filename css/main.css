@@ -168,6 +168,34 @@ a{
     display: flex;
 }
 
+.sub-menu{
+  margin-bottom: 10px;
+}
+
+.sub-menu-right{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-red{
+  background: red;
+  color: white;
+}
+
+.btn-green{
+  background: green;
+  color: white;
+}
+
+.btn-blue{
+  background: blue;
+  color: white;
+}
+
+.btn-yellow{
+  background:yellow;
+}
+
 .view-date-history{
     float: left;
     padding: 10px 50px 30px 20px;
