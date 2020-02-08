@@ -10,7 +10,7 @@
     function setCheckOn(){
         $database=new Database();
 
-        $update="UPDATE reservas SET estado_reserva = 'RE',fecha_ingreso = convert_tz(sysdate(),'+00:00','-05:00') WHERE id_reserva = :idBooking";
+        $update="UPDATE reservas SET estado_reserva = 'RE',fecha_ingreso = '".date('Y-m-d H:i:s')."' WHERE id_reserva = :idBooking";
         $query=$database->connect()->prepare($update);
 
         try{

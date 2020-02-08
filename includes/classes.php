@@ -6,4 +6,5 @@ include 'holder.php';
 include 'consult.php';
 include 'enterprise.php';
 include 'reservation.php';
+include 'room.php';
 ?>

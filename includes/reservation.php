@@ -11,6 +11,7 @@ class Reservation extends Database{
     protected $finishDate;
     protected $roomsQuantity;
     protected $titular;
+    protected $room;
 
     /**
     * Constructor que recibe por parámetro un valor numérico id y lo asigna al id del cliente
@@ -42,6 +43,26 @@ class Reservation extends Database{
 
             $this->titular=$t;
         }
+    }
+
+    public function setRoom($room){
+
+         $query = $this->connect()->prepare('SELECT rh.id_registro_habitacion
+                FROM reservas r 
+                INNER JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                WHERE r.id_reserva=:id
+                AND rh.id_habitacion=:room
+                GROUP BY fecha_ingreso');
+
+        $query->execute([':id'=>$this->id,':room'=>$room]);
+
+        foreach ($query as $current) {
+            $this->room= $current['id_registro_habitacion'];
+        }
+    }
+
+    public function getId(){
+        return $this->id;
     }
 
     public function getStartDate(){
