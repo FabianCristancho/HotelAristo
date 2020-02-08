@@ -14,7 +14,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-search"></i>
 											</div>
-											<input class="form-control" type="number" placeholder="Documento" maxlength="15" minlength="7" onkeypress="searchEvent(event,this);">
+											<input class="form-control" type="number" placeholder="Documento" maxlength="15" minlength="7" onkeypress="searchEvent(event,this,'person');">
 											<button type="button" onclick="searchPerson(this.previousElementSibling);"><i class="fa fa-search"></i></button>
 										</div>
 										<small class="form-text text-muted">ej. 102055214</small>

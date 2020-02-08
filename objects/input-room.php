@@ -66,7 +66,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-dollar"></i>
 												</div>
-												<input type="number" class="form-control">
+												<input type="text" class="form-control" onkeydown="$(this).mask('000.000.000.000.000', {reverse: true});">
 											</div>
 										</div>
 									</div>

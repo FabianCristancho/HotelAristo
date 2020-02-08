@@ -270,6 +270,7 @@ function setPreviewBook(){
 		if(tariff=="Otro")
 			tariff=roomInput.value;
 		
+		tariff=tariff.replace('.','');
 		totalTariffs+=parseInt(tariff);
 		row.appendChild(createFormGroupLabel("Tarifa",tariff,"dollar"));
 		guests=roomGroups[i].getElementsByClassName("client-cards")[0].getElementsByClassName("card-body");
@@ -481,55 +482,62 @@ function setMessageOnLoading(message, entity){
 	document.getElementById("ajax-loading").getElementsByTagName("label")[1].innerHTML=message;
 }
 
-function searchEvent(event,input){
+function searchEvent(event,input,entity){
 	if(event!=undefined){
 		if(event.keyCode==13)
-			searchPerson(input);
-	}else
-	 console.log(input);
-
+			switch(entity){
+				case 'person':
+					searchPerson(input);
+					break;
+			}
+	}
 }
 
 function searchPerson(input){
 	$.ajax({
 		type: 'post',
 		url: '/includes/get.php',
-		data: 'entity=searchPerson&idPerson='+input.value,
-		success:function(ans){
-			var data=ans.split(";");
-			if(data.length==12){
-				var searchs=document.getElementsByClassName("card-search");
-				var search;
-
-				for (var i = 0; i < searchs.length; i++) {
-					if(searchs[i].getElementsByTagName("input")[0]==input)
-						search=searchs[i];
-				}
-
-				var body=search.parentElement.getElementsByClassName("card-body")[0];
-				var inputs=body.getElementsByTagName("input");
-				var selects=body.getElementsByTagName("select");
-				inputs[0].value=data[4];
-				inputs[1].value=data[5];
-				inputs[2].value=input.value;
-				inputs[3].value=data[8];//resolve
-				inputs[4].value=data[10];
-				inputs[5].value=data[11];
-				inputs[6].value=data[8];
-				search.parentElement.getElementsByClassName("id-container")[0].innerHTML=data[0];
-				selects[0].value=data[6];
-				selects[1].value=1;
-				selects[2].value=data[2];
-				selects[3].value=data[7];
-				selects[4].value=data[9].charAt(0);
-				selects[5].value=data[9].charAt(1);
-				selects[6].value=(data[3]==""?"NULL":data[3]);
-				selects[7].value=data[1];
-
-				search.parentElement.getElementsByClassName("btn-check-in")[0].onclick.call();
-				showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
-			}else
-				showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+		data: 'entity=searchPerson&idPerson='+input.value
+	}).then(function(ans){
+		var data=ans.split(";");
+		console.log(ans);
+		if(data.length==13){
+			setValues(input,data);
+		}else{
+			showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
 		}
 	});
+}
+
+function setValues(input,data){
+	var searchs=document.getElementsByClassName("card-search");
+	var search;
+
+	for (var i = 0; i < searchs.length; i++) {
+		if(searchs[i].getElementsByTagName("input")[0]==input)
+			search=searchs[i];
+	}
+
+	var body=search.parentElement.getElementsByClassName("card-body")[0];
+	var inputs=body.getElementsByTagName("input");
+	var selects=body.getElementsByTagName("select");
+	inputs[0].value=data[4];
+	inputs[1].value=data[5];
+	inputs[2].value=data[7];
+	inputs[3].value=data[9];//resolve
+	inputs[4].value=data[11];
+	inputs[5].value=data[12];
+	inputs[6].value=data[9];
+	search.parentElement.getElementsByClassName("id-container")[0].innerHTML=data[0];
+	selects[0].value=data[6];
+	selects[1].value=1;
+	selects[2].value=data[2];
+	selects[3].value=data[8];
+	selects[4].value=data[10].charAt(0);
+	selects[5].value=data[10].charAt(1);
+	selects[6].value=(data[3]==""?"NULL":data[3]);
+	selects[7].value=data[1];
+
+	search.parentElement.getElementsByClassName("btn-check-in")[0].onclick.call();
+	showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
 }

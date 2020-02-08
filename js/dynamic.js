@@ -317,3 +317,26 @@ function updateEnterprise(){
  		showModal('confirm-check-on');
  	}
  }
+
+ 
+function createElement(tag,inner,classes,id){
+	var e=document.createElement(tag);
+	if(inner!= undefined)
+		e.innerHTML=inner;
+
+	if(classes != undefined)
+		for (var i = 0; i < classes.length; i++) {
+			e.classList.add(classes[i]);
+		}
+
+	if(id!= undefined)
+		e.id=id;
+	return e;
+}
+
+function createOption(inner, value){
+	var o=createElement('option',inner);
+	o.value=value;
+	
+	return o;
+}
