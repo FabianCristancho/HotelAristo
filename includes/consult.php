@@ -496,6 +496,7 @@
             }
         }
 
+
         public function getBookingTable($id){
             $query = $this->connect()->prepare('SELECT numero_habitacion, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
                 FROM registros_habitacion rh
@@ -531,6 +532,171 @@
                 echo '<td>'.$current['telefono_persona'].'</td>';
                 echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
             }
+        }
+
+      
+        public function getTitular($id){
+            $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
+            FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+            LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+            LEFT JOIN empresas e ON r.id_empresa=r.id_reserva
+            WHERE numero_documento=:idPerson
+            AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+
+            foreach ($query as $current){
+                echo $current['nombres_persona'].';';
+                echo $current['apellidos_persona'].';';
+                echo $current['numero_documento'].';';
+                echo $current['telefono_persona'].';';
+                echo $current['fecha_ingreso'].';';
+                echo $current['fecha_salida'].';';
+                echo $current['nombre_empresa'].';';
+                echo $current['habitaciones'].';';
+                echo $current['id_reserva'].';';
+            }
+            
+            
+             $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
+                FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+                LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+                LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                WHERE numero_documento=:idPerson
+                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                     FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                    WHERE numero_documento=:idPerson2);');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                echo "HABITACIÓN ".$current['numero_habitacion'].';';
+                echo '1;';
+                echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
+                echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
+            }
+            
+            
+            
+            $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN productos pd ON pd.id_producto=pt.id_producto
+            WHERE numero_documento=:idPerson
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                echo "PRODUCTO ".$current['nombre_producto'].';';
+                echo $current['cantidad_producto'].';';
+                echo number_format($current['valor_unitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
+            }
+            
+            
+            
+            $query = $this->connect()->prepare('SELECT nombre_servicio, valor_servicio
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE numero_documento=:idPerson
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                echo "SERVICIO DE ".$current['nombre_servicio'].';';
+                echo '1;';
+                echo number_format($current['valor_servicio'], 0, '.', '.').';';
+                echo number_format($current['valor_servicio'], 0, '.', '.').';';
+            }
+        }
+        
+        
+        
+        function getNextSerieOrder(){
+
+            $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facts WHERE tipo_factura="O"');
+            $query->execute();
+            $serie;
+            $code = "";
+            
+            foreach ($query as $current){
+                $serie = $current['last'];
+            }
+            
+            if($serie>=0&&$serie<=8){
+                $serie = $serie+1;
+                $code = "00".$serie;
+            }else if($serie>=9&&$serie<=98){
+                $serie = $serie+1;
+                $code = "0".$serie;
+            }else if($serie>=98 && $serie<=998){
+                $serie = $serie+1;
+                $code = $serie;
+            }else{
+                $code = "000";
+            }
+            
+            return $code;
+        }
+        
+        
+        
+        function getNextSerieBill(){
+            
+            $letter=65;
+            
+            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facts WHERE tipo_factura="N"');
+            $query->execute();
+            
+            foreach ($query as $current){
+                $letter = $current['max'];
+            }
+            
+            if($letter==""){
+                $letter = 65;
+            }
+            
+            $num=0;
+            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura,2) AS INT)) AS lastNum FROM facts WHERE ASCII(LEFT(serie_factura,1))=:letter');
+            $query->execute([':letter'=>$letter]);
+            
+            foreach ($query as $current){
+                $num = $current['lastNum'];
+            }
+            
+            
+            $code = "";
+            if($num>=0 && $num<=8){
+                $num = $num+1;
+                $code = chr($letter)."00".$num;
+            }else if($num>=9 && $num<=98){
+                $num = $num+1;
+                $code = chr($letter)."0".$num;
+            }else if($num>=98 && $num<=998){
+                $num = $num+1;
+                $code = chr($letter).$num;
+            }else{
+                
+                if($num=999){
+                    $letter = $letter+1;
+                    $code = chr($letter)."000";
+                }else{
+                    $code = "A000";
+                    
+                }
+            }
+            return $code; 
         }
     }
 

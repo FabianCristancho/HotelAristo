@@ -46,12 +46,12 @@
             $this->Cell(0,26,utf8_decode('Email: hotelaristo@hotmail.com'),0,0,'R');
             $this->Cell(0,34,utf8_decode('TUNJA - BOYACÁ'),0,0,'R');
             // Salto de línea
-            $this->Ln(20);
+            //$this->Ln(20);
         }
 
         /**
         * Función que contiene el formato de salto de página del reporte
-        */
+        
         function Footer()
         {
             $this->SetY(-15);
@@ -60,6 +60,6 @@
             // Número de página
             $this->Cell(0,10,utf8_decode('Página ').$this->PageNo().'/{nb}',0,0,'C');
             $this->AliasNbPages();
-        }
+        }*/
     }
 ?>
