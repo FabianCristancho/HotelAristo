@@ -44,7 +44,9 @@
                 <div class="dropdown-content">
                     <a href="/reservas/registrar">Registar reserva</a>
                     <a href="/empresas/registrar">Registrar empresas</a>
+                    <?php if($user->getRole()==5):?>
                     <a href="/usuarios/registrar">Registrar usuarios</a>
+                    <?php endif;?>
                 </div>
             </div>
             
