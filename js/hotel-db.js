@@ -144,7 +144,17 @@ function sendReservation(user){
 				hideModal("ajax-loading");
 				
 				setTimeout(function(){
- 					location.href='/control_diario?date='+getDate(0);
+ 					var href;
+
+					if(document.getElementById("checkon-check").checked)
+						if(document.getElementById("payment-check").checked)
+ 							href='/facturas/registrar';
+ 						else
+ 							href='/control_diario?date='+getDate(0);
+ 					else
+						href='/reservas';
+					
+ 					location.href=href;
 				}, 1000);	
 			}, 2000);
 		}else
@@ -206,10 +216,10 @@ function updateReservation(user){
 				setTimeout(function(){
 					var href;
 
-					if(document.getElementById("checkon-check").checked)
- 						href='/control_diario?date='+getDate(0);
+					if(document.getElementById("payment-check").checked)
+ 						href='/facturas/registrar';
  					else
-						href='/reservas';
+ 						href='/control_diario?date='+getDate(0);
 					
  					location.href=href;
 
