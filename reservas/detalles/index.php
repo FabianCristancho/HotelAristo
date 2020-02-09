@@ -191,7 +191,6 @@
                                 <tr>
                                     <th>Habitación</th>
                                     <th>Huesped</th>
-                                    <th>Check up</th>
                                 </tr>
                                 <?php $consult->getBookingTable($id); ?>
                             </table>

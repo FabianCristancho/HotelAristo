@@ -498,7 +498,7 @@
 
 
         public function getBookingTable($id){
-            $query = $this->connect()->prepare('SELECT numero_habitacion, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
+            $query = $this->connect()->prepare('SELECT numero_habitacion,p.id_persona, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
                 FROM registros_habitacion rh
                 INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
                 INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
@@ -509,8 +509,7 @@
 
             foreach ($query as $current) {
                 echo '<tr><td>'.$current['numero_habitacion'].'</td>';
-                echo '<td>'.$current['nombre'].'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td></tr>';
+               echo '<td><a href="'.$current['id_persona'].'">'.$current['nombre'].'</a></td>';
             }
         }
 
