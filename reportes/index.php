@@ -41,14 +41,14 @@
         <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <link rel="stylesheet" type="text/css" href="/css/modal.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
-    <body onload ="getDate('control-date-prev',-1); getDate('control-date-last',0);">  
+    <body>  
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -89,8 +89,8 @@
         
         <!----FIN DE LA PAGINA PRINCIPAL---->
 
-		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
-			<div class="modal-content">
+		<div id="add-bizz" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-4 wrap-4">
                 <div class="modal-header">
                     <span onclick="hideModal('add-bizz');" class="close">&times;</span>
                     <h2>ESTADISTICAS MENSUALES DE HOSPEDAJE</h2>

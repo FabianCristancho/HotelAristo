@@ -5,12 +5,13 @@ function prepareReservation(user){
 	var main=document.getElementById("main-row");
 	var primeCard=main.getElementsByClassName("card-prime")[0].getElementsByClassName("card-body")[0];
 	var primeInputs=primeCard.getElementsByTagName("input");
-	var holder, clients=[], rooms=[];
+	var holder, clients, rooms=[];
 	var roomGroups=main.getElementsByClassName("room-group");
 	var clientCards;
 
 
 	for (var i = 0; i < roomGroups.length; i++) {
+		clients=[];
 		clientCards=roomGroups[i].getElementsByClassName("card-client");
 		
 		for (var j = 0; j < clientCards.length; j++) {
@@ -19,6 +20,8 @@ function prepareReservation(user){
 			else
 				clients.push(clientCards[j].getElementsByClassName("id-container")[0].innerHTML);
 		}
+		if(i==0)
+			holder=clients[0];
 		
 		rooms.push(fillRoom(roomGroups[i].getElementsByClassName("card-room")[0].getElementsByClassName("card-body")[0],clients));
 	}
@@ -36,8 +39,7 @@ function prepareReservation(user){
 		}else{
 			holder=fillEnterprise(holderBodies[1].getElementsByTagName("select")[0].value);
 		}
-	}else
-		holder=clients[0];
+	}
 
 	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
 		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
@@ -142,7 +144,67 @@ function sendReservation(user){
 				hideModal("ajax-loading");
 				
 				setTimeout(function(){
-					location.reload(true);
+ 					location.href='/control_diario?date='+getDate(0);
+				}, 1000);	
+			}, 2000);
+		}else
+			showAlert("alert-d","Surgió un error en la ejecución. Por favor, reinicie la pagina.");
+	});
+}
+
+function updateReservation(user){
+	const booking=prepareReservation(user);
+
+	return sendBooking(booking).then(function(ans){
+		var data=ans.split(";");
+		var promises=[];
+
+		if(data[2]==''){
+			setMessageOnLoading(data[1],"Booking");
+			return null;
+		}else
+			setMessageOnLoading(data[2],"Booking");
+
+		promises.push(sendRoom(booking.rooms[0], data[0], booking.isStaying, data[1]));
+
+		for (var i = 1; i < booking.rooms.length; i++) {
+			promises.push(sendRoom(booking.rooms[i], data[0], false));
+		}
+
+		return Promise.all(promises);
+	}).then(function (ans2){
+		if(ans2!=null){
+			var promises=[];
+
+			for (var i = 0; i < ans2.length; i++) {
+				var data=ans2[i][0].split(";");
+				var roomId=data[0];
+				setMessageOnLoading(data[1],"Habitacion");
+
+				for (var j = 1; j < ans2[i].length; j++) {
+					data=ans2[i][j].split(";");
+					setMessageOnLoading((data[1]==undefined?"Asignación del titular a la habitación.":data[1]),"Huesped");
+					promises.push(send(null, 'entity=guestReg&roomReg='+roomId+'&guestId='+data[0]));
+				}
+			}
+
+			return Promise.all(promises);
+		}
+	}).then(function(ans3){
+		if(ans3!=undefined){
+			var data;
+
+			for (var i = 0; i < ans3.length; i++) {
+				data=ans3[i].split(";");
+				setMessageOnLoading(data[1],"Huesped");
+			}
+
+			setTimeout(function(){
+				showAlert("alert-s","Se ha registrado una nueva reserva");
+				hideModal("ajax-loading");
+				
+				setTimeout(function(){
+ 					location.href='/control_diario?date='+getDate(0);
 				}, 1000);	
 			}, 2000);
 		}else
@@ -345,6 +407,6 @@ function sendProfession(){
  	sendUpdate("action=setCheckOn&idBooking="+reservation).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
- 		location.reload(true);
+ 		location.href='/control_diario?date='+getDate(0);
  	});
  }

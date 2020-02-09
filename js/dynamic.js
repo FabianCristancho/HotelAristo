@@ -1,6 +1,14 @@
-function getDate(days, input){
+function getDate(days, input, input2){
 	var ret;
-	var date= new Date();
+	var date;
+
+	if(input2==undefined)
+		date= new Date();
+	else {
+		input2=document.getElementById(input2);
+		date= new Date(input2.value);
+	}
+	
 	date.setDate(date.getDate()+parseInt(days));
 	ret=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 
@@ -317,3 +325,26 @@ function updateEnterprise(){
  		showModal('confirm-check-on');
  	}
  }
+
+ 
+function createElement(tag,inner,classes,id){
+	var e=document.createElement(tag);
+	if(inner!= undefined)
+		e.innerHTML=inner;
+
+	if(classes != undefined)
+		for (var i = 0; i < classes.length; i++) {
+			e.classList.add(classes[i]);
+		}
+
+	if(id!= undefined)
+		e.id=id;
+	return e;
+}
+
+function createOption(inner, value){
+	var o=createElement('option',inner);
+	o.value=value;
+	
+	return o;
+}

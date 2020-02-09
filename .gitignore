@@ -9,3 +9,6 @@ aristo.crt
 aristo.key
 
 hotelaristo.crt
+reportes/vendor/
+reportes/composer.json
+reportes/composer.lock

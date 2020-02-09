@@ -219,6 +219,34 @@ function SetDisplayMode($zoom, $layout='default')
 	else
 		$this->Error('Incorrect layout display mode: '.$layout);
 }
+    
+function changeSizePages($orientation, $size){
+    $this->StdPageSizes = array('a3'=>array(841.89,1190.55), 'a4'=>array(595.28,841.89), 'a5'=>array(420.94,595.28),
+		'letter'=>array(612,792), 'legal'=>array(612,1008));
+	$size = $this->_getpagesize($size);
+	$this->DefPageSize = $size;
+	$this->CurPageSize = $size;
+	// Page orientation
+	$orientation = strtolower($orientation);
+	if($orientation=='p' || $orientation=='portrait')
+	{
+		$this->DefOrientation = 'P';
+		$this->w = $size[0];
+		$this->h = $size[1];
+	}
+	elseif($orientation=='l' || $orientation=='landscape')
+	{
+		$this->DefOrientation = 'L';
+		$this->w = $size[1];
+		$this->h = $size[0];
+	}
+	else
+		$this->Error('Incorrect orientation: '.$orientation);
+	$this->CurOrientation = $this->DefOrientation;
+	$this->wPt = $this->w*$this->k;
+	$this->hPt = $this->h*$this->k;
+}
+    
 
 function SetCompression($compress)
 {

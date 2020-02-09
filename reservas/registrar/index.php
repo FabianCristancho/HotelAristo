@@ -34,7 +34,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
 		<link rel="stylesheet" type="text/css" href="/css/modal.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 		<script type="text/javascript" src="/js/moment.js"></script>
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
@@ -105,7 +105,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-moon-o"></i>
 												</div>
-												<input id="count-nights" type="number" class="form-control" min="1" value="1" name="count-nights" required>
+												<input id="count-nights" type="number" class="form-control" min="1" value="1" onchange="getDate(this.value,'finish-date','start-date');" name="count-nights" required>
 											</div>
 											<small class="form-text text-muted">ej. 1</small>
 										</div>

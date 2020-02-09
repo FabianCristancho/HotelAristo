@@ -8,7 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 		<link rel="stylesheet" type="text/css" href="/css/form.css">
 		<link rel="stylesheet" type="text/css" href="/css/alerts.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 		<link rel="manifest" href="/manifest.json">
 		<script type="text/javascript" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>

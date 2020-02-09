@@ -7,95 +7,78 @@
 
 class Reservation extends Database{
     protected $id;
-    protected $name;
-    protected $lastName;
-    protected $typeDocument;
-    protected $numberDocument;
-    protected $placeBirth;
-    protected $placeExpedition;
-    protected $gender;
-    protected $birthDate;
-    protected $typeRH;
-    protected $phone;
-    protected $email;
-    protected $profession;
+    protected $startDate;
+    protected $finishDate;
+    protected $roomsQuantity;
+    protected $titular;
+    protected $room;
 
     /**
     * Constructor que recibe por parámetro un valor numérico id y lo asigna al id del cliente
     */
     public function setId($id){
         $this->id = $id;
-        $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, tipo_documento, numero_documento, n.nombre_lugar AS nac, e.nombre_lugar AS exp, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona, nombre_profesion FROM personas p, lugares n, lugares e, profesiones pr WHERE id_persona = :id AND p.id_lugar_nacimiento=n.id_lugar AND p.id_lugar_expedicion=e.id_lugar AND p.id_profesion=pr.id_profesion');
-        
-        $query->execute(['id'=>$id]);
-        
-        foreach ($query as $currentPerson) {
-            $this->name = $currentPerson['nombres_persona'];
-            $this->lastName = $currentPerson['apellidos_persona'];
-            $this->typeDocument = $currentPerson['tipo_documento'];
-            $this->numberDocument = $currentPerson['numero_documento'];
-            $this->placeBirth = $currentPerson['nac'];
-            $this->placeExpedition = $currentPerson['exp'];
-            $this->gender = $currentPerson['genero'];
-            $this->birthDate = $currentPerson['fecha_nacimiento'];
-            $this->typeRH = $currentPerson['tipo_sangre_rh'];
-            $this->phone = $currentPerson['telefono_persona'];
-            $this->email = $currentPerson['correo_persona'];
-            $this->profession = $currentPerson['nombre_profesion'];
-        } 
+        $query = $this->connect()->prepare('SELECT DISTINCT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+                date_format(r.fecha_salida,"%X-%m-%d") fecha_salida, 
+                COUNT(rh.id_registro_habitacion) cantidad_habitaciones,
+                r.id_titular, r.id_empresa
+                FROM reservas r 
+                INNER JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                WHERE r.id_reserva=:id
+                GROUP BY fecha_ingreso');
+
+        $query->execute([':id'=>$id]);
+
+        foreach ($query as $current) {
+            $this->startDate= $current['fecha_ingreso'];
+            $this->finishDate= $current['fecha_salida'];
+            $this->roomsQuantity= $current['cantidad_habitaciones'];
+            $t=new Holder();
+
+            if($current['id_titular']!=""){
+                $t->setId($current['id_titular'],'T');
+            }else{
+                $t->setId($current['id_empresa'],'E');
+            }
+
+            $this->titular=$t;
+        }
     }
-    
-  
-    function getId(){
+
+    public function setRoom($room){
+
+         $query = $this->connect()->prepare('SELECT rh.id_registro_habitacion
+                FROM reservas r 
+                INNER JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                WHERE r.id_reserva=:id
+                AND rh.id_habitacion=:room
+                GROUP BY fecha_ingreso');
+
+        $query->execute([':id'=>$this->id,':room'=>$room]);
+
+        foreach ($query as $current) {
+            $this->room= $current['id_registro_habitacion'];
+        }
+    }
+
+    public function getId(){
         return $this->id;
     }
-    
-    function getName(){
-        return $this->name;
+
+    public function getStartDate(){
+        return $this->startDate;
+    }
+
+    public function getFinishDate(){
+        return $this->finishDate;
     }
     
-    function getLastName(){
-        return $this->lastName;
+    public function getRoomsQuantity(){
+        return $this->roomsQuantity;
     }
-    
-    function getTypeDocument(){
-        return $this->typeDocument;
-    }
-    
-    function getNumberDocument(){
-        return $this->numberDocument;
-    }
-    
-     function getPlaceBirth(){
-        return $this->placeBirth;
-    }
-    
-    function getPlaceExpedition(){
-        return $this->placeExpedition;
-    }
-    
-    function getGender(){
-        return $this->gender;
-    }
-    
-    function getBirthDate(){
-        return $this->birthDate;
-    }
-    
-    function getTypeRH(){
-        return $this->typeRH;
-    }
-    
-    function getPhone(){
-        return $this->phone;
-    }
-    
-    function getEmail(){
-        return $this->email;
-    }
-    
-    function getProfession(){
-        return $this->profession;
+
+    public function getTitular(){
+        return $this->titular;
     }
 }
 

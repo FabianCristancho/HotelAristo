@@ -35,7 +35,7 @@
         <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <link rel="stylesheet" type="text/css" href="/css/modal.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/hotel-db.js"></script>
@@ -66,12 +66,12 @@
                           <th>N°</th>
                           <th>Check in</th>
                           <th>Check on</th>
-                          <th>Nombre completo</th>
+                          <th>Titular</th>
                           <th>Telefono</th>
                           <th>Fecha de llegada</th>
                           <th>Cantidad de noches</th>
-                          <th>Empresa</th>
-                          <th>Correo</th>
+                          <th>Huespedes</th>
+                          <th></th>
                         </tr>
                          <?php
                             /**
@@ -150,7 +150,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-register" onclick="">
+                    <button class="btn btn-block btn-register">
                         <i class="fa fa-check"></i>
                         <span>Confirmar</span>
                     </button>
