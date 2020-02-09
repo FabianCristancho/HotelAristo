@@ -76,8 +76,8 @@
                 <div class="sub-menu col-12 padd">
                     <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
                     <div class="sub-menu-right">
-                        <button id="edit-btn" class="btn">Editar</button>
-                        <button id="delete-btn" class="btn btn-red">Eliminar</button>
+                        <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
+                        <button id="delete-btn" class="btn btn-red" onclick="deleteBooking(<?php echo $id;?>)">Eliminar</button>
                     </div>
                 </div>
 
@@ -201,6 +201,21 @@
             </div>
         </div>
         
+        <script type="text/javascript">
+            function deleteBooking(id){
+                $.ajax({
+                    type:'post',
+                    url:'/includes/update.php',
+                    data:'action=deleteBooking&id='+id
+                }).then(function(ans){
+                    var data=ans.split(";");
+                    showAlert(data[0],data[1]);
+                    setTimeout(function(){
+                        location.href='/reservas';
+                    }, 2000);
+                });
+            }
+        </script>
         <?php
             /**
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
