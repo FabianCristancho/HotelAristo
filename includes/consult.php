@@ -559,7 +559,6 @@
                 echo $current['id_reserva'].';';
             }
             
-            
              $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -577,8 +576,6 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
-            
-            
             
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
@@ -598,8 +595,6 @@
                 echo number_format($current['valor_unitario'], 0, '.', '.').';';
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
-            
-            
             
             $query = $this->connect()->prepare('SELECT nombre_servicio, valor_servicio
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
@@ -625,7 +620,7 @@
         
         function getNextSerieOrder(){
 
-            $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facts WHERE tipo_factura="O"');
+            $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facturas WHERE tipo_factura="O"');
             $query->execute();
             $serie;
             $code = "";
@@ -656,7 +651,7 @@
             
             $letter=65;
             
-            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facts WHERE tipo_factura="N"');
+            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facturas WHERE tipo_factura="N"');
             $query->execute();
             
             foreach ($query as $current){
@@ -668,7 +663,7 @@
             }
             
             $num=0;
-            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura,2) AS INT)) AS lastNum FROM facts WHERE ASCII(LEFT(serie_factura,1))=:letter');
+            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura,2) AS INT)) AS lastNum FROM facturas WHERE ASCII(LEFT(serie_factura,1))=:letter');
             $query->execute([':letter'=>$letter]);
             
             foreach ($query as $current){

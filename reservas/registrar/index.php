@@ -105,7 +105,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-moon-o"></i>
 												</div>
-												<input id="count-nights" type="number" class="form-control" min="1" value="1" onchange="getDate(this.value,'finish-date','start-date');" name="count-nights" required>
+												<input id="count-nights" type="text" class="form-control" min="1" value="1" onchange="getDate(this.value,'finish-date','start-date');" name="count-nights" onkeydown="$(this).mask('00');" required>
 											</div>
 											<small class="form-text text-muted">ej. 1</small>
 										</div>
@@ -116,7 +116,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-bed"></i>
 												</div>
-												<input id="rooms-quantity" type="number" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" name="rooms-quantity" required>
+												<input id="rooms-quantity" type="text" class="form-control rooms-quantity" min="1" max="10" value="1" onchange="updateRoom(this);" name="rooms-quantity" onkeydown="$(this).mask('00');" required>
 											</div>
 											<small class="form-text text-muted">ej. 1</small>
 										</div>
