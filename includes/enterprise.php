@@ -26,7 +26,7 @@
         */
         public function setIdEnterprise($id){
             $this->id = $id;
-            $query = $this->connect()->prepare('SELECT nombre_empresa, nit_empresa, correo_empresa, telefono_empresa, retefuente, otro_impuesto FROM empresas WHERE id_empresa = :id');
+            $query = $this->connect()->prepare('SELECT nombre_empresa, nit_empresa, correo_empresa, telefono_empresa, retefuente, ica FROM empresas WHERE id_empresa = :id');
 
             $query->execute(['id'=>$id]);
 
@@ -36,7 +36,7 @@
                 $this->email = $currentEnterprise['correo_empresa'];
                 $this->phone = $currentEnterprise['telefono_empresa'];
                 $this->sourceRetention = $currentEnterprise['retefuente'];
-                $this->otherTax = $currentEnterprise['otro_impuesto'];
+                $this->otherTax = $currentEnterprise['ica'];
             } 
         }
         

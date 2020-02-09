@@ -1,6 +1,6 @@
 <?php
     /**
-    * Archivo que contiene la información pertinente a los detalles de control de una habitación en una fecha especificada
+    * Archivo que contiene la información pertinente a los detalles reserva 
     * @package   control_diario.detalles
     * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
     * @copyright Todos los derechos reservados. 2020.

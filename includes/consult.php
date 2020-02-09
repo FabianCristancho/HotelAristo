@@ -197,24 +197,45 @@
 
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,r.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, TIMESTAMPDIFF(DAY, date_format(r.fecha_ingreso,"%X-%m-%d"),date_format(r.fecha_salida,"%X-%m-%d")) dias, NVL2(tipo_documento,0,1) aux 
+            $query = $this->connect()->prepare('SELECT r.id_reserva,
+                date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+                TIMESTAMPDIFF(DAY, date_format(r.fecha_ingreso,"%X-%m-%d"),date_format(r.fecha_salida,"%X-%m-%d")) dias, 
+                r.id_titular, CONCAT_WS(" ",t.nombres_persona,t.apellidos_persona) nombre_t,t.telefono_persona, 
+                r.id_empresa, e.nombre_empresa, e.telefono_empresa,
+                rc.id_huesped, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_c,GROUP_CONCAT(c.id_persona) ids_c,
+                COUNT(rc.id_registro_huesped)=COUNT(NVL2(c.tipo_documento,0,1)) aux
                 FROM reservas r 
-                LEFT JOIN personas c ON r.id_titular=c.id_persona 
+                LEFT JOIN personas t ON r.id_titular=t.id_persona 
                 LEFT JOIN empresas e ON r.id_empresa=e.id_empresa 
-                WHERE r.estado_reserva="AC"');
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN personas c ON rc.id_huesped=c.id_persona
+                WHERE r.estado_reserva="AC"
+                GROUP BY r.id_reserva');
             $query->execute();
 
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
-                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table btn-edit-hover '.($current['aux']==0?"btn-success":"btn-complete").'"><span>'.($current['aux']==0?"Listo":"Completar").'</span></button></td>'.PHP_EOL;
-                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==1?'disabled':'').'><span class="slider '.($current['aux']==1?'slider-gray':'slider-red').' round green"></span></label></td>';
-                echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
-                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table btn-edit-hover '.($current['aux']==1?"btn-success":"btn-complete").'"><span>'.($current['aux']==1?"Listo":"Completar").'</span></button></td>'.PHP_EOL;
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==0?'disabled':'').'><span class="slider '.($current['aux']==0?'slider-gray':'slider-red').' round green"></span></label></td>';
+                echo '<td><a href="'.($current['id_titular']==""?'/empresas/detalles?id='.$current['id_empresa']:'/clientes/detalles?id='.$current['id_titular']).'">'.($current['id_titular']==""?$current['nombre_empresa']:$current['nombre_t']).'</a></td>';
+                echo '<td>'.($current['id_titular']==""?$current['telefono_empresa']:$current['telefono_persona']).'</td>'.PHP_EOL;
                 echo '<td>'.($current['fecha_ingreso']>=date("Y-m-d")?$current['fecha_ingreso']:"Vencido").'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
-                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                 echo '<td>';
+                
+                $names=explode(",",$current['nombres_c']);
+                $ids=explode(",",$current['ids_c']);
+                
+                for ($i=0;$i<count($names);$i++) {
+                    echo '<a href=/clientes/detalles?id='.$ids[$i].'>'.$names[$i].'</a>';
+                    if(count($names)-1!=$i)
+                        echo ',';
+                }
+
+                echo '</td>';
+                echo '<td><a href="detalles?id='.$current['id_reserva'].'" class="button-more-info">Ver</a></td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
