@@ -61,7 +61,7 @@
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
                     <h2 class="title-form col-10">FACTURAS (Registro es un ejemplo para enlazar reportes)</h2>
-                    <a class="button-add-book col-2" href="/factura">Nueva factura</a>
+                    <a class="button-add-book col-2" href="registrar">Nueva factura</a>
                 </div>
                 <br>
                 <div class="scroll-block">

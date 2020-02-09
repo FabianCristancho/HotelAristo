@@ -559,7 +559,6 @@
                 echo $current['id_reserva'].';';
             }
             
-            
              $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -577,8 +576,6 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
-            
-            
             
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
@@ -598,8 +595,6 @@
                 echo number_format($current['valor_unitario'], 0, '.', '.').';';
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
-            
-            
             
             $query = $this->connect()->prepare('SELECT nombre_servicio, valor_servicio
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular

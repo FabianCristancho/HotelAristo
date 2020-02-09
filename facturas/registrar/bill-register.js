@@ -76,7 +76,6 @@ function searchTitular(input){
                 showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
             }else{
                 showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
-                alert("No se encontró ningun cliente con ese número de documento");
             }
         }
     });             
