@@ -1,6 +1,6 @@
 <?php
     require '../vendor/autoload.php';
-    require '../../includes/database2.php';
+    require '../../includes/database.php';
     require '../../includes/reportSpreadsheet.php';
     use PhpOffice\PhpSpreadsheet\Spreadsheet;
     
@@ -27,7 +27,7 @@
 
     $spreadsheet = new Spreadsheet();
     $sheet = $spreadsheet->getActiveSheet();
-    $database = new Database2();
+    $database = new Database();
 
     $spreadsheet->getDefaultStyle()
         ->getFont()

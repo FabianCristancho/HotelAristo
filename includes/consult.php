@@ -71,6 +71,26 @@
             }
         }
 
+        public function getProductList(){
+             $query = $this->connect()->prepare('SELECT id_producto,nombre_producto, valor_producto
+                FROM productos');
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_producto'].'">'.$current['nombre_producto'].' ('.$current['valor_producto'].') '.'</option>';
+            }
+        }
+
+        public function getServiceList(){
+             $query = $this->connect()->prepare('SELECT id_servicio,nombre_servicio, valor_servicio
+                FROM servicios');
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['id_servicio'].'">'.$current['nombre_servicio'].' ('.$current['valor_servicio'].') '.'</option>';
+            }
+        }
+
         public function countryList(){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar 
                 FROM lugares 
@@ -177,24 +197,45 @@
 
 
         function reservationTable(){
-            $query = $this->connect()->prepare('SELECT r.id_reserva,c.id_persona, CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona) nombre_c,r.id_empresa, e.nombre_empresa, c.telefono_persona, c.correo_persona, date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, TIMESTAMPDIFF(DAY, date_format(r.fecha_ingreso,"%X-%m-%d"),date_format(r.fecha_salida,"%X-%m-%d")) dias, NVL2(tipo_documento,0,1) aux 
+            $query = $this->connect()->prepare('SELECT r.id_reserva,
+                date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+                TIMESTAMPDIFF(DAY, date_format(r.fecha_ingreso,"%X-%m-%d"),date_format(r.fecha_salida,"%X-%m-%d")) dias, 
+                r.id_titular, CONCAT_WS(" ",t.nombres_persona,t.apellidos_persona) nombre_t,t.telefono_persona, 
+                r.id_empresa, e.nombre_empresa, e.telefono_empresa,
+                rc.id_huesped, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_c,GROUP_CONCAT(c.id_persona) ids_c,
+                COUNT(rc.id_registro_huesped)=COUNT(NVL2(c.tipo_documento,0,1)) aux
                 FROM reservas r 
-                LEFT JOIN personas c ON r.id_titular=c.id_persona 
+                LEFT JOIN personas t ON r.id_titular=t.id_persona 
                 LEFT JOIN empresas e ON r.id_empresa=e.id_empresa 
-                WHERE r.estado_reserva="AC"');
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN personas c ON rc.id_huesped=c.id_persona
+                WHERE r.estado_reserva="AC"
+                GROUP BY r.id_reserva');
             $query->execute();
 
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['id_reserva'].'</td>'.PHP_EOL;
-                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table btn-edit-hover '.($current['aux']==0?"btn-success":"btn-complete").'"><span>'.($current['aux']==0?"Listo":"Completar").'</span></button></td>'.PHP_EOL;
-                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==1?'disabled':'').'><span class="slider '.($current['aux']==1?'slider-gray':'slider-red').' round green"></span></label></td>';
-                echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre_c'].'</a></td>'.PHP_EOL;
-                echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td><button onclick="window.location.href='."'/reservas/editar?id=".$current['id_reserva']."'".'" class="btn btn-table btn-edit-hover '.($current['aux']==1?"btn-success":"btn-complete").'"><span>'.($current['aux']==1?"Listo":"Completar").'</span></button></td>'.PHP_EOL;
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOn('.$current['id_reserva'].',this);"'.($current['aux']==0?'disabled':'').'><span class="slider '.($current['aux']==0?'slider-gray':'slider-red').' round green"></span></label></td>';
+                echo '<td><a href="'.($current['id_titular']==""?'/empresas/detalles?id='.$current['id_empresa']:'/clientes/detalles?id='.$current['id_titular']).'">'.($current['id_titular']==""?$current['nombre_empresa']:$current['nombre_t']).'</a></td>';
+                echo '<td>'.($current['id_titular']==""?$current['telefono_empresa']:$current['telefono_persona']).'</td>'.PHP_EOL;
                 echo '<td>'.($current['fecha_ingreso']>=date("Y-m-d")?$current['fecha_ingreso']:"Vencido").'</td>'.PHP_EOL;
                 echo '<td>'.$current['dias'].'</td>'.PHP_EOL;
-                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                 echo '<td>';
+                
+                $names=explode(",",$current['nombres_c']);
+                $ids=explode(",",$current['ids_c']);
+                
+                for ($i=0;$i<count($names);$i++) {
+                    echo '<a href=/clientes/detalles?id='.$ids[$i].'>'.$names[$i].'</a>';
+                    if(count($names)-1!=$i)
+                        echo ',';
+                }
+
+                echo '</td>';
+                echo '<td><a href="detalles?id='.$current['id_reserva'].'" class="button-more-info">Ver</a></td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -256,10 +297,10 @@
         }
 
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva 
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva
                 FROM habitaciones h 
                 LEFT JOIN (
-                SELECT rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo 
+                SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo 
                 FROM reservas r 
                 INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva 
                 INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion 
@@ -275,10 +316,7 @@
                 echo '<tr>'.PHP_EOL;
                 echo '<td><p class="vertical-word">'.$current['nombre_tipo_habitacion'].'</p></td>'.PHP_EOL;
                 echo '<td id="room-'.$current['numero_habitacion'].'" class="room-cell">'.$current['numero_habitacion'].'<br>'.PHP_EOL;
-                echo '<p class="room-state">'.$this->roomState2($current['fuera_de_servicio'],$current['estado_reserva'],$date).'</p>'.PHP_EOL;
-                //echo '<select id="state-'.$current['numero_habitacion'].'" class="room-state-change" onchange="changeColor('.$current['numero_habitacion'].');" disabled>'.PHP_EOL;
-                //$this->chooseRoomState($current['estado_habitacion']);
-                //echo '</select>'.PHP_EOL;
+                echo '<p class="room-state">'.$this->roomState($current['fuera_de_servicio'],$current['estado_reserva'],$date).'</p>'.PHP_EOL;
                 echo '</td>'.PHP_EOL;
                 echo '<td>';
                 
@@ -297,7 +335,7 @@
                 echo '<td>'.'</td>';
                 echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td>';
                 echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td>';
-                echo '<td><a href="detalles?id='.$current['id_habitacion'].'" class="col-10 button-more-info">Más información</a></td>';
+                echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -372,20 +410,7 @@
             }
         }
 
-        function roomState($state){
-            switch ($state) {
-                case 'L':
-                return 'Disponible';
-                case 'O':
-                return 'Ocupada';
-                case 'R':
-                return 'Con reserva';
-                case 'X':
-                return 'Fuera de servicio';
-            }
-        }
-
-        function roomState2($stateRoom, $stateBook,$date){
+        function roomState($stateRoom, $stateBook,$date){
             if($stateRoom==0)
                 if($stateBook=="RE")
                     return 'Ocupada';
@@ -398,36 +423,6 @@
                     return 'Disponible';
             else
                 return 'Fuera de servicio';
-        }
-
-        function chooseRoomState($state){
-            switch ($state) {
-                case 'L':
-                    echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
-                    break;
-                case 'O':
-                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
-                    break;
-                case 'R':
-                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
-                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
-                    break;
-                case 'X':
-                    echo '<option value="X">Fuera de servicio</option>'.PHP_EOL;
-                    echo '<option value="O">Ocupada</option>'.PHP_EOL;
-                    echo '<option value="L">Disponible</option>'.PHP_EOL;
-                    echo '<option value="R">Con reserva</option>'.PHP_EOL;
-                    break;
-            }
-            
         }
 
         public function getPerson($id){
@@ -500,6 +495,45 @@
                 echo $current['valor_ocupacion'].'?';
             }
         }
+
+
+        public function getBookingTable($id){
+            $query = $this->connect()->prepare('SELECT numero_habitacion, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
+                FROM registros_habitacion rh
+                INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
+                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN personas p ON rc.id_huesped=p.id_persona
+                WHERE rh.id_reserva=:id');
+
+            $query->execute([':id'=>$id]);
+
+            foreach ($query as $current) {
+                echo '<tr><td>'.$current['numero_habitacion'].'</td>';
+                echo '<td>'.$current['nombre'].'</td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td></tr>';
+            }
+        }
+
+        public function getRoomTable($id,$res){
+            $query = $this->connect()->prepare('SELECT p.id_persona, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre,
+                p.numero_documento,p.telefono_persona
+                FROM registros_habitacion rh
+                INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
+                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN personas p ON rc.id_huesped=p.id_persona
+                WHERE rh.id_reserva=:res
+                AND rh.id_habitacion=:id');
+
+            $query->execute([':id'=>$id,':res'=>$res]);
+
+            foreach ($query as $current) {
+                echo '<tr><td><a href=/clientes/detalles?id='.$current['id_persona'].'>'.$current['nombre'].'</a></td>';
+                echo '<td>'.$current['numero_documento'].'</td>';
+                echo '<td>'.$current['telefono_persona'].'</td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
+            }
+        }
+
       
         public function getTitular($id){
             $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva

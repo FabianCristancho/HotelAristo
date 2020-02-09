@@ -4,7 +4,7 @@
     use PhpOffice\PhpSpreadsheet\Style\Border;
     use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-    class ReportSpreadsheet extends Database2{
+    class ReportSpreadsheet extends Database{
         
         function createBorder($rangeCell, $spreadsheet){
             $spreadsheet->getActiveSheet()->getStyle($rangeCell)->getBorders()->getAllBorders()->applyFromArray( array( 'borderStyle' => Border::BORDER_THIN, 'color' => array( 'rgb' => '000000' ) ) );

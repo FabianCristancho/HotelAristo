@@ -48,7 +48,7 @@
     </head>
     
     <!--Construcción de la vista-->
-    <body onload ="getDate('control-date-prev',-1); getDate('control-date-last',0);">  
+    <body>  
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -89,8 +89,8 @@
         
         <!----FIN DE LA PAGINA PRINCIPAL---->
 
-		<div id="add-bizz" class="modal" onclick="touchOutside(this);">
-			<div class="modal-content">
+		<div id="add-bizz" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-4 wrap-4">
                 <div class="modal-header">
                     <span onclick="hideModal('add-bizz');" class="close">&times;</span>
                     <h2>ESTADISTICAS MENSUALES DE HOSPEDAJE</h2>

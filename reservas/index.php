@@ -66,12 +66,12 @@
                           <th>N°</th>
                           <th>Check in</th>
                           <th>Check on</th>
-                          <th>Nombre completo</th>
+                          <th>Titular</th>
                           <th>Telefono</th>
                           <th>Fecha de llegada</th>
                           <th>Cantidad de noches</th>
-                          <th>Empresa</th>
-                          <th>Correo</th>
+                          <th>Huespedes</th>
+                          <th></th>
                         </tr>
                          <?php
                             /**
