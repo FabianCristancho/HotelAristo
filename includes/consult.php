@@ -625,7 +625,7 @@
         
         function getNextSerieOrder(){
 
-            $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facts WHERE tipo_factura="O"');
+            $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facturas WHERE tipo_factura="O"');
             $query->execute();
             $serie;
             $code = "";
@@ -656,7 +656,7 @@
             
             $letter=65;
             
-            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facts WHERE tipo_factura="N"');
+            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facturas WHERE tipo_factura="N"');
             $query->execute();
             
             foreach ($query as $current){
@@ -668,7 +668,7 @@
             }
             
             $num=0;
-            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura,2) AS INT)) AS lastNum FROM facts WHERE ASCII(LEFT(serie_factura,1))=:letter');
+            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura,2) AS INT)) AS lastNum FROM facturas WHERE ASCII(LEFT(serie_factura,1))=:letter');
             $query->execute([':letter'=>$letter]);
             
             foreach ($query as $current){
