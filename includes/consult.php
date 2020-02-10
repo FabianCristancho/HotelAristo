@@ -38,7 +38,7 @@
                     break;
             }
         }
-
+            
         public function getTable($entity, $aux){
             switch ($entity) {
                 case 'room':
@@ -64,8 +64,13 @@
                 case 'reservation':
                     $this->reservationTable();
                     break;
+                
+                case 'bill':
+                    $this->billTable();
+                    break;
             }
         }
+
 
         function cityList($country){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar 
@@ -300,7 +305,30 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-
+        
+        function billTable(){
+            $query = $this->connect()->prepare('SELECT id_factura, serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN CONCAT_WS(" ",pt.nombres_persona, pt.apellidos_persona) ELSE e.nombre_empresa END AS titular, CONCAT_WS(" ",pr.nombres_persona, pr.apellidos_persona) AS responsable, total_factura, DATE_FORMAT(fecha_factura, "%d/%m/%Y") AS fecha_factura, CASE WHEN f.tipo_factura="N" THEN 0 ELSE 1 END AS tipo
+                FROM facturas f INNER JOIN reservas r ON f.id_reserva=r.id_reserva
+                LEFT JOIN personas pr ON f.id_responsable = pr.id_persona
+                LEFT JOIN personas pt ON r.id_titular=pt.id_persona
+                LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
+                WHERE tipo_factura = "N"
+                ORDER by f.fecha_factura, f.serie_factura');
+            $query->execute();
+            
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['serie_factura'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['titular'].'</td>'.PHP_EOL;
+                echo '<td>'.'$ '.number_format($current['total_factura'], 0, '.', '.').'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
+                echo '<td><a class="button-more-info" class="col-10">Ver Detalles</a></td>';
+                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
+                echo '</tr>'.PHP_EOL;
+            }
+        }
+            
         function roomTable($date){
             $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN DATE_FORMAT(rg.fecha_ingreso, "%d/%m/%Y %H:%i") ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva, rg.total
                 FROM habitaciones h 
@@ -404,7 +432,7 @@
                     return 'checked';
             }
         }
-
+            
         function roomType($type){
             switch ($type) {
                 case 'J':
@@ -540,8 +568,7 @@
                 echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
             }
         }
-
-      
+            
         public function getTitular($id){
             $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
             FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
@@ -566,6 +593,7 @@
                 echo $current['id_reserva'].';';
             }
             
+          
              $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -584,6 +612,8 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
             
+          
+          
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -603,7 +633,9 @@
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
             
-            $query = $this->connect()->prepare('SELECT nombre_servicio, valor_servicio
+            
+            
+            $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
@@ -617,9 +649,9 @@
             
             foreach ($query as $current){
                 echo "SERVICIO DE ".$current['nombre_servicio'].';';
-                echo '1;';
-                echo number_format($current['valor_servicio'], 0, '.', '.').';';
-                echo number_format($current['valor_servicio'], 0, '.', '.').';';
+                echo $current['cantidad_servicio'].';';
+                echo number_format($current['valor_unitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
             }
         }
         
@@ -701,5 +733,4 @@
             return $code; 
         }
     }
-
 ?>

@@ -3,17 +3,20 @@
     
     switch ($_POST['entity']) {
     	case 'reservation':
-    	insertReservation();
-    	break;
+    	   insertReservation();
+    	   break;
         case "customer":
-        insertCustomer();
-        break;
+            insertCustomer();
+            break;
         case 'enterprise':
-        insertEnterprise();
-        break;
+            insertEnterprise();
+            break;
         case 'profession':
-        insertProfession();
-        break;
+            insertProfession();
+            break;
+        case 'saveBill':
+            insertBill($_POST['idBook'], $_POST['typeBill'], $_POST['totalBill'], $_POST['currentUser']);
+            break;
     }
 
     function insertProfession(){
@@ -161,8 +164,25 @@
                 }
             }
         }
+    }
 
-        
+    function insertBill($idBook, $typeBill, $totalBill, $responsible){
+        $database = new Database();
+        $insert = "";
+        date_default_timezone_set('America/Bogota');
+        $dateBill = date("Y")."-".date("m")."-".date("d");
+        if($typeBill==0)
+            $insert = "CALL proc_serie(".$idBook.", '".$dateBill."', ".$totalBill.", ".$responsible.")";
+        else{
+            $insert = "CALL proc_orden_servicio(".$idBook.", '".$dateBill."', ".$totalBill.", ".$responsible.")";
+        }
+        try{
+            $database->connect()->exec($insert);
+            echo 'alert-s;Se ha generado la factura con éxito.';
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            echo 'alert-d;Error A4.1. Ha surgido un error al intentar agregar la factura';
+        }
     }
 
 
