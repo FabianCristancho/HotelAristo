@@ -215,11 +215,14 @@ function updateReservation(user){
 				
 				setTimeout(function(){
 					var href;
-
-					if(document.getElementById("payment-check").checked)
- 						href='/facturas/registrar';
+					
+					if(document.getElementById("checkon-check").checked)
+						if(document.getElementById("payment-check").checked)
+ 							href='/facturas/registrar';
+ 						else
+ 							href='/control_diario?date='+getDate(0);
  					else
- 						href='/control_diario?date='+getDate(0);
+						href='/reservas';
 					
  					location.href=href;
 
@@ -425,6 +428,12 @@ function sendProfession(){
  	sendUpdate("action=setCheckOn&idBooking="+reservation).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
- 		location.href='/control_diario?date='+getDate(0);
+
+ 		if(document.getElementById("payment-check").checked)
+ 			href='/facturas/registrar';
+ 		else
+ 			href='/control_diario?date='+getDate(0);
+
+ 		location.href=href;
  	});
  }

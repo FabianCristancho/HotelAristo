@@ -35,6 +35,7 @@
                 <p>Inicio</p>
             </button>
             
+            <?php if($user->getRole()!=4):?>
             <div class="dropdown menu-item">
                 <button id="registrar" class="main-menu-item">
                     <img src="/res/img/register-icon-black.png">
@@ -44,7 +45,9 @@
                 <div class="dropdown-content">
                     <a href="/reservas/registrar">Registar reserva</a>
                     <a href="/empresas/registrar">Registrar empresas</a>
+                    <?php if($user->getRole()==5):?>
                     <a href="/usuarios/registrar">Registrar usuarios</a>
+                    <?php endif;?>
                 </div>
             </div>
             
@@ -61,16 +64,17 @@
                     <a href="/clientes">Consultar clientes</a>
                 </div>
             </div>
-            
+            <?php endif; ?>
             <button id="control-diario" onclick="window.location.href = '/control_diario?date='+getDate(0);" class="main-menu-item menu-item">
                 <img src="/res/img/control-icon-black.png">
                 <p>Control diario</p>
             </button>
-            
+            <?php if($user->getRole()!=4):?>
             <button id="facturas" onclick="window.location.href = '/facturas';" class="main-menu-item menu-item">
                 <img src="/res/img/bill-icon-black.png">
                 <p>Facturación</p>
             </button>
+            <?php endif; ?>
         </div>
 
         <div class="user-area">

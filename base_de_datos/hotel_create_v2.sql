@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS personas(
 	fecha_expedicion DATE,
 	genero_persona CHAR(1),
 	fecha_nacimiento DATE,
-	tipo_sangre_rh VARCHAR(2),
+	tipo_sangre_rh VARCHAR(3),
 	telefono_persona VARCHAR(15) NOT NULL,
 	correo_persona VARCHAR(100),
 	tipo_persona CHAR(1) NOT NULL,
@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS registros_huesped(
 	id_registro_huesped INT(8) NOT NULL AUTO_INCREMENT,
 	id_huesped INT(8) NOT NULL,
 	id_registro_habitacion INT(8) NOT NULL,
+	estado_huesped VARCHAR(2),
 	CONSTRAINT regh_pk_idh PRIMARY KEY (id_registro_huesped)
 );
 
@@ -242,7 +243,7 @@ ALTER TABLE lugares ADD(
 
 
 ALTER TABLE personas ADD(
-	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/)),
+	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/,'RC')),
 	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M' /*MASCULINO*/, 'F' /*FEMENINO*/, 'O'/*OTRO*/)),
 	CONSTRAINT per_ck_tpp CHECK (tipo_persona IN ('U' /*USUARIO*/, 'C'/*CLIENTE*/,'A' /*AMBOS*/)),
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),
