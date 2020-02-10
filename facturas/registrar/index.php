@@ -158,7 +158,7 @@
 
                 <div class="option_bill">
                     <form action="">
-                        <button formtarget="_blank" id="generateBill" type="submit" class="button-add-book col-2">
+                        <button formtarget="_blank" id="generateBill" class="button-add-book col-2">
                             <span>GENERAR FACTURA</span>
                         </button>
                     </form>

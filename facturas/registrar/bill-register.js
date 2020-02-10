@@ -1,4 +1,5 @@
 var typeBill = 0;
+var idBook = -1;
 
 /**
 * Función encargada de buscar a la persona titular de la reserva, con el fin de generar una nueva factura
@@ -71,7 +72,8 @@ function searchTitular(input){
                 
                 buttonBill = document.getElementById("generateBill");
                 
-                buttonBill.onclick = function(){location.href='../../reportes/facturas?id='+data[8]+"&typeBill="+typeBill;};
+                idBook = data[8];
+                buttonBill.onclick = function(){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill; sendBill()};
                 
                 showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
             }else{
@@ -80,6 +82,24 @@ function searchTitular(input){
             }
         }
     });             
+}
+
+/**
+* Se encarga de almacenar la factura en la base de datos, de acuerdo a la reserva elegida
+**/
+function sendBill(){
+	$.ajax({
+		type: 'post',
+		url: '/includes/insert.php',
+		data: "entity=saveBill&idBook="+idBook+"&typeBill="+typeBill,
+		success: function (ans) {
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-d','No se pudo conectar con la base de datos');
+		}
+	});
 }
 
 /**
