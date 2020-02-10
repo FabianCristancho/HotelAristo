@@ -57,6 +57,10 @@
                 case 'reservation':
                     $this->reservationTable();
                     break;
+                
+                case 'bill':
+                    $this->billTable();
+                    break;
             }
         }
 
@@ -292,6 +296,30 @@
                 echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>';
                 echo '<td>'.($current['ica']==1?'Si':'No').'</td>';
                 echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
+                echo '</tr>'.PHP_EOL;
+            }
+        }
+        
+        
+        function billTable(){
+            $query = $this->connect()->prepare('SELECT id_factura, serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN CONCAT_WS(" ",pt.nombres_persona, pt.apellidos_persona) ELSE e.nombre_empresa END AS titular, CONCAT_WS(" ",pr.nombres_persona, pr.apellidos_persona) AS responsable, total_factura, DATE_FORMAT(fecha_factura, "%d/%m/%Y") AS fecha_factura, CASE WHEN f.tipo_factura="N" THEN 0 ELSE 1 END AS tipo
+                FROM facturas f INNER JOIN reservas r ON f.id_reserva=r.id_reserva
+                LEFT JOIN personas pr ON f.id_responsable = pr.id_persona
+                LEFT JOIN personas pt ON r.id_titular=pt.id_persona
+                LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
+                WHERE tipo_factura = "N"
+                ORDER by f.fecha_factura, f.serie_factura');
+            $query->execute();
+            
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td>'.$current['serie_factura'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['titular'].'</td>'.PHP_EOL;
+                echo '<td>'.'$ '.number_format($current['total_factura'], 0, '.', '.').'</td>'.PHP_EOL;
+                echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
+                echo '<td><a class="button-more-info" class="col-10">Ver Detalles</a></td>';
+                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -559,6 +587,7 @@
                 echo $current['id_reserva'].';';
             }
             
+          
              $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -577,6 +606,8 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
             
+          
+          
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -596,7 +627,9 @@
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
             
-            $query = $this->connect()->prepare('SELECT nombre_servicio, valor_servicio
+            
+            
+            $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
@@ -610,9 +643,9 @@
             
             foreach ($query as $current){
                 echo "SERVICIO DE ".$current['nombre_servicio'].';';
-                echo '1;';
-                echo number_format($current['valor_servicio'], 0, '.', '.').';';
-                echo number_format($current['valor_servicio'], 0, '.', '.').';';
+                echo $current['cantidad_servicio'].';';
+                echo number_format($current['valor_unitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
             }
         }
         

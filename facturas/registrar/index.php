@@ -154,6 +154,7 @@
                     </div>
                 </div>
 
+                <input id="currentUser" value="<?php echo  $user->getId()?>" hidden></input>
                 
 
                 <div class="option_bill">

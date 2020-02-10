@@ -2,7 +2,7 @@
 
 DELIMITER $
 
-	CREATE PROCEDURE proc_serie(IN nid_reserva INT(8), IN nfecha_factura DATE)
+	CREATE PROCEDURE proc_serie(IN nid_reserva INT(8), IN nfecha_factura DATE, IN ntotalBill INT(8), IN nresponsable INT(8))
 	BEGIN
 		DECLARE maximo VARCHAR(10);
 		DECLARE num INT;
@@ -32,14 +32,14 @@ DELIMITER $
     		END IF;
     	END IF;
 
-    	INSERT INTO facturas (serie_factura, id_reserva, fecha_factura, tipo_factura) VALUES (codigo, nid_reserva, nfecha_factura, 'N');
+    	INSERT INTO facturas (serie_factura, id_reserva, fecha_factura, tipo_factura, total_factura, id_responsable) VALUES (codigo, nid_reserva, nfecha_factura, 'N', ntotalBill, nresponsable);
 END $
 
 
 -- PROCEDIMIENTO ALMACENADO SERIE ORDEN SERVICIO
 DELIMITER $
 
-    CREATE PROCEDURE proc_orden_servicio(IN nid_reserva INT(8), IN nfecha_factura DATE)
+    CREATE PROCEDURE proc_orden_servicio(IN nid_reserva INT(8), IN nfecha_factura DATE, IN ntotalBill INT(8), IN nresponsable INT(8))
     BEGIN
         DECLARE num INT;
         DECLARE codigo VARCHAR(10);
@@ -59,5 +59,5 @@ DELIMITER $
             SET codigo = (SELECT '000');
         END IF;
 
-        INSERT INTO facturas (serie_factura, id_reserva, fecha_factura, tipo_factura) VALUES (codigo, nid_reserva, nfecha_factura, 'O');
+        INSERT INTO facturas (serie_factura, id_reserva, fecha_factura, tipo_factura, total_factura, id_responsable) VALUES (codigo, nid_reserva, nfecha_factura, 'O', ntotalBill, nresponsable);
 END $
