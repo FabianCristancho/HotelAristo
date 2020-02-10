@@ -37,8 +37,11 @@
     function setHeader($role){
     	switch ($role) {
     		case 5:
-    		header('location: ../inicio');
-    			break;
+                header('location: ../inicio');
+                break;
+            case 4:
+                header('location: ../control_diario?date='.date('Y-m-d'));
+                break;
     	}
     	
     }

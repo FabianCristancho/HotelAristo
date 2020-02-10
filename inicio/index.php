@@ -62,6 +62,7 @@
                 <div class="title">
                     <p><strong>HOTEL ARISTO</strong></p>
                 </div>
+                <?php if($user->getRole()!=4):?>
                     <a href="/reservas/" class="button">
                         <p>Reservas</p>
                         <img src="../res/img/book-icon-white.png">
@@ -70,10 +71,12 @@
                         <p>Historial de Habitación</p>
                         <img src="/res/img/room-icon-white.png">
                     </a>
+                <?php endif;?>
                     <a onclick="window.location.href = '/control_diario?date='+getDate(0);" class="button">
                         <p>Control diario</p>
                         <img src="/res/img/control-icon-white.png">
                     </a>
+                    <?php if($user->getRole()!=4):?>
                     <a href="/usuarios/" class="button">
                         <p>Usuarios</p>
                         <img src="/res/img/use-whiter.png">
@@ -90,6 +93,7 @@
                         <p>Reportes</p>
                         <img src="/res/img/report-white.png">
                     </a>
+                <?php endif;?>
             </div>
         </div>
         

@@ -1,6 +1,13 @@
 <?php
     
     class Consult extends Database {
+        private $user;
+
+        public function __construct($user=null){
+            parent::__construct();
+            $this->user=$user;
+        }
+
         public function getList($entity, $aux,string $aux2=null){
             switch ($entity) {
                 case 'roomType':
@@ -271,9 +278,7 @@
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
-                echo '<td><a href="detalles?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Ver</a></td>'.PHP_EOL;
+                echo '<td>'.''.'</td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -297,14 +302,16 @@
         }
 
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN DATE_FORMAT(rg.fecha_ingreso, "%d/%m/%Y %H:%i") ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva, rg.total
                 FROM habitaciones h 
                 LEFT JOIN (
-                SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo 
+                SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo,
+                SUM(t.valor_ocupacion) total
                 FROM reservas r 
                 INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva 
                 INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion 
-                INNER JOIN personas c ON rh.id_huesped=c.id_persona  
+                INNER JOIN personas c ON rh.id_huesped=c.id_persona
+                INNER JOIN tarifas t ON rs.id_tarifa=t.id_tarifa  
                 WHERE date_format(r.fecha_ingreso,"%X-%m-%d")<="'.$date.'" 
                 AND date_format(r.fecha_salida,"%X-%m-%d") >="'.$date.'" 
                 AND (r.estado_reserva="RE" OR r.estado_reserva="AC") 
@@ -332,10 +339,11 @@
                 echo '</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
-                echo '<td>'.'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td>';
-                echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
+                echo '<td>'.$current['total'].'</td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckUp('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round green"></span></label></td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOut('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round yellow"></span></label></td>';
+                if($this->user->getRole()!=4)
+                    echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }

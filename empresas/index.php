@@ -30,10 +30,12 @@
         <title>Empresas registradas | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="shortcut icon" href="/res/img/famicon.png">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
@@ -60,14 +62,14 @@
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header col-12">
-                    <div class="row col-12">
+                    <div class="row-simple col-12">
                         <h2 class="title-form col-8">EMPRESAS REGISTRADAS</h2>
                         <a class="button-add-book col-2" href="registrar">Registrar empresa</a> 
                         <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
                     </div>
                 </div>
                 
-                <div class="scroll-block">
+                <div class="scroll-block col-12">
                     <table>
                         <thead>
                             <tr>
@@ -95,6 +97,7 @@
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../objects/footer.php"; 
+            include "../objects/alerts.php"; 
         ?>
-</body>
+    </body>
 </html>

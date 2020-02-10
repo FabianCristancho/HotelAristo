@@ -77,7 +77,7 @@
                     <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
                     <div class="sub-menu-right">
                         <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
-                        <button id="delete-btn" class="btn btn-red" onclick="deleteBooking(<?php echo $id;?>)">Eliminar</button>
+                        <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
                     </div>
                 </div>
 
@@ -222,5 +222,32 @@
             include "../../objects/alerts.php"; 
             include "../../objects/footer.php"; 
         ?>
+
+        <div id="confirm-delete" class="modal hideable" onclick="touchOutside(this);">
+            <div class="modal-content col-3 wrap-3">
+                 <div class="modal-header">
+                    <span onclick="hideModal('confirm-delete');" class="close">&times;</span>
+                    <h2>Confirmar eliminación</h2>
+                </div>
+
+                <div class="modal-body">
+                    <div>
+                        <div class="card-body">
+                            <div style="margin-top: 10px;">
+                                Por favor, confirme si desea eliminar esta reserva.
+                                <br>
+                                Recuerde que los clientes agregados no serán borrados con esta acción.<br>
+                                Para borrarlos se recomienda ir a <a href="/clientes">Consultar clientes</a> para esta acción.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-block btn-register" onclick="deleteBooking(<?php echo $id;?>);">
+                        <i class="fa fa-check"></i>
+                        <span>Confirmar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

@@ -39,6 +39,7 @@
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
@@ -63,9 +64,11 @@
         <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de los clientes registrados en la base de datos-->
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
-                <div class="content-header">
-                    <h2 class="title-form col-10">CLIENTES REGISTRADOS</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                <div class="content-header col-12">
+                    <div class="row-simple col-12">
+                        <h2 class="title-form col-10">CLIENTES REGISTRADOS</h2>
+                        <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
+                    </div>
                 </div>
                 
                 <div class="scroll-block">
@@ -76,9 +79,7 @@
                                 <th>NOMBRE</th>
                                 <th>NÚMERO DE DOCUMENTO</th>
                                 <th>TELÉFONO</th>
-                                <th>CORREO</th>
                                 <th>EMPRESA</th>
-                                <th>DETALLES</th>
                             </tr>
                         </thead>
                         

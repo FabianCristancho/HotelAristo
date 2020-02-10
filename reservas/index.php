@@ -7,6 +7,7 @@
     * @since     Versión 1.0
     * @version   1.0
     */
+
     /**
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
@@ -29,11 +30,11 @@
         <title>Reservas | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="/res/img/famicon.png" />
+        <link rel="shortcut icon" href="/res/img/famicon.png">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
-        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/modal.css">
         <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
@@ -45,22 +46,32 @@
     
     <!--Construcción de la vista-->
     <body>
-      <?php
+        <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../objects/menu.php"; 
         ?>
+        
+        <script type="text/javascript">
+            /**
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            */
+            setCurrentPage("consultar");
+        </script>
 
-        <!--Bloque que contiene una tabla con la información básica de las reservas-->
-        <div class="content col-12">
+        <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de las empresas registradas en la base de datos-->
+
+        <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
-               <div class="content-header">
-                    <h2 class="title-form col-10">RESERVAS DE HUÉSPEDES</h2>
-                    <a class="button-add-book col-2" href="registrar">Registrar reserva</a>
+                <div class="content-header col-12">
+                    <div class="row-simple col-12">
+                        <h2 class="title-form col-10">RESERVAS DE HUÉSPEDES</h2>
+                        <a class="button-add-book col-2" href="registrar">Registrar reserva</a>
+                    </div>
                 </div>
 
-                <div class="scroll-block">
+                <div class="scroll-block col-12">
                     <table>
                         <tr>
                           <th>N°</th>
@@ -92,7 +103,7 @@
             include "../objects/alerts.php"; 
         ?>
 
-        <div id="confirm-check-on" class="modal hideable">
+        <div id="confirm-check-on" class="modal hideable" onclick="touchOutside(this);">
             <div class="modal-content col-3 wrap-3">
                  <div class="modal-header">
                     <span onclick="hideModal('confirm-check-on');" class="close">&times;</span>
