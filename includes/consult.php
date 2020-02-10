@@ -8,7 +8,7 @@
             $this->user=$user;
         }
 
-        public function getList($entity, $aux,string $aux2=null){
+        public function getList($entity, $aux=null,string $aux2=null){
             switch ($entity) {
                 case 'roomType':
                     $this->roomTypeList($aux);
@@ -39,7 +39,7 @@
             }
         }
             
-        public function getTable($entity, $aux){
+        public function getTable($entity, $aux=null){
             switch ($entity) {
                 case 'room':
                     $this->roomTable($aux);

@@ -64,7 +64,7 @@
                     <a class="button-add-book col-2" href="registrar">Nueva factura</a>
                 </div>
                 <br>
-                <div class="scroll-block">
+                <div class="scroll-block col-12">
                     <table>
                         <thead>
                             <tr>
@@ -76,6 +76,7 @@
                                 <th></th>
                             </tr>
                         </thead>
+                        <?php $consult->getTable('bill','');?>
                     </table>
                 </div>
             </div>

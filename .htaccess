@@ -30,3 +30,5 @@ RewriteRule ^https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </FilesMatch>
 
 ErrorDocument 404 /404.php
+
+php_value date.timezone 'America/Bogota'
