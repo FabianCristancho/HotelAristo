@@ -1,5 +1,7 @@
 var typeBill = 0;
 var idBook = -1;
+var totalBill = 0;
+var user = "";
 
 /**
 * Función encargada de buscar a la persona titular de la reserva, con el fin de generar una nueva factura
@@ -29,7 +31,8 @@ function searchTitular(input){
                 
                 
                 var valueLabels = body.getElementsByTagName("label");
-                valueLabels[4].innerHTML = data[0]+" "+data[1];
+                user = document.getElementById("currentUser").value;
+                valueLabels[4].innerHTML = data[0]+" "+data[1]+" valor es: "+user;
                 valueLabels[5].innerHTML = data[6];
                 valueLabels[6].innerHTML = data[3];
                 valueLabels[7].innerHTML = data[2];
@@ -40,6 +43,7 @@ function searchTitular(input){
                 
                 var body= search.parentElement.getElementsByClassName("col-12")[3];
                 document.getElementById("myTable").innerHTML = "";
+                
 
                 var count = 0;
                 var classTable = "";
@@ -61,7 +65,6 @@ function searchTitular(input){
                 }
                 
                 var valueTotals = document.getElementsByClassName("totals");
-                var totalBill = 0;
 
                 for(var i = 0; i<valueTotals.length; i++){
                     totalBill += parseInt(valueTotals[i].innerHTML.replace('.', ''));
@@ -72,8 +75,9 @@ function searchTitular(input){
                 
                 buttonBill = document.getElementById("generateBill");
                 
+                
                 idBook = data[8];
-                buttonBill.onclick = function(){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill; sendBill()};
+                buttonBill.onclick = function(){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW"; sendBill()};
                 
                 showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
             }else{
@@ -88,10 +92,11 @@ function searchTitular(input){
 * Se encarga de almacenar la factura en la base de datos, de acuerdo a la reserva elegida
 **/
 function sendBill(){
+    $hola = 1;
 	$.ajax({
 		type: 'post',
 		url: '/includes/insert.php',
-		data: "entity=saveBill&idBook="+idBook+"&typeBill="+typeBill,
+		data: "entity=saveBill&idBook="+idBook+"&typeBill="+typeBill+"&totalBill="+totalBill+"&currentUser="+user,
 		success: function (ans) {
 			var data=ans.split(";");
 			showAlert(data[0],data[1]);
