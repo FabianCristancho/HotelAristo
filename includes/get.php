@@ -31,5 +31,8 @@
         case 'bookingRooms':
             $consult->getBookingRooms($_POST['id']);
             break;
+        case 'searchTitular':
+           $consult->getTitular($_POST['idTitular']);
+            break;
     }
 ?>
