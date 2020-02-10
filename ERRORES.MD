@@ -10,3 +10,6 @@
 
 ## 3. Profesiones
 * A3.1. Error al agregar una profesion
+
+## 4. Facturas
+* A4.1. Error al agregar una factura

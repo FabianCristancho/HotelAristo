@@ -79,7 +79,7 @@
         </script>
 
         <!--Bloque encargado de mostrar los detalles correspondientes a la factura de una reserva-->
-        <div class="col-11 content">
+        <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header col-12">
                     <div class="row col-12">
@@ -178,7 +178,7 @@
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../../objects/footer.php"; 
-            include "../../objects/alerts.php";
+            include "../../objects/alerts.php"; 
         ?>
     </body>
 </html>
