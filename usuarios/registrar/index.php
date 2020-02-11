@@ -14,6 +14,8 @@
     
     if(isset($_SESSION['user'])){
         $user->updateDBUser($userSession->getSession());
+        if($user->getRole()!=5)
+            header('location: /login');
     }else{
         header('location: /login');
     }

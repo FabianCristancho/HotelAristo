@@ -60,6 +60,7 @@
             }
         }
             
+
         /**
         * Se encarga de la construcción de una tabla para las salidas del sistema; dicha tabla va a depender de los valores que se pasen por parámetro
         * @param $entity Entidad a la cual se le va a construir la tabla
@@ -97,7 +98,6 @@
             }
         }
 
-    
         /**
         * Construye una lista de ciudades de acuerdo al pais que llega por parámetro
         * @param $country entidad que es pasada por parámetro
@@ -138,7 +138,7 @@
                 echo '<option value="'.$current['id_servicio'].'">'.$current['nombre_servicio'].' ('.$current['valor_servicio'].') '.'</option>';
             }
         }
-
+      
         /**
         * Obtiene una lista de paises
         */
@@ -254,7 +254,7 @@
             echo "<option value='O'>Otro</option>";
             return false;
         }
-        
+      
         /**
         * Se encarga de dar formato a un precio determinado
         * @param $price precio al que se le asignará un formato
@@ -753,7 +753,7 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
-            
+
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -772,7 +772,7 @@
                 echo number_format($current['valor_unitario'], 0, '.', '.').';';
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
-            
+
             $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -840,7 +840,6 @@
             return $serie;
         }
         
-        
         /**
         * Obtiene la siguiente serie que se va a generar de una factura
         */
@@ -865,7 +864,7 @@
             foreach ($query as $current){
                 $num = $current['lastNum'];
             }
-            
+           
             $code = "";
             if($num>=0 && $num<=8){
                 $num = $num+1;

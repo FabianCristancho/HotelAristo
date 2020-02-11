@@ -326,6 +326,41 @@ function updateEnterprise(){
  	}
  }
 
+  function setCheckUp(reservation, input){
+ 	var modal= document.getElementById("confirm-check-up");
+ 	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
+ 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
+ 	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
+	
+ 	if(input.checked){
+ 		modal.addEventListener("click", function(){
+ 			window.onclick = function(event) {
+ 				if (event.target == modal){ 
+ 					input.checked=false;
+ 					modal.style.display="none";
+ 				}
+ 			}});
+ 		showModal('confirm-check-up');
+ 	}
+ }
+
+ function setCheckOut(reservation, input){
+ 	var modal= document.getElementById("confirm-check-out");
+ 	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
+ 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
+ 	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
+	
+ 	if(input.checked){
+ 		modal.addEventListener("click", function(){
+ 			window.onclick = function(event) {
+ 				if (event.target == modal){ 
+ 					input.checked=false;
+ 					modal.style.display="none";
+ 				}
+ 			}});
+ 		showModal('confirm-check-out');
+ 	}
+ }
  
 function createElement(tag,inner,classes,id){
 	var e=document.createElement(tag);

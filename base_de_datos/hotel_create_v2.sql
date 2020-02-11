@@ -248,7 +248,7 @@ ALTER TABLE lugares ADD(
 
 
 ALTER TABLE personas ADD(
-	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/)),
+	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/,'RC')),
 	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M' /*MASCULINO*/, 'F' /*FEMENINO*/, 'O'/*OTRO*/)),
 	CONSTRAINT per_ck_tpp CHECK (tipo_persona IN ('U' /*USUARIO*/, 'C'/*CLIENTE*/,'A' /*AMBOS*/)),
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),

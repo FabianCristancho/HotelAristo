@@ -1,10 +1,10 @@
-        <div class="card">
-            <div class="card-header">
-                <strong class="card-title">REPORTE DE ESTADISTICAS POR MES</strong>
-            </div>
+        <form action="/reportes/excel/plantilla.php" method="post">
+            <div class="card">
+                <div class="card-header">
+                    <strong class="card-title">REPORTE DE ESTADISTICAS POR MES</strong>
+                </div>
 
-            <form action="/reportes/excel/plantilla.php" method="post">
-                <div class="card-body">
+                 <div class="card-body">
                     <div class="form-group in-row">
                         <label class="form-control-label">Fecha para reporte</label>
                         <div class="input-group">
@@ -16,10 +16,9 @@
                         <small class="form-text text-muted">ej. noviembre de 2019</small>
                     </div>
                 </div>
-
-                <button type="submit" class="btn btn-block btn-register">
-                    <i class="fa fa-file-excel-o"></i>
-                    <span>Imprimir reporte</span>
-                </button>
-            </form>
-        </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-register">
+                <i class="fa fa-file-excel-o"></i>
+                <span>Imprimir reporte</span>
+            </button>
+        </form>
