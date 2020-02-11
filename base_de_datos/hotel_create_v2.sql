@@ -153,8 +153,7 @@ CREATE TABLE IF NOT EXISTS reservas (
 	medio_pago CHAR(2),
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
-	valor_pagado INT(7) NOT NULL,
-	saldo INT(7) NOT NULL,
+	abono_reserva INT(8),
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
@@ -194,8 +193,7 @@ CREATE TABLE IF NOT EXISTS peticiones(
 	id_producto INT(3),
 	estado_peticion CHAR(1) NOT NULL,
 	hora_peticion TIME NOT NULL,
-	valor_pagado INT(6) NOT NULL,
-	saldo INT(6) NOT NULL,
+	abono_peticion INT(6),
 	medio_pago CHAR(1) NOT NULL,
 	cantidad_producto INT(2),
 	cantidad_servicio INT(3),
@@ -248,7 +246,7 @@ ALTER TABLE lugares ADD(
 
 
 ALTER TABLE personas ADD(
-	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/,'RC')),
+	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/)),
 	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M' /*MASCULINO*/, 'F' /*FEMENINO*/, 'O'/*OTRO*/)),
 	CONSTRAINT per_ck_tpp CHECK (tipo_persona IN ('U' /*USUARIO*/, 'C'/*CLIENTE*/,'A' /*AMBOS*/)),
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),
