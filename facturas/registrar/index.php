@@ -45,6 +45,7 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquerymask.js"></script>
         <script type="text/javascript" src="bill-register.js"></script>
         <!--<script>
             function changeSelect(){
@@ -79,7 +80,7 @@
         </script>
 
         <!--Bloque encargado de mostrar los detalles correspondientes a la factura de una reserva-->
-        <div class="col-12 content">
+        <div class="col-11 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header col-12">
                     <div class="row col-12">
@@ -114,7 +115,7 @@
                                     <div class="input-group-icon">
                                         <i class="fa fa-search"></i>
                                     </div>
-                                    <input class="form-control" type="number" placeholder="Documento" maxlength="15" minlength="7" onkeypress="return validateNumericValue(event);">
+                                    <input class="form-control" type="text" placeholder="Documento" maxlength="15" minlength="7"  onkeypress="return validateNumericValue(event);" onkeydown="$(this).mask('0000000000');">
                                     <button type="button" onclick="searchTitular(this.previousElementSibling);"><i class="fa fa-search"></i></button>
                                 </div>
                                 <small class="form-text text-muted">ej. 102055214</small>
@@ -178,7 +179,7 @@
             * Incluye la implementación del archivo que contiene el footer con la información de la aplicación web
             */
             include "../../objects/footer.php"; 
-            include "../../objects/alerts.php"; 
+            include "../../objects/alerts.php";
         ?>
     </body>
 </html>
