@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
     * Archivo que contiene el reporte con las empresas asociadas con el hotel
     * @package   reportes.empresas
@@ -13,7 +14,8 @@
     */
     include '../../includes/classes.php';
     include '../report.php';
-
+    
+    
     $user = new User();
     $userSession = new UserSession();
 
@@ -35,6 +37,7 @@
     **/
     $idBook = $_GET['id'];
     $typeBill = $_GET['typeBill'];
+    $serie = $_GET['serie'];
     $rowsNum = 0;
 
     // Declaración de la consulta - datos personales
@@ -81,13 +84,13 @@
     $queryServices->execute(['idReserva'=>$idBook]);
     $rowsNum += $queryServices->rowCount(); 
 
-
+    
     
     /**
     * Asignación del tamaño y márgenes de la hoja
     **/
-    $orientation = "L";
-    $pageSize = array(140, 216);
+    $orientation = "P";
+    $pageSize = array(216, 279);
     if($rowsNum > 6){
         $orientation = "P";
         $pageSize = array(216, 279);
@@ -97,24 +100,25 @@
     $pdf->SetAutoPageBreak(true,2); 
 
 
-    
-    
+
     $name;
     $document;
     $phone;
     $enterprise;
     $textBill = "";
-    $serie = "";
     $listRooms = "";
     $dateIn;
     $dateOut;
 
     if($typeBill==0){
         $textBill = "  FACTURA DE VENTA  ";
-        $serie = $consult->getNextSerieBill();
+        if(strcmp($serie, 'NEW') == 0)
+            $serie = $consult->getLastSerieBill();
+        
     }else{
         $textBill = "ORDEN DE SERVICIO";
-        $serie = $consult->getNextSerieOrder();
+        if(strcmp($serie, 'NEW') == 0)
+            $serie = $consult->getLastSerieOrder();
     }
     
     foreach($queryPersonalData  as $current){
@@ -140,7 +144,7 @@
     $pdf->MultiCell(50, 7, utf8_decode($textBill.' NO.   '.$serie), 'LTRB', 'C', 0);
 
     setlocale(LC_ALL,"es_CO");
-    
+    date_default_timezone_set('America/Bogota');
     
     $pdf->setXY(155,45);
     $pdf->Cell(20, 8, 'FECHA', 1, 0, 'C', 0);
@@ -272,8 +276,9 @@
     
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(80, 4, utf8_decode($user->getName()." ".$user->getLastName()), 0, 0, 'L', 0);
-
+    
 
     // Generación del reporte
     $pdf->Output();
+    ob_end_flush(); 
 ?>
