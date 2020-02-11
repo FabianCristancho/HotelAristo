@@ -1,7 +1,35 @@
 <?php
-    
+    /**
+    * Archivo que contiene la información pertinente a las consultas realizadas a la base de datos para generar correctamente las salidas del sistema
+    * @package   includes
+    * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
+    * @copyright Todos los derechos reservados. 2020.
+    * @since     Versión 1.0
+    * @version   1.0
+    */
+
+    /**
+    * Clase que extiende de Database y se encarga de almacenar las funciones referrentes a la consulta en la base de datos
+    */
     class Consult extends Database {
-        public function getList($entity, $aux,string $aux2=null){
+        private $user;
+
+        /**
+        * Constructor de la clase que asigna un valor al atributo $user, siempre y cuando el valor que llega por parámetro no es nulo
+        * @param $user Usuario que actualmente se encuentra logueado en el sistema
+        */
+        public function __construct($user=null){
+            parent::__construct();
+            $this->user=$user;
+        }
+
+        /**
+        * Obtiene una consulta por medio de una lista, dependiendo de los valores pasados por parámetro
+        * @param $entity Entidad a la cual se le va a realizar la lista
+        * @param $aux Variable auxiliar que puede llegar nula
+        * @param $aux2 Variable auxiliar usada para algunas consultas, y puede llegar como un valor nulo
+        */
+        public function getList($entity, $aux=null,string $aux2=null){
             switch ($entity) {
                 case 'roomType':
                     $this->roomTypeList($aux);
@@ -31,8 +59,13 @@
                     break;
             }
         }
-
-        public function getTable($entity, $aux){
+            
+        /**
+        * Se encarga de la construcción de una tabla para las salidas del sistema; dicha tabla va a depender de los valores que se pasen por parámetro
+        * @param $entity Entidad a la cual se le va a construir la tabla
+        * @param $aux Valor auxiliar que se puede necesitar en ciertas funciones. Puede ser un valor nulo
+        */
+        public function getTable($entity, $aux=null){
             switch ($entity) {
                 case 'room':
                     $this->roomTable($aux);
@@ -64,6 +97,11 @@
             }
         }
 
+    
+        /**
+        * Construye una lista de ciudades de acuerdo al pais que llega por parámetro
+        * @param $country entidad que es pasada por parámetro
+        */
         function cityList($country){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar 
                 FROM lugares 
@@ -75,6 +113,9 @@
             }
         }
 
+        /**
+        * Obtiene una lista de productos 
+        */
         public function getProductList(){
              $query = $this->connect()->prepare('SELECT id_producto,nombre_producto, valor_producto
                 FROM productos');
@@ -85,6 +126,9 @@
             }
         }
 
+        /**
+        * Obtiene una lista de servicios
+        */
         public function getServiceList(){
              $query = $this->connect()->prepare('SELECT id_servicio,nombre_servicio, valor_servicio
                 FROM servicios');
@@ -95,6 +139,9 @@
             }
         }
 
+        /**
+        * Obtiene una lista de paises
+        */
         public function countryList(){
             $query = $this->connect()->prepare('SELECT id_lugar,nombre_lugar 
                 FROM lugares 
@@ -105,6 +152,10 @@
                 echo '<option value="'.$current['id_lugar'].'">'.$current['nombre_lugar'].'</option>';
             }
         }
+        
+        /**
+        * Obtiene una lista de profesiones
+        */
         public function professionList(){
             $query = $this->connect()->prepare('SELECT id_profesion,nombre_profesion FROM profesiones');
             $query->execute();
@@ -114,6 +165,9 @@
             }
         }
 
+        /**
+        * Obtiene una lista de empresas
+        */
         function enterpriseList(){
             $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa FROM empresas');
             $query->execute();
@@ -123,6 +177,12 @@
             }
         }
 
+        /**
+        * Construye una lista de habitaciones de acuerdo a los parámetros asignados
+        * @param $type Tipo de habitación
+        * @param $startDate Fecha de ingreso de huésped (es)
+        * @param $finishDate Fecha de salida de huésped (es)
+        */
         public function roomTypeList($type,$startDate,$finishDate){
             $query = $this->connect()->prepare('SELECT id_habitacion,numero_habitacion 
                 FROM habitaciones h 
@@ -147,6 +207,12 @@
             return false;
         }
 
+        /**
+        * Construye una lista con la cantidad de habitaciones de acuerdo a los parámetros asignados
+        * @param $quantity Cantidad de huespedes para ser consultadas
+        * @param $startDate Fecha de ingreso de huésped (es)
+        * @param $finishDate Fecha de salida de huésped (es)
+        */
         public function roomQuantityList($quantity,$startDate,$finishDate){
             $query = $this->connect()->prepare('SELECT DISTINCT th.id_tipo_habitacion,th.nombre_tipo_habitacion
                 FROM tipos_habitacion th 
@@ -173,6 +239,11 @@
             return false;
         }
 
+        /**
+        * Construye una lista con tarifas de habitación, de acuerdo a los parámetros asignados
+        * @param $quantity Cantidad de huespedes a ser consultados
+        * @param $roomType Tipo de habitación
+        */
         public function tariffList($quantity,$roomType){
             $query = $this->connect()->prepare('SELECT id_tarifa,valor_ocupacion FROM tarifas WHERE cantidad_huespedes=:quantity AND id_tipo_habitacion=:roomType ORDER BY valor_ocupacion');
             $query->execute([':quantity'=>$quantity,':roomType'=>$roomType]);
@@ -184,6 +255,10 @@
             return false;
         }
         
+        /**
+        * Se encarga de dar formato a un precio determinado
+        * @param $price precio al que se le asignará un formato
+        */
         public function setFormatPrice($price){
             $length=strlen($price);
             $blocks=round($length/3);
@@ -199,7 +274,9 @@
             return $newValue;
         }
 
-
+        /**
+        * Construye una tabla con las reservas que en el momento se encuentran activas
+        */
         function reservationTable(){
             $query = $this->connect()->prepare('SELECT r.id_reserva,
                 date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
@@ -244,7 +321,10 @@
             }
         }
 
-       
+       /**
+        * Construye una tabla con los datos referentes a huéspedes que pertenecen a una empresa determinada
+        * @param $idEmpresa Código de la empresa a consultar
+        */
         function enterpriseCustomTable($idEnterprise){
             $query = $this->connect()->prepare('SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, valor_total FROM personas p 
                 LEFT JOIN reservas r ON r.id_cliente = p.id_persona 
@@ -263,6 +343,9 @@
             }                              
         }
         
+        /**
+        * Construye una tabla con los clientes almacenados en la base de datos
+        */
         function customerTable(){
             $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona 
                 FROM personas p 
@@ -275,14 +358,14 @@
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_profesion'].'</td>'.PHP_EOL;
-                echo '<td><a href="detalles?id='.$current['id_persona'].'" id="button-update-client" class="col-10">Ver</a></td>'.PHP_EOL;
+                echo '<td>'.''.'</td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
 
-        
+        /**
+        * Construye una tabla con las empresas almacenadas en la base de datos
+        */
         function enterpriseTable(){
             $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica 
                 FROM empresas');
@@ -300,7 +383,9 @@
             }
         }
         
-        
+        /**
+        * Construye una tabla con las facturas almacenadas en la base de datos
+        */
         function billTable(){
             $query = $this->connect()->prepare('SELECT id_factura, serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN CONCAT_WS(" ",pt.nombres_persona, pt.apellidos_persona) ELSE e.nombre_empresa END AS titular, CONCAT_WS(" ",pr.nombres_persona, pr.apellidos_persona) AS responsable, total_factura, DATE_FORMAT(fecha_factura, "%d/%m/%Y") AS fecha_factura, CASE WHEN f.tipo_factura="N" THEN 0 ELSE 1 END AS tipo
                 FROM facturas f INNER JOIN reservas r ON f.id_reserva=r.id_reserva
@@ -323,16 +408,22 @@
                 echo '</tr>'.PHP_EOL;
             }
         }
-
+            
+        /**
+        * Construye una tabla con las habitaciones que se encuentran con reserva activa en una fecha determinada
+        * @param $date Fecha que asigna un rango de consulta de las habitaciones
+        */
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN rg.fecha_ingreso ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN DATE_FORMAT(rg.fecha_ingreso, "%d/%m/%Y %H:%i") ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva, rg.total
                 FROM habitaciones h 
                 LEFT JOIN (
-                SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo 
+                SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo,
+                SUM(t.valor_ocupacion) total
                 FROM reservas r 
                 INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva 
                 INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion 
-                INNER JOIN personas c ON rh.id_huesped=c.id_persona  
+                INNER JOIN personas c ON rh.id_huesped=c.id_persona
+                INNER JOIN tarifas t ON rs.id_tarifa=t.id_tarifa  
                 WHERE date_format(r.fecha_ingreso,"%X-%m-%d")<="'.$date.'" 
                 AND date_format(r.fecha_salida,"%X-%m-%d") >="'.$date.'" 
                 AND (r.estado_reserva="RE" OR r.estado_reserva="AC") 
@@ -360,14 +451,18 @@
                 echo '</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
-                echo '<td>'.'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td>';
-                echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
+                echo '<td>'.$current['total'].'</td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckUp('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round green"></span></label></td>';
+                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOut('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round yellow"></span></label></td>';
+                if($this->user->getRole()!=4)
+                    echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
 
+        /**
+        * Realiza una consulta referente a los cargos de los usuarios del sistema
+        */
         function userComboRol(){
             $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos');
             $query->execute();
@@ -377,6 +472,9 @@
             }
         }
         
+        /**
+        * Realiza una consulta referente a los tipos de documento almacenados en la base de datos
+        */
         function typeDocument(){
             $query = $this->connect()->prepare('SELECT nombre_tipo FROM tipos_documento');
             $query->execute();
@@ -386,6 +484,10 @@
             }
         }
 
+        /**
+        * Realiza una consulta de las profesiones almacenadas en la base de datos y agrega a un combobox los valores que no coinciden con lo recibido por parámetro
+        * @param $currentProfession Profesión que se quiere comparar con los valores almacenados en la base de datos
+        */
         function getRemainingProfession($currentProfession){
             $query = $this->connect()->prepare('SELECT id_profesion, nombre_profesion FROM profesiones');
             $query->execute();
@@ -396,6 +498,10 @@
             }
         }
         
+        /**
+        * Realiza una consulta de los lugares de expedicion del documento almacenados en la base de datos y agrega a un combobox los valores que no coinciden con lo recibido por parámetro
+        * @param $currentExp Lugar de expedición que se quiere comparar con los valores almacenados en la base de datos
+        */
         function getRemainingExp($currentExp){
             $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="C" ORDER BY 2');
             $query->execute();
@@ -406,6 +512,10 @@
             }
         }
         
+        /**
+        * Realiza una consulta de los lugares de nacimiento del documento almacenados en la base de datos y agrega a un combobox los valores que no coinciden con lo recibido por parámetro
+        * @param $currentNac Lugar de nacimiento que se quiere comparar con los valores almacenados en la base de datos
+        */
         function getRemainingNac($currentNac){
             $query = $this->connect()->prepare('SELECT id_lugar, nombre_lugar FROM lugares WHERE tipo_lugar="P" ORDER BY 2');
             $query->execute();
@@ -416,6 +526,11 @@
             }
         }
         
+        /**
+        * Cambia el estado de selección de un elemento de acuerdo con el valor que se recibe por parámetro
+        * @param $state Estado de selección que se quiere obtener
+        * @return Estado de selección asignada
+        */
         function selectCheck($state){
             switch ($state){
                 case 0:
@@ -424,7 +539,12 @@
                     return 'checked';
             }
         }
-
+            
+        /**
+        * Obtiene el valor del tipo de habitación, de acuerdo a lo recibido por parámetro
+        * @param $type Letra que se recibe haciendo referencia al tipo de habitación
+        * @return Tipo de habitación expresada en palabras
+        */
         function roomType($type){
             switch ($type) {
                 case 'J':
@@ -438,6 +558,13 @@
             }
         }
 
+        /**
+        * Obtiene el estado de una habitación, de acuerdo con los parámetros que llegan
+        * @param $stateRoom Estado de la habitación
+        * @param $stateBook Estado de la reserva
+        * @param $date Fecha que es comparada con la fecha actual del sistema
+        * @return estado de la habitación
+        */
         function roomState($stateRoom, $stateBook,$date){
             if($stateRoom==0)
                 if($stateBook=="RE")
@@ -453,6 +580,10 @@
                 return 'Fuera de servicio';
         }
 
+        /**
+        * Obtiene los datos personales de un huésped, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código del huésped a consultar
+        */
         public function getPerson($id){
             $consult='SELECT id_persona,id_lugar_nacimiento,id_lugar_expedicion,id_profesion,
             nombres_persona,apellidos_persona,tipo_documento,numero_documento,
@@ -480,6 +611,10 @@
             }
         }
 
+        /**
+        * Obtiene los datos referentes a una reserva, de acuerdo con el parámetro que se recibe
+        * @param $id Código de la reserva a consultar
+        */
         public function getBooking($id){
             $query = $this->connect()->prepare('SELECT DISTINCT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
                 date_format(r.fecha_salida,"%X-%m-%d") fecha_salida, 
@@ -501,6 +636,10 @@
             }
         }
 
+        /**
+        * Obtiene los datos de una habitación con reserva, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código de la reserva a consultar
+        */
         public function getBookingRooms($id){
             $query = $this->connect()->prepare('SELECT t.cantidad_huespedes, t.id_tipo_habitacion,rh.id_habitacion, rc.id_huesped, p.numero_documento,t.id_tarifa, GROUP_CONCAT(rc.id_huesped) ids_huespedes,GROUP_CONCAT(p.numero_documento) docs_huespedes,
                 t.valor_ocupacion
@@ -524,9 +663,12 @@
             }
         }
 
-
+        /**
+        * Obtiene los datos tanto de habitación como de huésped(es) asignado a dicha habitación
+        * @param $id Código de la reserva a consultar
+        */
         public function getBookingTable($id){
-            $query = $this->connect()->prepare('SELECT numero_habitacion, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
+            $query = $this->connect()->prepare('SELECT numero_habitacion,p.id_persona, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre
                 FROM registros_habitacion rh
                 INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
                 INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
@@ -537,11 +679,15 @@
 
             foreach ($query as $current) {
                 echo '<tr><td>'.$current['numero_habitacion'].'</td>';
-                echo '<td>'.$current['nombre'].'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round yellow"></span></label></td></tr>';
+               echo '<td><a href="'.$current['id_persona'].'">'.$current['nombre'].'</a></td>';
             }
         }
 
+        /**
+        * Obtiene los datos de una habitación, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código de habitación a consultar
+        * @param $res Código de reserva a consultar
+        */
         public function getRoomTable($id,$res){
             $query = $this->connect()->prepare('SELECT p.id_persona, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombre,
                 p.numero_documento,p.telefono_persona
@@ -561,8 +707,11 @@
                 echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
             }
         }
-
-      
+            
+        /**
+        * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código de titular a consultar
+        */
         public function getTitular($id){
             $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
             FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
@@ -587,7 +736,6 @@
                 echo $current['id_reserva'].';';
             }
             
-          
              $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -606,8 +754,6 @@
                 echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
             }
             
-          
-          
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -626,8 +772,6 @@
                 echo number_format($current['valor_unitario'], 0, '.', '.').';';
                 echo number_format($current['valor_total'], 0, '.', '.').';';
             }
-            
-            
             
             $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
@@ -649,8 +793,10 @@
             }
         }
         
-        
-        
+        /**
+        * Obtiene la siguiente serie que se va a generar del orden de servicio
+        * @return Serie generada
+        */
         function getNextSerieOrder(){
 
             $query = $this->connect()->prepare('SELECT MAX(CAST(serie_factura AS INT)) AS last FROM facturas WHERE tipo_factura="O"');
@@ -678,12 +824,29 @@
             return $code;
         }
         
+        /**
+        * Obtiene la última orden de servicio que se encuentra almacenada en la base de datos
+        */
+        function getLastSerieOrder(){
+            $query = $this->connect()->prepare('SELECT MAX(serie_factura) AS last FROM facturas WHERE tipo_factura="O"');
+            $query->execute();
+            $serie;
+            $code = "";
+            
+            foreach ($query as $current){
+                $serie = $current['last'];
+            }
+            
+            return $serie;
+        }
         
         
+        /**
+        * Obtiene la siguiente serie que se va a generar de una factura
+        */
         function getNextSerieBill(){
             
             $letter=65;
-            
             $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facturas WHERE tipo_factura="N"');
             $query->execute();
             
@@ -702,7 +865,6 @@
             foreach ($query as $current){
                 $num = $current['lastNum'];
             }
-            
             
             $code = "";
             if($num>=0 && $num<=8){
@@ -726,6 +888,20 @@
             }
             return $code; 
         }
+        
+        /**
+        * Obtiene la última factura que se encuentra almacenada en la base de datos
+        */
+        function getLastSerieBill(){
+            $query = $this->connect()->prepare('SELECT MAX(serie_factura) AS last FROM facturas WHERE tipo_factura="N"');
+            $query->execute();
+            $serie;
+            $code = "";
+            
+            foreach ($query as $current){
+                $serie = $current['last'];
+            }
+            return $serie;
+        }
     }
-
 ?>
