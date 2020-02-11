@@ -77,11 +77,12 @@ function searchTitular(input){
                 
                 
                 idBook = data[8];
-                buttonBill.onclick = function(){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW"; sendBill()};
+                buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};
                 
                 showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
             }else{
                 showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+                alert("No se encontró ningun cliente con ese número de documento");
             }
         }
     });             
