@@ -10,14 +10,21 @@ function searchTitular(input){
     var rbutton = document.getElementsByName("typeId");
     var typeId = getRadioButtonSelectedValue(rbutton);
     if(typeId == 'CC'){
+        fullDataTPerson(input);
+    }else{
+        fullDataTEnterprise(input);
+    }
+}
+
+
+function fullDataTPerson(input){
     $.ajax({
         type: 'post',
         url: '/includes/get.php',
-        data: 'entity=searchTitular&idTitular='+input.value,
+        data: 'entity=searchTitularPerson&idTitular='+input.value,
         
         success:function(ans){
             var data=ans.split(";");
-            
             if(data.length>=14){
                 
                 var searchs=document.getElementsByClassName("card-search");
@@ -37,13 +44,11 @@ function searchTitular(input){
                 var valueLabels = body.getElementsByTagName("label");
                 user = document.getElementById("currentUser").value;
                 valueLabels[4].innerHTML = data[0]+" "+data[1];
-                valueLabels[5].innerHTML = data[6];
-                valueLabels[6].innerHTML = data[3];
-                valueLabels[7].innerHTML = data[2];
-                valueLabels[8].innerHTML = data[7];
-                valueLabels[9].innerHTML = data[4];
-                valueLabels[10].innerHTML = data[5];
-                
+                valueLabels[5].innerHTML = data[3];
+                valueLabels[6].innerHTML = data[2];
+                valueLabels[7].innerHTML = data[7];
+                valueLabels[8].innerHTML = data[4];
+                valueLabels[9].innerHTML = data[5];
                 
                 var body= search.parentElement.getElementsByClassName("col-12")[3];
                 document.getElementById("myTable").innerHTML = "";
@@ -75,8 +80,8 @@ function searchTitular(input){
                 }
                 
                 paidValue = data[data.length-1];
-                document.getElementById("paidValue").innerHTML=paidValue;
-                document.getElementById("valueTotal").innerHTML=totalBill-paidValue;
+                document.getElementById("paidValue").innerHTML=new Intl.NumberFormat("es-CO").format(paidValue);
+                document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill-paidValue);
                 
                 
                 buttonBill = document.getElementById("generateBill");
@@ -94,15 +99,118 @@ function searchTitular(input){
                 }
             }
         }
-    });  
-    }else{
-        alert("Es NIT");
-    }
+    }); 
 }
 
 
-function fullDataTPerson(){
-    
+function fullDataTEnterprise(input){
+    $.ajax({
+        type: 'post',
+        url: '/includes/get.php',
+        data: 'entity=searchTitularEnterprise&idTitular='+input.value,
+        
+        success:function(ans){
+            var data=ans.split(";");
+            if(data.length>=3){
+                
+                var searchs=document.getElementsByClassName("card-search");
+                var search;
+                
+                for (var i = 0; i < searchs.length; i++) {
+                    if(searchs[i].getElementsByTagName("input")[2]==input){
+                        search=searchs[i];
+                    }     
+                }
+                
+                
+                var body= search.parentElement.getElementsByClassName("infos")[0];
+                body.getElementsByTagName("input")[2].value = "";
+                
+                
+                var valueLabels = body.getElementsByTagName("label");
+                user = document.getElementById("currentUser").value;
+                valueLabels[4].innerHTML = data[0];
+                valueLabels[5].innerHTML = data[1];
+                valueLabels[6].innerHTML = data[2];
+                valueLabels[7].innerHTML = data[5];
+                valueLabels[8].innerHTML = data[3];
+                valueLabels[9].innerHTML = data[4];
+                
+                
+                var body= search.parentElement.getElementsByClassName("col-12")[3];
+                document.getElementById("myTable").innerHTML = "";
+                
+
+                var count = 0;
+                var classTable = "";
+                var resultRow = "";
+                for(var i = 7; i<data.length-1; i++){
+                    if(count==3)
+                        classTable = "class = totals";
+                    else
+                        classTable = 'class = ""';
+                    resultRow += "<td "+classTable+">"+data[i]+"</td>";
+                    count++;
+                    if(count==4){
+                        var myRow = document.createElement("tr");
+                        myRow.innerHTML = resultRow;
+                        document.getElementById("myTable").appendChild(myRow);
+                        count = 0;
+                        resultRow = "";
+                    }
+                }
+                
+                var valueTotals = document.getElementsByClassName("totals");
+
+                for(var i = 0; i<valueTotals.length; i++){
+                    totalBill += parseInt(valueTotals[i].innerHTML.replace('.', ''));
+                }
+                
+                paidValue = data[data.length-1];
+                document.getElementById("paidValue").innerHTML=new Intl.NumberFormat("es-CO").format(paidValue);
+                document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill-paidValue);
+                
+                
+                buttonBill = document.getElementById("generateBill");
+                
+                
+                idBook = data[6];
+                buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};
+                
+                showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
+            }else{
+                if(document.getElementsByTagName("input")[2].value==""){
+                    showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
+                }else{
+                    showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+                }
+            }
+        }
+    }); 
+}
+
+function changeToEnterprise(){
+    var example = document.getElementsByTagName("small")[0];
+    example.innerHTML = "ej. 900665829-7";
+    var namePerson = document.getElementById("namePerson");
+    namePerson.innerHTML = "Empresa: ";
+    var typeId = document.getElementById("numberId");
+    typeId.innerHTML = "NIT: ";
+    var mask = document.getElementsByTagName("input")[2];
+    mask.value = "";
+    mask.onkeydown = function(){$(mask).mask('000000000-0', {reverse: true})};
+}
+
+function changeToPerson(){
+    var example = document.getElementsByTagName("small")[0];
+    example.innerHTML = "ej. 102055214";
+    var namePerson = document.getElementById("namePerson");
+    namePerson.innerHTML = "Nombre: ";
+    var typeId = document.getElementById("numberId");
+    typeId.innerHTML = "Número de Documento: ";
+    var mask = document.getElementsByTagName("input")[2];
+    mask.value = "";
+    mask.onkeydown = function(){$(mask).mask('0000000000')};
 }
 
 /**
