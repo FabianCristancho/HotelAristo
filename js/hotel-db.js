@@ -433,7 +433,7 @@ function sendProfession(){
  		showAlert(data[0],data[1]);
 
  		if(document.getElementById("payment-check").checked)
- 			href='/facturas/registrar';
+ 			href='/facturas/registrar?id='+reservation;
  		else
  			href='/control_diario?date='+getDate(0);
 
