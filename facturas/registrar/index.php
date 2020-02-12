@@ -99,14 +99,14 @@
                 <div class="card-search">
                     <div class="infos">
                         <div class="row">
-                            <div class="form-group in-row" hidden>
+                            <div class="form-group in-row">
                                 <label class="form-control-label"><b>Tipo de identificación del titular</b></label>
                                 <div class="input-group">
                                     <label>Cédula&nbsp;&nbsp;</label>
-                                    <input type="radio" name="typeId" value="Documento" checked>
+                                    <input type="radio" name="typeId" value="CC" checked>
                                     &nbsp;&nbsp;&nbsp;
                                     <label>NIT&nbsp;&nbsp;</label>
-                                    <input type="radio" name="typeId">
+                                    <input type="radio" name="typeId" value="NIT">
                                 </div>
                             </div>
                             <div class="form-group in-row">
@@ -148,8 +148,15 @@
                         <table>
                             <tr class="long_letters">
                                 <td class="long_totals"></td>
-                                <td><b>Total $</b></td>
-                                <td class="long_values" id="valueTotal">$</td>
+                                <td><b>Valor Abonado ($)</b></td>
+                                <td class="long_values" id="paidValue"><b></b></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr class="long_letters">
+                                <td class="long_totals"></td>
+                                <td><b>Valor Total ($)</b></td>
+                                <td class="long_values" id="valueTotal"><b></b></td>
                             </tr>
                         </table>
                     </div>

@@ -7,6 +7,9 @@ var user = "";
 * Función encargada de buscar a la persona titular de la reserva, con el fin de generar una nueva factura
 **/
 function searchTitular(input){
+    var rbutton = document.getElementsByName("typeId");
+    var typeId = getRadioButtonSelectedValue(rbutton);
+    if(typeId == 'CC'){
     $.ajax({
         type: 'post',
         url: '/includes/get.php',
@@ -14,7 +17,8 @@ function searchTitular(input){
         
         success:function(ans){
             var data=ans.split(";");
-            if(data.length>=8){
+            
+            if(data.length>=14){
                 
                 var searchs=document.getElementsByClassName("card-search");
                 var search;
@@ -32,7 +36,7 @@ function searchTitular(input){
                 
                 var valueLabels = body.getElementsByTagName("label");
                 user = document.getElementById("currentUser").value;
-                valueLabels[4].innerHTML = data[0]+" "+data[1]+" valor es: "+user;
+                valueLabels[4].innerHTML = data[0]+" "+data[1];
                 valueLabels[5].innerHTML = data[6];
                 valueLabels[6].innerHTML = data[3];
                 valueLabels[7].innerHTML = data[2];
@@ -70,7 +74,9 @@ function searchTitular(input){
                     totalBill += parseInt(valueTotals[i].innerHTML.replace('.', ''));
                 }
                 
-                document.getElementById("valueTotal").innerHTML=totalBill;
+                paidValue = data[data.length-1];
+                document.getElementById("paidValue").innerHTML=paidValue;
+                document.getElementById("valueTotal").innerHTML=totalBill-paidValue;
                 
                 
                 buttonBill = document.getElementById("generateBill");
@@ -81,18 +87,28 @@ function searchTitular(input){
                 
                 showAlert("alert-s","Se encontró al cliente con el número de documento ingresado");
             }else{
-                showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
-                alert("No se encontró ningun cliente con ese número de documento");
+                if(document.getElementsByTagName("input")[2].value==""){
+                    showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
+                }else{
+                    showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+                }
             }
         }
-    });             
+    });  
+    }else{
+        alert("Es NIT");
+    }
+}
+
+
+function fullDataTPerson(){
+    
 }
 
 /**
 * Se encarga de almacenar la factura en la base de datos, de acuerdo a la reserva elegida
 **/
 function sendBill(){
-    $hola = 1;
 	$.ajax({
 		type: 'post',
 		url: '/includes/insert.php',
