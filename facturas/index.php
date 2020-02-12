@@ -74,6 +74,7 @@
                                 <th>VALOR FACTURADO($)</th>
                                 <th>RESPONSABLE</th>
                                 <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <?php $consult->getTable('bill','');?>

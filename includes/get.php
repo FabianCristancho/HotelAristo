@@ -37,5 +37,8 @@
         case 'searchTitularEnterprise':
            $consult->getTitularEnterprise($_POST['idTitular']);
             break;
+        case 'getRoomQuantity':
+            $consult->roomQuantityList('S',$_POST['startDate'],$_POST['finishDate']);
+            break;
     }
 ?>

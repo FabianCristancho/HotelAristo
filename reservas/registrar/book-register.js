@@ -524,17 +524,23 @@ function setValues(input,data){
 	inputs[0].value=data[4];
 	inputs[1].value=data[5];
 	inputs[2].value=data[7];
-	inputs[3].value=data[9];//resolve
-	inputs[4].value=data[11];
-	inputs[5].value=data[12];
-	inputs[6].value=data[9];
+	inputs[3].value=data[11];
+	inputs[4].value=data[12];
+	inputs[5].value=data[9];
 	search.parentElement.getElementsByClassName("id-container")[0].innerHTML=data[0];
 	selects[0].value=data[6];
 	selects[1].value=1;
 	selects[2].value=data[2];
 	selects[3].value=data[8];
-	selects[4].value=data[10].charAt(0);
-	selects[5].value=data[10].charAt(1);
+
+	if(data[10].length==3){
+		selects[4].value=data[10].subString(0,2);
+		selects[5].value=data[10].charAt(2);
+	}else{
+		selects[4].value=data[10].charAt(0);
+		selects[5].value=data[10].charAt(1);
+	}
+	
 	selects[6].value=(data[3]==""?"NULL":data[3]);
 	selects[7].value=data[1];
 

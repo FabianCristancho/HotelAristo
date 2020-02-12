@@ -83,7 +83,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="start-date" type="date" class="form-control" onchange="getDays();" name="start-date" required>
+												<input id="start-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="start-date" required>
 											</div>
 											<small class="form-text text-muted">ej. 01/01/2020</small>
 										</div>
@@ -94,7 +94,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="finish-date" type="date" class="form-control" onchange="getDays();" name="finish-date" autofocus required>
+												<input id="finish-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="finish-date" autofocus required>
 											</div>
 											<small class="form-text text-muted">ej. 02/01/2020</small>
 										</div>
@@ -316,6 +316,7 @@
 							<div class="input-group-icon">
 								<i class="fa fa-bank"></i>
 							</div>
+
 							<select class="form-control">
 								<?php $consult->getList('enterprise',''); ?>
 							</select>
@@ -325,5 +326,25 @@
         		</div>
         	</div>
         </div>
+
+        <script type="text/javascript">
+			function getRoomQuantity(){
+				var start=document.getElementById('start-date').value;
+				var finish=document.getElementById('finish-date').value;
+
+				$.ajax({
+					type:'post',
+					url:'/includes/get.php',
+					data:'entity=getRoomQuantity&startDate='+start+'&finishDate='+finish
+				}).then(function(ans){
+					var types=document.getElementsByClassName("room-type");
+					
+					for (var i = 0; i < types.length; i++) {
+						types[i].innerHTML=ans;
+						types[i].onchange.call();
+					}
+				});
+			}	
+		</script>
 	</body>
 </html>
