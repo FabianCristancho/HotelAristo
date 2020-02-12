@@ -11,7 +11,7 @@
                     <div class="input-group-icon">
                         <i class="fa fa-industry"></i>
                     </div>
-                    <input class="form-control" type="text" id="nit" placeholder="NIT" onkeydown="$(this).mask('000000000-0');" required>
+                    <input class="form-control" type="text" id="nit" placeholder="NIT" onkeydown="$(this).mask('0000000000000000000-0', {reverse: true});" required>
                 </div>
                 <small class="form-text text-muted">ej. 123456789-1</small>
             </div>

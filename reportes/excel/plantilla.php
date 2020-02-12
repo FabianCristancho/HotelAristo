@@ -390,7 +390,7 @@
     
     
     
-    
+    header('Content-Disposition: attachment;filename="Reporte estadisticas'.$desiredMonth.'-'.$desiredYear.'.xlsx"');
 
     header('Content-Disposition: attachment;filename="REPORTE ESTADISTICAS '.$desiredMonth.'-'.$desiredYear.'.xlsx"');
 

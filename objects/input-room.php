@@ -30,7 +30,7 @@
 													<i class="fa fa-bed"></i>
 												</div>
 
-												<select class="form-control" required>
+												<select class="form-control room-type" required>
 													<?php $consult->roomQuantityList('S',"'".date("Y-m-d")."'","'".date_format(date_add(date_create(date("Y-m-d")),new DateInterval('P1D')),"Y-m-d")."'"); ?>
 							                    </select>
 											</div>
@@ -43,7 +43,7 @@
 													<i class="fa fa-bed"></i>
 												</div>
 
-												<select  class="form-control" required>
+												<select  class="form-control room-number" required>
 												 	<?php $consult->roomTypeList("1","'".date("Y-m-d")."'","'".date_format(date_add(date_create(date("Y-m-d")),new DateInterval('P1D')),"Y-m-d")."'"); ?>
 												</select>
 											</div>

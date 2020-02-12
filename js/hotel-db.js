@@ -94,6 +94,7 @@ function sendBooking(booking){
 
 function sendReservation(user){
 	const booking=prepareReservation(user);
+	var bookingId;
 
 	return sendBooking(booking).then(function(ans){
 		var data=ans.split(";");
@@ -102,10 +103,12 @@ function sendReservation(user){
 		if(data[2]==''){
 			setMessageOnLoading(data[1],"Booking");
 			return null;
-		}else
+		}else{
+			bookingId= data[0];
 			setMessageOnLoading(data[2],"Booking");
+		}
 
-		promises.push(sendRoom(booking.rooms[0], data[0], booking.isStaying, data[1]));
+		promises.push(sendRoom(booking.rooms[0],bookingId, booking.isStaying, data[1]));
 
 		for (var i = 1; i < booking.rooms.length; i++) {
 			promises.push(sendRoom(booking.rooms[i], data[0], false));
@@ -148,7 +151,7 @@ function sendReservation(user){
 
 					if(document.getElementById("checkon-check").checked)
 						if(document.getElementById("payment-check").checked)
- 							href='/facturas/registrar';
+ 							href='/facturas/registrar?id='+bookingId;
  						else
  							href='/control_diario?date='+getDate(0);
  					else
