@@ -63,8 +63,8 @@ CREATE TABLE IF NOT EXISTS empresas(
 CREATE TABLE IF NOT EXISTS servicios(
 	id_servicio INT(2) NOT NULL AUTO_INCREMENT,
 	nombre_servicio VARCHAR(30) NOT NULL,
-	descripcion_servicio VARCHAR(100),
 	valor_servicio INT(5) NOT NULL,
+	tipo_servicio CHAR(1) NOT NULL,
 	CONSTRAINT ser_pk_ids PRIMARY KEY (id_servicio)
 );
 
@@ -153,8 +153,7 @@ CREATE TABLE IF NOT EXISTS reservas (
 	medio_pago CHAR(2),
 	estado_pago_reserva CHAR(1) NOT NULL,
 	estado_reserva VARCHAR(2) NOT NULL,
-	valor_pagado INT(7) NOT NULL,
-	saldo INT(7) NOT NULL,
+	abono_reserva INT(8),
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
 
@@ -194,10 +193,10 @@ CREATE TABLE IF NOT EXISTS peticiones(
 	id_producto INT(3),
 	estado_peticion CHAR(1) NOT NULL,
 	hora_peticion TIME NOT NULL,
-	valor_pagado INT(6) NOT NULL,
-	saldo INT(6) NOT NULL,
+	abono_peticion INT(6),
 	medio_pago CHAR(1) NOT NULL,
 	cantidad_producto INT(2),
+	cantidad_servicio INT(3),
 	CONSTRAINT pet_pk_idp PRIMARY KEY(id_peticion)
 );
 
@@ -205,9 +204,12 @@ CREATE TABLE IF NOT EXISTS peticiones(
 CREATE TABLE IF NOT EXISTS facturas(
    	id_factura INT(5) NOT NULL AUTO_INCREMENT,
    	id_reserva INT(8) NOT NULL,
+   	id_responsable INT(8) NOT NULL,
    	serie_factura VARCHAR(5) NOT NULL,
+   	fecha_factura DATE NOT NULL,
    	estado_factura CHAR(1) NOT NULL,
    	tipo_factura CHAR(1) NOT NULL,
+   	total_factura INT(8) NOT NULL,
    	CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
@@ -215,7 +217,8 @@ CREATE TABLE IF NOT EXISTS facturas(
 /** Actualización de tablas **/
 
 ALTER TABLE servicios ADD(
-	CONSTRAINT serv_ck_val CHECK (valor_servicio > 0)
+	CONSTRAINT serv_ck_val CHECK (valor_servicio > 0),
+	CONSTRAINT serv_ck_tip CHECK (tipo_servicio IN('L'/*Lavandería*/, 'R'/*Restaurante*/))
 );
 
 
@@ -243,7 +246,7 @@ ALTER TABLE lugares ADD(
 
 
 ALTER TABLE personas ADD(
-	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/,'RC')),
+	CONSTRAINT per_ck_tpd CHECK (tipo_documento IN ('CC' /*CÉDULA DE CIUDADANÍA*/, 'TI' /*TARJETA DE IDENTIDAD*/, 'CE' /*CÉDULA DE EXTRANJERÍA*/, 'PS' /*PASAPORTE*/)),
 	CONSTRAINT per_ck_gnr CHECK (genero_persona IN ('M' /*MASCULINO*/, 'F' /*FEMENINO*/, 'O'/*OTRO*/)),
 	CONSTRAINT per_ck_tpp CHECK (tipo_persona IN ('U' /*USUARIO*/, 'C'/*CLIENTE*/,'A' /*AMBOS*/)),
 	CONSTRAINT per_fk_idln FOREIGN KEY (id_lugar_nacimiento) REFERENCES lugares (id_lugar),
@@ -291,6 +294,7 @@ ALTER TABLE peticiones ADD (
 
 ALTER TABLE facturas ADD(
 	CONSTRAINT fac_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
+	CONSTRAINT fac_fk_idres FOREIGN KEY (id_responsable) REFERENCES personas (id_persona),
    	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/))
 );
 

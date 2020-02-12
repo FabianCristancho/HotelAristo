@@ -386,14 +386,13 @@
 
 
     
-    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     
     
     
     header('Content-Disposition: attachment;filename="Reporte estadisticas'.$desiredMonth.'-'.$desiredYear.'.xlsx"');
 
-    /*header('Content-Disposition: attachment;filename="Reporte_Empresas.xlsx"');
-    */
+    header('Content-Disposition: attachment;filename="REPORTE ESTADISTICAS '.$desiredMonth.'-'.$desiredYear.'.xlsx"');
 
     $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');

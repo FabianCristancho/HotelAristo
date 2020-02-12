@@ -32,7 +32,7 @@
             $consult->getBookingRooms($_POST['id']);
             break;
         case 'searchTitular':
-           $consult->getTitular($_POST['idTitular']);
+           $consult->getTitularPerson($_POST['idTitular']);
             break;
         case 'getRoomQuantity':
             $consult->roomQuantityList('S',$_POST['startDate'],$_POST['finishDate']);
