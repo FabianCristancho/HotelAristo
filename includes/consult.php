@@ -60,7 +60,6 @@
             }
         }
             
-
         /**
         * Se encarga de la construcción de una tabla para las salidas del sistema; dicha tabla va a depender de los valores que se pasen por parámetro
         * @param $entity Entidad a la cual se le va a construir la tabla
@@ -98,6 +97,7 @@
             }
         }
 
+    
         /**
         * Construye una lista de ciudades de acuerdo al pais que llega por parámetro
         * @param $country entidad que es pasada por parámetro
@@ -138,7 +138,7 @@
                 echo '<option value="'.$current['id_servicio'].'">'.$current['nombre_servicio'].' ('.$current['valor_servicio'].') '.'</option>';
             }
         }
-      
+
         /**
         * Obtiene una lista de paises
         */
@@ -254,7 +254,7 @@
             echo "<option value='O'>Otro</option>";
             return false;
         }
-      
+        
         /**
         * Se encarga de dar formato a un precio determinado
         * @param $price precio al que se le asignará un formato
@@ -712,7 +712,7 @@
         * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
         * @param $id Código de titular a consultar
         */
-        public function getTitular($id){
+        public function getTitularPerson($id){
             $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
             FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
             LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
@@ -736,25 +736,26 @@
                 echo $current['id_reserva'].';';
             }
             
-             $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
+             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
-                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
                 WHERE numero_documento=:idPerson
                 AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
                                      FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                    WHERE numero_documento=:idPerson2);');
+                                    WHERE numero_documento=:idPerson2)
+                GROUP BY valorUnitario');
             $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
             
-            foreach ($query as $current){
-                echo "HABITACIÓN ".$current['numero_habitacion'].';';
-                echo '1;';
-                echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
-                echo number_format($current['valor_ocupacion'], 0, '.', '.').';';
+            foreach ($query as $current){  
+                echo "HOSPEDAJE HABITACIÓN ".$current['habitaciones'].';';
+                echo $current['cantidad'].';';
+                echo number_format($current['valorUnitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
             }
-
-            $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_producto*valor_producto) minibar
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
@@ -767,29 +768,46 @@
             $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
             
             foreach ($query as $current){
-                echo "PRODUCTO ".$current['nombre_producto'].';';
-                echo $current['cantidad_producto'].';';
-                echo number_format($current['valor_unitario'], 0, '.', '.').';';
-                echo number_format($current['valor_total'], 0, '.', '.').';';
+                if($current['minibar']!=Null){
+                    echo "MINIBAR".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['minibar'], 0, '.', '.').';';
+                }
             }
-
-            $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
             FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
             INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
             INNER JOIN peticiones pt ON cd.id_control=pt.id_control
             INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
             WHERE numero_documento=:idPerson
+            AND tipo_servicio = "L"
             AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
                                  FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
                                 WHERE numero_documento=:idPerson2)');
             $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
             
             foreach ($query as $current){
-                echo "SERVICIO DE ".$current['nombre_servicio'].';';
-                echo $current['cantidad_servicio'].';';
-                echo number_format($current['valor_unitario'], 0, '.', '.').';';
-                echo number_format($current['valor_total'], 0, '.', '.').';';
+                if($current['valor_lavanderia']!=Null){
+                    echo "SERVICIO DE LAVANDERÍA".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['valor_lavanderia'], 0, '.', '.').';';
+                }
+            }
+            
+            $query = $this->connect()->prepare('SELECT NVL(abono_reserva, 0)+ NVL(SUM(abono_peticion),0) AS abono
+                FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN peticiones pt ON pt.id_control=c.id_control
+                WHERE p.numero_documento=:idPerson');
+            $query->execute([':idPerson'=>$id]);
+            
+            foreach ($query as $current){
+                echo $current['abono'];
             }
         }
         
@@ -840,6 +858,7 @@
             return $serie;
         }
         
+        
         /**
         * Obtiene la siguiente serie que se va a generar de una factura
         */
@@ -864,7 +883,7 @@
             foreach ($query as $current){
                 $num = $current['lastNum'];
             }
-           
+            
             $code = "";
             if($num>=0 && $num<=8){
                 $num = $num+1;
