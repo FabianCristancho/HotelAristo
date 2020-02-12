@@ -51,39 +51,63 @@ ob_start();
 
 
     //Declaración de la consulta - habitaciones
-    $queryRoom = $db->connect()->prepare('SELECT numero_habitacion, valor_ocupacion
-                                        FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
-                                        LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
-                                        LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
-                                        LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
-                                        WHERE r.id_reserva=:idReserva');
+    $queryRoom = $db->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+                FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+                LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+                LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
+                WHERE r.id_reserva=:idReserva
+                GROUP BY valorUnitario');
     $queryRoom->execute(['idReserva'=>$idBook]);
     $rowsNum += $queryRoom->rowCount(); 
 
     
     //Declaración de la consulta - productos
-    $queryProducts = $db->connect()->prepare('SELECT nombre_producto, cantidad_producto, valor_producto AS valor_unitario, (cantidad_producto*valor_producto) AS valor_total
-                                        FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
-                                        INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
-                                        INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
-                                        INNER JOIN peticiones pt ON cd.id_control=pt.id_control
-                                        INNER JOIN productos pd ON pd.id_producto=pt.id_producto
-                                        WHERE r.id_reserva=:idReserva');
+    $queryProducts = $db->connect()->prepare('SELECT SUM(cantidad_producto*valor_producto) minibar
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN productos pd ON pd.id_producto=pt.id_producto
+            WHERE r.id_reserva=:idReserva');
     $queryProducts->execute(['idReserva'=>$idBook]);
     $rowsNum += $queryProducts->rowCount(); 
 
 
-    //Declaración de la consulta - servicios
-    $queryServices = $db->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
-                                        FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
-                                        INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
-                                        INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
-                                        INNER JOIN peticiones pt ON cd.id_control=pt.id_control
-                                        INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
-                                        WHERE r.id_reserva=:idReserva');
-    $queryServices->execute(['idReserva'=>$idBook]);
-    $rowsNum += $queryServices->rowCount(); 
+    //Declaración de la consulta - servicio de lavandería
+    $queryServiceLaundry = $db->connect()->prepare('SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE r.id_reserva=:idReserva
+            AND tipo_servicio = "L"');
+    $queryServiceLaundry->execute(['idReserva'=>$idBook]);
+    $rowsNum += $queryServiceLaundry->rowCount(); 
 
+
+    //Declaración de la consulta - servicio de restaurante
+    $queryServiceRes = $db->connect()->prepare('SELECT SUM(cantidad_servicio*valor_servicio) AS valor_restaurante
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE r.id_reserva=:idReserva
+            AND tipo_servicio = "R"');
+    $queryServiceRes->execute(['idReserva'=>$idBook]);
+    $rowsNum += $queryServiceRes->rowCount(); 
+
+    //Declaración de la consulta - servicio de restaurante
+    $queryPayValue = $db->connect()->prepare('SELECT NVL(abono_reserva, 0)+ NVL(SUM(abono_peticion),0) AS abono
+                FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN peticiones pt ON pt.id_control=c.id_control
+                WHERE r.id_reserva=:idReserva');
+    $queryPayValue->execute(['idReserva'=>$idBook]);
+    $rowsNum += $queryPayValue->rowCount(); 
     
     
     /**
@@ -216,52 +240,66 @@ ob_start();
     
     foreach($queryRoom as $current){
         $pdf->setX(6);
-        $pdf->Cell(104, 6, utf8_decode("HABITACIÓN ".$current['numero_habitacion']), 1, 0, 'C', 0);
-        $pdf->Cell(25, 6, utf8_decode("1"), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_ocupacion'], 0, '.', '.')), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_ocupacion'], 0, '.', '.')), 1, 1, 'C', 0);
-        $valueTotal+=$current['valor_ocupacion'];
+        $pdf->Cell(104, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
+        $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 1, 0, 'C', 0);
+        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 1, 0, 'C', 0);
+        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
+        $valueTotal+=$current['valor_total'];
     }
 
-
-
-    
 
     foreach($queryProducts as $current){
-        $pdf->setX(6);
-        $pdf->Cell(104, 6, utf8_decode("PRODUCTO ".$current['nombre_producto']), 1, 0, 'C', 0);
-        $pdf->Cell(25, 6, utf8_decode($current['cantidad_producto']), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_unitario'], 0, '.', '.')), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
-        $valueTotal+=$current['valor_total'];
+        if($current['minibar']!=Null){
+            $pdf->setX(6);
+            $pdf->Cell(104, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 1, 1, 'C', 0);
+            $valueTotal+=$current['minibar'];
+        }
     }
 
 
+    foreach($queryServiceLaundry as $current){
+        if($current['valor_lavanderia']!=Null){
+            $pdf->setX(6);
+            $pdf->Cell(104, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 1, 1, 'C', 0);
+            $valueTotal+=$current['valor_lavanderia'];
+        }
+    }
 
-    //Declaración de la consulta - servicios
-    $queryServices = $db->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, valor_servicio AS valor_unitario, (valor_servicio*cantidad_servicio) AS valor_total
-                                        FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
-                                        INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
-                                        INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
-                                        INNER JOIN peticiones pt ON cd.id_control=pt.id_control
-                                        INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
-                                        WHERE r.id_reserva=:idReserva');
-    $queryServices->execute(['idReserva'=>$idBook]);
+    
+    foreach($queryServiceRes as $current){
+        if($current['valor_restaurante']!=Null){
+            $pdf->setX(6);
+            $pdf->Cell(104, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 1, 1, 'C', 0);
+            $valueTotal+=$current['valor_restaurante'];
+        }
+    }
 
-    foreach($queryServices as $current){
-        $pdf->setX(6);
-        $pdf->Cell(104, 6, utf8_decode("SERVICIO DE ".$current['nombre_servicio']), 1, 0, 'C', 0);
-        $pdf->Cell(25, 6, utf8_decode($current['cantidad_servicio']), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_unitario'], 0, '.', '.')), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
-        $valueTotal+=$current['valor_total'];
+    $valuePay = 0;
+    foreach($queryPayValue as $current){
+        if($current['abono']!=0){
+            $pdf->setX(6);
+            $pdf->Cell(129, 6, "", 1, 0, 'L', 0);
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(35, 6, utf8_decode("VALOR ABONADO"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['abono'], 0, '.', '.')), 1, 1, 'C', 0);
+            $valuePay=$current['abono'];
+        }
     }
 
     $pdf->setX(6);
     $pdf->SetFont('Arial','B',10);
     $pdf->Cell(129, 10, utf8_decode("SON"), 1, 0, 'L', 0);
-    $pdf->Cell(35, 10, utf8_decode("TOTAL"), 1, 0, 'C', 0);
-    $pdf->Cell(35, 10, '$'.number_format($valueTotal, 0, '.', '.'), 1, 1, 'C', 0);
+    $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 1, 0, 'C', 0);
+    $pdf->Cell(35, 10, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
     $pdf->SetFont('Arial','',8);
     
     $pdf->setX(6);  
