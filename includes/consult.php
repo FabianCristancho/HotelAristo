@@ -811,6 +811,109 @@
             }
         }
         
+         /**
+        * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código de titular a consultar
+        */
+        public function getTitularEnterprise($id){
+            $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
+            FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+            LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+            LEFT JOIN empresas e ON r.id_empresa=r.id_reserva
+            WHERE numero_documento=:idPerson
+            AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+
+            foreach ($query as $current){
+                echo $current['nombres_persona'].';';
+                echo $current['apellidos_persona'].';';
+                echo $current['numero_documento'].';';
+                echo $current['telefono_persona'].';';
+                echo $current['fecha_ingreso'].';';
+                echo $current['fecha_salida'].';';
+                echo $current['nombre_empresa'].';';
+                echo $current['habitaciones'].';';
+                echo $current['id_reserva'].';';
+            }
+            
+             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+                FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+                LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+                LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
+                WHERE numero_documento=:idPerson
+                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                     FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                    WHERE numero_documento=:idPerson2)
+                GROUP BY valorUnitario');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){  
+                echo "HOSPEDAJE HABITACIÓN ".$current['habitaciones'].';';
+                echo $current['cantidad'].';';
+                echo number_format($current['valorUnitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
+            }
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_producto*valor_producto) minibar
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN productos pd ON pd.id_producto=pt.id_producto
+            WHERE numero_documento=:idPerson
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                if($current['minibar']!=Null){
+                    echo "MINIBAR".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['minibar'], 0, '.', '.').';';
+                }
+            }
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE numero_documento=:idPerson
+            AND tipo_servicio = "L"
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                if($current['valor_lavanderia']!=Null){
+                    echo "SERVICIO DE LAVANDERÍA".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['valor_lavanderia'], 0, '.', '.').';';
+                }
+            }
+            
+            $query = $this->connect()->prepare('SELECT NVL(abono_reserva, 0)+ NVL(SUM(abono_peticion),0) AS abono
+                FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN peticiones pt ON pt.id_control=c.id_control
+                WHERE p.numero_documento=:idPerson');
+            $query->execute([':idPerson'=>$id]);
+            
+            foreach ($query as $current){
+                echo $current['abono'];
+            }
+        }
+        
         /**
         * Obtiene la siguiente serie que se va a generar del orden de servicio
         * @return Serie generada
