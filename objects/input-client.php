@@ -14,7 +14,7 @@
 											<div class="input-group-icon">
 												<i class="fa fa-search"></i>
 											</div>
-											<input class="form-control" type="text" placeholder="Documento" maxlength="15" minlength="7" onkeypress="searchEvent(event,this,'person');" onkeydown="$(this).mask('000000000000');">
+											<input class="form-control" type="text" placeholder="Documento" maxlength="15" onkeypress="searchEvent(event,this,'person');" onkeydown="$(this).mask('000000000000');">
 											<button type="button" onclick="searchPerson(this.previousElementSibling);"><i class="fa fa-search"></i></button>
 										</div>
 										<small class="form-text text-muted">ej. 102055214</small>
@@ -67,26 +67,15 @@
 											</div>
 										</div>
 
-										<div class="form-group in-row col-5 padd">
+										<div class="form-group in-row col-8 padd">
 											<label class="form-control-label">Número de documento*</label>
 											<div class="input-group">
 												<div class="input-group-icon">
 													<i class="fa fa-id-card"></i>
 												</div>
-												 <input class="form-control" type="number" placeholder="Número de documento" minlength="6" maxlength="15">
+												 <input class="form-control" type="text" placeholder="Número de documento" minlength="6" maxlength="15" onkeydown="$(this).mask('000000000000000');">
 											</div>
-											<small class="form-text text-muted">ej. 12345678</small>
-										</div>
-
-										<div class="form-group in-row col-3 padd">
-											<label class="form-control-label">Fecha de expedición*</label>
-											<div class="input-group">
-												<div class="input-group-icon">
-													<i class="fa fa-calendar"></i>
-												</div>
-												<input class="form-control" type="date">
-											</div>
-											<small class="form-text text-muted">ej. 10/12/2004</small>
+											<small class="form-text text-muted">ej. 123456789</small>
 										</div>
 									</div>
 

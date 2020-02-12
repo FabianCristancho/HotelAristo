@@ -37,7 +37,8 @@
 		<link rel="stylesheet" type="text/css" href="/css/modal.css">
 		<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 		<script type="text/javascript" src="/js/moment.js"></script>
-		<script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquerymask.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
 	</head>

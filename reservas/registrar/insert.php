@@ -70,8 +70,8 @@
 
 	function insertReservation(){
 		$database= new Database();
-		$insert='INSERT INTO reservas (fecha_ingreso, fecha_salida,id_usuario,estado_reserva, estado_pago_reserva,valor_pagado,saldo';
-		$values=($_POST['state']=="RE"?"'".date('Y-m-d H:i:s')."'":"'".$_POST['startDate']."'").",'".$_POST['finishDate']."',".$_POST['user'].",'".$_POST['state']."','P',0,".$_POST['amount'];
+		$insert='INSERT INTO reservas (fecha_ingreso, fecha_salida,id_usuario,estado_reserva, estado_pago_reserva,abono_reserva';
+		$values=($_POST['state']=="RE"?"'".date('Y-m-d H:i:s')."'":"'".$_POST['startDate']."'").",'".$_POST['finishDate']."',".$_POST['user'].",'".$_POST['state']."','P',".$_POST['amount'];
 
 		if(isset($_POST['holder'])){
 			$insert=$insert.",id_titular";
