@@ -8,6 +8,9 @@
         case 'deleteBooking':
             deleteBooking();
             break;
+        case 'setCheckUp':
+            setCheckUp();
+            break;
     }
 
     function setCheckOn(){
@@ -21,6 +24,35 @@
             echo 'alert-s;Se ha cambiado el estado de la reserva.';
         }catch(PDOException $e){
             echo 'alert-d;Error U3.1. Error al actualizar estado de la reserva'.$e->getMessage();
+        }
+    }
+
+    function setCheckUp(){
+        $database=new Database();
+
+
+        $update="'' WHERE registros_huesped.id_registro_huesped = 1";
+
+        $data=explode("?", $_POST['values']);
+        $success=true;
+
+        for ($i=0; $i < count($data)-1; $i++) { 
+            $values=explode("_", $data[$i]);
+            $update="UPDATE registros_huesped SET estado_huesped = '".$values[1]."' WHERE id_registro_huesped=".$values[0];
+             $query=$database->connect()->prepare($update);
+            try{
+                $query->execute();
+            }catch(PDOException $e){
+                $success=false;
+            }
+        }
+       
+
+        if($success){
+           
+            echo 'alert-s;Se ha cambiado el estado de los huespedes de esta habitacion.';
+        }else{
+            echo 'alert-d;Error U5.1. Error al cambiar el estado de algun huesped'.$e->getMessage();
         }
     }
 

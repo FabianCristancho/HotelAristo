@@ -440,3 +440,22 @@ function sendProfession(){
  		location.href=href;
  	});
  }
+
+function confirmCheckUp(reservation, room){
+	var tableRows=document.getElementById("confirm-check-up").getElementsByTagName("tr");
+	var values="";
+	console.log(tableRows);
+	for (var i = 1; i < tableRows.length; i++) {
+		var cells=tableRows[i].getElementsByTagName("td");
+		values+=cells[0].innerHTML+"_"+(cells[2].getElementsByTagName("input")[0].checked?"CU":"CO")+"?";
+	}
+
+ 	sendUpdate("action=setCheckUp&values="+values).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
+
+ 		href='/control_diario?date='+getDate(0);
+
+ 		location.href=href;
+ 	});
+ }

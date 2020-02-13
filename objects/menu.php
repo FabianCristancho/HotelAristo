@@ -45,7 +45,7 @@
                 <div class="dropdown-content">
                     <a href="/reservas/registrar">Registar reserva</a>
                     <a href="/empresas/registrar">Registrar empresas</a>
-                    <?php if($user->getRole()==5):?>
+                    <?php if($user->getRole()==5||$user->getRole()==1):?>
                     <a href="/usuarios/registrar">Registrar usuarios</a>
                     <?php endif;?>
                 </div>
@@ -60,7 +60,6 @@
                 <div class="dropdown-content">
                     <a href="/reservas">Consultar reservas</a>
                     <a href="/empresas">Consultar empresas</a>
-                    <a href="/habitaciones">Consultar habitaciones</a>
                     <a href="/clientes">Consultar clientes</a>
                 </div>
             </div>

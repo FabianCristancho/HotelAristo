@@ -326,11 +326,15 @@
         * @param $idEmpresa Código de la empresa a consultar
         */
         function enterpriseCustomTable($idEnterprise){
-            $query = $this->connect()->prepare('SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, valor_total FROM personas p 
-                LEFT JOIN reservas r ON r.id_cliente = p.id_persona 
-                LEFT JOIN empresas e ON r.id_empresa = e.id_empresa 
+            $query = $this->connect()->prepare(
+                'SELECT CONCAT(nombres_persona, " ", apellidos_persona) AS nombres, numero_documento, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida
+                FROM personas p 
+                INNER JOIN registros_huesped rc ON rc.id_huesped=p.id_persona
+                INNER JOIN registros_habitacion rh ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN reservas r ON rh.id_reserva = r.id_reserva 
                 LEFT JOIN facturas f ON f.id_reserva = r.id_reserva 
-                WHERE e.id_empresa = :idEnterprise');
+                WHERE r.id_empresa = :idEnterprise'
+            );
             $query->execute(['idEnterprise'=>$idEnterprise]);
             
             foreach ($query as $current){
@@ -339,7 +343,6 @@
                 echo '<td>'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_ingreso'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_salida'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['valor_total'].'</td>'.PHP_EOL;
             }                              
         }
         
@@ -414,11 +417,11 @@
         * @param $date Fecha que asigna un rango de consulta de las habitaciones
         */
         function roomTable($date){
-            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN DATE_FORMAT(rg.fecha_ingreso, "%d/%m/%Y %H:%i") ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva, rg.total
+            $query= $this->connect()->prepare('SELECT h.id_habitacion, th.nombre_tipo_habitacion,h.numero_habitacion,h.fuera_de_servicio, CASE WHEN rg.estado_reserva="RE" THEN rg.nombres_clientes ELSE NULL END nombres_clientes,CASE WHEN rg.estado_reserva="RE" THEN rg.ids_clientes ELSE NULL END ids_clientes, CASE WHEN rg.estado_reserva="RE" THEN DATE_FORMAT(rg.fecha_ingreso, "%d/%m/%Y %H:%i") ELSE NULL END fecha_ingreso, CASE WHEN rg.estado_reserva="RE" THEN rg.conteo ELSE NULL END conteo, rg.estado_reserva, rg.id_reserva, rg.total,full_cu
                 FROM habitaciones h 
                 LEFT JOIN (
                 SELECT r.id_reserva, rs.id_habitacion,r.estado_reserva, GROUP_CONCAT(CONCAT_WS(";",r.id_reserva,CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona))) nombres_clientes, GROUP_CONCAT(c.id_persona) ids_clientes, r.fecha_ingreso,CONCAT_WS(" de ",TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"),"'.$date.'"),TIMESTAMPDIFF(DAY,date_format(r.fecha_ingreso,"%X-%m-%d"), r.fecha_salida)) conteo,
-                SUM(t.valor_ocupacion) total
+                SUM(t.valor_ocupacion) total, (COUNT(rh.id_registro_huesped)=SUM(rh.estado_huesped="CU")) full_cu
                 FROM reservas r 
                 INNER JOIN registros_habitacion rs ON rs.id_reserva=r.id_reserva 
                 INNER JOIN registros_huesped rh ON rh.id_registro_habitacion=rs.id_registro_habitacion 
@@ -454,11 +457,12 @@
                 echo '</td>';
                 echo '<td>'.$current['fecha_ingreso'].'</td>';
                 echo '<td>'.$current['conteo'].'</td>';
-                echo '<td>'.$current['total'].'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckUp('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round green"></span></label></td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOut('.$current['id_reserva'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round yellow"></span></label></td>';
+                echo '<td>'.(isset($current['nombres_clientes'])?$current['total']:"").'</td>';
+                echo (isset($current['nombres_clientes'])?'<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckUp('.$current['id_reserva'].','.$current['id_habitacion'].',this);" '.($this->user->getRole()!=4?'':'disabled').' '.($current['full_cu']==1?'checked':'').'><span class="slider slider-gray round green"></span></label></td>':"<td></td>");
+                echo (isset($current['nombres_clientes'])?'<td><label class="switch switch-table"><input type="checkbox" onchange="setCheckOut('.$current['id_reserva'].','.$current['id_habitacion'].',this);" '.($this->user->getRole()!=4?'':'disabled').'><span class="slider slider-gray round yellow"></span></label></td>':"<td></td>");
+
                 if($this->user->getRole()!=4)
-                    echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.$current['id_reserva'].'" class="col-10 button-more-info">Más información</a></td>';
+                    echo '<td><a href="detalles?id='.$current['id_habitacion'].'&res='.(isset($current['nombres_clientes'])?$current['id_reserva']:"").'" class="col-10 button-more-info">Más información</a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -636,6 +640,27 @@
                 echo $current['cantidad_habitaciones'].';';
                 echo $current['id_titular'].';';
                 echo $current['id_empresa'];
+            }
+        }
+
+        /**
+        * Obtiene los clientes de una habitacion
+        */
+        function getBookingClients($idBooking,$idRoom){
+            $query = $this->connect()->prepare('SELECT id_persona,  CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres,
+                rc.id_registro_huesped
+                FROM personas p
+                INNER JOIN registros_huesped rc ON rc.id_huesped=p.id_persona
+                INNER JOIN registros_habitacion rh ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                WHERE rh.id_reserva=:idBooking
+                AND rh.id_habitacion=:idRoom');
+
+            $query->execute([':idBooking'=>$idBooking,':idRoom'=>$idRoom]);
+
+            foreach ($query as $current) {
+                echo $current['id_persona'].';';
+                echo $current['nombres'].';';
+                echo $current['id_registro_huesped'].'?';
             }
         }
 

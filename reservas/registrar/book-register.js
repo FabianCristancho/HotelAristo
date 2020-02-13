@@ -217,8 +217,7 @@ function setPreviewBook(){
 	var switches= document.getElementById("confirm-modal").getElementsByClassName("card-body")[1];
 	var primeInputs=mainRow.getElementsByClassName('card-prime')[0].getElementsByTagName("input");
 	var roomGroups= mainRow.getElementsByClassName("room-group");
-	var clientCards=mainRow.getElementsByClassName("card-client");
-	var holderCard=clientCards[0];
+	var holderCard=mainRow.getElementsByClassName("card-client")[0];
 	var holderInputs=holderCard.getElementsByTagName("input");
 	confirm.innerHTML="";
 	var row =document.createElement("div");
@@ -227,15 +226,23 @@ function setPreviewBook(){
 	row.appendChild(createFormGroupLabel("Fecha de salida",convertDate(primeInputs[1].value),"calendar"));
 	row.appendChild(createFormGroupLabel("Cantidad de habitaciones",primeInputs[3].value,"bed"));
 	confirm.appendChild(row);
-	var flags=document.getElementById("main-row").getElementsByClassName("row-flag");
-	var isComplete=true;
 
-	for (var i = 0; i < flags.length; i++) {
-		if(flags[i].getAttribute("state")!="show"){
-			isComplete=false;
-			break;
+	var clientCards=mainRow.getElementsByClassName("client-cards");
+	var flags;
+
+	var isComplete=true;
+	for (var i = 0; i < clientCards.length; i++) {
+		flags=clientCards[i].getElementsByClassName("row-flag");
+		for (var j = 0; j < flags.length; j++) {
+			if(flags[j].getAttribute("state")!="show"){
+				console.log(flags[j]);
+				isComplete=false;
+				break;
+			}
 		}
 	}
+
+	
 	
 	if(!holderInputs[0].checked){
 		row =document.createElement("div");
@@ -450,7 +457,7 @@ function showEnterpriseHolder(button){
 	clientBody.style.display="none";
 	clientInputs[0].required=false;
 	clientInputs[1].required=false;
-	clientInputs[4].required=false;
+	clientInputs[3].required=false;
 
 }
 
@@ -467,7 +474,7 @@ function showPersonHolder(button){
 	clientBody.style.display="block";
 	clientInputs[0].required=true;
 	clientInputs[1].required=true;
-	clientInputs[4].required=true;
+	clientInputs[3].required=true;
 }
 
 function showInputPaid(input){

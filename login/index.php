@@ -89,7 +89,6 @@
                         </div>
                         <button type="submit">Iniciar sesión</button>
                         <br>
-                        <a href="#">¿Olvidó su contraseña?</a>
                     </form>
                 </div>
             </div>

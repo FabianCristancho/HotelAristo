@@ -37,5 +37,8 @@
         case 'getRoomQuantity':
             $consult->roomQuantityList('S',$_POST['startDate'],$_POST['finishDate']);
             break;
+        case 'getBookingClients':
+            $consult->getBookingClients($_POST['idBooking'],$_POST['idRoom']);
+            break;
     }
 ?>

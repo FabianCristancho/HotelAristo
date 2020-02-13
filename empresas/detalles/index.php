@@ -25,10 +25,6 @@
         $e->setIdEnterprise($id);        
     }
 
-    if($e->getId() === NULL){
-        header('Location: ../index.php');
-    }
-
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +38,10 @@
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
 
     <!--Construcción de la vista-->
@@ -63,36 +61,45 @@
         </script>
 
         <!--Bloque encargado de mostrar la información detallada de una empresa determinada-->
-        <div id="content" class="col-12">
-            <div class="marco nearly-page">
-                <h4>INFORMACIÓN GENERAL</h4>
-                <div class="general-info">
-                    <div class="region">
-                        <label><b>NIT: &ensp;</b></label>
-                        <label><?php echo $e->getNit();?></label>
-                    </div>
-                    <div class="region">
-                        <label><b>Nombre: &ensp;</b></label>
-                        <label><?php echo $e->getName();?></label>
-                    </div>
-                    <div class="region">
-                        <label><b>Teléfono: &ensp;</b></label>
-                        <label><?php echo $e->getPhone();?></label>
-                    </div>
-                    <div class="region">
-                        <label><b>Retefuente (3,5%): &ensp; </b></label>
-                        <label><?php echo ($e->getSourceRetention() == 1) ? "Sí" : "No";?></label>
-                    </div>
-                    <div class="region">
-                        <label><b>Otro impuesto ($): &ensp;</b></label>
-                        <label> <?php echo $e->getOtherTax();?></label>
+        <div class="content col-12">
+            <div class="col-11 wrap-11 wrap-vertical padd">
+                 <div class="content-header col-12">
+                    <div class="row-simple col-12">
+                        <h2 class="title-form ">DETALLES EMPRESA</h2>
                     </div>
                 </div>
-            </div>
-            <div class="marco nearly-page">
-                <div class="specific-info">
-                    <div>
-                        <h4><b>HUÉSPEDES AUTORIZADOS POR LA EMPRESA</b></h4>
+
+                 <div class="sub-menu col-12 padd">
+                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <div class="sub-menu-right">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Información general</strong>
+                    </div>
+
+                    <div class="card-body">
+                            <label><b>NIT: &ensp;</b></label>
+                            <label><?php echo $e->getNit();?></label>
+                            <label><b>Nombre: &ensp;</b></label>
+                            <label><?php echo $e->getName();?></label>
+                            <label><b>Teléfono: &ensp;</b></label>
+                            <label><?php echo $e->getPhone();?></label>
+                            <label><b>Retefuente (3,5%): &ensp; </b></label>
+                            <label><?php echo ($e->getSourceRetention() == 1) ? "Sí" : "No";?></label> 
+                            <label><b>ICA ($): &ensp;</b></label>
+                            <label> <?php echo ($e->getICA()==1 ? "Sí":"No"); ?></label>
+                    </div>
+                </div>
+
+                <div class="col-12 marco">
+                    <div class="card-header">
+                        <strong>HUÉSPEDES AUTORIZADOS POR LA EMPRESA</strong>
+                    </div>
+
+                    <div class="scroll-block col-12">
                         <table>
                             <thead>
                                 <tr>
@@ -100,12 +107,10 @@
                                     <th>Número de Documento</th>
                                     <th>Fecha de check-in</th>
                                     <th>Fecha de check-out</th>
-                                    <th>Consumo Total ($)</th>
                                 </tr>
                             </thead>
                             <?php $consult->enterpriseCustomTable($id)?>
                         </table>
-                        <br>
                     </div>
                 </div>
             </div>
