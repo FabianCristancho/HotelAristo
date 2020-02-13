@@ -76,9 +76,8 @@
                                 <th>NIT</th>
                                 <th>NOMBRE</th>
                                 <th>TELEFONO</th>
-                                <th>RETEFUENTE (3,5 %)</th>
-                                <th>ICA</th>
-                                <th></th>
+                                <th>CORREO ELECTRÓNICO</th>
+                                <th>RETEFUENTE <br/>(3,5 %)</br></th>
                             </tr>
                         </thead>
                         <?php
