@@ -60,24 +60,29 @@
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
-                    <h2 class="title-form col-10">FACTURAS (Registro es un ejemplo para enlazar reportes)</h2>
-                    <a class="button-add-book col-2" href="registrar">Nueva factura</a>
+                    <h2 class="title-form col-10">FACTURAS</h2>
+                    <a class="button-add-book col-2" href="/facturas/registrar">Nueva factura</a>
                 </div>
                 <br>
-                <div class="scroll-block col-12">
+                <div class="scroll-block">
                     <table>
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>FECHA DE FACTURACIÓN</th>
-                                <th>HUÉSPED</th>
+                                <th>TITULAR</th>
                                 <th>VALOR FACTURADO($)</th>
+                                <th>FECHA DE FACTURACIÓN</th>
                                 <th>RESPONSABLE</th>
                                 <th></th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <?php $consult->getTable('bill','');?>
+                            <?php 
+                                /**
+                                * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
+                                */
+                                $consult->getTable('bill', '')
+                            ?>
                     </table>
                 </div>
             </div>
