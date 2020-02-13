@@ -26,14 +26,12 @@
             // Arial bold 18
             $this->SetFont('Arial','B',18);
             // Movernos a la derecha
-            $this->Cell(55);
-            // Título
-            $this->Cell(150,70,$title,0,0,'C');
+            
             $this->SetFont('Arial','',8);
             //Color de letra
             $this->SetTextColor(24, 52, 125);
             //Información Administración del hotel
-            $this->Cell(-200);
+            $this->setXY(20, 10);
             $this->Cell(200,2,utf8_decode('HENRY QUINTERO'),0,0,'C');
             $this->Cell(-200,10,utf8_decode('NIT. 16.136.920-4'),0,0,'C');
             $this->Cell(200,18,utf8_decode('RÉGIMEN SIMPLIFICADO'),0,0,'C');
@@ -108,7 +106,7 @@
 
         /**
         * Función que contiene el formato de salto de página del reporte
-        
+        */
         function Footer()
         {
             $this->SetY(-15);
@@ -117,6 +115,6 @@
             // Número de página
             $this->Cell(0,10,utf8_decode('Página ').$this->PageNo().'/{nb}',0,0,'C');
             $this->AliasNbPages();
-        }*/
+        }
     }
 ?>
