@@ -367,7 +367,7 @@
         * Construye una tabla con las empresas almacenadas en la base de datos
         */
         function enterpriseTable(){
-            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica 
+            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, correo_empresa, retefuente, ica 
                 FROM empresas');
             $query->execute();
             
@@ -376,9 +376,8 @@
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>';
-                echo '<td>'.($current['ica']==1?'Si':'No').'</td>';
-                echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
+                echo '<td>'.$current['correo_empresa'].'</td>'.PHP_EOL;
+                echo '<td style="padding:10px;">'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -403,7 +402,7 @@
                 echo '<td>'.'$ '.number_format($current['total_factura'], 0, '.', '.').'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
-                echo '<td><a class="button-more-info" class="col-10">Ver Detalles</a></td>';
+                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'"class="button-more-info" class="col-10">Ver Detalles</a></td>';
                 echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
                 echo '</tr>'.PHP_EOL;
             }

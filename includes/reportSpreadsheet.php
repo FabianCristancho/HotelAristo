@@ -2,7 +2,7 @@
     use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
     use PhpOffice\PhpSpreadsheet\Shared\Date;
     use PhpOffice\PhpSpreadsheet\Style\Border;
-    use PhpOffice\PhpSpreadsheet\Style\Fill;
+    use PhpOffice\PhpSpreadsheet\Style\Fill; 
 
     class ReportSpreadsheet extends Database{
         
