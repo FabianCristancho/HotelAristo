@@ -16,30 +16,31 @@
 
     // Declaración de los objetos requeridos
     $db = new Database();
-    $pdf = new Report();    
+    $pdf = new Report('P','mm','letter');    
 
     // Declaración de la consulta
-    $query = $db->connect()->prepare('SELECT * FROM empresas');
+    $query = $db->connect()->prepare('SELECT * FROM empresas ORDER BY nombre_empresa');
     $query->execute();
 
     // Cabecera del reporte
     $pdf->AddPage();
-    $pdf->Header('REPORTE DE EMPRESA');
-    $pdf->SetFont('Arial','B',9);
-    $pdf->Ln(25);
-
+    $pdf->Header('REPORTE DE EMPRESAS');
+    $pdf->SetFont('Arial','B',11);
+    
+    $pdf->setTextColor(0, 0, 0);
+    $pdf->setXY(10, 40);
     $pdf->Cell(28,7,'NIT', 1, 0, 'C', 0);
     $pdf->Cell(70,7,'NOMBRE', 1, 0, 'C', 0);
-    $pdf->Cell(70,7,'CORREO', 1, 0, 'C', 0);
-    $pdf->Cell(20,7,utf8_decode('TELÉFONO'), 1, 1, 'C', 0);
+    $pdf->Cell(75,7,'CORREO', 1, 0, 'C', 0);
+    $pdf->Cell(25,7,utf8_decode('TELÉFONO'), 1, 1, 'C', 0);
     
     // Formato y agregación del contenido del reporte
-    $pdf->SetFont('Arial','',8);
+    $pdf->SetFont('Arial','',10);
     foreach ($query as $current) {
         $pdf->Cell(28,7,utf8_decode($current['nit_empresa']), 1, 0, 'C', 0);
         $pdf->Cell(70,7,utf8_decode($current['nombre_empresa']), 1, 0, 'C', 0);
-        $pdf->Cell(70,7,utf8_decode($current['correo_empresa']), 1, 0, 'C', 0);
-        $pdf->Cell(20,7,utf8_decode($current['telefono_empresa']), 1, 1, 'C', 0);
+        $pdf->Cell(75,7,utf8_decode($current['correo_empresa']), 1, 0, 'C', 0);
+        $pdf->Cell(25,7,utf8_decode($current['telefono_empresa']), 1, 1, 'C', 0);
     }
 
     // Generación del reporte
