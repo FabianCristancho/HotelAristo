@@ -102,29 +102,29 @@
                             <div class="form-group in-row">
                                 <label class="form-control-label"><b>Tipo de identificación del titular</b></label>
                                 <div class="input-group">
-                                    <label>Cédula&nbsp;&nbsp;</label>
-                                    <input type="radio" name="typeId" value="CC" checked>
-                                    &nbsp;&nbsp;&nbsp;
+                                    <label>Documento de Idenditad&nbsp;&nbsp;</label>
+                                    <input type="radio" name="typeId" value="CC" checked onclick="changeToPerson()">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                     <label>NIT&nbsp;&nbsp;</label>
-                                    <input type="radio" name="typeId" value="NIT">
+                                    <input type="radio" name="typeId" value="NIT" onclick="changeToEnterprise()">
                                 </div>
                             </div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div class="form-group in-row">
                                 <label class="form-control-label"><b>Número de Identificación</b></label>
                                 <div class="input-group">
                                     <div class="input-group-icon">
                                         <i class="fa fa-search"></i>
                                     </div>
-                                    <input class="form-control" type="text" placeholder="Documento" maxlength="15" minlength="7"  onkeypress="return validateNumericValue(event);" onkeydown="$(this).mask('0000000000');">
+                                    <input class="form-control" type="text" placeholder="Documento" maxlength="10" minlength="7"  onkeypress="return validateNumericValue(event);">
                                     <button type="button" onclick="searchTitular(this.previousElementSibling);"><i class="fa fa-search"></i></button>
                                 </div>
                                 <small class="form-text text-muted">ej. 102055214</small>
                             </div>
                         </div>
-                        <p><b>Nombre: </b><label></label></p>
-                        <p><b>Empresa: </b> <label></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                        <b>Teléfono: </b><label></label></p>
-                        <p><b>Número de Documento: </b><label></label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <p><b id="namePerson">Nombre: </b><label></label></p>
+                        <p><b>Teléfono: </b><label></label></p>
+                        <p><b id="numberId">Número de Documento: </b><label></label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <b>Habitación (es):</b> <label></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <b>Fecha Entrada: </b><label></label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <b>Fecha Salida: </b><label></label></p>

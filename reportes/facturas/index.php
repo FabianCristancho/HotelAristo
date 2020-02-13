@@ -122,8 +122,7 @@ ob_start();
 
     $pdf = new Report($orientation,'mm',$pageSize);
     $pdf->SetAutoPageBreak(true,2); 
-
-
+    $inLetter = new CifrasEnLetras();
 
     $name;
     $document;
@@ -138,7 +137,6 @@ ob_start();
         $textBill = "  FACTURA DE VENTA  ";
         if(strcmp($serie, 'NEW') == 0)
             $serie = $consult->getLastSerieBill();
-        
     }else{
         $textBill = "ORDEN DE SERVICIO";
         if(strcmp($serie, 'NEW') == 0)
@@ -163,70 +161,63 @@ ob_start();
     $pdf->SetFont('Arial','B',11);
 
     
+    $pdf->RoundedRect(155, 35, 50, 14, 3);
     $pdf->Cell(145);
-    $pdf->setXY(155,30);
-    $pdf->MultiCell(50, 7, utf8_decode($textBill.' NO.   '.$serie), 'LTRB', 'C', 0);
+    $pdf->setXY(155,35);
+    $pdf->MultiCell(50, 7, utf8_decode($textBill.' NO.         '), '', 'C', 0);
 
     setlocale(LC_ALL,"es_CO");
     date_default_timezone_set('America/Bogota');
-    
-    $pdf->setXY(155,45);
-    $pdf->Cell(20, 8, 'FECHA', 1, 0, 'C', 0);
-    $pdf->SetTextColor(0,0,0);
-    $pdf->setXY(175,45);
-    $pdf->Cell(10, 8, date("d"), 1, 0, 'C', 0);
-    $pdf->setXY(185,45);
-    $pdf->Cell(10, 8, date("m"), 1, 0, 'C', 0);
-    $pdf->setXY(195,45);
-    $pdf->Cell(10, 8, date("y"), 1, 0, 'C', 0);
 
+    $pdf->SetTextColor(255,0,0);
+    $pdf->setXY(180,43);
+    $pdf->Cell(20, 5, $serie, 0, 1, 'L', 0);
     
+    $pdf->SetTextColor(0,0,0);
+
     $pdf->SetFont('Arial','B',9);
-    $pdf->setXY(5,40);
+    $pdf->setXY(9,40);
     $pdf->Cell(20, 5, 'NOMBRE: ', 0, 1, 'L', 0);
 
-    $coordPhone = 90;
-    $coordValuePhone = 110;
-    if(empty($enterprise)){
-        $coordPhone = 6;
-        $coordValuePhone = 25;
+    $idTitular = "";
+
+    $pdf->setXY(26, 40);
+    if($enterprise==Null){
+        $idTitular = "IDENTIFICACIÓN: ";
+        $pdf->SetFont('Arial');
+        $pdf->Cell(100, 5, $name, 0, 1, 'L', 0);
+        $pdf->setXY(37, 48);
+        $pdf->Cell(30, 5, $document, 0, 1, 'L', 0);
     }else{
-        $pdf->setXY(5,48);
-        $pdf->Cell(20, 5, 'EMPRESA: ', 0, 1, 'L', 0);
-        $pdf->setXY(25, 48);
-        $pdf->Cell(60, 5, $enterprise, 0, 1, 'L', 0);
+        $idTitular = "NIT: ";
+        $pdf->SetFont('Arial');
+        $pdf->Cell(100, 5, $enterprise, 0, 1, 'L', 0);
+        $pdf->setXY(16, 48);
+        $pdf->Cell(30, 5, $document, 0, 1, 'L', 0);
     }
-        
-    $pdf->setXY($coordPhone, 48);
-    $pdf->Cell(20, 5, utf8_decode('TELÉFONO: '), 0, 1, 'R', 0);
-    $pdf->setXY(5, 55);
-    $pdf->Cell(28, 5, utf8_decode('IDENTIFICACIÓN: '), 0, 1, 'L', 0);
-    $pdf->setXY(55, 55);
+    
+    $pdf->SetFont('Arial','B',9);
+    $pdf->setXY(9, 48);
+    $pdf->Cell(28, 5, utf8_decode($idTitular), 0, 1, 'L', 0);
+    $pdf->setXY(9, 55);
     $pdf->Cell(28, 5, utf8_decode('HABITACIÓN(ES): '), 0, 1, 'L', 0);
-    $pdf->setXY(110, 55);
-    $pdf->Cell(28, 5, utf8_decode('FECHA ENTRADA: '), 0, 1, 'L', 0);
-    $pdf->setXY(160, 55);
-    $pdf->Cell(28, 5, utf8_decode('FECHA SALIDA: '), 0, 1, 'L', 0);
+    $pdf->setXY(115, 55);
+    $pdf->Cell(28, 5, utf8_decode('CHECK ON: '), 0, 1, 'L', 0);
+    $pdf->setXY(166, 55);
+    $pdf->Cell(28, 5, utf8_decode('CHECK OUT: '), 0, 1, 'L', 0);
+    
+
     $pdf->SetFont('Arial');
-    
-    
-    $pdf->setFont('Arial');
-    $pdf->setXY(25, 40);
-    $pdf->Cell(100, 5, $name, 0, 1, 'L', 0);
-    $pdf->setXY($coordValuePhone, 48);
-    $pdf->Cell(30, 5, $phone, 0, 1, 'L', 0);
-    $pdf->setXY(33, 55);
-    $pdf->Cell(30, 5, $document, 0, 1, 'L', 0);
-    $pdf->setXY(83, 55);
+    $pdf->setXY(38, 55);
     $pdf->Cell(25, 5, $listRooms, 0, 1, 'L', 0);
-    $pdf->setXY(140, 55);
+    $pdf->setXY(135, 55);
     $pdf->Cell(25, 5, $dateIn, 0, 1, 'L', 0);
     $pdf->setXY(188, 55);
     $pdf->Cell(25, 5, $dateOut, 0, 1, 'L', 0);
     
-    $pdf->setXY(6, 62);
+    $pdf->setXY(10, 63);
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(104,6,utf8_decode('DESCRIPCIÓN'), 1, 0, 'C', 0);
+    $pdf->Cell(100,6,utf8_decode('DESCRIPCIÓN'), 1, 0, 'C', 0);
     $pdf->Cell(25,6,'CANTIDAD', 1, 0, 'C', 0);
     $pdf->Cell(35,6,'VALOR UNITARIO', 1, 0, 'C', 0);
     $pdf->Cell(35,6,utf8_decode('VALOR TOTAL'), 1, 1, 'C', 0);
@@ -239,8 +230,8 @@ ob_start();
     $pdf->SetFont('Arial','',9);
     
     foreach($queryRoom as $current){
-        $pdf->setX(6);
-        $pdf->Cell(104, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
+        $pdf->setX(10);
+        $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
         $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 1, 0, 'C', 0);
         $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 1, 0, 'C', 0);
         $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -250,8 +241,8 @@ ob_start();
 
     foreach($queryProducts as $current){
         if($current['minibar']!=Null){
-            $pdf->setX(6);
-            $pdf->Cell(104, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
+            $pdf->setX(10);
+            $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
             $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -262,8 +253,8 @@ ob_start();
 
     foreach($queryServiceLaundry as $current){
         if($current['valor_lavanderia']!=Null){
-            $pdf->setX(6);
-            $pdf->Cell(104, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
+            $pdf->setX(10);
+            $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
             $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -274,8 +265,8 @@ ob_start();
     
     foreach($queryServiceRes as $current){
         if($current['valor_restaurante']!=Null){
-            $pdf->setX(6);
-            $pdf->Cell(104, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
+            $pdf->setX(10);
+            $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
             $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -286,8 +277,8 @@ ob_start();
     $valuePay = 0;
     foreach($queryPayValue as $current){
         if($current['abono']!=0){
-            $pdf->setX(6);
-            $pdf->Cell(129, 6, "", 1, 0, 'L', 0);
+            $pdf->setX(10);
+            $pdf->Cell(125, 6, "", 1, 0, 'L', 0);
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(35, 6, utf8_decode("VALOR ABONADO"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['abono'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -295,9 +286,10 @@ ob_start();
         }
     }
 
-    $pdf->setX(6);
+    $pdf->setX(10);
+    $pdf->SetFont('Arial','',8);
+    $pdf->Cell(125, 10, utf8_decode(" SON: ".strtoupper($inLetter->convertirCifrasEnLetras($valueTotal-$valuePay))." PESOS MCTE"), 1, 0, 'L', 0);
     $pdf->SetFont('Arial','B',10);
-    $pdf->Cell(129, 10, utf8_decode("SON"), 1, 0, 'L', 0);
     $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 1, 0, 'C', 0);
     $pdf->Cell(35, 10, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
     $pdf->SetFont('Arial','',8);
@@ -306,10 +298,10 @@ ob_start();
     $pdf->Cell(199, 4, utf8_decode('Esta factura se asimila en todos sus efectos legales a una Letra de Cambio según el Art. 774 del Código de Comercio'), 0, 1, 'C', 0);
     
     $pdf->ln(10);
-    $pdf->setX(6);  
+    $pdf->setX(10);  
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(15, 4, utf8_decode('CLIENTE'), 0, 0, 'L', 0);
-    $pdf->Cell(70, 3, '', 'B', 0, 'L', 0);    
+    $pdf->Cell(64, 3, '', 'B', 0, 'L', 0);    
     $pdf->Cell(45, 4, utf8_decode('RESPONSABLE: '), 0, 0, 'R', 0);
     
     $pdf->SetFont('Arial','',8);

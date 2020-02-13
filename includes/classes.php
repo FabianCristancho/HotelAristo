@@ -7,4 +7,5 @@ include 'consult.php';
 include 'enterprise.php';
 include 'reservation.php';
 include 'room.php';
+include 'cifrasEnLetras.php';
 ?>

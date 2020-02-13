@@ -370,7 +370,7 @@
         * Construye una tabla con las empresas almacenadas en la base de datos
         */
         function enterpriseTable(){
-            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica 
+            $query = $this->connect()->prepare('SELECT id_empresa,nit_empresa, nombre_empresa, telefono_empresa, correo_empresa, retefuente, ica 
                 FROM empresas');
             $query->execute();
             
@@ -379,9 +379,8 @@
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>';
-                echo '<td>'.($current['ica']==1?'Si':'No').'</td>';
-                echo '<td><a href="detalles?id='.$current['id_empresa'].'" class="button-more-info" class="col-10">Más información</a></td>';
+                echo '<td>'.$current['correo_empresa'].'</td>'.PHP_EOL;
+                echo '<td style="padding:10px;">'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -406,7 +405,7 @@
                 echo '<td>'.'$ '.number_format($current['total_factura'], 0, '.', '.').'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
-                echo '<td><a class="button-more-info" class="col-10">Ver Detalles</a></td>';
+                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'"class="button-more-info" class="col-10">Ver Detalles</a></td>';
                 echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
                 echo '</tr>'.PHP_EOL;
             }
@@ -847,8 +846,114 @@
                 LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
                 LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
                 LEFT JOIN peticiones pt ON pt.id_control=c.id_control
-                WHERE p.numero_documento=:idPerson');
-            $query->execute([':idPerson'=>$id]);
+                WHERE p.numero_documento=:idPerson
+                AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)');
+            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            
+            foreach ($query as $current){
+                echo $current['abono'];
+            }
+        }
+        
+         /**
+        * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
+        * @param $id Código de titular a consultar
+        */
+        public function getTitularEnterprise($id){
+            $query = $this->connect()->prepare('SELECT nombre_empresa, telefono_empresa, nit_empresa, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
+            FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+            LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
+            WHERE e.nit_empresa =:idE
+            AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                WHERE e.nit_empresa =:idE2)');
+            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+
+            foreach ($query as $current){
+                echo $current['nombre_empresa'].';';
+                echo $current['telefono_empresa'].';';
+                echo $current['nit_empresa'].';';
+                echo $current['fecha_ingreso'].';';
+                echo $current['fecha_salida'].';';
+                echo $current['habitaciones'].';';
+                echo $current['id_reserva'].';';
+            }
+            
+             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+                FROM reservas r INNER JOIN empresas e ON e.id_empresa=r.id_empresa
+                LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+                LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
+                WHERE e.nit_empresa=:idE
+                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                     FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                    WHERE e.nit_empresa=:idE2)
+                GROUP BY valorUnitario');
+            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            
+            foreach ($query as $current){  
+                echo "HOSPEDAJE HABITACIÓN ".$current['habitaciones'].';';
+                echo $current['cantidad'].';';
+                echo number_format($current['valorUnitario'], 0, '.', '.').';';
+                echo number_format($current['valor_total'], 0, '.', '.').';';
+            }
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_producto*valor_producto) minibar
+            FROM reservas r INNER JOIN empresas e ON e.id_empresa=r.id_empresa
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN productos pd ON pd.id_producto=pt.id_producto
+            WHERE e.nit_empresa=:idE
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                WHERE e.nit_empresa=:idE2)');
+            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            
+            foreach ($query as $current){
+                if($current['minibar']!=Null){
+                    echo "MINIBAR".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['minibar'], 0, '.', '.').';';
+                }
+            }
+            
+            $query = $this->connect()->prepare('SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
+            FROM reservas r INNER JOIN empresas e ON e.id_empresa=r.id_empresa
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE e.nit_empresa=:idE
+            AND tipo_servicio = "L"
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                WHERE e.nit_empresa=:idE2)');
+            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            
+            foreach ($query as $current){
+                if($current['valor_lavanderia']!=Null){
+                    echo "SERVICIO DE LAVANDERÍA".';';
+                    echo "-".';';
+                    echo "-".';';
+                    echo number_format($current['valor_lavanderia'], 0, '.', '.').';';
+                }
+            }
+            
+            $query = $this->connect()->prepare('SELECT NVL(abono_reserva, 0)+ NVL(SUM(abono_peticion),0) AS abono
+                FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
+                LEFT JOIN peticiones pt ON pt.id_control=c.id_control
+                WHERE e.nit_empresa=:idE
+                AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                WHERE e.nit_empresa=:idE2)');
+            $query->execute([':idE'=>$id, ':idE2'=>$id]);
             
             foreach ($query as $current){
                 echo $current['abono'];
