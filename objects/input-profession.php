@@ -10,7 +10,7 @@
                     <div class="input-group-icon">
                         <i class="fa fa-tag"></i>
                     </div>
-                    <input class="form-control" type="text" id="name" name="name" required>
+                    <input class="form-control" type="text" id="name" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" name="name" required>
                 </div>
                 <small class="form-text text-muted">ej. PROFESOR</small>
             </div>

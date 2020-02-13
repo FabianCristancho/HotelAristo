@@ -40,5 +40,8 @@
         case 'getBookingClients':
             $consult->getBookingClients($_POST['idBooking'],$_POST['idRoom']);
             break;
+        case 'getBookingAmount':
+            $consult->getBookingAmount($_POST['idBooking']);
+            break;
     }
 ?>

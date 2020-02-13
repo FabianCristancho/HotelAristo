@@ -22,7 +22,7 @@
                     <div class="input-group-icon">
                         <i class="fa fa-tag"></i>
                     </div>
-                    <input class="form-control" type="text" placeholder="Nombre" required>
+                    <input class="form-control" type="text" placeholder="Nombre" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" required>
                 </div>
                 <small class="form-text text-muted">ej. Almacén Triple A</small>
             </div>
@@ -35,7 +35,7 @@
                     <div class="input-group-icon">
                         <i class="fa fa-phone"></i>
                     </div>
-                    <input id="phone" class="form-control" type="numeber" placeholder="Telefono" pattern="[0-9]{1,15}" onkeyup="$(this).mask('000 000 0000');" required>
+                    <input id="phone" class="form-control" type="text" placeholder="Telefono" onkeyup="$(this).mask('000 000 0000');" required>
                 </div>
                 <small class="form-text text-muted">ej. 3123334466</small>
             </div>

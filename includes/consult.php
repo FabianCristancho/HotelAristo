@@ -647,8 +647,8 @@
         * Obtiene los clientes de una habitacion
         */
         function getBookingClients($idBooking,$idRoom){
-            $query = $this->connect()->prepare('SELECT id_persona,  CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres,
-                rc.id_registro_huesped
+             $query = $this->connect()->prepare('SELECT id_persona,  CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres,
+                rc.id_registro_huesped,rc.estado_huesped
                 FROM personas p
                 INNER JOIN registros_huesped rc ON rc.id_huesped=p.id_persona
                 INNER JOIN registros_habitacion rh ON rc.id_registro_habitacion=rh.id_registro_habitacion
@@ -660,8 +660,24 @@
             foreach ($query as $current) {
                 echo $current['id_persona'].';';
                 echo $current['nombres'].';';
-                echo $current['id_registro_huesped'].'?';
+                echo $current['id_registro_huesped'].';';
+                echo $current['estado_huesped'].'?';
             }
+        }
+
+        function getBookingAmount($idBooking){
+            $query = $this->connect()->prepare('SELECT SUM(t.valor_ocupacion)=r.abono_reserva pago
+                FROM tarifas t
+                INNER JOIN registros_habitacion rh ON rh.id_tarifa=t.id_tarifa
+                INNER JOIN reservas r ON rh.id_reserva=r.id_reserva
+                WHERE rh.id_reserva=:idBooking');
+
+            $query->execute([':idBooking'=>$idBooking]);
+
+            foreach ($query as $current) {
+                echo $current['pago'];
+            }
+            
         }
 
         /**

@@ -11,27 +11,35 @@
         case 'setCheckUp':
             setCheckUp();
             break;
+        case 'setCheckOut':
+            setCheckOut();
+            break;
     }
 
     function setCheckOn(){
         $database=new Database();
 
-        $update="UPDATE reservas SET estado_reserva = 'RE',fecha_ingreso = '".date('Y-m-d H:i:s')."' WHERE id_reserva = :idBooking";
+        $update="UPDATE reservas SET estado_reserva = 'RE',fecha_ingreso = '".date('Y-m-d H:i:s')."'";
+
+        if(isset($_POST['paymentMethod'])){
+            $update=$update." ,medio_pago='".$_POST['paymentMethod']."', abono_reserva=".$_POST['amount'];
+        }
+
+        
+        $update=$update." WHERE id_reserva = :idBooking";
+
         $query=$database->connect()->prepare($update);
 
         try{
             $query->execute([':idBooking'=>$_POST['idBooking']]);
             echo 'alert-s;Se ha cambiado el estado de la reserva.';
         }catch(PDOException $e){
-            echo 'alert-d;Error U3.1. Error al actualizar estado de la reserva'.$e->getMessage();
+            echo 'alert-d;Error U3.1. Error al actualizar estado de la reserva'.$update.$e->getMessage();
         }
     }
 
     function setCheckUp(){
         $database=new Database();
-
-
-        $update="'' WHERE registros_huesped.id_registro_huesped = 1";
 
         $data=explode("?", $_POST['values']);
         $success=true;
@@ -53,6 +61,23 @@
             echo 'alert-s;Se ha cambiado el estado de los huespedes de esta habitacion.';
         }else{
             echo 'alert-d;Error U5.1. Error al cambiar el estado de algun huesped'.$e->getMessage();
+        }
+    }
+
+    function setCheckOut(){
+        $database=new Database();
+
+        $update="UPDATE reservas SET estado_reserva = 'TE',fecha_salida = '".date('Y-m-d H:i:s')."'";
+        
+        $update=$update." WHERE id_reserva = :idBooking";
+
+        $query=$database->connect()->prepare($update);
+
+        try{
+            $query->execute([':idBooking'=>$_POST['idBooking']]);
+            echo 'alert-s;Se ha cambiado el estado de la reserva.';
+        }catch(PDOException $e){
+            echo 'alert-d;Error U3.1. Error al actualizar estado de la reserva'.$update.$e->getMessage();
         }
     }
 

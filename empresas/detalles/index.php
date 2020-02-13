@@ -9,6 +9,7 @@
     */
 
     require_once '../../includes/classes.php';
+
     $consult=new Consult();
     $user = new User();
     $userSession = new UserSession();
@@ -70,7 +71,7 @@
                 </div>
 
                  <div class="sub-menu col-12 padd">
-                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <button id="back-btn" class="btn" onclick="window.history.back();">Volver</button>
                     <div class="sub-menu-right">
                     </div>
                 </div>

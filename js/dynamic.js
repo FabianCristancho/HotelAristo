@@ -334,6 +334,8 @@ function updateEnterprise(){
  	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckUp(reservation,room);};
  	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=!input.checked;});
  	var table=modal.getElementsByTagName("table")[0];
+ 	var mainSwitch=table.getElementsByTagName("tr")[0].getElementsByTagName("input")[0];
+ 	mainSwitch.checked=true;
 	
 	modal.addEventListener("click", function(){
  			window.onclick = function(event) {
@@ -353,16 +355,23 @@ function updateEnterprise(){
  			table.innerHTML="";
  			table.appendChild(header);
 
+
  			for (var i = 0; i < data.length-1; i++) {
  				var dataP=data[i].split(";");
  				var tr=createElement("tr","<td style='display:none;'>"+dataP[2]+"</td><td>"+dataP[1]+"</td>");
  				var switchClone=cloneElement("table-base-switch");
  				switchClone.classList.add("switch-input");
+
+ 				if(dataP[3]=="CO"){
+ 					mainSwitch.checked=false;
+ 				}
+
+ 				switchClone.getElementsByTagName("input")[0].checked=(dataP[3]=="CU");
  				tr.appendChild(switchClone);
  				table.appendChild(tr);
  			}
  		});
-
+ 		
  		showModal('confirm-check-up');
  }
 
@@ -377,7 +386,6 @@ function updateEnterprise(){
  function setCheckOut(reservation,room, input){
  	var modal= document.getElementById("confirm-check-out");
  	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
- 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
  	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
 	
  	if(input.checked){
@@ -388,6 +396,24 @@ function updateEnterprise(){
  					modal.style.display="none";
  				}
  			}});
+
+ 		$.ajax({
+ 			type:'post',
+ 			url:'/includes/get.php',
+ 			data:'entity=getBookingAmount&idBooking='+reservation
+ 		}).then(function(ans){
+ 			document.getElementById("checkout-message").innerHTML=
+ 			"<br><strong>"+(ans=="1"?"El titular ya pagó la totalidad de la reserva":"No se ha pagado la totalidad de la reserva")+"</strong>";
+ 			
+ 			var href;
+
+ 			if(ans=="1")
+				href='/control_diario?date='+getDate(0);
+ 			else
+ 				href='/facturas/registrar?id='+reservation;
+ 			modal.getElementsByTagName("button")[0].onclick=function(){location.href=href; if(ans=="1")confirmCheckOut(reservation); };
+ 		});
+
  		showModal('confirm-check-out');
  	}
  }
