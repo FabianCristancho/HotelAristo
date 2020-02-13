@@ -104,8 +104,8 @@
 	function insertGuestBook(){
 		$database= new Database();
 
-		$insert='INSERT INTO registros_huesped (id_registro_habitacion,id_huesped';
-		$values=$_POST['roomReg'].",".$_POST['guestId'];
+		$insert='INSERT INTO registros_huesped (id_registro_habitacion,id_huesped,estado_huesped';
+		$values=$_POST['roomReg'].",".$_POST['guestId'].",'CO'";
 
 		$insert=$insert.")\n VALUES (".$values.");";
 		$database->connect()->exec('ALTER TABLE registros_huesped AUTO_INCREMENT = 1');

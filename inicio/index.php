@@ -76,11 +76,14 @@
                         <p>Control diario</p>
                         <img src="/res/img/control-icon-white.png">
                     </a>
-                    <?php if($user->getRole()!=4):?>
+                   
+                    <?php if($user->getRole()==5||$user->getRole()==1):?>
                     <a href="/usuarios/" class="button">
                         <p>Usuarios</p>
                         <img src="/res/img/use-whiter.png">
                     </a>
+                     <?php endif;
+                     if($user->getRole()!=4):?>
                     <a href="/empresas/" class="button">
                         <p>Empresas</p>
                         <img src="/res/img/company-white.png">

@@ -31,14 +31,20 @@
         case 'bookingRooms':
             $consult->getBookingRooms($_POST['id']);
             break;
+        case 'getRoomQuantity':
+            $consult->roomQuantityList('S',$_POST['startDate'],$_POST['finishDate']);
+            break;
+        case 'getBookingClients':
+            $consult->getBookingClients($_POST['idBooking'],$_POST['idRoom']);
+            break;
+        case 'getBookingAmount':
+            $consult->getBookingAmount($_POST['idBooking']);
+            break;
         case 'searchTitularPerson':
            $consult->getTitularPerson($_POST['idTitular']);
             break;
         case 'searchTitularEnterprise':
            $consult->getTitularEnterprise($_POST['idTitular']);
-            break;
-        case 'getRoomQuantity':
-            $consult->roomQuantityList('S',$_POST['startDate'],$_POST['finishDate']);
             break;
     }
 ?>

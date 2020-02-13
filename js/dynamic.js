@@ -25,13 +25,15 @@ function calculateDate(date,days){
 }
 
 function getDays(){
-	var d1=document.getElementById('start-date').value;
-	var d2=document.getElementById('finish-date').value;
+	if(document.getElementById('start-date')!=null){
+		var d1=document.getElementById('start-date').value;
+		var d2=document.getElementById('finish-date').value;
 
-	if(d1!=d2)
-		document.getElementById("count-nights").value=moment(d2).diff(moment(d1),'days');
-	else
-		document.getElementById("count-nights").value=1;
+		if(d1!=d2)
+			document.getElementById("count-nights").value=moment(d2).diff(moment(d1),'days');
+		else
+			document.getElementById("count-nights").value=1;
+	}
 }
 
 function hideAlert(alert){
@@ -326,28 +328,64 @@ function updateEnterprise(){
  	}
  }
 
-  function setCheckUp(reservation, input){
+  function setCheckUp(reservation,room, input){
  	var modal= document.getElementById("confirm-check-up");
  	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
- 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
- 	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
+ 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckUp(reservation,room);};
+ 	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=!input.checked;});
+ 	var table=modal.getElementsByTagName("table")[0];
+ 	var mainSwitch=table.getElementsByTagName("tr")[0].getElementsByTagName("input")[0];
+ 	mainSwitch.checked=true;
 	
- 	if(input.checked){
- 		modal.addEventListener("click", function(){
+	modal.addEventListener("click", function(){
  			window.onclick = function(event) {
  				if (event.target == modal){ 
- 					input.checked=false;
+ 					input.checked=!input.checked;
  					modal.style.display="none";
+ 					document.getElementById("main-switch-check-up").checked=false;
  				}
  			}});
+ 		$.ajax({
+ 			type:'post',
+ 			url:'/includes/get.php',
+ 			data:'entity=getBookingClients&idBooking='+reservation+'&idRoom='+room
+ 		}).then(function(ans){
+ 			var header=table.firstElementChild;
+ 			var data=ans.split("?");
+ 			table.innerHTML="";
+ 			table.appendChild(header);
+
+
+ 			for (var i = 0; i < data.length-1; i++) {
+ 				var dataP=data[i].split(";");
+ 				var tr=createElement("tr","<td style='display:none;'>"+dataP[2]+"</td><td>"+dataP[1]+"</td>");
+ 				var switchClone=cloneElement("table-base-switch");
+ 				switchClone.classList.add("switch-input");
+
+ 				if(dataP[3]=="CO"){
+ 					mainSwitch.checked=false;
+ 				}
+
+ 				switchClone.getElementsByTagName("input")[0].checked=(dataP[3]=="CU");
+ 				tr.appendChild(switchClone);
+ 				table.appendChild(tr);
+ 			}
+ 		});
+ 		
  		showModal('confirm-check-up');
+ }
+
+ function setAllCheckUp(mainSwitch){
+ 	var switches=document.getElementById("confirm-check-up").getElementsByTagName("table")[0].getElementsByClassName("switch-input");
+
+ 	for (var i = 0; i < switches.length; i++) {
+ 		switches[i].getElementsByTagName("input")[0].checked=mainSwitch.checked;
  	}
  }
 
- function setCheckOut(reservation, input){
+ function setCheckOut(reservation,room, input){
  	var modal= document.getElementById("confirm-check-out");
  	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
- 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
  	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
 	
  	if(input.checked){
@@ -358,6 +396,24 @@ function updateEnterprise(){
  					modal.style.display="none";
  				}
  			}});
+
+ 		$.ajax({
+ 			type:'post',
+ 			url:'/includes/get.php',
+ 			data:'entity=getBookingAmount&idBooking='+reservation
+ 		}).then(function(ans){
+ 			document.getElementById("checkout-message").innerHTML=
+ 			"<br><strong>"+(ans=="1"?"El titular ya pagó la totalidad de la reserva":"No se ha pagado la totalidad de la reserva")+"</strong>";
+ 			
+ 			var href;
+
+ 			if(ans=="1")
+				href='/control_diario?date='+getDate(0);
+ 			else
+ 				href='/facturas/registrar?id='+reservation;
+ 			modal.getElementsByTagName("button")[0].onclick=function(){location.href=href; if(ans=="1")confirmCheckOut(reservation); };
+ 		});
+
  		showModal('confirm-check-out');
  	}
  }
@@ -382,4 +438,12 @@ function createOption(inner, value){
 	o.value=value;
 	
 	return o;
+}
+
+function cloneElement(id){
+	var base= document.getElementById(id);
+	var clone = document.createElement(base.tagName);
+	clone.classList=base.classList;
+	clone.innerHTML=base.innerHTML;
+	return clone;
 }

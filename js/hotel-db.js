@@ -426,17 +426,60 @@ function sendProfession(){
 	});
 }
 
+function sendEnterprise(){
+	var card=document.getElementsByClassName("card-enterprise")[0];
+
+	$.ajax({
+		type: 'post',
+		url: '/includes/insert.php',
+		data: "entity=enterprise&name="+card.getElementsByTagName("input")[0].value,
+		success: function (ans) {
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-d','No se pudo conectar con la base de datos');
+		}
+	});
+}
+
 
  function confirmCheckOn(reservation){
- 	sendUpdate("action=setCheckOn&idBooking="+reservation).then(function(ans){
+ 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value:"")).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
 
  		if(document.getElementById("payment-check").checked)
- 			href='/facturas/registrar';
+ 			href='/facturas/registrar?id='+reservation;
  		else
  			href='/control_diario?date='+getDate(0);
 
  		location.href=href;
+ 	});
+ }
+
+function confirmCheckUp(reservation, room){
+	var tableRows=document.getElementById("confirm-check-up").getElementsByTagName("tr");
+	var values="";
+	
+	for (var i = 1; i < tableRows.length; i++) {
+		var cells=tableRows[i].getElementsByTagName("td");
+		values+=cells[0].innerHTML+"_"+(cells[2].getElementsByTagName("input")[0].checked?"CU":"CO")+"?";
+	}
+
+ 	sendUpdate("action=setCheckUp&values="+values).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
+
+ 		href='/control_diario?date='+getDate(0);
+
+ 		location.href=href;
+ 	});
+ }
+
+function confirmCheckOut(reservation){
+ 	sendUpdate("action=setCheckOut&idBooking="+reservation).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
  	});
  }

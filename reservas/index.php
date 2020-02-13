@@ -41,6 +41,7 @@
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/hotel-db.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquerymask.js"></script>
         <script type="text/javascript" src="registrar/book-register.js"></script>
     </head>
     
@@ -153,7 +154,7 @@
                                         <div class="input-group-icon">
                                             <i class="fa fa-dollar"></i>
                                         </div>
-                                        <input type="number" id="input-paid" class="form-control" placeholder="Monto a pagar">
+                                        <input type="text" id="input-paid" class="form-control" onkeydown="$(this).mask('000.000.000.000.000', {reverse: true});" placeholder="Monto a pagar">
                                     </div>
                                     <small class="form-text text-muted">ej. 85000</small>
                                 </div>
