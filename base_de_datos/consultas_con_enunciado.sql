@@ -112,19 +112,58 @@ SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
             INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
             WHERE numero_documento=:idPerson
             AND tipo_servicio = "L";
-	    
-	    
 
+
+/*
+CONSULTA QUE MUESTRE LOS NOMBRES DE LOS HUÉSPEDES QUE NO HAYAN SIDO TITULARES DE SU ÚLTIMO HOSPEDAJE CUYO VALOR TOTAL FUE MENOR A $600.000
+*/
+
+SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre
+FROM personas p LEFT JOIN registros_huesped rh ON p.id_persona=rh.id_huesped
+WHERE tipo_persona = 'C'
+AND p.id_persona NOT IN
+(SELECT id_persona
+FROM personas p LEFT JOIN reservas r ON p.id_persona=r.id_titular
+WHERE fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona)
+AND (SELECT CALCULATE_TOTAL_BILL(r.id_reserva)) < 600000);
+	    
+	    
+/*
+CONSULTA QUE MUESTRE EL ID HABITACION Y NUMERO DE HABITACIÓN TIPO JOLIOT DE AQUELLAS HABITACIONES CON RESERVA ACTIVA O RECIBIDA, QUE NO SE ENCUENTRAN CON RESERVA DENTRO DEL RANGO
+DE FECHAS '10/02/2020' A '13/02/2020'
+*/
 SELECT id_habitacion,numero_habitacion 
                 FROM habitaciones h 
                 INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion
-                WHERE th.id_tipo_habitacion=:type
+                WHERE STRCMP(th.nombre_tipo_habitacion,'JOLIOT') = 0
                 AND id_habitacion NOT IN (
                 SELECT id_habitacion
                 FROM registros_habitacion rh 
                 INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
-                WHERE (date_format(r.fecha_ingreso,"%X-%m-%d")='.$startDate.'
-                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_ingreso,"%X-%m-%d")<'.$finishDate.')
-                OR (date_format(r.fecha_salida,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")<'.$finishDate.')
-                OR (date_format(r.fecha_ingreso,"%X-%m-%d")<'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")>'.$finishDate.')
-                ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))
+                WHERE (date_format(r.fecha_ingreso,"%X-%m-%d")='10/02/2020'
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")> '10/02/2020' AND date_format(r.fecha_ingreso,"%X-%m-%d")<'13/02/2020')
+                OR (date_format(r.fecha_salida,"%X-%m-%d")> '10/02/2020' AND date_format(r.fecha_salida,"%X-%m-%d")<'13/02/2020')
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")< '10/02/2020' AND date_format(r.fecha_salida,"%X-%m-%d")>'13/02/2020')
+                ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE"));
+		
+		
+/*
+CONSULTA QUE MUESTRE LOS CÓDIGOS DE LAS RESERVAS QUE NO SUPERARON UN VALOR DE FACTURACIÓN MAYOR A $800.000 DENTRO DEL RANGO DE MESES DE
+FEBRERO A MAYO
+*/
+SELECT id_reserva
+FROM reservas
+WHERE (SELECT CALCULATE_TOTAL_BILL(id_reserva)) <= 800.000
+AND date_format(fecha_ingreso, '%m') BETWEEN 2 AND 5;
+
+
+/*
+MUESTRE AQUELLAS HABITACIONES QUE SOLICITARON UN PRODUCTO DETERMINADO EN LA FECHA ACTUAL
+*/
+SELECT DISTINCT numero_habitacion, nombre_producto
+FROM habitaciones h INNER JOIN registros_habitacion rh ON h.id_habitacion=rh.id_habitacion
+INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+INNER JOIN peticiones p ON cd.id_control=p.id_control
+INNER JOIN productos pd ON pd.id_producto = p.id_producto
+WHERE cd.fecha_control = now()
