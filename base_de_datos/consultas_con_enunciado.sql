@@ -68,3 +68,63 @@ WHERE id_habitacion NOT IN (
         OR (r.fecha_ingreso<'2020-02-09' AND r.fecha_salida>'2020-02-12')
     ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE")
 )
+
+/*
+SE REQUIERE CONOCER EL CONSUMO TOTAL DE PRODUCTOS DEL TITULAR CON CÓDIGO 11 Y SUS ACOMPAÑANTES DURANTE SU ÚLTIMO HOSPEDAJE EN EL HOTEL
+*/
+SELECT SUM(cantidad_producto*valor_producto) minibar
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN productos pd ON pd.id_producto=pt.id_producto
+            WHERE id_persona=11
+            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE id_persona=11);
+
+/*
+REALICE UNA CONSULTA QUE PERMITA OBSERVAR LA CANTIDAD DE HABITACIONES, VALOR UNITARIO, VALOR TOTAL Y LAS HABITACIONES QUE EL CLIENTE
+CON EL CÓDIGO 11 RESERVÓ LA ÚLTIMA VEZ QUE ESTUVO EN EL HOTEL. TENGA EN CUENTA QUE LOS DATOS DEBERÁN AGRUPARSE POR LA TARIFA QUE 
+PRESENTA LA HABITACIÓN EN LA RESERVA DETERMINADA
+*/
+SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+                FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+                LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+                LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
+                LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
+                WHERE id_persona = 11
+                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                     FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                    WHERE id_persona = 11)
+                GROUP BY valorUnitario;
+		
+		
+		
+/*
+MUESTRE EL TOTAL DE SERVICIO DE LAVANDERÍA QUE HA PAGADO EL CLIENTE CON ID 11 CUANDO SE HOSPEDA EN EL HOTEL
+*/
+SELECT SUM(cantidad_servicio*valor_servicio) AS valor_lavanderia
+            FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+            INNER JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
+            INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
+            INNER JOIN peticiones pt ON cd.id_control=pt.id_control
+            INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
+            WHERE numero_documento=:idPerson
+            AND tipo_servicio = "L";
+	    
+	    
+
+SELECT id_habitacion,numero_habitacion 
+                FROM habitaciones h 
+                INNER JOIN tipos_habitacion th ON h.id_tipo_habitacion=th.id_tipo_habitacion
+                WHERE th.id_tipo_habitacion=:type
+                AND id_habitacion NOT IN (
+                SELECT id_habitacion
+                FROM registros_habitacion rh 
+                INNER JOIN reservas r ON rh.id_reserva=r.id_reserva 
+                WHERE (date_format(r.fecha_ingreso,"%X-%m-%d")='.$startDate.'
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_ingreso,"%X-%m-%d")<'.$finishDate.')
+                OR (date_format(r.fecha_salida,"%X-%m-%d")>'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")<'.$finishDate.')
+                OR (date_format(r.fecha_ingreso,"%X-%m-%d")<'.$startDate.' AND date_format(r.fecha_salida,"%X-%m-%d")>'.$finishDate.')
+                ) AND (r.estado_reserva="AC" OR r.estado_reserva="RE"))
