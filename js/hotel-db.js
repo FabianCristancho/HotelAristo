@@ -267,28 +267,27 @@ function fillClient(clientBody){
 	var inputs = clientBody.getElementsByTagName("input");
 	var selects = clientBody.getElementsByTagName("select");
 	
-	var email=inputs[5].value==""?null:inputs[5].value;
+	var email=inputs[4].value==""?null:inputs[4].value;
 	var profession=selects[6].value=="NULL"?null:selects[6].value;
 
 	if(inputs[2].value=="")
 		return new Person(
 			inputs[0].value,
 			inputs[1].value,
-			inputs[4].value,
+			inputs[3].value,
 			email
 		);
 	else{
 		return new Person(
 			inputs[0].value,
 			inputs[1].value,
-			inputs[4].value,
+			inputs[3].value,
 			email,
 			new Document(inputs[2].value,
 				selects[0].value,
-				inputs[3].value,
 				selects[2].value),
 			selects[3].value,
-			inputs[6].value,
+			inputs[5].value,
 			selects[4].value+selects[5].value,
 			profession,
 			selects[7].value
@@ -395,16 +394,15 @@ class Enterprise{
 }
 
 class Document{
-	constructor(number,type,expeditionDate,expeditionCity){
+	constructor(number,type,expeditionCity){
 		this.number=number;
 		this.type=type;
-		this.expeditionDate;
 		this.expeditionCity=expeditionCity;
 	}
 
 
 	getSendData(){
-		return "docNumber="+this.number+"&docType="+this.type+"&docDate="+this.expeditionDate+"&docCity="+this.expeditionCity;
+		return "docNumber="+this.number+"&docType="+this.type+"&docCity="+this.expeditionCity;
 	}
 }
 
