@@ -250,7 +250,7 @@
 						        			<div class="input-group-icon">
 						        				<i class="fa fa-dollar"></i>
 						        			</div>
-							        		<input type="number" id="input-paid" class="form-control" placeholder="Monto a pagar">
+							        		<input type="text" id="input-paid" class="form-control" placeholder="Monto a pagar"  onkeydown="$(this).mask('000.000.000.000.000', {reverse: true});">
 						        		</div>
 						        		<small class="form-text text-muted">ej. 85000</small>
 						        	</div>

@@ -16,7 +16,7 @@
         protected $email;
         protected $phone;
         protected $sourceRetention;
-        protected $otherTax;
+        protected $ica;
         
         
         /**
@@ -36,7 +36,7 @@
                 $this->email = $currentEnterprise['correo_empresa'];
                 $this->phone = $currentEnterprise['telefono_empresa'];
                 $this->sourceRetention = $currentEnterprise['retefuente'];
-                $this->otherTax = $currentEnterprise['ica'];
+                $this->ica = $currentEnterprise['ica'];
             } 
         }
         
@@ -93,8 +93,8 @@
         * de datos
         * @return Float Valor de otro impuesto
         **/
-        function getOtherTax(){
-            return $this->otherTax;
+        function getICA(){
+            return $this->ica;
         }   
     }
 ?>

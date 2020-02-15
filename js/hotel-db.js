@@ -267,28 +267,27 @@ function fillClient(clientBody){
 	var inputs = clientBody.getElementsByTagName("input");
 	var selects = clientBody.getElementsByTagName("select");
 	
-	var email=inputs[5].value==""?null:inputs[5].value;
+	var email=inputs[4].value==""?null:inputs[4].value;
 	var profession=selects[6].value=="NULL"?null:selects[6].value;
 
 	if(inputs[2].value=="")
 		return new Person(
 			inputs[0].value,
 			inputs[1].value,
-			inputs[4].value,
+			inputs[3].value,
 			email
 		);
 	else{
 		return new Person(
 			inputs[0].value,
 			inputs[1].value,
-			inputs[4].value,
+			inputs[3].value,
 			email,
 			new Document(inputs[2].value,
 				selects[0].value,
-				inputs[3].value,
 				selects[2].value),
 			selects[3].value,
-			inputs[6].value,
+			inputs[5].value,
 			selects[4].value+selects[5].value,
 			profession,
 			selects[7].value
@@ -395,16 +394,15 @@ class Enterprise{
 }
 
 class Document{
-	constructor(number,type,expeditionDate,expeditionCity){
+	constructor(number,type,expeditionCity){
 		this.number=number;
 		this.type=type;
-		this.expeditionDate;
 		this.expeditionCity=expeditionCity;
 	}
 
 
 	getSendData(){
-		return "docNumber="+this.number+"&docType="+this.type+"&docDate="+this.expeditionDate+"&docCity="+this.expeditionCity;
+		return "docNumber="+this.number+"&docType="+this.type+"&docCity="+this.expeditionCity;
 	}
 }
 
@@ -426,17 +424,60 @@ function sendProfession(){
 	});
 }
 
+function sendEnterprise(){
+	var card=document.getElementsByClassName("card-enterprise")[0];
+
+	$.ajax({
+		type: 'post',
+		url: '/includes/insert.php',
+		data: "entity=enterprise&name="+card.getElementsByTagName("input")[0].value,
+		success: function (ans) {
+			var data=ans.split(";");
+			showAlert(data[0],data[1]);
+		},
+		error: function (ans) {
+			showAlert('alert-d','No se pudo conectar con la base de datos');
+		}
+	});
+}
+
 
  function confirmCheckOn(reservation){
- 	sendUpdate("action=setCheckOn&idBooking="+reservation).then(function(ans){
+ 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value:"")).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
 
  		if(document.getElementById("payment-check").checked)
- 			href='/facturas/registrar';
+ 			href='/facturas/registrar?id='+reservation;
  		else
  			href='/control_diario?date='+getDate(0);
 
  		location.href=href;
+ 	});
+ }
+
+function confirmCheckUp(reservation, room){
+	var tableRows=document.getElementById("confirm-check-up").getElementsByTagName("tr");
+	var values="";
+	
+	for (var i = 1; i < tableRows.length; i++) {
+		var cells=tableRows[i].getElementsByTagName("td");
+		values+=cells[0].innerHTML+"_"+(cells[2].getElementsByTagName("input")[0].checked?"CU":"CO")+"?";
+	}
+
+ 	sendUpdate("action=setCheckUp&values="+values).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
+
+ 		href='/control_diario?date='+getDate(0);
+
+ 		location.href=href;
+ 	});
+ }
+
+function confirmCheckOut(reservation){
+ 	sendUpdate("action=setCheckOut&idBooking="+reservation).then(function(ans){
+ 		var data=ans.split(";");
+ 		showAlert(data[0],data[1]);
  	});
  }

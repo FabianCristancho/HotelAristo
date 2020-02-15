@@ -15,12 +15,14 @@
 	$userSession = new UserSession();
     $user = new User();
     $errorLogin='';
+
     if(isset($_SESSION['user'])){
     	$user->updateDBUser($userSession->getSession());
     	setHeader($user->getRole());
     }else if(isset($_POST['username']) && isset($_POST['password'])) {
     	$username = $_POST['username'];
     	$password = md5($_POST['password']);
+        
     	if($user->exists($username,$password)){
     		$userSession->setSession($username);
     		$user->updateDBUser($username);
@@ -89,7 +91,6 @@
                         </div>
                         <button type="submit">Iniciar sesión</button>
                         <br>
-                        <a href="#">¿Olvidó su contraseña?</a>
                     </form>
                 </div>
             </div>
