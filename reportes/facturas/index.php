@@ -295,7 +295,8 @@ ob_start();
 
     $pdf->setX(10);
     $pdf->SetFont('Arial','',8);
-    $pdf->Cell(125, 10, utf8_decode(" SON: ".strtoupper($inLetter->convertirCifrasEnLetras($valueTotal-$valuePay))." PESOS MCTE"), 1, 0, 'L', 0);
+    //
+    $pdf->Cell(125, 10, utf8_decode(" SON: "), 1, 0, 'L', 0);
     $pdf->SetFont('Arial','B',10);
     $pdf->Cell(35, 10, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
     

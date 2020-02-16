@@ -755,17 +755,25 @@
         * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
         * @param $id Código de titular a consultar
         */
-        public function getTitularPerson($id){
+        public function getTitularPerson($id, $state, $idRes){
+            $lastRes = "";
+            if($state==0){
+                $lastRes = ' AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+                                WHERE numero_documento=:idPerson2)';
+            }else{
+                $lastRes = ' AND fecha_ingreso = (SELECT fecha_ingreso
+                                 FROM reservas r
+                                WHERE r.id_reserva='.$idRes.')';
+            }
+            
             $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, numero_documento, telefono_persona, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, nombre_empresa, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
             FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
             LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
             LEFT JOIN empresas e ON r.id_empresa=r.id_reserva
-            WHERE numero_documento=:idPerson
-            AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                WHERE numero_documento=:idPerson2)');
-            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            WHERE numero_documento=:idPerson'.$lastRes);
+            ($state==0)?$query->execute([':idPerson'=>$id, ':idPerson2'=>$id]):$query->execute([':idPerson'=>$id]);
 
             foreach ($query as $current){
                 echo $current['nombres_persona'].';';
@@ -784,12 +792,9 @@
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
                 LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
-                WHERE numero_documento=:idPerson
-                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
-                                     FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                    WHERE numero_documento=:idPerson2)
-                GROUP BY valorUnitario');
-            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+                WHERE numero_documento=:idPerson'.$lastRes.
+                ' GROUP BY valorUnitario');
+           ($state==0)?$query->execute([':idPerson'=>$id, ':idPerson2'=>$id]):$query->execute([':idPerson'=>$id]);
             
             foreach ($query as $current){  
                 echo "HOSPEDAJE HABITACIÓN ".$current['habitaciones'].';';
@@ -804,11 +809,8 @@
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
             INNER JOIN peticiones pt ON cd.id_control=pt.id_control
             INNER JOIN productos pd ON pd.id_producto=pt.id_producto
-            WHERE numero_documento=:idPerson
-            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                WHERE numero_documento=:idPerson2)');
-            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            WHERE numero_documento=:idPerson'.$lastRes);
+            ($state==0)?$query->execute([':idPerson'=>$id, ':idPerson2'=>$id]):$query->execute([':idPerson'=>$id]);
             
             foreach ($query as $current){
                 if($current['minibar']!=Null){
@@ -826,11 +828,8 @@
             INNER JOIN peticiones pt ON cd.id_control=pt.id_control
             INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
             WHERE numero_documento=:idPerson
-            AND tipo_servicio = "L"
-            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                WHERE numero_documento=:idPerson2)');
-            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+            AND tipo_servicio = "L"'.$lastRes);
+            ($state==0)?$query->execute([':idPerson'=>$id, ':idPerson2'=>$id]):$query->execute([':idPerson'=>$id]);
             
             foreach ($query as $current){
                 if($current['valor_lavanderia']!=Null){
@@ -846,11 +845,8 @@
                 LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
                 LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
                 LEFT JOIN peticiones pt ON pt.id_control=c.id_control
-                WHERE p.numero_documento=:idPerson
-                AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                                WHERE numero_documento=:idPerson2)');
-            $query->execute([':idPerson'=>$id, ':idPerson2'=>$id]);
+                WHERE p.numero_documento=:idPerson'.$lastRes);
+            ($state==0)?$query->execute([':idPerson'=>$id, ':idPerson2'=>$id]):$query->execute([':idPerson'=>$id]);
             
             foreach ($query as $current){
                 echo $current['abono'];
@@ -861,16 +857,24 @@
         * Obtiene los datos personales del titular de una reserva, teniendo en cuenta el id que se recibe por parámetro
         * @param $id Código de titular a consultar
         */
-        public function getTitularEnterprise($id){
+        public function getTitularEnterprise($id, $state, $idRes){
+            $lastRes = "";
+            if($state==0){
+                $lastRes = ' AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
+                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
+                                WHERE e.nit_empresa=:idE2)';
+            }else{
+                $lastRes = ' AND fecha_ingreso = (SELECT fecha_ingreso
+                                FROM reservas r
+                                WHERE r.id_reserva='.$idRes.')';
+            }
+            
             $query = $this->connect()->prepare('SELECT nombre_empresa, telefono_empresa, nit_empresa, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, r.id_reserva
             FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
             LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
-            WHERE e.nit_empresa =:idE
-            AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
-                                WHERE e.nit_empresa =:idE2)');
-            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            WHERE e.nit_empresa =:idE'.$lastRes);
+            ($state==0)?$query->execute([':idE'=>$id, ':idE2'=>$id]):$query->execute([':idE'=>$id]);
 
             foreach ($query as $current){
                 echo $current['nombre_empresa'].';';
@@ -887,12 +891,9 @@
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
                 LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
-                WHERE e.nit_empresa=:idE
-                AND fecha_ingreso = (SELECT MAX(fecha_ingreso) 
-                                     FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
-                                    WHERE e.nit_empresa=:idE2)
-                GROUP BY valorUnitario');
-            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+                WHERE e.nit_empresa=:idE'.$lastRes.'
+                 GROUP BY valorUnitario');
+            ($state==0)?$query->execute([':idE'=>$id, ':idE2'=>$id]):$query->execute([':idE'=>$id]);
             
             foreach ($query as $current){  
                 echo "HOSPEDAJE HABITACIÓN ".$current['habitaciones'].';';
@@ -907,11 +908,8 @@
             INNER JOIN control_diario cd ON rh.id_registro_habitacion=cd.id_registro_habitacion
             INNER JOIN peticiones pt ON cd.id_control=pt.id_control
             INNER JOIN productos pd ON pd.id_producto=pt.id_producto
-            WHERE e.nit_empresa=:idE
-            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
-                                WHERE e.nit_empresa=:idE2)');
-            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            WHERE e.nit_empresa=:idE'.$lastRes);
+            ($state==0)?$query->execute([':idE'=>$id, ':idE2'=>$id]):$query->execute([':idE'=>$id]);
             
             foreach ($query as $current){
                 if($current['minibar']!=Null){
@@ -929,11 +927,8 @@
             INNER JOIN peticiones pt ON cd.id_control=pt.id_control
             INNER JOIN servicios s ON s.id_servicio=pt.id_servicio
             WHERE e.nit_empresa=:idE
-            AND tipo_servicio = "L"
-            AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
-                                WHERE e.nit_empresa=:idE2)');
-            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+            AND tipo_servicio = "L"'.$lastRes);
+            ($state==0)?$query->execute([':idE'=>$id, ':idE2'=>$id]):$query->execute([':idE'=>$id]);
             
             foreach ($query as $current){
                 if($current['valor_lavanderia']!=Null){
@@ -949,11 +944,8 @@
                 LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
                 LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
                 LEFT JOIN peticiones pt ON pt.id_control=c.id_control
-                WHERE e.nit_empresa=:idE
-                AND fecha_ingreso= (SELECT MAX(fecha_ingreso) 
-                                 FROM reservas r INNER JOIN empresas e ON r.id_empresa=e.id_empresa
-                                WHERE e.nit_empresa=:idE2)');
-            $query->execute([':idE'=>$id, ':idE2'=>$id]);
+                WHERE e.nit_empresa=:idE'.$lastRes);
+            ($state==0)?$query->execute([':idE'=>$id, ':idE2'=>$id]):$query->execute([':idE'=>$id]);
             
             foreach ($query as $current){
                 echo $current['abono'];
