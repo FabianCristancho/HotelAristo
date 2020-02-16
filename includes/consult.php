@@ -57,6 +57,10 @@
                 case 'tariff':
                     $this->tariffList($aux,$aux2);
                     break;
+                    
+                case 'role':
+                    $this->getRoleList();
+                    break;
             }
         }
             
@@ -85,6 +89,10 @@
 
                 case 'customers':
                     $this->customerTable();
+                    break;
+                    
+                case 'users':
+                    $this->userTable();
                     break;
 
                 case 'reservation':
@@ -256,6 +264,18 @@
         }
         
         /**
+        * Obtiene la lista de los cargos que van a desempeñar los usuarios del hotel
+        */
+        public function getRoleList(){
+            $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos WHERE id_cargo !=5');
+            $query->execute();
+
+            foreach ($query as $current) {
+                echo '<option value="'.$current['nombre_cargo'].'">'.$current['nombre_cargo'].'</option>';
+            }
+        }
+        
+        /**
         * Se encarga de dar formato a un precio determinado
         * @param $price precio al que se le asignará un formato
         */
@@ -362,6 +382,26 @@
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.''.'</td>';
+                echo '</tr>'.PHP_EOL;
+            }
+        }
+        
+        /**
+        * Construye una tabla con los usuarios almacenados en la base de datos
+        */
+        function userTable(){
+            $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, telefono_persona, correo_persona, nombre_cargo 
+                FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo
+                WHERE tipo_persona = "U"
+                AND p.id_cargo != 5');
+            $query->execute();
+
+            foreach ($query as $current){
+                echo '<tr>'.PHP_EOL;
+                echo '<td><a href="/usuarios/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
+                echo '<td class="num">'.$current['telefono_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
+                echo '<td>'.$current['nombre_cargo'].'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }
