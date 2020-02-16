@@ -6,38 +6,38 @@ var user = "";
 /**
 * Función encargada de buscar a la persona titular de la reserva, con el fin de generar una nueva factura
 **/
-function searchTitular(input, typePayment, typeTitular){
+function searchTitular(input, typePayment, typeTitular, idRes){
     if(typePayment==0){
         var rbutton = document.getElementsByName("typeId");
         var typeId = getRadioButtonSelectedValue(rbutton);
         if(typeId == 'CC'){
-            fullDataTPerson(input.value, typePayment, 0);
+            fullDataTPerson(input.value, typePayment, 0, idRes);
         }else if(typeId == 'NIT'){
-            fullDataTEnterprise(input.value, typePayment, 0);
+            fullDataTEnterprise(input.value, typePayment, 0, idRes);
         }   
     }else if(typePayment==1){
         if(typeTitular==0){
-            fullDataTPerson(input, typePayment, 0);
+            fullDataTPerson(input, typePayment, 0, idRes);
         }else{
-            fullDataTEnterprise(input, typePayment, 0);
+            fullDataTEnterprise(input, typePayment, 0, idRes);
         }
     }else if(typePayment==2){
         if(typeTitular==0){
-            fullDataTPerson(input, typePayment, 1);
+            fullDataTPerson(input, typePayment, 1, idRes);
         }else{
-            fullDataTEnterprise(input, typePayment, 1);
+            fullDataTEnterprise(input, typePayment, 1, idRes);
         }
     }
-    
 }
 
 
-function fullDataTPerson(input, typePayment, toPay){
+function fullDataTPerson(input, typePayment, toPay, idRes){
     //resetValues();
+    
     $.ajax({
         type: 'post',
         url: '/includes/get.php',
-        data: 'entity=searchTitularPerson&idTitular='+input,
+        data: 'entity=searchTitularPerson&idTitular='+input+"&typePayment="+typePayment+"&idRes="+idRes,
         
         success:function(ans){
             var data=ans.split(";");
@@ -116,32 +116,39 @@ function fullDataTPerson(input, typePayment, toPay){
             
                 document.getElementById("paidValue").innerHTML=new Intl.NumberFormat("es-CO").format(paidValue);
                 
-                if(toPay == 1)
+                if(toPay == 1){
+                    totalBill = paidValue;
                     document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(paidValue);
-                else
+                }else
                     document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill-paidValue);
                 
+                if(typePayment != 1){
+                    buttonBill = document.getElementById("generateBill");    
+                }
                 
-                buttonBill = document.getElementById("generateBill");
                 
                 
                 idBook = data[8];
                 if(toPay==1){
                     buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=TOPAY";}, 2000)};
                 }else{
-                    buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};    
+                    if(typePayment!=1){
+                        buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};  
+                    }         
                 }
                 
                 
                 showAlert("alert-s","Se encontró al cliente con el número de documento "+input);
             }else{
-                if(document.getElementsByTagName("input")[2].value==""){
-                    showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
-                }else{
-                    showAlert("alert-i","No se encontró a ningun cliente con el número de documento "+input);
-                    if(typePayment==0){
-                        document.getElementsByTagName("input")[2].value = "";    
-                    }
+                if(typePayment==0){
+                    if(document.getElementsByTagName("input")[2].value==""){
+                        showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
+                    }else{
+                        showAlert("alert-i","No se encontró a ningun cliente con el número de documento "+input);
+                        if(typePayment==0){
+                            document.getElementsByTagName("input")[2].value = "";    
+                        }
+                    }    
                 }
             }
         }
@@ -149,12 +156,12 @@ function fullDataTPerson(input, typePayment, toPay){
 }
 
 
-function fullDataTEnterprise(input, typePayment, toPay){
+function fullDataTEnterprise(input, typePayment, toPay, idRes){
    // resetValues();
     $.ajax({
         type: 'post',
         url: '/includes/get.php',
-        data: 'entity=searchTitularEnterprise&idTitular='+input,
+        data: 'entity=searchTitularEnterprise&idTitular='+input+"&typePayment="+typePayment+"&idRes="+idRes,
         
         success:function(ans){
             var data=ans.split(";");
@@ -238,25 +245,30 @@ function fullDataTEnterprise(input, typePayment, toPay){
                 else
                     document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill-paidValue);
                 
-                
-                buttonBill = document.getElementById("generateBill");
+                if(typePayment != 1){
+                    buttonBill = document.getElementById("generateBill");
+                }
                 
                 
                 idBook = data[6];
                 if(toPay==1){
                     buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=TOPAY";}, 2000)};
                 }else{
-                    buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};    
+                    if(typePayment!=1){
+                        buttonBill.onclick = function(){sendBill(); setTimeout(function (){location.href='../../reportes/facturas?id='+idBook+"&typeBill="+typeBill+"&serie=NEW";}, 2000)};       
+                    }
                 }
                 
                 showAlert("alert-s","Se encontró a la empresa con NIT " +input);
             }else{
-                if(document.getElementsByTagName("input")[2].value==""){
-                    showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
-                }else{
-                    showAlert("alert-i","No se encontró a ninguna empresa con el NIT " +input);
-                    if(typePayment==0){
-                        document.getElementsByTagName("input")[2].value = "";    
+                if(typePayment==0){
+                    if(document.getElementsByTagName("input")[2].value==""){
+                        showAlert("alert-i","Es necesario que ingrese un valor en el campo de búsqueda");
+                    }else{
+                        showAlert("alert-i","No se encontró a ninguna empresa con el NIT " +input);
+                        if(typePayment==0){
+                            document.getElementsByTagName("input")[2].value = "";    
+                        }
                     }
                 }
             }

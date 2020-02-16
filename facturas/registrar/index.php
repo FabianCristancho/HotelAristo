@@ -128,7 +128,7 @@
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input class="form-control" type="text" placeholder="Documento" maxlength="10" minlength="7"  onkeypress="return validateNumericValue(event);">
-                                    <button type="button" onclick="searchTitular(this.previousElementSibling, 0, -1);"><i class="fa fa-search"></i></button>
+                                    <button type="button" onclick="searchTitular(this.previousElementSibling, 0, -1, -1);"><i class="fa fa-search"></i></button>
                                 </div>
                                 <small class="form-text text-muted">ej. 102055214</small>
                             </div>
@@ -138,13 +138,13 @@
                                 <script type="text/javascript">
                                     var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
                                     var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
-                                    searchTitular(idTitular, 1, typeTitular); 
+                                    searchTitular(idTitular, 1, typeTitular, '<?php echo $_GET['id']?>'); 
                                 </script>
                             <?php else:?>
                                 <script type="text/javascript">
                                     var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
                                     var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
-                                    searchTitular(idTitular, 2, typeTitular); 
+                                    searchTitular(idTitular, 2, typeTitular, '<?php echo $_GET['id']?>'); 
                                 </script>
                             <?php endif;?>
                             
