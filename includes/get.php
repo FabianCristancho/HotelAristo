@@ -41,10 +41,10 @@
             $consult->getBookingAmount($_POST['idBooking']);
             break;
         case 'searchTitularPerson':
-           $consult->getTitularPerson($_POST['idTitular']);
+           $consult->getTitularPerson($_POST['idTitular'],$_POST['typePayment'],$_POST['idRes']);
             break;
         case 'searchTitularEnterprise':
-           $consult->getTitularEnterprise($_POST['idTitular']);
+           $consult->getTitularEnterprise($_POST['idTitular'],$_POST['typePayment'],$_POST['idRes']);
             break;
     }
 ?>
