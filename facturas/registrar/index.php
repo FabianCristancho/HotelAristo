@@ -80,7 +80,7 @@
         </script>
 
         <!--Bloque encargado de mostrar los detalles correspondientes a la factura de una reserva-->
-        <div class="col-11 content">
+        <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header col-12">
                     <div class="row col-12">
@@ -88,16 +88,27 @@
                     </div>
                 </div>
                 
+                
                 <div class="series">
-                    <select name="typeBill" id="selectType" onchange="return changeSelect();">
-                        <option value="Factura de Venta" selected>Factura de Venta</option>
-                        <option value="Orden de Servicio">Orden de Servicio</option>
-                    </select>
-                    <p>No&nbsp;&nbsp; <strong id="serieBill"><?php echo $consult->getNextSerieBill(); ?></strong><strong id="serieOrder" hidden><?php echo $consult->getNextSerieOrder(); ?></strong></p>
+                    <?php if(isset($_GET['serie'])):?>
+                        <select name="typeBill" id="selectType" disabled onchange="return changeSelect();">
+                            <option value="Factura de Venta" selected>Factura de Venta</option>
+                            <option value="Orden de Servicio">Orden de Servicio</option>
+                        </select>
+                        <p>No&nbsp;&nbsp; <strong id="serieBill"><?php echo $_GET['serie']; ?></strong><strong id="serieOrder" hidden><?php echo $consult->getNextSerieOrder(); ?></strong></p>
+                    <?php else:?>
+                        <select name="typeBill" id="selectType" onchange="return changeSelect();">
+                            <option value="Factura de Venta" selected>Factura de Venta</option>
+                            <option value="Orden de Servicio">Orden de Servicio</option>
+                        </select>
+                        <p>No&nbsp;&nbsp; <strong id="serieBill"><?php echo $consult->getNextSerieBill(); ?></strong><strong id="serieOrder" hidden><?php echo $consult->getNextSerieOrder(); ?></strong></p>
+                    <?php endif;?>
+                    
                 </div>
                 
                 <div class="card-search">
                     <div class="infos">
+                        <?php if(!isset($_GET['id'])):?>
                         <div class="row">
                             <div class="form-group in-row">
                                 <label class="form-control-label"><b>Tipo de identificación del titular</b></label>
@@ -117,11 +128,27 @@
                                         <i class="fa fa-search"></i>
                                     </div>
                                     <input class="form-control" type="text" placeholder="Documento" maxlength="10" minlength="7"  onkeypress="return validateNumericValue(event);">
-                                    <button type="button" onclick="searchTitular(this.previousElementSibling);"><i class="fa fa-search"></i></button>
+                                    <button type="button" onclick="searchTitular(this.previousElementSibling, 0, -1);"><i class="fa fa-search"></i></button>
                                 </div>
                                 <small class="form-text text-muted">ej. 102055214</small>
                             </div>
                         </div>
+                        <?php else:?>
+                            <?php if(isset($_GET['serie'])):?>
+                                <script type="text/javascript">
+                                    var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
+                                    var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
+                                    searchTitular(idTitular, 1, typeTitular); 
+                                </script>
+                            <?php else:?>
+                                <script type="text/javascript">
+                                    var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
+                                    var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
+                                    searchTitular(idTitular, 2, typeTitular); 
+                                </script>
+                            <?php endif;?>
+                            
+                        <?php endif;?>
                         <p><b id="namePerson">Nombre: </b><label></label></p>
                         <p><b>Teléfono: </b><label></label></p>
                         <p><b id="numberId">Número de Documento: </b><label></label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -155,7 +182,7 @@
                         <table>
                             <tr class="long_letters">
                                 <td class="long_totals"></td>
-                                <td><b>Valor Total ($)</b></td>
+                                <td><b>Valor a pagar ($)</b></td>
                                 <td class="long_values" id="valueTotal"><b></b></td>
                             </tr>
                         </table>
@@ -163,15 +190,23 @@
                 </div>
 
                 <input id="currentUser" value="<?php echo  $user->getId()?>" hidden></input>
-                
+                 
 
+                
+            <?php if(isset($_GET['serie'])):?>
+                <div>
+                    <a href = "/reportes/facturas?id=<?php echo $_GET['id']?>&typeBill=0&serie=<?php echo $_GET['serie']?>" class="col-10" style="float: center;"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a>
+                </div>
+            <?php else:?>
                 <div class="option_bill">
                     <form action="">
                         <button formtarget="_blank" id="generateBill" class="button-add-book col-2">
-                            <span>GENERAR FACTURA</span>
+                            <span>GUARDAR FACTURA</span>
                         </button>
                     </form>
                 </div>
+            <?php endif;?>
+                
             </div>
         </div>
         

@@ -405,7 +405,7 @@
                 echo '<td>'.'$ '.number_format($current['total_factura'], 0, '.', '.').'</td>'.PHP_EOL;
                 echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
-                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'"class="button-more-info" class="col-10">Ver Detalles</a></td>';
+                echo '<td><a href = "/facturas/registrar?id='.$current['id_reserva'].'&serie='.$current['serie_factura'].'"class="button-more-info" class="col-10">Ver Detalles</a></td>';
                 echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
                 echo '</tr>'.PHP_EOL;
             }
@@ -779,7 +779,7 @@
                 echo $current['id_reserva'].';';
             }
             
-             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)* CASE WHEN DATEDIFF(fecha_salida, fecha_ingreso) = 0 THEN 1 ELSE DATEDIFF(fecha_salida, fecha_ingreso) END) AS valor_total
                 FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
@@ -882,7 +882,7 @@
                 echo $current['id_reserva'].';';
             }
             
-             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
+             $query = $this->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)* CASE WHEN DATEDIFF(fecha_salida, fecha_ingreso) = 0 THEN 1 ELSE DATEDIFF(fecha_salida, fecha_ingreso) END) AS valor_total
                 FROM reservas r INNER JOIN empresas e ON e.id_empresa=r.id_empresa
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
@@ -959,6 +959,37 @@
                 echo $current['abono'];
             }
         }
+        
+        
+         function getTypeTitular($idRes){
+             $query = $this->connect()->prepare('SELECT (CASE WHEN r.id_empresa IS NULL THEN 0 ELSE 1 END) AS tipo_titular
+                FROM reservas r LEFT JOIN personas p ON r.id_titular=p.id_persona
+                LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
+                WHERE r.id_reserva=:idRes;');
+            $query->execute([':idRes'=>$idRes]);
+            
+             $typeTitular;
+            
+            foreach ($query as $current){
+                $typeTitular = $current['tipo_titular'];
+            }
+            return $typeTitular;
+         }
+        
+        function getIdTitular($idRes){
+             $query = $this->connect()->prepare('SELECT (CASE WHEN r.id_empresa IS NULL THEN p.numero_documento ELSE e.nit_empresa END) AS tipo_titular
+                FROM reservas r LEFT JOIN personas p ON r.id_titular=p.id_persona
+                LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
+                WHERE r.id_reserva=:idRes;');
+            $query->execute([':idRes'=>$idRes]);
+            
+             $idTitular;
+            
+            foreach ($query as $current){
+                $idTitular = $current['tipo_titular'];
+            }
+            return $idTitular;
+         }
         
         /**
         * Obtiene la siguiente serie que se va a generar del orden de servicio

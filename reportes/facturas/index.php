@@ -41,8 +41,8 @@ ob_start();
     $rowsNum = 0;
 
     // Declaración de la consulta - datos personales
-    $queryPersonalData = $db->connect()->prepare('SELECT numero_documento, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombres, telefono_persona, nombre_empresa, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones 
-                                        FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
+    $queryPersonalData = $db->connect()->prepare('SELECT numero_documento, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombres, telefono_persona, nit_empresa, nombre_empresa, DATE_FORMAT(fecha_ingreso, "%d/%m/%Y") AS fecha_ingreso, DATE_FORMAT(fecha_salida, "%d/%m/%Y") AS fecha_salida, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones 
+                                        FROM reservas r LEFT JOIN personas p ON r.id_titular=p.id_persona
                                         LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
             							LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
                                         LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
@@ -51,13 +51,15 @@ ob_start();
 
 
     //Declaración de la consulta - habitaciones
-    $queryRoom = $db->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)) AS valor_total
-                FROM reservas r INNER JOIN personas p ON p.id_persona=r.id_titular
+    $queryRoom = $db->connect()->prepare('SELECT COUNT(id_registro_habitacion) AS cantidad, valor_ocupacion AS valorUnitario, GROUP_CONCAT(DISTINCT(numero_habitacion) SEPARATOR ",") AS habitaciones, (valor_ocupacion*COUNT(id_registro_habitacion)* CASE WHEN DATEDIFF(fecha_salida, fecha_ingreso) = 0 THEN 1 ELSE DATEDIFF(fecha_salida, fecha_ingreso) END) AS valor_total
+                FROM reservas r LEFT JOIN personas p ON p.id_persona=r.id_titular
+                LEFT JOIN empresas e ON e.id_empresa=r.id_empresa
                 LEFT JOIN registros_habitacion rh ON r.id_reserva=rh.id_reserva
                 LEFT JOIN tarifas tf ON tf.id_tarifa=rh.id_tarifa
                 LEFT JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion 
                 WHERE r.id_reserva=:idReserva
                 GROUP BY valorUnitario');
+
     $queryRoom->execute(['idReserva'=>$idBook]);
     $rowsNum += $queryRoom->rowCount(); 
 
@@ -99,10 +101,9 @@ ob_start();
     $queryServiceRes->execute(['idReserva'=>$idBook]);
     $rowsNum += $queryServiceRes->rowCount(); 
 
-    //Declaración de la consulta - servicio de restaurante
+    //Declaración de la consulta - abono
     $queryPayValue = $db->connect()->prepare('SELECT NVL(abono_reserva, 0)+ NVL(SUM(abono_peticion),0) AS abono
-                FROM reservas r INNER JOIN personas p ON r.id_titular=p.id_persona
-                LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
+                FROM reservas r LEFT JOIN registros_habitacion rh ON rh.id_reserva=r.id_reserva
                 LEFT JOIN control_diario c ON c.id_registro_habitacion=rh.id_registro_habitacion
                 LEFT JOIN peticiones pt ON pt.id_control=c.id_control
                 WHERE r.id_reserva=:idReserva');
@@ -127,19 +128,21 @@ ob_start();
     $name;
     $document;
     $phone;
+    $nit;
     $enterprise;
     $textBill = "";
     $listRooms = "";
     $dateIn;
     $dateOut;
+    $aux = $serie;
 
     if($typeBill==0){
         $textBill = "  FACTURA DE VENTA  ";
-        if(strcmp($serie, 'NEW') == 0)
+        if(strcmp($serie, 'NEW') == 0 || strcmp($serie, 'TOPAY') == 0)
             $serie = $consult->getLastSerieBill();
     }else{
         $textBill = "ORDEN DE SERVICIO";
-        if(strcmp($serie, 'NEW') == 0)
+        if(strcmp($serie, 'NEW') == 0 || strcmp($serie, 'TOPAY') == 0)
             $serie = $consult->getLastSerieOrder();
     }
     
@@ -147,6 +150,7 @@ ob_start();
         $name = $current['nombres'];
         $document = $current['numero_documento'];
         $phone = $current['telefono_persona'];
+        $nit = $current['nit_empresa'];
         $enterprise = $current['nombre_empresa'];
         $listRooms = $current['habitaciones'];
         $dateIn = $current['fecha_ingreso'];
@@ -193,7 +197,7 @@ ob_start();
         $pdf->SetFont('Arial');
         $pdf->Cell(100, 5, $enterprise, 0, 1, 'L', 0);
         $pdf->setXY(16, 48);
-        $pdf->Cell(30, 5, $document, 0, 1, 'L', 0);
+        $pdf->Cell(30, 5, $nit, 0, 1, 'L', 0);
     }
     
     $pdf->SetFont('Arial','B',9);
@@ -229,50 +233,53 @@ ob_start();
     // Formato y agregación del contenido del reporte
     $pdf->SetFont('Arial','',9);
     
-    foreach($queryRoom as $current){
-        $pdf->setX(10);
-        $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
-        $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 1, 0, 'C', 0);
-        $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
-        $valueTotal+=$current['valor_total'];
-    }
-
-
-    foreach($queryProducts as $current){
-        if($current['minibar']!=Null){
+    if(strcmp($aux, 'TOPAY') != 0){
+        foreach($queryRoom as $current){
             $pdf->setX(10);
-            $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
-            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 1, 1, 'C', 0);
-            $valueTotal+=$current['minibar'];
+            $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
+            $valueTotal+=$current['valor_total'];
+        }
+
+
+        foreach($queryProducts as $current){
+            if($current['minibar']!=Null){
+                $pdf->setX(10);
+                $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 1, 1, 'C', 0);
+                $valueTotal+=$current['minibar'];
+            }
+        }
+
+
+        foreach($queryServiceLaundry as $current){
+            if($current['valor_lavanderia']!=Null){
+                $pdf->setX(10);
+                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 1, 1, 'C', 0);
+                $valueTotal+=$current['valor_lavanderia'];
+            }
+        }
+
+
+        foreach($queryServiceRes as $current){
+            if($current['valor_restaurante']!=Null){
+                $pdf->setX(10);
+                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 1, 1, 'C', 0);
+                $valueTotal+=$current['valor_restaurante'];
+            }
         }
     }
-
-
-    foreach($queryServiceLaundry as $current){
-        if($current['valor_lavanderia']!=Null){
-            $pdf->setX(10);
-            $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
-            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 1, 1, 'C', 0);
-            $valueTotal+=$current['valor_lavanderia'];
-        }
-    }
-
     
-    foreach($queryServiceRes as $current){
-        if($current['valor_restaurante']!=Null){
-            $pdf->setX(10);
-            $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
-            $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 1, 1, 'C', 0);
-            $valueTotal+=$current['valor_restaurante'];
-        }
-    }
 
     $valuePay = 0;
     foreach($queryPayValue as $current){
@@ -290,8 +297,14 @@ ob_start();
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(125, 10, utf8_decode(" SON: ".strtoupper($inLetter->convertirCifrasEnLetras($valueTotal-$valuePay))." PESOS MCTE"), 1, 0, 'L', 0);
     $pdf->SetFont('Arial','B',10);
-    $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 1, 0, 'C', 0);
-    $pdf->Cell(35, 10, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
+    $pdf->Cell(35, 10, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
+    
+    if(strcmp($aux, 'TOPAY') == 0){
+        $pdf->Cell(35, 10, '$'.number_format($valuePay, 0, '.', '.'), 1, 1, 'C', 0);
+    }else{
+        $pdf->Cell(35, 10, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
+    }
+    
     $pdf->SetFont('Arial','',8);
     
     $pdf->setX(6);  
