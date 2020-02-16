@@ -119,8 +119,11 @@ function fullDataTPerson(input, typePayment, toPay, idRes){
                 if(toPay == 1){
                     totalBill = paidValue;
                     document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(paidValue);
-                }else
+                }else{
                     document.getElementById("valueTotal").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill-paidValue);
+                    document.getElementById("totalRes").innerHTML=new Intl.NumberFormat("es-CO").format(totalBill);
+                }
+                    
                 
                 if(typePayment != 1){
                     buttonBill = document.getElementById("generateBill");    
