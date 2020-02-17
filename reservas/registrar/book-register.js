@@ -416,11 +416,15 @@ function getSelectedOptionNameFrom(select){
 function showPayments(input){
 	var p=document.getElementById("payment-methods");
 	var pi=document.getElementById("input-paid-group");
+	var pn=document.getElementById("input-paid");
 
 	if(input.checked){
+		p.getElementsByTagName("select")[0].value="E";
 		p.style.display="block";
 		pi.style.display="block";
+		pn.required=true;
 	}else{
+		pn.required=false;
 		p.style.display="none";
 		pi.style.display="none";
 	}
@@ -478,10 +482,13 @@ function showPersonHolder(button){
 }
 
 function showInputPaid(input){
-	if(input.value=="E"||input.value=="T")
+	if(input.value=="E"||input.value=="T"){
+		document.getElementById("input-paid").required=true;
 		document.getElementById("input-paid-group").style.display="block";
-	else
+	}else{
+		document.getElementById("input-paid").required=false;
 		document.getElementById("input-paid-group").style.display="none";
+	}
 }
 
 function setMessageOnLoading(message, entity){

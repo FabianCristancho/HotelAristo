@@ -42,7 +42,8 @@ function prepareReservation(user){
 	}
 
 	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
-		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
+		document.getElementById("holder-check").checked,
+		(document.getElementById("payment-check").checked&&document.getElementById("total-label").style.display!="none"?document.getElementById("total-label").innerHTML:0), 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
 		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
 }
@@ -126,7 +127,7 @@ function sendReservation(user){
 
 				for (var j = 1; j < ans2[i].length; j++) {
 					data=ans2[i][j].split(";");
-					setMessageOnLoading((data[1]==undefined?"Asignación del titular a la habitación.":data[1]),"Huesped");
+					setMessageOnLoading((data[1]==undefined?"Asignando del titular a la habitación.":data[1]),"Huesped");
 					promises.push(send(null, 'entity=guestReg&roomReg='+roomId+'&guestId='+data[0]));
 				}
 			}
@@ -334,11 +335,11 @@ class Room{
 		this.guests=guests;
 		this.roomNumber=roomNumber;
 		this.idTariff=idTariff;
-		this.tariff=tariff;
+		this.tariff=tariff.replace(".","");
 	}
 
 	getSendData(){
-		return "entity=room&roomNumber="+this.roomNumber+"&tariff="+this.idTariff;
+		return "entity=room&roomNumber="+this.roomNumber+"&tariff="+this.idTariff+"&tariffValue="+this.tariff;
 	}
 }
 
@@ -443,7 +444,7 @@ function sendEnterprise(){
 
 
  function confirmCheckOn(reservation){
- 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value:"")).then(function(ans){
+ 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value.replace(".",""):"")).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
 

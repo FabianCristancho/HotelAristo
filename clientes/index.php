@@ -79,7 +79,6 @@
                                 <th>NOMBRE</th>
                                 <th>NÚMERO DE DOCUMENTO</th>
                                 <th>TELÉFONO</th>
-                                <th>EMPRESA</th>
                             </tr>
                         </thead>
                         
