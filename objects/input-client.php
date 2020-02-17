@@ -63,6 +63,7 @@
 						                            <option value="RC">Registro civil</option>
 						                            <option value="TI">Tarjeta de identidad</option>
 						                            <option value="CE">Cedula de extranjeria</option>
+                                                    <option value="PS">Pasaporte</option>
 						                        </select>
 											</div>
 										</div>
