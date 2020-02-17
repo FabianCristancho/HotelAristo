@@ -65,9 +65,11 @@
 		<div class="content col-12">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
 					<div class="content col-12 padd">
+                        <form onsubmit="saveUser(); return false;">
                         <div class="content-header">
                             <h2 class="title-form" style="text-align: center;">REGISTRAR USUARIO</h2>
                         </div>
+
 						    <?php
 						    /**
             				* Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -76,11 +78,12 @@
         					?>
                         <div>
                             <!-- Botón que se encarga de enviar los datos ingresados en los campos del formulario para su posterior almacenamiento en la base de datos -->
-                           <button class="btn btn-block btn-register" onclick="saveUser();">
+                           <button class="btn btn-block btn-register">
                                <i class="fa fa-check"></i>
                                <span>Registrar Usuario</span>
                            </button>
 				        </div>
+                        </form>
                     </div>
 				
 				

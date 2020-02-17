@@ -427,14 +427,19 @@ function sendProfession(){
 
 function sendEnterprise(){
 	var card=document.getElementsByClassName("card-enterprise")[0];
-
 	$.ajax({
 		type: 'post',
 		url: '/includes/insert.php',
-		data: "entity=enterprise&name="+card.getElementsByTagName("input")[0].value,
+		data: "entity=enterprise&nit="+card.getElementsByTagName("input")[0].value
+		+"&name="+card.getElementsByTagName("input")[1].value+"&phone="+$(card.getElementsByTagName("input")[2]).cleanVal()
+		+"&email="+(card.getElementsByTagName("input")[3].value==""?"NULL":card.getElementsByTagName("input")[3].value)
+		+"&ret="+(card.getElementsByTagName("input")[4].checked?1:0)+"&ica="+(card.getElementsByTagName("input")[6].checked?1:0),
 		success: function (ans) {
 			var data=ans.split(";");
 			showAlert(data[0],data[1]);
+			setTimeout(function(){
+				location.href="/empresas";
+			},1500);
 		},
 		error: function (ans) {
 			showAlert('alert-d','No se pudo conectar con la base de datos');
