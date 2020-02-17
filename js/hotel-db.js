@@ -42,7 +42,8 @@ function prepareReservation(user){
 	}
 
 	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
-		document.getElementById("holder-check").checked,document.getElementById("total-label").innerHTML, 
+		document.getElementById("holder-check").checked,
+		(document.getElementById("payment-check").checked&&document.getElementById("total-label").style.display!="none"?document.getElementById("total-label").innerHTML:0), 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
 		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
 }
@@ -443,7 +444,7 @@ function sendEnterprise(){
 
 
  function confirmCheckOn(reservation){
- 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value:"")).then(function(ans){
+ 	sendUpdate("action=setCheckOn&idBooking="+reservation+(document.getElementById("payment-check").checked?"&paymentMethod="+document.getElementById("payment-method").value+"&amount="+document.getElementById("input-paid").value.replace(".",""):"")).then(function(ans){
  		var data=ans.split(";");
  		showAlert(data[0],data[1]);
 
