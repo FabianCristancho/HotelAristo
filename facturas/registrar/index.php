@@ -175,15 +175,22 @@
                         <table>
                             <tr class="long_letters">
                                 <td class="long_totals"></td>
-                                <td><b>Valor Abonado ($)</b></td>
+                                <td><b>VALOR ABONADO ($)</b></td>
                                 <td class="long_values" id="paidValue"><b></b></td>
                             </tr>
                         </table>
                         <table>
                             <tr class="long_letters">
                                 <td class="long_totals"></td>
-                                <td><b>Valor a pagar ($)</b></td>
+                                <td><b>VALOR A PAGAR ($)</b></td>
                                 <td class="long_values" id="valueTotal"><b></b></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr class="long_letters">
+                                <td class="long_totals"></td>
+                                <td><b style="font-size: 16px;">VALOR TOTAL DE RESERVA ($)</b></td>
+                                <td class="long_values"><b id="totalRes" style="font-size: 16px;"></b></td>
                             </tr>
                         </table>
                     </div>

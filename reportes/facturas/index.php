@@ -293,18 +293,24 @@ ob_start();
         }
     }
 
-    $pdf->setX(10);
-    $pdf->SetFont('Arial','',8);
-    //
-    $pdf->Cell(125, 10, utf8_decode(" SON: "), 1, 0, 'L', 0);
     $pdf->SetFont('Arial','B',10);
-    $pdf->Cell(35, 10, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
+    $pdf->setX(10);
+    $pdf->Cell(125, 6, "", 1, 0, 'L', 0);
+    $pdf->Cell(35, 6, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
     
     if(strcmp($aux, 'TOPAY') == 0){
-        $pdf->Cell(35, 10, '$'.number_format($valuePay, 0, '.', '.'), 1, 1, 'C', 0);
+        $pdf->Cell(35, 6, '$'.number_format($valuePay, 0, '.', '.'), 1, 1, 'C', 0);
     }else{
-        $pdf->Cell(35, 10, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
+        $pdf->Cell(35, 6, '$'.number_format($valueTotal-$valuePay, 0, '.', '.'), 1, 1, 'C', 0);
     }
+
+    $pdf->setX(10);
+    $pdf->SetFont('Arial','',8);
+    
+    $pdf->Cell(125, 10, utf8_decode(" SON: "), 1, 0, 'L', 0);
+    $pdf->SetFont('Arial','B',12);
+    $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 1, 0, 'C', 0);
+    $pdf->Cell(35, 10, '$'.number_format($valueTotal, 0, '.', '.'), 1, 1, 'C', 0);
     
     $pdf->SetFont('Arial','',8);
     
