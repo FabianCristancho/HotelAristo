@@ -1,5 +1,16 @@
-				<div class="card card-client col-12">
-							<div class="card-header">
+            <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
+                <di v class="sub-menu col-12 padd">
+                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <div class="sub-menu-right">
+                        <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
+                        <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="row-simple">
+                    <div class="col-12 padd">
+                        <div class="card card-client">
+                            <div class="card-header">
 								<i class="fa fa-user"></i>
 								<strong class="card-title">Información personal</strong>
 							</div>
@@ -26,7 +37,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-user-o"></i>
 												</div>
-												<input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" required>
+												<input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);"  minlength="2" maxlength="60" required>
 											</div>
 											<small class="form-text text-muted">ej. PEREZ PEREZ</small>
 										</div>
@@ -55,7 +66,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-id-card"></i>
 												</div>
-												 <input class="form-control" type="text" placeholder="Número de documento" minlength="6" maxlength="15" onkeydown="$(this).mask('000000000000000');">
+												 <input class="form-control" type="text" placeholder="Número de documento"  minlength="6" maxlength="15" onkeydown="$(this).mask('000000000000000');">
 											</div>
 											<small class="form-text text-muted">ej. 123456789</small>
 										</div>
@@ -132,5 +143,9 @@
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    

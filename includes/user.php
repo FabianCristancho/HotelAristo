@@ -21,6 +21,22 @@ class User extends Person{
             return false;
         }
     }
+    
+    public function setId($id){
+        $query = $this->connect()->prepare('SELECT id_persona, nombres_persona, apellidos_persona, id_cargo, telefono_persona, numero_documento, nombre_usuario FROM personas 
+        WHERE id_persona = :id');
+        $query->execute(['id' => $id]);
+        
+        foreach ($query as $currentUser){
+            $this->id = $currentUser['id_persona'];
+            $this->name= $currentUser['nombres_persona'];
+            $this->lastName= $currentUser['apellidos_persona'];
+            $this->role = $currentUser['id_cargo'];
+            $this->phone = $currentUser['telefono_persona'];
+            $this->numberDocument = $currentUser['numero_documento'];
+            $this->username = $currentUser['nombre_usuario'];
+        }
+    }
 
     /*
      * Hace la lectura de un usuario en la base de datos y asigna los atributos a la clase actual. 
@@ -41,6 +57,10 @@ class User extends Person{
         
     public function getName(){
         return $this->name;
+    }
+    
+    public function getUserName(){
+        return $this->username;
     }
     
     public function getFullname(){

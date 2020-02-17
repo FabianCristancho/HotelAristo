@@ -267,7 +267,7 @@
         * Obtiene la lista de los cargos que van a desempeñar los usuarios del hotel
         */
         public function getRoleList(){
-            $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos WHERE id_cargo !=5');
+            $query = $this->connect()->prepare('SELECT nombre_cargo FROM cargos WHERE id_cargo !=5 ORDER BY id_cargo');
             $query->execute();
 
             foreach ($query as $current) {
