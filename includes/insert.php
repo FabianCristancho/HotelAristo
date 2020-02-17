@@ -71,7 +71,7 @@
 
     function insertUser(){
         $database = new Database();
-        $insert = "INSERT INTO personas(nombres_persona, apellidos_persona, tipo_documento, numero_documento, telefono_persona, id_cargo, correo_persona, nombre_usuario, contrasena_usuario) VALUES ('".$_POST['name']."','".$_POST['lastName']."','".$_POST['typeDocument']."','".$_POST['numberDocument']."','".$_POST['phone']."',".$_POST['role'].",'".$_POST['email']."','".$_POST['userName']."', md5('".$_POST['password']."'))";
+        $insert = "INSERT INTO personas(nombres_persona, apellidos_persona, tipo_documento, numero_documento, telefono_persona, id_cargo, correo_persona, nombre_usuario, contrasena_usuario, tipo_persona) VALUES ('".$_POST['name']."','".$_POST['lastName']."','".$_POST['typeDocument']."','".$_POST['numberDocument']."','".$_POST['phone']."',".$_POST['role'].",'".$_POST['email']."','".$_POST['userName']."', md5('".$_POST['password']."'),'U')";
         try{
             $database->connect()->exec($insert);
             echo 'alert-s;Se ha almacenado al usuario con éxito.';

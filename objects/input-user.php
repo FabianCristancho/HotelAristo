@@ -1,15 +1,4 @@
-            <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-                <di v class="sub-menu col-12 padd">
-                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
-                    <div class="sub-menu-right">
-                        <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
-                        <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
-                    </div>
-                </div>
-
-                <div class="row-simple">
-                    <div class="col-12 padd">
-                        <div class="card card-client">
+						<div class="card card-client">
                             <div class="card-header">
 								<i class="fa fa-user"></i>
 								<strong class="card-title">Información personal</strong>
@@ -145,7 +134,3 @@
 								</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-    

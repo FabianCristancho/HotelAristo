@@ -18,12 +18,10 @@
     
     if(isset($_SESSION['user'])){
         $user->updateDBUser($userSession->getSession());
+        if($user->getRole()!=1&&$user->getRole()!=5)
+             header('location: /login');
     }else{
         header('location: /login');
-    }
-    $date="";
-    if(isset($_GET['date'])){
-        $date = $_GET['date'];      
     }
 ?>
 
@@ -87,7 +85,7 @@
                             /**
                             * Invoca al método getTable('customers') que se encarga de obtener de la base de datos los datos de los clientes
                             */
-                            $consult->getTable('users','');
+                            $consult->getTable('users');
                         ?>
                     </table>
                 </div>

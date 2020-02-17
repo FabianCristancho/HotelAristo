@@ -70,15 +70,29 @@
         
         
         <div class="content col-12 padd">
-            <div class="content-header">
+            <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
+                <div class="content-header">
                     <h2 class="title-form">DETALLES DE LA RESERVA</h2>
+                </div>
+                <div v class="sub-menu col-12 padd">
+                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <div class="sub-menu-right">
+                        <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
+                        <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
+                    </div>
+                </div>
+
+                <div class="row-simple">
+                    <div class="col-12 padd">
+                            <?php
+                            /**
+                            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+                            */
+                            include "../../objects/input-user.php";
+                            ?>
+                    </div>
+                </div>
             </div>
-                <?php
-            /**
-            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
-            */
-            include "../../objects/input-user.php";
-            ?>
         </div>
         
         <?php
