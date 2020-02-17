@@ -45,6 +45,7 @@
 						                            <option value="RC">Registro civil</option>
 						                            <option value="TI">Tarjeta de identidad</option>
 						                            <option value="CE">Cedula de extranjeria</option>
+                                                    <option value="PS">Pasaporte</option>
 						                        </select>
 											</div>
 										</div>
@@ -106,7 +107,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-user-o"></i>
 												</div>
-												<input class="form-control" type="text" placeholder="Nombre de Usuario" maxlength="50" minlength="3" required>
+												<input class="form-control" type="text" placeholder="Nombre de usuario" maxlength="50" minlength="3" required>
 											</div>
 											<small class="form-text text-muted">ej. pedro.perez</small>
 										</div>

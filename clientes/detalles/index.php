@@ -20,12 +20,12 @@
         header('location: /login');
     }
 
-    $id="";
-
-    if(isset($_GET['id']))
+    if(isset($_GET['id'])){
         $id=$_GET['id'];
-    $reservation=new Reservation();
-    $reservation->setId($id);
+        $person=new Person();
+        $person->setId($id);
+    }
+    
 ?>
 
 
@@ -74,13 +74,15 @@
                 </div>
 
                 <div class="sub-menu col-12 padd">
-                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
+                    <button id="back-btn" class="btn" <?php if(isset($person)):?>style="float: left;"<?php endif;?> onclick="window.history.back();">Volver</button>
+                    <?php if(isset($person)):?>
                     <div class="sub-menu-right">
                         <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
                         <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
                     </div>
+                    <?php endif;?>
                 </div>
-
+                <?php if(isset($person)):?>
                 <div class="row-simple">
                     <div class="col-12 padd">
                         <div class="card card-client">
@@ -98,7 +100,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-user-o"></i>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="Nombres" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" disabled>
+                                                <input class="form-control" type="text" placeholder="Nombres" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" disabled value="<?php echo $person->getName();?>">
                                             </div>
                                         </div>
 
@@ -108,45 +110,35 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-user-o"></i>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60"  disabled>
+                                                <input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60"  disabled value="<?php echo $person->getLastName();?>">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row row-flag" state="hide">
-                                        <div class="form-group in-row col-4 padd">
+                                        <div class="form-group in-row col-5 padd">
                                             <label class="form-control-label">Tipo de documento*</label>
                                             <div class="input-group">
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-id-card"></i>
                                                 </div>
-
-                                                <select class="form-control" disabled>
+                                                <select id="doc-type" class="form-control" disabled>
                                                     <option value="CC">Cédula de ciudadania</option>
                                                     <option value="RC">Registro civil</option>
                                                     <option value="TI">Tarjeta de identidad</option>
                                                     <option value="CE">Cedula de extranjeria</option>
+                                                    <option value="PS">Pasaporte</option>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <div class="form-group in-row col-5 padd">
+                                        <div class="form-group in-row col-7 padd">
                                             <label class="form-control-label">Número de documento*</label>
                                             <div class="input-group">
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-id-card"></i>
                                                 </div>
-                                                 <input class="form-control" type="number" placeholder="Número de documento" minlength="6" maxlength="15" disabled>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group in-row col-3 padd">
-                                            <label class="form-control-label">Fecha de expedición*</label>
-                                            <div class="input-group">
-                                                <div class="input-group-icon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input class="form-control" type="date" disabled>
+                                                 <input class="form-control" type="text" placeholder="Número de documento" minlength="6" maxlength="15" disabled value="<?php echo $person->getNumberDocument();?>">
                                             </div>
                                         </div>
                                     </div>
@@ -159,9 +151,10 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select class="form-control" onchange="updateCities(this);"  disabled>
+                                                <select id="exp-country" class="form-control" onchange="updateCities(this);"  disabled>
                                                     <?php $consult->getList('country',''); ?>
                                                 </select>
+
                                             </div>
                                         </div>
                                         <div class="form-group in-row col-5 padd">
@@ -171,9 +164,10 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select class="form-control" disabled>
+                                                <select id="exp-city" class="form-control" disabled>
                                                     <?php $consult->getList('city','1'); ?>
                                                 </select>
+
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +179,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-phone"></i>
                                                 </div>
-                                                <input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" disabled>
+                                                <input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" disabled value="<?php echo $person->getPhone();?>">
                                             </div>
                                         </div>
 
@@ -195,7 +189,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-envelope"></i>
                                                 </div>
-                                                 <input class="form-control" type="email" placeholder="Correo electrónico" disabled>
+                                                 <input class="form-control" type="email" placeholder="Correo electrónico" disabled value="<?php echo $person->getEmail();?>">
                                             </div>
                                         </div>
                                     </div>
@@ -208,10 +202,11 @@
                                                     <i class="fa fa-intersex"></i>
                                                 </div>
 
-                                                <select class="form-control" disabled>
+                                                <select id="gender" class="form-control" disabled>
                                                     <option value="M">Hombre</option>
                                                     <option value="F">Mujer</option>
                                                 </select>
+
                                             </div>
                                         </div>
 
@@ -221,7 +216,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input class="form-control" type="date" disabled>
+                                                <input class="form-control" type="date" disabled value="<?php echo $person->getBirthDate();?>">
                                             </div>
                                         </div>
 
@@ -232,14 +227,14 @@
                                                     <i class="fa fa-heartbeat"></i>
                                                 </div>
 
-                                                <select class="form-control col-3 padd" disabled>
+                                                <select id="blood" class="form-control col-3 padd" disabled>
                                                     <option value="O">O</option>
                                                     <option value="A">A</option>
                                                     <option value="B">B</option>
                                                     <option value="AB">AB</option>
                                                 </select>
 
-                                                 <select class="form-control col-9 padd" disabled>
+                                                 <select id="rh" class="form-control col-9 padd" disabled>
                                                     <option value="+">+ (Positivo)</option>
                                                     <option value="-">- (Negativo)</option>
                                                 </select>
@@ -255,7 +250,7 @@
                                                     <i class="fa fa-bank"></i>
                                                 </div>
 
-                                               <select class="form-control" disabled>
+                                               <select id="profession" class="form-control" disabled>
                                                     <option value="NULL">Ninguna</option>
                                                     <?php $consult->getList('profession',''); ?>
                                                 </select>
@@ -269,7 +264,7 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select class="form-control" disabled>
+                                                <select id="country" class="form-control" disabled>
                                                     <?php $consult->getList('country',''); ?>
                                                 </select>
                                             </div>
@@ -277,20 +272,41 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <script type="text/javascript">
+                                document.getElementById("doc-type").value="<?php echo $person->getTypeDocument();?>";
+                                document.getElementById("exp-country").value="<?php echo 1;?>";
+                                document.getElementById("exp-city").value="<?php echo $person->getPlaceExpedition();?>";
+                                document.getElementById("gender").value="<?php echo $person->getGender();?>";
+                                var bloodRh="<?php echo $person->getTypeRH();?>";
+                                console.log(bloodRh+"s");
+                                document.getElementById("blood").value=bloodRh.length==2?bloodRh.substring(0,1):bloodRh.substring(0,2);
+                                document.getElementById("rh").value=bloodRh.substring(bloodRh.length-1);
+                                document.getElementById("profession").value=("<?php echo $person->getProfession();?>"==""?"NULL":"<?php echo $person->getProfession();?>");
+                                document.getElementById("country").value="<?php echo $person->getPlaceBirth();?>";
+                            </script>
                         </div>
                     </div>
-                    <div class="marco col-12">
-                        <div class="scroll-block">
-                            <table>
-                                <tr>
-                                    <th>Habitación</th>
-                                    <th>Huesped</th>
-                                </tr>
-                                <?php $consult->getBookingTable($id); ?>
-                            </table>
+
+                    <div class="col-12 padd">
+                        <div class="marco col-12">
+                            <div class="scroll-block">
+                                <table>
+                                    <tr>
+                                        <th>Habitación</th>
+                                        <th>Huesped</th>
+                                    </tr>
+                                    <?php $consult->getBookingTable($id); ?>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <?php else:?>
+                <div>
+                    No se ha seleccionado ningun cliente.
+                </div>
+                <?php endif;?>
             </div>
         </div>
         
