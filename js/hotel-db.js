@@ -126,7 +126,7 @@ function sendReservation(user){
 
 				for (var j = 1; j < ans2[i].length; j++) {
 					data=ans2[i][j].split(";");
-					setMessageOnLoading((data[1]==undefined?"Asignación del titular a la habitación.":data[1]),"Huesped");
+					setMessageOnLoading((data[1]==undefined?"Asignando del titular a la habitación.":data[1]),"Huesped");
 					promises.push(send(null, 'entity=guestReg&roomReg='+roomId+'&guestId='+data[0]));
 				}
 			}
@@ -334,11 +334,11 @@ class Room{
 		this.guests=guests;
 		this.roomNumber=roomNumber;
 		this.idTariff=idTariff;
-		this.tariff=tariff;
+		this.tariff=tariff.replace(".","");
 	}
 
 	getSendData(){
-		return "entity=room&roomNumber="+this.roomNumber+"&tariff="+this.idTariff;
+		return "entity=room&roomNumber="+this.roomNumber+"&tariff="+this.idTariff+"&tariffValue="+this.tariff;
 	}
 }
 
