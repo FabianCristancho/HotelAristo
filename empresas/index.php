@@ -63,9 +63,8 @@
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header col-12">
                     <div class="row-simple col-12">
-                        <h2 class="title-form col-8">EMPRESAS REGISTRADAS</h2>
-                        <a class="button-add-book col-2" href="registrar">Registrar empresa</a> 
-                        <a class="button-add-book col-2" href="/reportes/empresas" target="_blank">Generar Reporte</a>
+                        <h2 class="title-form col-9">EMPRESAS REGISTRADAS</h2>
+                        <a class="button-add-book col-3" href="registrar">Registrar empresa</a> 
                     </div>
                 </div>
                 
@@ -76,8 +75,8 @@
                                 <th>NIT</th>
                                 <th>NOMBRE</th>
                                 <th>TELEFONO</th>
-                                <th>CORREO ELECTRÓNICO</th>
                                 <th>RETEFUENTE <br/>(3,5 %)</br></th>
+                                <th>ICA</br></th>
                             </tr>
                         </thead>
                         <?php

@@ -417,10 +417,10 @@
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
+                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_empresa'].'</td>'.PHP_EOL;
-                echo '<td style="padding:10px;">'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
+                echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
+                echo '<td>'.($current['ica']==1?'Si':'No').'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }

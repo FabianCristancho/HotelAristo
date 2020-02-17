@@ -72,7 +72,7 @@
 										</div>
                                         
                                         <div class="form-group in-row col-4 padd">
-											<label class="form-control-label">Telefono*</label>
+											<label class="form-control-label">Teléfono*</label>
 											<div class="input-group">
 												<div class="input-group-icon">
 													<i class="fa fa-phone"></i>
@@ -112,12 +112,12 @@
                                     
                                     <div class="row">
 										<div class="form-group in-row col-4 padd">
-											<label class="form-control-label">Nombre de Usuario*</label>
+											<label class="form-control-label">Nombre de usuario*</label>
 											<div class="input-group">
 												<div class="input-group-icon">
 													<i class="fa fa-user-o"></i>
 												</div>
-												<input class="form-control" type="text" placeholder="Nombre de Usuario" maxlength="50" minlength="2" required>
+												<input class="form-control" type="text" placeholder="Nombre de Usuario" maxlength="50" minlength="3" required>
 											</div>
 											<small class="form-text text-muted">ej. pedro.perez</small>
 										</div>
@@ -128,17 +128,17 @@
 												<div class="input-group-icon">
 													<i class="fa fa-lock"></i>
 												</div>
-												<input class="form-control" type="password" placeholder="Contraseña" minlength="2" maxlength="60" required>
+												<input class="form-control" type="password" placeholder="Contraseña" minlength="8" maxlength="60" required>
 											</div>
 										</div>
                                         
                                         <div class="form-group in-row col-4 padd">
-											<label class="form-control-label">Repetir Contraseña*</label>
+											<label class="form-control-label">Repetir contraseña*</label>
 											<div class="input-group">
 												<div class="input-group-icon">
 													<i class="fa fa-lock"></i>
 												</div>
-												<input class="form-control" type="password" placeholder="Repetir Contraseña" minlength="2" maxlength="60" required>
+												<input class="form-control" type="password" placeholder="Repetir Contraseña" minlength="8" maxlength="60" required>
 											</div>
 										</div>
 									</div>

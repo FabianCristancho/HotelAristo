@@ -65,6 +65,7 @@
 				<div class="content-header">
                     <h2 class="title-form">REGISTRAR EMPRESA</h2>            
                 </div>
+                <form onsubmit="sendEnterprise(); return false;">
 				<div class="row">
 					<div class="col-12 padd">
 						<?php
@@ -73,7 +74,7 @@
 					</div>
 				</div>
 				<div>
-					<button class="btn btn-block btn-register" onclick="sendEnterprise();">
+					<button class="btn btn-block btn-register">
 						<i class="fa fa-check"></i>
 						<span>Registrar empresa</span>
 					</button>
