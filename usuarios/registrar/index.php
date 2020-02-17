@@ -42,10 +42,11 @@
         <script type="text/javascript" src="/js/jquerymask.js"></script>
 		<script type="text/javascript" src="/js/dynamic.js"></script>
 		<script type="text/javascript" src="/js/hotel-db.js"></script>
+        <script type="text/javascript" src="/js/user.js"></script>
 	</head>
 
     <!--Construcción de la vista-->
-	<body>
+	<body onload="defineRegister();">
       <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -63,26 +64,26 @@
         <!-- Bloque que contiene el formulario con los campos correspondientes para el proceso de registro de un cliente-->
 		<div class="content col-12">
 			<div class="wrap-main wrap-main-big col-10 wrap-10 padd">
-				<div class="content-header">
-                    <h2 class="title-form">REGISTRAR USUARIO</h2>
-                </div>
-				<div class="row">
-					<div class="col-12 padd">
+					<div class="content col-12 padd">
+                        <div class="content-header">
+                            <h2 class="title-form" style="text-align: center;">REGISTRAR USUARIO</h2>
+                        </div>
 						    <?php
 						    /**
             				* Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
            					*/
             					include "../../objects/input-user.php";
         					?>
-					</div>
-				</div>
-				<div>
-                    <!-- Botón que se encarga de enviar los datos ingresados en los campos del formulario para su posterior almacenamiento en la base de datos -->
-					<button class="btn btn-block btn-register" onclick="sendClient(0);">
-						<i class="fa fa-check"></i>
-						<span>Registrar Usuario</span>
-					</button>
-				</div>
+                        <div>
+                            <!-- Botón que se encarga de enviar los datos ingresados en los campos del formulario para su posterior almacenamiento en la base de datos -->
+                           <button class="btn btn-block btn-register" onclick="saveUser();">
+                               <i class="fa fa-check"></i>
+                               <span>Registrar Usuario</span>
+                           </button>
+				        </div>
+                    </div>
+				
+				
 			</div>
 		</div>
         
