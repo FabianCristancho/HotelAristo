@@ -123,7 +123,7 @@ ob_start();
 
     $pdf = new Report($orientation,'mm',$pageSize);
     $pdf->SetAutoPageBreak(true,2); 
-    $inLetter = new CifrasEnLetras();
+    //$inLetter = new CifrasEnLetras();
 
     $name;
     $document;
