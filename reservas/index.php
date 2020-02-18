@@ -112,60 +112,62 @@
                 </div>
 
                 <div class="modal-body">
-                    <div>
-                        <div class="card-body">
-                            <div style="margin-top: 10px;">
-                                Por favor, confirme si el/los huespedes de la reserva <label></label> ya llegaron al hotel.
-                                <br>
-                                Recuerde que la reserva pasará a <strong>control diario.</strong>
-                            </div>
-
-                            <div id="in-place-form">
-                                <br>
-                                <div class="switch-group">
-                                    <label class="switch switch-container">
-                                        <input id="payment-check" type="checkbox" onchange="showPayments(this);">
-                                        <span class="slider slider-gray round green"></span>
-                                    </label>
-                                    <label class="switch-label">Efectuar pago en este momento.</label>
+                    <form onsubmit="return false;">
+                        <div>
+                            <div class="card-body">
+                                <div style="margin-top: 10px;">
+                                    Por favor, confirme si el/los huespedes de la reserva <label></label> ya llegaron al hotel.
+                                    <br>
+                                    Recuerde que la reserva pasará a <strong>control diario.</strong>
                                 </div>
 
-                                <div id="payment-methods" class="form-group hideable">
+                                <div id="in-place-form">
                                     <br>
-                                    <label class="form-control-label">Medio de pago</label>
-                                    <div class="input-group">
-                                        <div class="input-group-icon">
-                                            <i class="fa fa-dollar"></i>
-                                        </div>
-
-                                        <select id="payment-method" onchange="showInputPaid(this);" class="form-control">
-                                            <option value="E">EFECTIVO</option>
-                                            <option value="T">TARJETA</option>
-                                            <option value="C">CONSIGNACIÓN</option>
-                                            <option value="CC">CUENTAS POR COBRAR</option>
-                                        </select>
+                                    <div class="switch-group">
+                                        <label class="switch switch-container">
+                                            <input id="payment-check" type="checkbox" onchange="showPayments(this);">
+                                            <span class="slider slider-gray round green"></span>
+                                        </label>
+                                        <label class="switch-label">Efectuar pago en este momento.</label>
                                     </div>
-                                </div>
 
-                                <div id="input-paid-group" class="form-group hideable">
-                                    <br>
-                                    <label class="form-control-label">Monto a pagar</label>
-                                    <div class="input-group">
-                                        <div class="input-group-icon">
-                                            <i class="fa fa-dollar"></i>
+                                    <div id="payment-methods" class="form-group hideable">
+                                        <br>
+                                        <label class="form-control-label">Medio de pago</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-dollar"></i>
+                                            </div>
+
+                                            <select id="payment-method" onchange="showInputPaid(this);" class="form-control">
+                                                <option value="E">EFECTIVO</option>
+                                                <option value="T">TARJETA</option>
+                                                <option value="C">CONSIGNACIÓN</option>
+                                                <option value="CC">CUENTAS POR COBRAR</option>
+                                            </select>
                                         </div>
-                                        <input type="text" id="input-paid" class="form-control" onkeydown="$(this).mask('000.000.000.000.000', {reverse: true});" placeholder="Monto a pagar">
                                     </div>
-                                    <small class="form-text text-muted">ej. 85000</small>
+
+                                    <div id="input-paid-group" class="form-group hideable">
+                                        <br>
+                                        <label class="form-control-label">Monto a pagar</label>
+                                        <div class="input-group">
+                                            <div class="input-group-icon">
+                                                <i class="fa fa-dollar"></i>
+                                            </div>
+                                            <input type="text" id="input-paid" class="form-control" onkeydown="$(this).mask('000.000.000.000.000', {reverse: true});" placeholder="Monto a pagar">
+                                        </div>
+                                        <small class="form-text text-muted">ej. 85000</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <button class="btn btn-block btn-register">
-                        <i class="fa fa-check"></i>
-                        <span>Confirmar</span>
-                    </button>
+                        <button class="btn btn-block btn-register">
+                            <i class="fa fa-check"></i>
+                            <span>Confirmar</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

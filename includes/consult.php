@@ -304,7 +304,7 @@
                 r.id_titular, CONCAT_WS(" ",t.nombres_persona,t.apellidos_persona) nombre_t,t.telefono_persona, 
                 r.id_empresa, e.nombre_empresa, e.telefono_empresa,
                 rc.id_huesped, GROUP_CONCAT(CONCAT_WS(" ",c.nombres_persona,c.apellidos_persona)) nombres_c,GROUP_CONCAT(c.id_persona) ids_c,
-                (COUNT(rc.id_registro_huesped)=SUM(NVL2(c.numero_documento,1,0))) aux
+                (COUNT(rc.id_registro_huesped)=SUM(NVL2(c.tipo_sangre_rh,1,0))) aux
                 FROM reservas r 
                 LEFT JOIN personas t ON r.id_titular=t.id_persona 
                 LEFT JOIN empresas e ON r.id_empresa=e.id_empresa 
@@ -373,7 +373,8 @@
             $query = $this->connect()->prepare('SELECT id_persona, CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre, tipo_documento, numero_documento, nombre_profesion, telefono_persona, correo_persona 
                 FROM personas p 
                 LEFT JOIN profesiones pr ON p.id_profesion=pr.id_profesion 
-                WHERE tipo_persona = "C"');
+                WHERE tipo_persona = "C"
+                ORDER BY nombre');
             $query->execute();
 
             foreach ($query as $current){
@@ -381,7 +382,6 @@
                 echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
-                echo '<td>'.''.'</td>';
                 echo '</tr>'.PHP_EOL;
             }
         }
@@ -417,10 +417,10 @@
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['nombre_empresa'].'</td>'.PHP_EOL;
+                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
-                echo '<td>'.$current['correo_empresa'].'</td>'.PHP_EOL;
-                echo '<td style="padding:10px;">'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
+                echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
+                echo '<td>'.($current['ica']==1?'Si':'No').'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
         }

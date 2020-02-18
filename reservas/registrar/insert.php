@@ -39,7 +39,8 @@
 		try{
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';Se ha insertado a '.$_POST['firstSecondName'].' '.$_POST['lastName'];
+			$idPerson=$pdo->lastInsertId();
+			echo $idPerson.';Se ha insertado a '.$_POST['firstSecondName'].' '.$_POST['lastName'].'. ('.$idPerson.')';
 		}catch(PDOException $e){
 			echo 'null;Error C1.1. Error al ingresar nuevo cliente'.$insert."\n".$e->getMessage();
 		}
@@ -50,8 +51,25 @@
 	function insertRoom(){
 		$database= new Database();
 
+		$pQuery=$database->connect()->prepare("SELECT id_tarifa FROM tarifas WHERE valor_ocupacion=".(isset($_POST['tariffValue'])?$_POST['tariffValue']:"0"));
+		$pQuery->execute();
+
+		if($pQuery->rowCount()){
+            $tariff=$pQuery->fetch();
+            $tariffId=$tariff['id_tarifa'];
+        }else{
+        	$database->connect()->exec('ALTER TABLE tarifas AUTO_INCREMENT = 1');
+        	$pQuery=$database->connect()->prepare("SELECT id_tipo_habitacion FROM habitaciones WHERE id_habitacion=".$_POST['roomNumber']);
+        	$pQuery->execute();
+        	$roomType=$pQuery->fetch();
+        	$pdo=$database->connect();
+        	$pdo->exec("INSERT INTO tarifas (id_tipo_habitacion,valor_ocupacion,predeterminado)
+        		VALUES (".$roomType['id_tipo_habitacion'].",".$_POST['tariffValue'].",0)");
+        	 $tariffId=$pdo->lastInsertId();
+        }
+
 		$insert='INSERT INTO registros_habitacion(id_reserva, id_habitacion, id_tarifa, estado_registro';
-		$values=$_POST['bookingId'].",".$_POST['roomNumber'].",".$_POST['tariff'].",'CI'";
+		$values=$_POST['bookingId'].",".$_POST['roomNumber'].",".$tariffId.",'CI'";
 
 
 		$insert=$insert.")\n VALUES (".$values.');';
@@ -59,8 +77,9 @@
 
 		try{
 			$pdo=$database->connect();
-			$query=$pdo->exec($insert);
-			echo $pdo->lastInsertId().';Se ha asignado una habitacion a la reserva.';
+			$pdo->exec($insert);
+			$idRoom=$pdo->lastInsertId();
+			echo $idRoom.';Se ha asignado una habitacion a la reserva. ('.$idRoom.')';
 		}catch(PDOException $e){
 			echo 'null;Error C2.1. Error al ingresar nuevo registro'."\n".$insert.$e->getMessage();;
 		}
@@ -93,7 +112,7 @@
 			$pdo=$database->connect();
 			$query=$pdo->exec($insert);
 			$idBooking=$pdo->lastInsertId();
-			echo $idBooking.';'.(isset($_POST['holder'])?$_POST['holder']:$_POST['enterprise']).';Se ha registrado una nueva reserva.';
+			echo $idBooking.';'.(isset($_POST['holder'])?$_POST['holder']:$_POST['enterprise']).';Se ha registrado una nueva reserva.('.$idBooking.')';
 		}catch(PDOException $e){
 			echo 'null;Error C3.1. Error al ingresar nueva reserva'.$e->getMessage()."\n".$insert;
 		}

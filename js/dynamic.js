@@ -313,7 +313,7 @@ function updateEnterprise(){
  function setCheckOn(reservation, input){
  	var modal= document.getElementById("confirm-check-on");
  	modal.getElementsByClassName("card-body")[0].getElementsByTagName("label")[0].innerHTML=reservation;
- 	modal.getElementsByTagName("button")[0].onclick=function(){confirmCheckOn(reservation);};
+ 	modal.getElementsByTagName("form")[0].addEventListener("submit",function(){confirmCheckOn(reservation);});
  	modal.getElementsByTagName("span")[0].addEventListener("click",function(){input.checked=false;});
 	
  	if(input.checked){

@@ -25,7 +25,7 @@ class Person extends Database{
     */
     public function setId($id){
         $this->id = $id;
-        $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, tipo_documento, numero_documento, n.nombre_lugar AS nac, e.nombre_lugar AS exp, CASE genero_persona WHEN "M" THEN "MASCULINO" WHEN "F" THEN "FEMENINO" ELSE "OTRO" END genero, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona, nombre_profesion FROM personas p, lugares n, lugares e, profesiones pr WHERE id_persona = :id AND p.id_lugar_nacimiento=n.id_lugar AND p.id_lugar_expedicion=e.id_lugar AND p.id_profesion=pr.id_profesion');
+        $query = $this->connect()->prepare('SELECT nombres_persona, apellidos_persona, tipo_documento, numero_documento,genero_persona, fecha_nacimiento, tipo_sangre_rh, telefono_persona, correo_persona, id_profesion, id_lugar_nacimiento,id_lugar_expedicion FROM personas p WHERE id_persona =:id');
         
         $query->execute(['id'=>$id]);
         
@@ -34,14 +34,14 @@ class Person extends Database{
             $this->lastName = $currentPerson['apellidos_persona'];
             $this->typeDocument = $currentPerson['tipo_documento'];
             $this->numberDocument = $currentPerson['numero_documento'];
-            $this->placeBirth = $currentPerson['nac'];
-            $this->placeExpedition = $currentPerson['exp'];
-            $this->gender = $currentPerson['genero'];
+            $this->placeBirth = $currentPerson['id_lugar_nacimiento'];
+            $this->placeExpedition = $currentPerson['id_lugar_expedicion'];
+            $this->gender = $currentPerson['genero_persona'];
             $this->birthDate = $currentPerson['fecha_nacimiento'];
             $this->typeRH = $currentPerson['tipo_sangre_rh'];
             $this->phone = $currentPerson['telefono_persona'];
             $this->email = $currentPerson['correo_persona'];
-            $this->profession = $currentPerson['nombre_profesion'];
+            $this->profession = $currentPerson['id_profesion'];
         } 
     }
     

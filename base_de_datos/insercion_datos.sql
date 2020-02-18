@@ -23,8 +23,8 @@ INSERT INTO profesiones (nombre_profesion) VALUES
 
 -- ==========================================PERSONAS (USUARIOS)=========================================================================================
 INSERT INTO personas(id_lugar_nacimiento,id_lugar_expedicion,nombres_persona,apellidos_persona, tipo_documento,numero_documento,genero_persona,fecha_nacimiento,tipo_sangre_rh, telefono_persona,correo_persona, tipo_persona, id_cargo, nombre_usuario, contrasena_usuario) VALUES
-(40040, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','1997-10-23','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
-(40040, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','1999-05-29','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
+(1, 39828,'ANDRES FELIPE','CHAPARRO ROSAS','CC','1052411460','M','1997-10-23','A+','3123871293',NULL, 'U',5,'andres.chaparro',md5('admin')),
+(1, 39828,'FABIAN ALEJANDRO','CRISTANCHO RINCON','CC','1053588031','M','1999-05-29','B+','3125743447',NULL, 'U',5,'fabian.cristancho',md5('admin'));
 -- =====================================================================================================================================================
 
 
