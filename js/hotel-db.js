@@ -43,7 +43,7 @@ function prepareReservation(user){
 
 	return new Booking(primeInputs[0].value,primeInputs[1].value,rooms,holder,user,
 		document.getElementById("holder-check").checked,
-		(document.getElementById("payment-check").checked&&document.getElementById("total-label").style.display!="none"?document.getElementById("total-label").innerHTML:0), 
+		(document.getElementById("payment-check").checked&&document.getElementById("total-label").style.display!="none"?$(document.getElementById("input-paid")).cleanVal():0), 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
 		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
 }
@@ -309,6 +309,7 @@ function fillRoom(roomBody,clients){
 
 class Booking{
 	constructor(startDate, finishDate,rooms, holder, user, isStaying, amount, isCheckon, paymentMethod){
+		console.log(amount);
 		this.startDate=startDate;
 		this.finishDate=finishDate;
 		this.rooms=rooms;
