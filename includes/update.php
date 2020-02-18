@@ -109,7 +109,7 @@
     function updateUser(){
         $database=new Database();
 
-        $update="UPDATE personas SET nombres_persona = '".$_POST['name']."', apellidos_persona = '".$_POST['lastName']."', tipo_documento = '".$_POST['typeDocument']."', numero_documento = '".$_POST['numberDocument']."', telefono_persona = '".$_POST['phone']."', id_cargo = ".$_POST['role'].", correo_persona = '".$_POST['email']."', nombre_usuario = '".$_POST['userName'].", contrasena_usuario = md5('".$_POST['password']."')";
+        $update="UPDATE personas SET nombres_persona = '".$_POST['name']."', apellidos_persona = '".$_POST['lastName']."', tipo_documento = '".$_POST['typeDocument']."', numero_documento = '".$_POST['numberDocument']."', telefono_persona = '".$_POST['phone']."', id_cargo = ".$_POST['role'].", correo_persona = '".$_POST['email']."', nombre_usuario = '".$_POST['userName']."', contrasena_usuario = md5('".$_POST['password']."')";
         
         $update=$update." WHERE id_persona = ".$_POST['id'];
 
