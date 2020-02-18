@@ -54,7 +54,7 @@
         
         
         function getSalePerRoom($firstCol, $row, $month, $year, $spreadsheet){
-            $query = $this->connect()->prepare('SELECT numero_habitacion, SUM(valor_ocupacion*(fecha_salida-fecha_ingreso+1)) AS value 
+            $query = $this->connect()->prepare('SELECT numero_habitacion, SUM(valor_ocupacion*(DATE_FORMAT(fecha_salida, "%d-%m-%y")-DATE_FORMAT(fecha_ingreso, "%d-%m-%y")+1)) AS value 
             FROM tarifas t INNER JOIN registros_habitacion rh ON t.id_tarifa=rh.id_tarifa
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
             INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
@@ -126,7 +126,7 @@
             $colExcelDate = 2;
             $rowExcelDate = 3;
             
-            $query = $this->connect()->prepare('SELECT valor_ocupacion, DAY (fecha_ingreso) AS dia_ingreso, SUM(fecha_salida - fecha_ingreso + 1) AS cantidad_dias, medio_pago 
+            $query = $this->connect()->prepare('SELECT valor_ocupacion, DAY (fecha_ingreso) AS dia_ingreso, SUM(DATE_FORMAT(fecha_salida, "%d-%m-%y")-DATE_FORMAT(fecha_ingreso, "%d-%m-%y")+1) AS cantidad_dias, medio_pago 
             FROM tarifas t INNER JOIN registros_habitacion rh ON t.id_tarifa=rh.id_tarifa
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
             INNER JOIN habitaciones h ON h.id_habitacion=rh.id_habitacion
@@ -156,7 +156,7 @@
         
         function getTotalPaymentMethod($paymentMethod, $month, $year, $spreadsheet){
             $totalPaymentMethod = 0;
-            $query = $this->connect()->prepare('SELECT SUM(valor_ocupacion*(fecha_salida-fecha_ingreso+1)) AS total
+            $query = $this->connect()->prepare('SELECT SUM(valor_ocupacion*(DATE_FORMAT(fecha_salida, "%d-%m-%y")-DATE_FORMAT(fecha_ingreso, "%d-%m-%y")+1)) AS total
             FROM tarifas t INNER JOIN registros_habitacion rh ON t.id_tarifa=rh.id_tarifa
             INNER JOIN reservas r ON r.id_reserva=rh.id_reserva
             WHERE r.medio_pago = :medio
