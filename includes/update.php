@@ -14,6 +14,9 @@
         case 'setCheckOut':
             setCheckOut();
             break;
+        case 'updateUser':
+            updateUser();
+            break;
     }
 
     function setCheckOn(){
@@ -99,6 +102,24 @@
             echo 'alert-s;Se ha eliminado la reserva.';
         }catch(PDOException $e){
             echo 'alert-d;Error D3.1. Error al eliminar la reserva'.$e->getMessage();
+        }
+    }
+
+
+    function updateUser(){
+        $database=new Database();
+
+        $update="UPDATE personas SET nombres_persona = '".$_POST['name']."', apellidos_persona = '".$_POST['lastName']."', tipo_documento = '".$_POST['typeDocument']."', numero_documento = '".$_POST['numberDocument']."', telefono_persona = '".$_POST['phone']."', id_cargo = ".$_POST['role'].", correo_persona = '".$_POST['email']."', nombre_usuario = '".$_POST['userName'].", contrasena_usuario = md5('".$_POST['password']."')";
+        
+        $update=$update." WHERE id_persona = ".$_POST['id'];
+
+        $query=$database->connect()->prepare($update);
+
+        try{
+            $query->execute();
+            echo 'alert-s;Se ha modificado al usuario satisfactoriamente';
+        }catch(PDOException $e){
+            echo 'alert-d;Error U2.1. Error al actualizar al usuario'.$update.$e->getMessage();
         }
     }
 
