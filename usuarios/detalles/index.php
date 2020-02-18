@@ -33,7 +33,7 @@
 <html>
     <!--Importación de librerias css y javascript -->
     <head>
-        <title>Control por habitación | Hotel Aristo</title>
+        <title>Detalle usuario | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
@@ -72,7 +72,7 @@
         <div class="content col-12 padd">
             <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
                 <div class="content-header">
-                    <h2 class="title-form">DETALLES DE LA RESERVA</h2>
+                    <h2 class="title-form">DETALLES DEL USUARIO</h2>
                 </div>
                 <div v class="sub-menu col-12 padd">
                     <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
