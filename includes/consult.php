@@ -787,7 +787,7 @@
                 echo '<tr><td><a href=/clientes/detalles?id='.$current['id_persona'].'>'.$current['nombre'].'</a></td>';
                 echo '<td>'.$current['numero_documento'].'</td>';
                 echo '<td>'.$current['telefono_persona'].'</td>';
-                echo '<td><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
+                echo '<td class="switch-input"><label class="switch switch-table"><input type="checkbox"><span class="slider slider-gray round green"></span></label></td></tr>';
             }
         }
             
