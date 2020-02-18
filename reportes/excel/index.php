@@ -32,7 +32,7 @@
 <html>
     <!--Importación de librerias css y javascript -->
     <head>
-        <title>Habitaciones | Hotel Aristo</title>
+        <title>Reportes | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
@@ -40,7 +40,7 @@
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
-        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
@@ -66,7 +66,7 @@
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
-                    <h2 class="title-form col-10">REPORTE DE ESTADISTICAS POR MES</h2>
+                    <h2 class="title-form col-12">REPORTE DE ESTADISTICAS POR MES</h2>
                 </div>
                 
                 <div class="history-room">
@@ -85,11 +85,11 @@
                                             <input id="doc-date" class="form-control" type="month" min="2017-01" max="<?php echo date("Y-m");?>" value="<?php echo date("Y-m", strtotime(date("Y-m")."- 1 month"));?>" name="dateReport">
                                         </div>
                                 
-                                    <small class="form-text text-muted">ej. 10/11/2019</small>
+                                    <small class="form-text text-muted">ej. noviembre de 2019</small>
                                 </div>
                                 <div class="form-group in-row">
                                     <button type="submit" class="btn btn-block btn-register">
-                                        <i class="fa fa-check"></i>
+                                        <i class="fa fa-file-excel-o"></i>
                                         <span>Imprimir reporte</span>
                                     </button>
                                 </div>
