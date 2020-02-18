@@ -1133,5 +1133,44 @@
             }
             return $serie;
         }
+
+        function getProducts($reg){
+            $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, hora_peticion
+                FROM peticiones p
+                INNER JOIN productos pr ON p.id_producto=pr.id_producto 
+                INNER JOIN control_diario cd ON p.id_control=cd.id_control
+                WHERE fecha_control="'.date('Y-m-d').'"
+                AND cd.id_registro_habitacion=:reg
+                AND p.id_servicio IS NULL');
+            $query->execute([':reg'=>$reg]);
+            
+            if($query->rowCount())
+                echo "<tr><th>Producto</th><th>Cantidad</th><th>Hora</th></tr>";
+            foreach ($query as $current){
+                echo '<tr><td>'.$current['nombre_producto'].'</td>';
+                echo '<td>'.$current['cantidad_producto'].'</td>';
+                echo '<td>'.$current['hora_peticion'].'</td></tr>';
+            }
+        }
+
+        function getServices($reg){
+             $query = $this->connect()->prepare('SELECT nombre_servicio, cantidad_servicio, hora_peticion
+                FROM peticiones p
+                INNER JOIN servicios s ON p.id_servicio=s.id_servicio
+                INNER JOIN control_diario cd ON p.id_control=cd.id_control
+                WHERE fecha_control="'.date('Y-m-d').'"
+                AND cd.id_registro_habitacion=:reg
+                AND p.id_producto IS NULL');
+            $query->execute([':reg'=>$reg]);
+            
+            if($query->rowCount())
+                echo "<tr><th>Producto</th><th>Cantidad</th><th>Hora</th></tr>";
+
+            foreach ($query as $current){
+                echo '<tr><td>'.$current['nombre_servicio'].'</td>';
+                echo '<td>'.$current['cantidad_servicio'].'</td>';
+                echo '<td>'.$current['hora_peticion'].'</td></tr>';
+            }
+        }
     }
 ?>
