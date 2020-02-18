@@ -1133,6 +1133,18 @@
             }
             return $serie;
         }
+      
+        function getIdRole($nameRole){
+            $query = $this->connect()->prepare('SELECT id_cargo FROM cargos WHERE UPPER(nombre_cargo) LIKE UPPER("%'.$nameRole.'%")');
+            $query->execute();
+            $idRol = 0;
+            echo $nameRole;
+            
+            foreach ($query as $current){
+                $idRol = $current['id_cargo'];
+            }
+            return $idRol;
+        }
 
         function getProducts($reg){
             $query = $this->connect()->prepare('SELECT nombre_producto, cantidad_producto, hora_peticion
