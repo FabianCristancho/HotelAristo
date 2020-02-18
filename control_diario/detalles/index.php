@@ -132,7 +132,7 @@
                            <div class="card-header">
                                 <strong>Huespedes en la habitación</strong>
                             </div>
-                            <div class="scroll-block">
+                            <div id="confirm-check-up" class="scroll-block">
                                 <table>
                                     <tr>
                                         <th>Huesped</th>
@@ -140,7 +140,7 @@
                                         <th>Teléfono</th>
                                         <th>Check up<br>
                                             <label class="switch switch-table">
-                                                <input type="checkbox">
+                                                <input id="main-switch-check-up" type="checkbox" onchange="setAllCheckUp(this);">
                                                 <span class="slider slider-gray round green"></span>
                                             </label>
                                         </th>
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                    
-                    <div class="col-6 padd">
+                    <div class="col-6 padd" id="product-block">
                         <div class="card">
                             <div class="card-header">
                                 <strong>Consumo de minibar</strong>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
 
-                    <div class="col-6 padd">
+                    <div class="col-6 padd" id="service-block">
                         <div class="card">
                             <div class="card-header">
                                 <strong>Consumo de servicios</strong>
@@ -313,6 +313,7 @@
                 </div>
 
                 <div class="modal-body">
+                <form id="request-form">
                     <div>
                         <div class="card-body">
                             <div id="confirm-msg" style="margin-top: 10px;">
@@ -365,6 +366,7 @@
                         <span>Confirmar</span>
                     </button>
                 </div>
+            </form>
             </div>
         </div>
         <?php
@@ -378,20 +380,21 @@
     <script type="text/javascript">
         function showConfirm(type){
             var modal=document.getElementById("confirm-payment");
-            var type=document.getElementById("type");
+            var typeR=document.getElementById("type");
             var msg=document.getElementById("confirm-msg");
+            var form=document.getElementById("request-form");
             var title;
 
-            if(type=="product"){
+            if(type=='product'){
                 title="Confirmar venta";
-                type.innerHTML="p";
+                typeR.innerHTML="p";
                 msg.innerHTML="Por favor, confirme que el producto ha sido entregado e indique si el pago se efectua en este momento.";
             }else{
                 title="Confirmar servicio";
-                type.innerHTML="s";
+                typeR.innerHTML="s";
                 msg.innerHTML="Por favor, confirme que el servicio se ha hecho e indique si el pago se efectua en este momento.";
             }
-
+            form.onsubmit=insertItem(type);
             modal.getElementsByTagName("h2")[0].innerHTML=title;
 
             showModal("confirm-payment");
@@ -408,6 +411,20 @@
                 p.style.display="none";
                 pi.style.display="none";
             }
+        }
+
+        function insertItem(type){
+            var block=document.getElementById(type+"-block");
+
+             $.ajax({
+                type:'post',
+                url:'/includes/insert.php',
+                data:'entity='+type
+                +"&petition="+block.getElementsByTagName("select")[0].value
+                +"&quantity="+block.getElementsByTagName("input")[0].value
+            }).then(function(ans){
+                console.log(ans);
+            });
         }
     </script>
 </html>
