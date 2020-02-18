@@ -162,7 +162,7 @@
                             <div class="marco col-12">
                                 <div class="scroll-block">
                                      <table>
-                                    
+                                        <?php $consult->getProducts($reservation->getRoom());?>
                                     </table>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                             <div class="marco col-12">
                                 <div class="scroll-block">
                                      <table>
-                                    
+                                    <?php $consult->getServices($reservation->getRoom());?>
                                     </table>
                                 </div>
                             </div>
@@ -394,7 +394,7 @@
                 typeR.innerHTML="s";
                 msg.innerHTML="Por favor, confirme que el servicio se ha hecho e indique si el pago se efectua en este momento.";
             }
-            form.onsubmit=insertItem(type);
+            form.onsubmit=function(){insertItem(type); return false;};
             modal.getElementsByTagName("h2")[0].innerHTML=title;
 
             showModal("confirm-payment");
@@ -418,12 +418,13 @@
 
              $.ajax({
                 type:'post',
-                url:'/includes/insert.php',
-                data:'entity='+type
+                url:'insert.php',
+                data:'entity='+type+'&idReg='+"<?php echo $reservation->getRoom();?>"
                 +"&petition="+block.getElementsByTagName("select")[0].value
                 +"&quantity="+block.getElementsByTagName("input")[0].value
             }).then(function(ans){
                 console.log(ans);
+                location.reload();
             });
         }
     </script>

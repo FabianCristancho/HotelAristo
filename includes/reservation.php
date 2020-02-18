@@ -80,6 +80,10 @@ class Reservation extends Database{
     public function getTitular(){
         return $this->titular;
     }
+
+    public function getRoom(){
+        return $this->room;
+    }
 }
 
 ?>
