@@ -287,20 +287,6 @@
                             </script>
                         </div>
                     </div>
-
-                    <div class="col-12 padd">
-                        <div class="marco col-12">
-                            <div class="scroll-block">
-                                <table>
-                                    <tr>
-                                        <th>Habitación</th>
-                                        <th>Huesped</th>
-                                    </tr>
-                                    <?php $consult->getBookingTable($id); ?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <?php else:?>
                 <div>

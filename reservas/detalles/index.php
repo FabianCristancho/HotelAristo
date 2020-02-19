@@ -68,7 +68,7 @@
         
         <!--El bloque contiene la información correspondiente a los detalles de control de una habitación en una fecha especificada-->
         <div class="content col-12 padd">
-            <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
+            <div class="wrap-main wrap-main-big col-11 wrap-11 padd">
                 <div class="content-header">
                     <h2 class="title-form">DETALLES DE LA RESERVA</h2>
                 </div>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="row-simple">
-                    <div class="col-3 padd">
+                    <div class="col-4 padd">
                         <div class="card">
                             <div class="card-header">
                                 <strong>Información primaria</strong>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
 
-                    <div class="col-9 padd">
+                    <div class="col-8 padd">
                         <div class="card">
                             <div class="card-header">
                                 <strong>Titular</strong>
