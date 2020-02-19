@@ -67,10 +67,6 @@
                         <p>Reservas</p>
                         <img src="../res/img/book-icon-white.png">
                     </a>
-                    <a href="/habitaciones/" class="button">
-                        <p>Historial de Habitación</p>
-                        <img src="/res/img/room-icon-white.png">
-                    </a>
                 <?php endif;?>
                     <a onclick="window.location.href = '/control_diario?date='+getDate(0);" class="button">
                         <p>Control diario</p>
