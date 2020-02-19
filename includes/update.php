@@ -17,6 +17,15 @@
         case 'updateUser':
             updateUser();
             break;
+        case 'deleteUser':
+            deleteUser();
+            break;
+        case 'updateCustomer':
+            updateCustomer();
+            break;
+        case 'deleteClient':
+            deleteClient();
+            break;
     }
 
     function setCheckOn(){
@@ -119,9 +128,69 @@
             $query->execute();
             echo 'alert-s;Se ha modificado al usuario satisfactoriamente';
         }catch(PDOException $e){
-            echo 'alert-d;Error U2.1. Error al actualizar al usuario'.$update.$e->getMessage();
+            echo 'alert-d;Error A5.2. Error al actualizar al usuario'.$update.$e->getMessage();
         }
     }
 
+    function deleteUser(){
+        $database=new Database();
+
+        $queryRH=$database->connect()->prepare("SELECT CONCAT_WS(nombres_persona, apellidos_persona) AS nombres FROM personas WHERE id_persona=".$_POST["id"]);
+        $queryRH->execute();
+        $nameUser = "";
+            
+        foreach ($queryRH as $current) {
+            $nameUser = $current['nombres'];
+        }
+
+        $query=$database->connect()->prepare("DELETE FROM personas WHERE id_persona=".$_POST['id']);
+
+        try{
+            $query->execute();
+            echo 'alert-s;Se ha eliminado al usuario '.$nameUser.' satisfactoriamente';
+        }catch(PDOException $e){
+            echo 'alert-d;Error A5.3. Error al eliminar al usuario'.$e->getMessage();
+        }
+    
+    }
+
+    function updateCustomer(){
+        $database=new Database();
+
+        $update="UPDATE personas SET nombres_persona = '".$_POST['name']."', apellidos_persona = '".$_POST['lastName']."', tipo_documento = '".$_POST['typeDocument']."', numero_documento = '".$_POST['numberDoc']."', telefono_persona = '".$_POST['phone']."', correo_persona = '".$_POST['email']."', fecha_nacimiento = '".$_POST['birthDate']."', id_lugar_expedicion = ".$_POST['cityExp'].", genero_persona = '".$_POST['gender']."', tipo_sangre_rh = '".$_POST['typeBlood']."', id_profesion = ".$_POST['profession'].", id_lugar_nacimiento = ".$_POST['countryExp']."";
+        
+        $update=$update." WHERE id_persona = ".$_POST['id'];
+
+        $query=$database->connect()->prepare($update);
+
+        try{
+            $query->execute();
+            echo 'alert-s;Se ha modificado al cliente satisfactoriamente';
+        }catch(PDOException $e){
+            echo 'alert-d;Error A5.2. Error al actualizar al cliente'.$update.$e->getMessage();
+        }
+    }
+
+    function deleteClient(){
+        $database=new Database();
+
+        $queryRH=$database->connect()->prepare("SELECT CONCAT_WS(nombres_persona, apellidos_persona) AS nombres FROM personas WHERE id_persona=".$_POST["id"]);
+        $queryRH->execute();
+        $nameUser = "";
+            
+        foreach ($queryRH as $current) {
+            $nameUser = $current['nombres'];
+        }
+
+        $query=$database->connect()->prepare("DELETE FROM personas WHERE id_persona=".$_POST['id']);
+
+        try{
+            $query->execute();
+            echo 'alert-s;Se ha eliminado al usuario '.$nameUser.' satisfactoriamente';
+        }catch(PDOException $e){
+            echo 'alert-d;Error A5.3. Error al eliminar al usuario'.$e->getMessage();
+        }
+    
+    }
 
 ?>

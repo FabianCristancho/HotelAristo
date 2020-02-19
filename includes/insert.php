@@ -76,7 +76,7 @@
             $database->connect()->exec($insert);
             echo 'alert-s;Se ha almacenado al usuario con éxito.';
         }catch(PDOException $e){
-            echo 'alert-d;Error A1.1. Ha surgido un error al intentar agregar al usuario';
+            echo 'alert-d;Error A5.1. Ha surgido un error al intentar agregar al usuario';
         }
     }
 

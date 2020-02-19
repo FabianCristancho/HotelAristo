@@ -97,6 +97,46 @@ class Person extends Database{
     function getProfession(){
         return $this->profession;
     }
+    
+    function getSignRh(){
+        return substr($this->typeRH, -1);
+    }
+    
+    function getBlood(){
+        return substr($this->typeRH, 0, strlen($this->typeRH)-1);
+    }
+    
+    function getidSignRh(){
+        switch($this->getSignRh()){
+            case '+':
+                return 0;
+                break;
+            case '-':
+                return 1;
+                break;
+            default:
+                return 0;
+        }
+    }
+    
+    function getIdBlood(){
+        switch($this->getBlood()){
+            case 'O':
+                return 0;
+                break;
+            case 'A':
+                return 1;
+                break;
+            case 'B':
+                return 2;
+                break;
+            case 'AB':
+                return 3;
+                break;
+            default:
+                return 0;
+        }
+    }
 }
 
 ?>
