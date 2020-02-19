@@ -47,10 +47,11 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/user.js"></script>
     </head>
 
     <!--Construcción de la vista-->
-    <body onload ="getDays();">
+    <body onload ="<?php echo 'defineDetailsUser('.$user2->getRole().')';?>">
     
         <?php
             /**
@@ -222,13 +223,12 @@
                     <div>
                         <div class="card-body">
                             <div style="margin-top: 10px;">
-                                Por favor, confirme si desea eliminar este usuario.
-                                
+                                POR FAVOR, CONFIRME SI DESEA ELIMINAR AL USUARIO <?php echo " ".$user2->getName()." ".$user2->getLastName();?>
                             </div>
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-register" onclick="deleteClient(<?php echo $id;?>);">
+                    <button class="btn btn-block btn-register" onclick="deleteUser(<?php echo $id;?>);">
                         <i class="fa fa-check"></i>
                         <span>Confirmar</span>
                     </button>

@@ -41,14 +41,14 @@
         <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <link rel="stylesheet" type="text/css" href="/css/modal.css">
-        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
-    <body>  
+    <body onload ="getDate('control-date-prev',-1); getDate('control-date-last',0);">  
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -76,8 +76,11 @@
                         <br><br>
                         <div class="row">
                             <div class="form-group in-row">
-                                <button type="button" onclick="showModal('add-bizz');" class="btn btn-block btn-register">
+                                <button type="button" onclick="showModal('stadistics');" class="button-add-book col-12">
                                     <span>ESTADISTICAS MENSUALES DEL VALOR DEL HOSPEDAJE</span>
+                                </button>
+                                <button type="button" onclick="location.href = '/reportes/empresas';" class="button-add-book col-12">
+                                    <span>EMPRESAS REGISTRADAS EN LA BASE DE DATOS</span>
                                 </button>
                             </div>
                         </div>
@@ -88,11 +91,11 @@
         
         
         <!----FIN DE LA PAGINA PRINCIPAL---->
-
-		<div id="add-bizz" class="modal hideable" onclick="touchOutside(this);">
-			<div class="modal-content col-4 wrap-4">
+        
+        <div id="stadistics" class="modal hideable" onclick="touchOutside(this);">
+			<div class="modal-content col-6 wrap-6">
                 <div class="modal-header">
-                    <span onclick="hideModal('add-bizz');" class="close">&times;</span>
+                    <span onclick="hideModal('stadistics');" class="close">&times;</span>
                     <h2>ESTADISTICAS MENSUALES DE HOSPEDAJE</h2>
                 </div>
 
@@ -101,6 +104,21 @@
                 </div>
             </div>
 		</div>
+        
+        
+
+		<!--<div id="add-bizz" class="modal" onclick="touchOutside(this);">
+			<div class="modal-content">
+                <div class="modal-header">
+                    <span onclick="hideModal('add-bizz');" class="close">&times;</span>
+                    <h2>ESTADISTICAS MENSUALES DE HOSPEDAJE</h2>
+                </div>
+
+                <div class="modal-body">
+                	<//?php include "../objects/input-statics-report.php"; ?>
+                </div>
+            </div>
+		</div>-->
         
         
         <?php

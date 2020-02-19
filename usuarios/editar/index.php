@@ -72,14 +72,10 @@
             <div class="wrap-main wrap-main-big col-10 wrap-10 padd">
                 <form onsubmit="updateUser(); return false;">
                 <div class="content-header">
-                    <h2 class="title-form">EDITAR - DETALLES DEL USUARIO</h2>
+                    <h2 class="title-form">EDITAR USUARIO</h2>
                 </div>
                 <div v class="sub-menu col-12 padd">
-                    <button id="back-btn" class="btn" style="float: left;" onclick="window.history.back();">Volver</button>
-                    <div class="sub-menu-right">
-                        <button id="edit-btn" class="btn" onclick="window.location.href='../editar?id='+<?php echo $id;?>">Editar</button>
-                        <button id="delete-btn" class="btn btn-red" onclick="showModal('confirm-delete')">Eliminar</button>
-                    </div>
+                    <button id="back-btn" class="btn" onclick="window.history.back();">Volver</button>
                 </div>
 
                 <div class="row-simple">

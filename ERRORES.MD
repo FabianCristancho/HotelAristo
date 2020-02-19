@@ -13,3 +13,8 @@
 
 ## 4. Facturas
 * A4.1. Error al agregar una factura
+
+## 5. USUARIOS
+* A5.1. Error al ingresar un usuario
+* A5.2. Error al actualizar un usuario
+* A5.3. Error al borrar a un usuario

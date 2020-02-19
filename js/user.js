@@ -6,6 +6,11 @@ function defineRegister(){
     document.getElementById("back-btn").style.display = "none";
 }
 
+function defineDetailsUser(idRol){
+    var mySelectRole = document.getElementsByTagName("select")[1];
+    mySelectRole.selectedIndex = idRol-1;
+}
+
 function defineUpdate(idRol, idUserInput){
     idUser = idUserInput;
     var mySelectRole = document.getElementsByTagName("select")[1];
@@ -79,6 +84,7 @@ function saveUser(){
                     success: function (ans) {
                         var data=ans.split(";");
                         showAlert(data[0],data[1]);
+                        setTimeout("redirect()", 2000);
                     },
                     error: function (ans) {
                         showAlert('alert-d','No se pudo conectar con la base de datos');
@@ -133,6 +139,7 @@ function updateUser(){
                     success: function (ans) {
                         var data=ans.split(";");
                         showAlert(data[0],data[1]);
+                        setTimeout("redirect()", 2000);
                     },
                     error: function (ans) {
                         showAlert('alert-d','No se pudo conectar con la base de datos');
@@ -141,6 +148,27 @@ function updateUser(){
             } 
         }
     } 
+}
+
+function redirect(){
+    window.location = "/usuarios/";
+}
+
+
+function deleteUser(idUserInput){
+    $.ajax({
+        type: 'post',
+        url: '/includes/update.php',
+        data: "action=deleteUser&id="+idUserInput,
+        success: function (ans) {
+            var data=ans.split(";");
+            showAlert(data[0],data[1]);
+            setTimeout("redirect()", 2000);
+        },
+        error: function (ans) {
+            showAlert('alert-d','No se pudo conectar con la base de datos');
+        }
+    });
 }
 
 function validateFields(){
