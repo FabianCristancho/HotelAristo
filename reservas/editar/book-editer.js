@@ -31,6 +31,8 @@ function loadBooking(id){
 			var roomData=data[i].split(";");
 			var clientIds=roomData[4].split(",");
 			var clientDocs=roomData[5].split(",");
+			console.log(clientIds);
+			console.log(clientDocs);
 			var selects=roomGroups[i].getElementsByClassName("card-room")[0].getElementsByTagName("select");
 			selects[0].value=roomData[0];
 			updateGuest(i,selects[0]);
@@ -45,7 +47,7 @@ function loadBooking(id){
 				var search=roomGroups[i].getElementsByClassName("card-client")[j]
 				.getElementsByClassName("card-search")[0].getElementsByTagName("input")[0];
 
-				if(clientIds.length==clientDocs.length)
+				if(clientIds.length==clientDocs.length&&clientIds.length!=1)
 					search.value=clientDocs[j];
 				else
 					search.value=clientIds[j];
