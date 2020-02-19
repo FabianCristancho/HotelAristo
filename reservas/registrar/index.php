@@ -58,6 +58,29 @@
             * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "registrar"
             */
             setCurrentPage("registrar");
+
+            var prevDate=null;
+
+            function validateDate(input){
+            	var timeZero="00:00";
+            	var date=new Date();
+            	var strDate=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            	if(prevDate==null)
+            		prevDate=new Date(strDate+" "+timeZero);
+
+            	if(new Date(input.value)=="Invalid Date"){
+            		prevDate.setDate(prevDate.getDate()+1);
+            		input.value=prevDate.getFullYear() + '-' + ('0' + (prevDate.getMonth() + 1)).slice(-2) + '-' + ('0' + prevDate.getDate()).slice(-2);
+            	}else{
+	            	var currentDate=new Date(input.value+" "+timeZero);
+	            	var nowDate=new Date(strDate+" "+timeZero);
+
+	            	if(currentDate<nowDate)
+	            		input.value=strDate;
+	            	else
+	            		prevDate=new Date(input.value+" "+timeZero);
+            	}
+            }
         </script>
         
         <!--Contiene el formulario de registro correspondiente para una empresa-->
@@ -83,7 +106,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="start-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="start-date" required>
+												<input id="start-date" type="date" class="form-control" onchange="validateDate(this); getDays(); getRoomQuantity();" name="start-date" required>
 											</div>
 											<small class="form-text text-muted">ej. 01/01/2020</small>
 										</div>
@@ -94,7 +117,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="finish-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="finish-date" autofocus required>
+												<input id="finish-date" type="date" class="form-control" onchange="validateDate(this); getDays(); getRoomQuantity();" name="finish-date" autofocus required>
 											</div>
 											<small class="form-text text-muted">ej. 02/01/2020</small>
 										</div>
