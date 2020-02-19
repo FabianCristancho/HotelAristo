@@ -47,6 +47,7 @@
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/user.js"></script>
     </head>
 
     <!--Construcción de la vista-->
@@ -264,7 +265,7 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select id="country" class="form-control" disabled>
+                                                <select id="exp-nat" class="form-control" onchange="updateCities(this);"  disabled>
                                                     <?php $consult->getList('country',''); ?>
                                                 </select>
                                             </div>
@@ -278,12 +279,11 @@
                                 document.getElementById("exp-country").value="<?php echo 1;?>";
                                 document.getElementById("exp-city").value="<?php echo $person->getPlaceExpedition();?>";
                                 document.getElementById("gender").value="<?php echo $person->getGender();?>";
-                                var bloodRh="<?php echo $person->getTypeRH();?>";
-                                console.log(bloodRh+"s");
-                                document.getElementById("blood").value=bloodRh.length==2?bloodRh.substring(0,1):bloodRh.substring(0,2);
-                                document.getElementById("rh").value=bloodRh.substring(bloodRh.length-1);
+                                var sign = document.getElementsByTagName("select")[5];
+                                sign.selectedIndex = <?php echo $person->getidSignRh();?>;
+                                var blood = document.getElementsByTagName("select")[4];
+                                blood.selectedIndex = <?php echo $person->getIdBlood();?>;
                                 document.getElementById("profession").value=("<?php echo $person->getProfession();?>"==""?"NULL":"<?php echo $person->getProfession();?>");
-                                document.getElementById("country").value="<?php echo $person->getPlaceBirth();?>";
                             </script>
                         </div>
                     </div>
@@ -350,7 +350,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-block btn-register" onclick="deleteClient(<?php echo $id;?>);">
+                    <button class="btn btn-block btn-register" onclick="deleteUser(<?php echo $id;?>);">
                         <i class="fa fa-check"></i>
                         <span>Confirmar</span>
                     </button>
