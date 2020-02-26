@@ -202,7 +202,7 @@
 													<i class="fa fa-map-marker"></i>
 												</div>
 
-						                        <select class="form-control">
+						                        <select class="form-control" required>
 						                            <?php $consult->getList('country',''); ?>
 						                        </select>
 						                    </div>

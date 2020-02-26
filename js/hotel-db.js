@@ -1,4 +1,4 @@
-function prepareReservation(user){
+function prepareReservation(user,idBooking){
 	showModal("ajax-loading");
 	hideModal("confirm-modal");
 
@@ -45,7 +45,8 @@ function prepareReservation(user){
 		document.getElementById("holder-check").checked,
 		(document.getElementById("payment-check").checked&&document.getElementById("total-label").style.display!="none"?$(document.getElementById("input-paid")).cleanVal():0), 
 		(document.getElementById("checkon-check").checked?"RE":"AC"),
-		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null));
+		(document.getElementById("payment-check").checked?document.getElementById("payment-method").value:null),
+		idBooking);
 }
 
 function send(entity, extra){
@@ -71,6 +72,19 @@ function sendUpdate(data){
 	return p;
 }
 
+function sendUpdate2(entity, extra){
+	if(extra==undefined)
+		extra="";
+
+	var p= $.ajax({
+		type: 'post',
+		url: 'update.php',
+		data: (entity!=null?entity.getSendData():"")+extra
+	});
+
+	return p;
+}
+
 function sendBooking(booking){
 	var p= (booking.holder instanceof Person ?
 		send(booking.holder):(
@@ -88,6 +102,28 @@ function sendBooking(booking){
 		 	return send(booking,"&enterprise="+data[0]);
 		 else
 			return send(booking,"&holder="+data[0]);
+	});
+
+	return p;
+}
+
+function updateBooking(booking){
+	var p= (booking.holder instanceof Person ?
+		send(booking.holder):(
+			booking.holder instanceof Enterprise?
+			new Promise(function(resolve){
+				resolve(booking.holder.id+";Se ha insertado a una empresa existente;E");
+			}):new Promise(function(resolve){
+				resolve(booking.holder+";Se ha insertado a un usuario existente;T")
+			}))
+	).then(function(ans){
+		var data=ans.split(";");
+		 setMessageOnLoading(data[1],"Holder");
+
+		 if(data[2]=="E")
+		 	return sendUpdate2(booking,"&enterprise="+data[0]);
+		 else
+			return sendUpdate2(booking,"&holder="+data[0]);
 	});
 
 	return p;
@@ -166,13 +202,13 @@ function sendReservation(user){
 	});
 }
 
-function updateReservation(user){
-	const booking=prepareReservation(user);
-
-	return sendBooking(booking).then(function(ans){
+function updateReservation(user,idBooking){
+	const booking=prepareReservation(user, idBooking);
+	console.log(booking.getSendData());
+	return updateBooking(booking).then(function(ans){
 		var data=ans.split(";");
 		var promises=[];
-
+		console.log(ans);
 		if(data[2]==''){
 			setMessageOnLoading(data[1],"Booking");
 			return null;
@@ -308,8 +344,9 @@ function fillRoom(roomBody,clients){
 }
 
 class Booking{
-	constructor(startDate, finishDate,rooms, holder, user, isStaying, amount, isCheckon, paymentMethod){
+	constructor(startDate, finishDate,rooms, holder, user, isStaying, amount, isCheckon, paymentMethod,id){
 		console.log(amount);
+		this.id=id;
 		this.startDate=startDate;
 		this.finishDate=finishDate;
 		this.rooms=rooms;
@@ -321,11 +358,16 @@ class Booking{
 		this.paymentMethod=paymentMethod;
 	}
 
+	setId(id){
+		this.id=id;
+	};
 	getSendData(){
 		var data="entity=reservation&startDate="+this.startDate+"&finishDate="+this.finishDate+"&user="+this.user+"&amount="+this.amount+"&state="+this.isCheckon;
 		
 		if(this.paymentMethod!=null)
 			data+="&paymentMethod="+this.paymentMethod;
+		if(this.id!=null)
+			data+="&idBooking="+this.id;
 
 		return data;
 	}

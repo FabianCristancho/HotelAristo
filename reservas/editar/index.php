@@ -89,7 +89,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="start-date" type="date" class="form-control" onchange="getDays();" name="start-date" required>
+												<input id="start-date" type="date" class="form-control" onchange="validateDateA(this); getDays();" name="start-date" required>
 											</div>
 											<small class="form-text text-muted">ej. 01/01/2020</small>
 										</div>
@@ -100,7 +100,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="finish-date" type="date" class="form-control" onchange="getDays();" name="finish-date" autofocus required>
+												<input id="finish-date" type="date" class="form-control" onchange="validateDateA(this); getDays();" name="finish-date" autofocus required>
 											</div>
 											<small class="form-text text-muted">ej. 02/01/2020</small>
 										</div>
@@ -205,7 +205,7 @@
                     <h2>Revisar reserva</h2>
                 </div>
                 <div class="modal-body scroll-block">
-	                <form onsubmit="updateReservation(<?php echo $user->getId();?>); return false;">
+	                <form onsubmit="updateReservation(<?php echo $user->getId();?>,<?php echo $id;?>); return false;">
 	                	<div class="card">
 						    <div class="card-header">
 						        <strong class="card-title">Resumen de la reserva</strong>
@@ -255,7 +255,7 @@
 	                			</div>
 	                		</div>
 						</div>
-
+						<input type="checkbox" name="" class="hideable" checked id="checkon-check">
 	                	<div>
 							<button class="btn btn-block btn-register" onclick="">
 								<i class="fa fa-check"></i>
