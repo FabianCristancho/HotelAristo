@@ -447,3 +447,42 @@ function cloneElement(id){
 	clone.innerHTML=base.innerHTML;
 	return clone;
 }
+var prevDateC=null;
+function validateDateC(input){
+	var timeZero="00:00";
+	var date=new Date();
+    var strDate=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            	
+    if(prevDateC==null)
+    	prevDateC=new Date(strDate+" "+timeZero);
+
+    if(new Date(input.value)=="Invalid Date"){
+    	prevDateC.setDate(prevDateC.getDate()+1);
+    	input.value=prevDateC.getFullYear() + '-' 
+    	+ ('0' + (prevDateC.getMonth() + 1)).slice(-2) + '-' + ('0' + prevDateC.getDate()).slice(-2);
+    }
+}
+
+var prevDate=null;
+
+function validateDateA(input){
+	var timeZero="00:00";
+	var date=new Date();
+	var strDate=date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+	
+	if(prevDate==null)
+		prevDate=new Date(strDate+" "+timeZero);
+	
+	if(new Date(input.value)=="Invalid Date"){
+		prevDate.setDate(prevDate.getDate()+1);
+		input.value=prevDate.getFullYear() + '-' + ('0' + (prevDate.getMonth() + 1)).slice(-2) + '-' + ('0' + prevDate.getDate()).slice(-2);
+    }else{
+    	var currentDate=new Date(input.value+" "+timeZero);
+    	var nowDate=new Date(strDate+" "+timeZero);
+
+    	if(currentDate<nowDate)
+    		input.value=strDate;
+    	else
+    		prevDate=new Date(input.value+" "+timeZero);
+    }
+}

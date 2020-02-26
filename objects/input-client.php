@@ -152,7 +152,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-						                        <input class="form-control" type="date">
+						                        <input class="form-control" type="date" onchange="validateDateC(this);">
 						                    </div>
 						                    <small class="form-text text-muted">ej. 22/09/1985</small>
 										</div>
@@ -202,7 +202,7 @@
 													<i class="fa fa-map-marker"></i>
 												</div>
 
-						                        <select class="form-control">
+						                        <select class="form-control" required>
 						                            <?php $consult->getList('country',''); ?>
 						                        </select>
 						                    </div>

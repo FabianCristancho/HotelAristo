@@ -83,7 +83,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="start-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="start-date" required>
+												<input id="start-date" type="date" class="form-control" onchange="validateDateA(this); getDays(); getRoomQuantity();" name="start-date" required>
 											</div>
 											<small class="form-text text-muted">ej. 01/01/2020</small>
 										</div>
@@ -94,7 +94,7 @@
 												<div class="input-group-icon">
 													<i class="fa fa-calendar"></i>
 												</div>
-												<input id="finish-date" type="date" class="form-control" onchange="getDays(); getRoomQuantity();" name="finish-date" autofocus required>
+												<input id="finish-date" type="date" class="form-control" onchange="validateDateA(this); getDays(); getRoomQuantity();" name="finish-date" autofocus required>
 											</div>
 											<small class="form-text text-muted">ej. 02/01/2020</small>
 										</div>

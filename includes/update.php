@@ -159,7 +159,7 @@
 
         $update="UPDATE personas SET nombres_persona = '".$_POST['name']."', apellidos_persona = '".$_POST['lastName']."', tipo_documento = '".$_POST['typeDocument']."', numero_documento = '".$_POST['numberDoc']."', telefono_persona = '".$_POST['phone']."', correo_persona = '".$_POST['email']."', fecha_nacimiento = '".$_POST['birthDate']."', id_lugar_expedicion = ".$_POST['cityExp'].", genero_persona = '".$_POST['gender']."', tipo_sangre_rh = '".$_POST['typeBlood']."', id_profesion = ".$_POST['profession'].", id_lugar_nacimiento = ".$_POST['countryExp']."";
         
-        $update=$update." WHERE id_persona = ".$_POST['id'];
+        $update=$update." WHERE id_persona = ".$_POST['idBooking'];
 
         $query=$database->connect()->prepare($update);
 

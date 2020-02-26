@@ -636,7 +636,7 @@
             genero_persona,fecha_nacimiento,tipo_sangre_rh,telefono_persona,correo_persona  
             FROM personas p  
             WHERE tipo_persona = "C" AND (numero_documento='.$id.' OR id_persona='.$id.')';
-
+            
             $query = $this->connect()->prepare($consult);
             $query->execute();
 
