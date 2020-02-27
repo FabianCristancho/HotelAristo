@@ -379,8 +379,8 @@
 
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
-                echo '<td><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['numero_documento'].'</td>'.PHP_EOL;
+                echo '<td style = "text-align: left; padding: 10px;"><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '</tr>'.PHP_EOL;
             }
@@ -398,7 +398,7 @@
 
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
-                echo '<td><a href="/usuarios/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
+                echo '<td style = "text-align: left; padding: 10px;"><a href="/usuarios/detalles?id='.$current['id_persona'].'">'.$current['nombre'].'</a></td>'.PHP_EOL;
                 echo '<td class="num">'.$current['telefono_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['correo_persona'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['nombre_cargo'].'</td>'.PHP_EOL;
@@ -417,7 +417,7 @@
             foreach ($query as $current){
                 echo '<tr>'.PHP_EOL;
                 echo '<td>'.$current['nit_empresa'].'</td>'.PHP_EOL;
-                echo '<td><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
+                echo '<td style = "text-align: left; padding: 10px;"><a href="/empresas/detalles?id='.$current['id_empresa'].'">'.$current['nombre_empresa'].'</a></td>'.PHP_EOL;
                 echo '<td>'.$current['telefono_empresa'].'</td>'.PHP_EOL;
                 echo '<td>'.($current['retefuente']==1?'Si':'No').'</td>'.PHP_EOL;
                 echo '<td>'.($current['ica']==1?'Si':'No').'</td>'.PHP_EOL;

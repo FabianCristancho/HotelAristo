@@ -76,8 +76,8 @@
                        
                         <thead>
                             <tr>
-                                <th>NOMBRE</th>
                                 <th>NÚMERO DE DOCUMENTO</th>
+                                <th>NOMBRE</th>
                                 <th>TELÉFONO</th>
                             </tr>
                         </thead>
