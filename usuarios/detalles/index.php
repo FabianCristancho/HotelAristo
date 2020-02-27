@@ -55,7 +55,7 @@
     
         <?php
             /**
-            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web del hotel
             */
             include "../../objects/menu.php"; 
         ?>
