@@ -68,8 +68,8 @@
 
                 <div class="row-simple">
                     <div class="col-12 padd">
+                        <form onsubmit="updateCustomer(); return false;">
                         <div class="card card-client">
-                            <form onsubmit="updateCustomer(); return false;">
                             <div class="card-header">
                                 <i class="fa fa-user"></i>
                                 <strong class="card-title">Información personal</strong>
@@ -84,7 +84,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-user-o"></i>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="Nombres" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" value="<?php echo $person->getName();?>">
+                                                <input class="form-control" type="text" placeholder="Nombres" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" maxlength="60" minlength="2" value="<?php echo $person->getName();?>" required>
                                             </div>
                                         </div>
 
@@ -94,7 +94,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-user-o"></i>
                                                 </div>
-                                                <input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" value="<?php echo $person->getLastName();?>">
+                                                <input class="form-control" type="text" placeholder="Apellidos" onkeyup="this.value=this.value.toUpperCase();" onkeydown="checkInputOnlyLetters(event,this);" minlength="2" maxlength="60" value="<?php echo $person->getLastName();?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-id-card"></i>
                                                 </div>
-                                                <select id="doc-type" class="form-control">
+                                                <select id="doc-type" class="form-control" required>
                                                     <option value="CC">Cédula de ciudadania</option>
                                                     <option value="RC">Registro civil</option>
                                                     <option value="TI">Tarjeta de identidad</option>
@@ -122,7 +122,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-id-card"></i>
                                                 </div>
-                                                 <input class="form-control" type="text" placeholder="Número de documento" minlength="6" maxlength="15" value="<?php echo $person->getNumberDocument();?>">
+                                                 <input class="form-control" type="text" placeholder="Número de documento" minlength="6" maxlength="15" value="<?php echo $person->getNumberDocument();?>" required>
                                             </div>
                                         </div>
                                     </div>
@@ -135,12 +135,13 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select id="exp-country" class="form-control" onchange="updateCities(this);">
+                                                <select id="exp-country" class="form-control" onchange="updateCities(this);" required>
                                                     <?php $consult->getList('country',''); ?>
                                                 </select>
 
                                             </div>
                                         </div>
+
                                         <div class="form-group in-row col-5 padd">
                                             <label class="form-control-label">Ciudad (Expedición)*</label>
                                             <div class="input-group">
@@ -148,7 +149,7 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select id="exp-city" class="form-control">
+                                                <select id="exp-city" class="form-control" required>
                                                     <?php $consult->getList('city','1'); ?>
                                                 </select>
 
@@ -163,7 +164,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-phone"></i>
                                                 </div>
-                                                <input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" value="<?php echo $person->getPhone();?>">
+                                                <input class="form-control phone-mask" type="text" placeholder="Telefono" maxlength="15" minlength="7" onkeydown="$(this).mask('000 000 0000');" value="<?php echo $person->getPhone();?>" required>
                                             </div>
                                         </div>
 
@@ -186,7 +187,7 @@
                                                     <i class="fa fa-intersex"></i>
                                                 </div>
 
-                                                <select id="gender" class="form-control">
+                                                <select id="gender" class="form-control" required>
                                                     <option value="M">Hombre</option>
                                                     <option value="F">Mujer</option>
                                                 </select>
@@ -200,7 +201,7 @@
                                                 <div class="input-group-icon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input class="form-control" type="date" value="<?php echo $person->getBirthDate();?>">
+                                                <input class="form-control" type="date" value="<?php echo $person->getBirthDate();?>" required>
                                             </div>
                                         </div>
 
@@ -211,14 +212,14 @@
                                                     <i class="fa fa-heartbeat"></i>
                                                 </div>
 
-                                                <select id="blood" class="form-control col-3 padd">
+                                                <select id="blood" class="form-control col-3 padd" required>
                                                     <option value="O">O</option>
                                                     <option value="A">A</option>
                                                     <option value="B">B</option>
                                                     <option value="AB">AB</option>
                                                 </select>
 
-                                                 <select id="rh" class="form-control col-9 padd">
+                                                 <select id="rh" class="form-control col-9 padd" required>
                                                     <option value="+">+ (Positivo)</option>
                                                     <option value="-">- (Negativo)</option>
                                                 </select>
@@ -248,7 +249,7 @@
                                                     <i class="fa fa-map-marker"></i>
                                                 </div>
 
-                                                <select id="exp-nat" class="form-control" onchange="updateCities(this);">
+                                                <select id="exp-nat" class="form-control" onchange="updateCities(this);" required>
                                                     <?php $consult->getList('country',''); ?>
                                                 </select>
                                             </div>
@@ -263,7 +264,6 @@
                                 document.getElementById("exp-city").value="<?php echo $person->getPlaceExpedition();?>";
                                 document.getElementById("gender").value="<?php echo $person->getGender();?>";
                                 var bloodRh="<?php echo $person->getTypeRH();?>";
-                                console.log(bloodRh+"s");
                                 document.getElementById("blood").value=bloodRh.length==2?bloodRh.substring(0,1):bloodRh.substring(0,2);
                                 document.getElementById("rh").value=bloodRh.substring(bloodRh.length-1);
                                 document.getElementById("profession").value=("<?php echo $person->getProfession();?>"==""?"NULL":"<?php echo $person->getProfession();?>");
@@ -273,10 +273,10 @@
                             <!-- Botón que se encarga de enviar los datos ingresados en los campos del formulario para su posterior edicion en la base de datos -->
                            <button class="btn btn-block btn-register">
                                <i class="fa fa-check"></i>
-                               <span>Editar Cliente</span>
+                               <span>Editar cliente</span>
                            </button>
 				        </div>
-                     </form>
+                        </form>
                     </div>
                 </div>
             </div>
