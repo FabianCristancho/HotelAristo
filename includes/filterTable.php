@@ -51,7 +51,7 @@
             }
             $output.="</tbody></table>";
         }else{
-            $output.="NO HAY DATOS";
+            $output.="LA BÚSQUEDA NO COINCIDE CON NINGÚN REGISTRO DE LA BASE DE DATOS";
         }
         echo $output;
     }
@@ -63,10 +63,10 @@
         $idUser = $_POST['id'];
 
         $output = "";
-        $query = "SELECT id_persona, nombres_persona, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo ORDER BY nombres_persona";
+        $query = "SELECT id_persona, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)";
 
         if(!empty($idUser)){
-            $query = "SELECT id_persona, nombres_persona, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo WHERE numero_documento LIKE '%$idUser%' OR nombres_persona LIKE '%$idUser%' ORDER BY nombres_persona"; 
+            $query = "SELECT id_persona, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo WHERE numero_documento LIKE '%$idUser%' OR nombres_persona LIKE '%$idUser%' OR apellidos_persona LIKE '%$idUser%' ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)"; 
         }
 
         $result = $database->connect()->prepare($query);
@@ -86,7 +86,7 @@
 
             foreach ($result as $current) {
                 $output.='<tr>
-                            <td style = "text-align: left; padding: 10px;"><a href="/usuarios/detalles?id='.$current['id_persona'].'">'.$current['nombres_persona'].'</a></td>
+                            <td style = "text-align: left; padding: 10px;"><a href="/usuarios/detalles?id='.$current['id_persona'].'">'.$current['nombres'].'</a></td>
                             <td>'.$current['telefono_persona'].'</td>
                             <td>'.$current['correo_persona'].'</td>
                             <td>'.$current['nombre_cargo'].'</td>
@@ -94,7 +94,7 @@
             }
             $output.="</tbody></table>";
         }else{
-            $output.="NO HAY DATOS";
+            $output.="LA BÚSQUEDA NO COINCIDE CON NINGÚN REGISTRO DE LA BASE DE DATOS";
         }
         echo $output;
     }
