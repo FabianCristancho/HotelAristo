@@ -8,6 +8,9 @@
         case 'user':
             getConsultUser();
         break;
+        case 'customer':
+            getConsultCustomer();
+        break;
         default:
             break;
     }
@@ -90,6 +93,46 @@
                             <td>'.$current['telefono_persona'].'</td>
                             <td>'.$current['correo_persona'].'</td>
                             <td>'.$current['nombre_cargo'].'</td>
+                        </tr>';
+            }
+            $output.="</tbody></table>";
+        }else{
+            $output.="LA BÚSQUEDA NO COINCIDE CON NINGÚN REGISTRO DE LA BASE DE DATOS";
+        }
+        echo $output;
+    }
+
+    function getConsultCustomer(){
+        $database = new Database();
+
+        $idCustomer = $_POST['id'];
+
+        $output = "";
+        $query = "SELECT id_persona, numero_documento, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona FROM personas ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)";
+
+        if(!empty($idCustomer)){
+            $query = "SELECT id_persona, numero_documento, CONCAT_WS(' ', nombres_persona,apellidos_persona) AS nombres, telefono_persona FROM personas WHERE numero_documento LIKE '%$idCustomer%' OR nombres_persona LIKE '%$idCustomer%' OR apellidos_persona LIKE '%$idCustomer%' ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)"; 
+        }
+
+        $result = $database->connect()->prepare($query);
+        $result->execute();
+
+        if($result->rowCount()>0){
+            $output.="<table>
+            <thead>
+                <tr>
+                    <th>NÚMERO DE DOCUMENTO</th>
+                    <th>NOMBRE</th>
+                    <th>TELÉFONO</th>
+                </tr>
+            </thead>
+            <tbody>";
+
+            foreach ($result as $current) {
+                $output.='<tr>
+                            <td>'.$current['numero_documento'].'</td>
+                            <td style = "text-align: left; padding: 10px;"><a href="/clientes/detalles?id='.$current['id_persona'].'">'.$current['nombres'].'</a></td>
+                            <td>'.$current['telefono_persona'].'</td>
                         </tr>';
             }
             $output.="</tbody></table>";
