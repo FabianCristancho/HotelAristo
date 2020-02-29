@@ -35,13 +35,16 @@
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/filterSearch.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
 
     <!--Construcción de la vista-->
-    <body>
+    <body onload = "filterBill()">
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -63,28 +66,19 @@
                     <h2 class="title-form col-10">FACTURAS</h2>
                     <a class="button-add-book col-2" href="/facturas/registrar">Nueva factura</a>
                 </div>
-                <br>
-                <div class="scroll-block">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>TITULAR</th>
-                                <th>VALOR FACTURADO($)</th>
-                                <th>FECHA DE FACTURACIÓN</th>
-                                <th>RESPONSABLE</th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                            <?php 
-                                /**
-                                * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
-                                */
-                                $consult->getTable('bill', '')
-                            ?>
-                    </table>
+                <div class="form-group in-row col-3">
+                    <label class="form-control-label"><b>Buscar factura</b></label>
+                    <div class="input-group">
+                        <div class="input-group-icon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <input id="inputBill" class="form-control" type="text" placeholder="Serie o nombre del titular" onkeyup="filterBill()" onkeypress = "return validateChar(event)">
+                    </div>
+                    <small class="form-text text-muted">ej. A001 / PEDRO PEREZ</small>
                 </div>
+
+                <div class="scroll-block col-12" id="dataBill"></div> 
+                
             </div>
         </div>
         

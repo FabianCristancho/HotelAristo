@@ -79,3 +79,38 @@ function searchCustomer(valueInput){
     });
 }
 
+function validateChar(e){
+    var key = e.keyCode;
+    var input = document.getElementsByTagName("input")[0];
+    if(key == 39){
+        input.value = input.value.substring(0, input.value.length - 1);
+    }   
+}
+
+function filterBill(){
+    var input = document.getElementById("inputBill").value;
+    if(input != ""){
+        searchBill(input)
+    }else{
+        searchBill("");
+    }
+}
+
+function searchBill(valueInput){
+    $.ajax({
+        type: 'post',
+        url: '../includes/filterTable.php',
+        data: 'entity=bill&id='+valueInput,
+        success: function (ans) {
+            var data=ans.split(";");
+            showAlert(data[0],data[1]);
+        },
+        error: function (ans) {
+            showAlert('alert-d','No se pudo conectar con la base de datos');
+        }
+    })
+    .done(function(res){
+        $("#dataBill").html(res);
+    });
+}
+
