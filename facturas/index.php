@@ -44,7 +44,7 @@
     </head>
 
     <!--Construcción de la vista-->
-    <body onload = "filterBill()">
+    <body onload = "return filterBill(event)">
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -72,7 +72,7 @@
                         <div class="input-group-icon">
                             <i class="fa fa-search"></i>
                         </div>
-                        <input id="inputBill" class="form-control" type="text" placeholder="Serie o nombre del titular" onkeyup="filterBill()" onkeypress = "return validateChar(event)">
+                        <input id="inputBill" class="form-control" type="text" placeholder="Serie o nombre del titular" onkeyup="return filterBill(event)">
                     </div>
                     <small class="form-text text-muted">ej. A001 / PEDRO PEREZ</small>
                 </div>

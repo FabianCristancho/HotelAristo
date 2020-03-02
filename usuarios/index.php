@@ -49,7 +49,7 @@
     </head>
     
     <!--Construcción de la vista-->
-    <body onload = "filterUser()">
+    <body onload = "return filterUser(event)">
         <?php 
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -77,7 +77,7 @@
                                 <div class="input-group-icon">
                                     <i class="fa fa-search"></i>
                                 </div>
-                                <input id="inputUser" class="form-control" type="text" placeholder="Documento o nombre" onkeyup="filterUser()">
+                                <input id="inputUser" class="form-control" type="text" placeholder="Documento o nombre" onkeyup="return filterUser(event);">
                             </div>
                             <small class="form-text text-muted">ej. 1052345623 / PEDRO PEREZ</small>
                         </div>

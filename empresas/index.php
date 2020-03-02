@@ -44,7 +44,7 @@
     </head>
     
     <!--Construcción de la vista-->
-    <body onload = "filterEnterprise()">
+    <body onload = "filterEnterprise(event)">
         <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -73,7 +73,7 @@
                                 <div class="input-group-icon">
                                     <i class="fa fa-search"></i>
                                 </div>
-                                    <input id="inputEnterprise" class="form-control" type="text" placeholder="NIT o nombre" onkeyup="filterEnterprise()">
+                                    <input id="inputEnterprise" class="form-control" type="text" placeholder="NIT o nombre" onkeyup="filterEnterprise(event)">
                                 </div>
                                 <small class="form-text text-muted">ej. 900345271-2 / SETUP SA</small>
                             </div>

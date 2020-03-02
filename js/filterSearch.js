@@ -1,9 +1,13 @@
-function filterEnterprise(){
-    var input = document.getElementById("inputEnterprise").value;
-    if(input != ""){
-        searchEnterprise(input)
-    }else{
-        searchEnterprise("");
+function filterEnterprise(e){
+    var input = document.getElementById("inputEnterprise");
+    input.value = input.value.toUpperCase();
+    var key = e.keyCode;
+    if(!validateChar(key)){
+        if(input.value != ""){
+            searchEnterprise(input.value)
+        }else{
+            searchEnterprise("");
+        }
     }
 }
 
@@ -25,12 +29,16 @@ function searchEnterprise(valueInput){
     });
 }
 
-function filterUser(){
-    var input = document.getElementById("inputUser").value;
-    if(input != ""){
-        searchUser(input)
-    }else{
-        searchUser("");
+function filterUser(e){
+    var input = document.getElementById("inputUser");
+    input.value = input.value.toUpperCase();
+    var key = e.keyCode;
+    if(!validateChar(key)){
+        if(input.value != ""){
+            searchUser(input.value)
+        }else{
+            searchUser("");
+        }
     }
 }
 
@@ -52,12 +60,16 @@ function searchUser(valueInput){
     });
 }
 
-function filterCustomer(){
-    var input = document.getElementById("inputCustomer").value;
-    if(input != ""){
-        searchCustomer(input)
-    }else{
-        searchCustomer("");
+function filterCustomer(e){
+    var input = document.getElementById("inputCustomer");
+    input.value = input.value.toUpperCase();
+    var key = e.keyCode;
+    if(!validateChar(key)){
+        if(input.value != ""){
+            searchCustomer(input.value)
+        }else{
+            searchCustomer("");
+        }
     }
 }
 
@@ -79,20 +91,25 @@ function searchCustomer(valueInput){
     });
 }
 
-function validateChar(e){
-    var key = e.keyCode;
+function validateChar(key){
     var input = document.getElementsByTagName("input")[0];
-    if(key == 39){
+    if(key == 219){
         input.value = input.value.substring(0, input.value.length - 1);
+        return true;
     }   
+    return false;
 }
 
-function filterBill(){
-    var input = document.getElementById("inputBill").value;
-    if(input != ""){
-        searchBill(input)
-    }else{
-        searchBill("");
+function filterBill(e){
+    var input = document.getElementById("inputBill");
+    input.value = input.value.toUpperCase();
+    var key = e.keyCode;
+    if(!validateChar(key)){
+        if(input.value != ""){
+            searchBill(input.value)
+        }else{
+            searchBill("");
+        }
     }
 }
 
