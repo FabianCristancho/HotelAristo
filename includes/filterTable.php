@@ -24,12 +24,13 @@
         $idEnterprise = $_POST['id'];
 
         $output = "";
-        $query = "SELECT id_empresa, nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica FROM empresas ORDER BY nombre_empresa";
+        $query = "SELECT id_empresa, nit_empresa, UPPER(nombre_empresa) AS nombre_empresa, telefono_empresa, retefuente, ica FROM empresas";
 
         if(!empty($idEnterprise)){
-            $query = "SELECT id_empresa, nit_empresa, nombre_empresa, telefono_empresa, retefuente, ica FROM empresas WHERE nit_empresa LIKE '%$idEnterprise%' OR nombre_empresa LIKE '%$idEnterprise%' ORDER BY nombre_empresa"; 
+            $query.= " WHERE nit_empresa LIKE '%$idEnterprise%' OR UPPER(nombre_empresa) LIKE UPPER('%$idEnterprise%')"; 
         }
 
+        $query.= " ORDER BY nombre_empresa";
         $result = $database->connect()->prepare($query);
         $result->execute();
 
@@ -69,12 +70,13 @@
         $idUser = $_POST['id'];
 
         $output = "";
-        $query = "SELECT id_persona, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)";
+        $query = "SELECT id_persona, UPPER(CONCAT_WS(' ', nombres_persona, apellidos_persona)) AS nombres, telefono_persona, correo_persona, UPPER(nombre_cargo) AS nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo WHERE p.id_cargo != 5";
 
         if(!empty($idUser)){
-            $query = "SELECT id_persona, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona, correo_persona, nombre_cargo FROM personas p INNER JOIN cargos c ON p.id_cargo = c.id_cargo WHERE numero_documento LIKE '%$idUser%' OR nombres_persona LIKE '%$idUser%' OR apellidos_persona LIKE '%$idUser%' ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)"; 
+            $query.= " AND numero_documento LIKE '%$idUser%' OR UPPER(CONCAT_WS(' ', nombres_persona, apellidos_persona)) LIKE UPPER('%$idUser%')"; 
         }
 
+        $query.= " ORDER BY nombres_persona";
         $result = $database->connect()->prepare($query);
         $result->execute();
 
@@ -111,12 +113,13 @@
         $idCustomer = $_POST['id'];
 
         $output = "";
-        $query = "SELECT id_persona, numero_documento, CONCAT_WS(' ', nombres_persona, apellidos_persona) AS nombres, telefono_persona FROM personas ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)";
+        $query = "SELECT id_persona, numero_documento, UPPER(CONCAT_WS(' ', nombres_persona, apellidos_persona)) AS nombres, telefono_persona FROM personas WHERE tipo_persona = 'C'";
 
         if(!empty($idCustomer)){
-            $query = "SELECT id_persona, numero_documento, CONCAT_WS(' ', nombres_persona,apellidos_persona) AS nombres, telefono_persona FROM personas WHERE numero_documento LIKE '%$idCustomer%' OR nombres_persona LIKE '%$idCustomer%' OR apellidos_persona LIKE '%$idCustomer%' ORDER BY CONCAT_WS(nombres_persona, apellidos_persona)"; 
+            $query.= " AND numero_documento LIKE '%$idCustomer%' OR UPPER(CONCAT_WS(' ', nombres_persona, apellidos_persona)) LIKE UPPER('%$idCustomer%')"; 
         }
 
+        $query.= " ORDER BY nombres_persona ASC";
         $result = $database->connect()->prepare($query);
         $result->execute();
 
@@ -151,25 +154,18 @@
         $idBill = $_POST['id'];
 
         $output = "";
-        $query = "SELECT id_factura, serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN CONCAT_WS(' ',pt.nombres_persona, pt.apellidos_persona) ELSE e.nombre_empresa END AS titular, CONCAT_WS(' ',pr.nombres_persona, pr.apellidos_persona) AS responsable, total_factura, DATE_FORMAT(fecha_factura, '%d/%m/%Y') AS fecha_factura, CASE WHEN f.tipo_factura='N' THEN 0 ELSE 1 END AS tipo
+        $query = "SELECT id_factura, UPPER(serie_factura) AS serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN UPPER(CONCAT_WS(' ',pt.nombres_persona, pt.apellidos_persona)) ELSE UPPER(e.nombre_empresa) END AS titular, UPPER(CONCAT_WS(' ',pr.nombres_persona, pr.apellidos_persona)) AS responsable, total_factura, DATE_FORMAT(fecha_factura, '%d/%m/%Y') AS fecha_factura, CASE WHEN f.tipo_factura='N' THEN 0 ELSE 1 END AS tipo
         FROM facturas f INNER JOIN reservas r ON f.id_reserva=r.id_reserva
         LEFT JOIN personas pr ON f.id_responsable = pr.id_persona
         LEFT JOIN personas pt ON r.id_titular=pt.id_persona
         LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
-        WHERE tipo_factura = 'N'
-        ORDER by f.fecha_factura, f.serie_factura";
+        WHERE tipo_factura = 'N'";
 
         if(!empty($idBill)){
-            $query = "SELECT id_factura, serie_factura, r.id_reserva, CASE WHEN r.id_titular IS NOT NULL THEN CONCAT_WS(' ',pt.nombres_persona, pt.apellidos_persona) ELSE e.nombre_empresa END AS titular, CONCAT_WS(' ',pr.nombres_persona, pr.apellidos_persona) AS responsable, total_factura, DATE_FORMAT(fecha_factura, '%d/%m/%Y') AS fecha_factura, CASE WHEN f.tipo_factura='N' THEN 0 ELSE 1 END AS tipo
-            FROM facturas f INNER JOIN reservas r ON f.id_reserva=r.id_reserva
-            LEFT JOIN personas pr ON f.id_responsable = pr.id_persona
-            LEFT JOIN personas pt ON r.id_titular=pt.id_persona
-            LEFT JOIN empresas e ON r.id_empresa=e.id_empresa
-            WHERE tipo_factura = 'N'
-            AND serie_factura LIKE '%$idBill%' OR CONCAT_WS(' ', pt.nombres_persona, pt.apellidos_persona) LIKE '%$idBill%' OR e.nombre_empresa LIKE '%$idBill%'
-            ORDER by f.fecha_factura, f.serie_factura"; 
+            $query.= " AND serie_factura LIKE '%$idBill%' OR UPPER(CONCAT_WS(' ', pt.nombres_persona, pt.apellidos_persona)) LIKE UPPER('%$idBill%') OR UPPER(e.nombre_empresa) LIKE UPPER('%$idBill%')"; 
         }
 
+        $query.= " ORDER by f.fecha_factura, f.serie_factura";
         $result = $database->connect()->prepare($query);
         $result->execute();
 
@@ -205,6 +201,4 @@
         }
         echo $output;
     }
-
-
 ?>
