@@ -202,7 +202,7 @@
                 
             <?php if(isset($_GET['serie'])):?>
                 <div>
-                    <a href = "/reportes/facturas?id=<?php echo $_GET['id']?>&typeBill=0&serie=<?php echo $_GET['serie']?>" class="col-10" style="float: center;"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a>
+                    <a target = "_blank" href = "/reportes/facturas?id=<?php echo $_GET['id']?>&typeBill=0&serie=<?php echo $_GET['serie']?>" class="col-10" style="float: center;"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a>
                 </div>
             <?php else:?>
                 <div class="option_bill">
