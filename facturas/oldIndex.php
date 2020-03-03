@@ -1,7 +1,7 @@
 <?php
     /**
-    * Archivo que contiene la información pertinente a los clientes almacenados en la base de datos
-    * @package   clientes
+    * Archivo que contiene la información pertinente a la facturación
+    * @package   facturas
     * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
     * @copyright Todos los derechos reservados. 2020.
     * @since     Versión 1.0
@@ -21,10 +21,6 @@
     }else{
         header('location: /login');
     }
-    $date="";
-    if(isset($_GET['date'])){
-        $date = $_GET['date'];      
-    }
 ?>
 
 
@@ -32,57 +28,63 @@
 <html>
     <!--Importación de librerias css y javascript -->
     <head>
-        <title>Clientes | Hotel Aristo</title>
+        <title>Facturas | Hotel Aristo</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="stylesheet" type="text/css" href="/css/main.css">
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
-        <link rel="stylesheet" type="text/css" href="/css/form.css">
-        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
-        <script type="text/javascript" src="/js/filterSearch.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
-    
+
     <!--Construcción de la vista-->
-    <body onload = "return filterCustomer(event)">
-        <?php 
+    <body>
+        <?php
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
             */
             include "../objects/menu.php"; 
         ?>
-
+        
         <script type="text/javascript">
             /**
-            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "consultar"
+            * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
             */
-            setCurrentPage("consultar");
+            setCurrentPage("facturas");
         </script>
-        
-        <!--Bloque cuyo contenido se basa en una tabla que presenta la información más relevante de los clientes registrados en la base de datos-->
+
+        <!--Presenta una tabla con los datos básicos de una factura-->
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
-                <div class="content-header col-12">
-                    <div class="row-simple col-12">
-                        <h2 class="title-form col-10">CLIENTES REGISTRADOS</h2>
-                        <a class="button-add-book col-2" href="registrar">Registrar cliente</a>
-                        <div class="form-group in-row">
-                            <label class="form-control-label"><b>Buscar cliente</b></label>
-                            <div class="input-group">
-                                <div class="input-group-icon">
-                                    <i class="fa fa-search"></i>
-                                </div>
-                                <input id="inputCustomer" class="form-control" type="text" placeholder="Documento o nombre" onkeyup="return filterCustomer(event)">
-                            </div>
-                            <small class="form-text text-muted">ej. 1052345623 / PEDRO PEREZ</small>
-                        </div>
-                    </div>
+                <div class="content-header">
+                    <h2 class="title-form col-10">FACTURAS</h2>
+                    <a class="button-add-book col-2" href="/facturas/registrar">Nueva factura</a>
                 </div>
-                <div class="scroll-block col-12" id="dataCustomer"></div>
+                <br>
+                <div class="scroll-block">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>TITULAR</th>
+                                <th>VALOR FACTURADO($)</th>
+                                <th>FECHA DE FACTURACIÓN</th>
+                                <th>RESPONSABLE</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                            <?php 
+                                /**
+                                * Invoca al método getTable('enterprise') que se encarga de obtener de la base de datos los datos de las empresas
+                                */
+                                $consult->getTable('bill', '')
+                            ?>
+                    </table>
+                </div>
             </div>
         </div>
         

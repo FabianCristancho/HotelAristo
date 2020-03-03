@@ -66,7 +66,6 @@
             */
             setCurrentPage("registrar");
         </script>
-        
         <!-- Bloque que contiene el formulario con los campos correspondientes para el proceso de registro de un cliente-->
 		 <div class="content col-12 padd">
             <div class="wrap-main wrap-main-big col-10 wrap-10 padd">

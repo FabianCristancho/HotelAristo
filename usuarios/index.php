@@ -41,13 +41,15 @@
         <link rel="stylesheet" type="text/css" href="/css/alerts.css">
         <link rel="stylesheet" type="text/css" href="/css/table.css">
         <link rel="stylesheet" type="text/css" href="/css/form.css">
+        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>
         <script type="text/javascript" src="/js/dynamic.js"></script>
+        <script type="text/javascript" src="/js/filterSearch.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
     </head>
     
     <!--Construcción de la vista-->
-    <body>
+    <body onload = "return filterUser(event)">
         <?php 
             /**
             * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
@@ -69,29 +71,19 @@
                     <div class="row-simple col-12">
                         <h2 class="title-form col-10">USUARIOS REGISTRADOS</h2>
                         <a class="button-add-book col-2" href="registrar">Registrar usuario</a>
+                        <div class="form-group in-row">
+                            <label class="form-control-label"><b>Buscar usuario</b></label>
+                            <div class="input-group">
+                                <div class="input-group-icon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <input id="inputUser" class="form-control" type="text" placeholder="Documento o nombre" onkeyup="return filterUser(event);">
+                            </div>
+                            <small class="form-text text-muted">ej. 1052345623 / PEDRO PEREZ</small>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="scroll-block">
-                    <table>
-                       
-                        <thead>
-                            <tr>
-                                <th>NOMBRE</th>
-                                <th>TELÉFONO</th>
-                                <th>CORREO ELECTRÓNICO</th>
-                                <th>CARGO</th>
-                            </tr>
-                        </thead>
-                        
-                       <?php
-                            /**
-                            * Invoca al método getTable('customers') que se encarga de obtener de la base de datos los datos de los clientes
-                            */
-                            $consult->getTable('users');
-                        ?>
-                    </table>
-                </div>
+                <div class="scroll-block col-12" id="dataUser"></div>
             </div>
         </div>
         

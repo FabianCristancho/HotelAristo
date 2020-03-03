@@ -1,6 +1,6 @@
 <?php
     /**
-    * Archivo que contiene la información pertinente a los detalles reserva 
+    * Archivo que contiene la información pertinente a los detalles de un usuario determinado 
     * @package   control_diario.detalles
     * @author    Andrés Felipe Chaparro Rosas - Fabian Alejandro Cristancho Rincón
     * @copyright Todos los derechos reservados. 2020.
@@ -55,7 +55,7 @@
     
         <?php
             /**
-            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+            * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web del hotel
             */
             include "../../objects/menu.php"; 
         ?>
