@@ -446,7 +446,7 @@
                 echo '<td>'.$current['fecha_factura'].'</td>'.PHP_EOL;
                 echo '<td>'.$current['responsable'].'</td>'.PHP_EOL;
                 echo '<td><a href = "/facturas/registrar?id='.$current['id_reserva'].'&serie='.$current['serie_factura'].'"class="button-more-info" class="col-10">Ver Detalles</a></td>';
-                echo '<td><a href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
+                echo '<td><a target = "_blank" href = "/reportes/facturas?id='.$current['id_reserva'].'&typeBill='.$current['tipo'].'&serie='.$current['serie_factura'].'" class="col-10"><img src="/res/img/pdf-icon.png" style="cursor:pointer;" width="60"/></a></td>';
                 echo '</tr>'.PHP_EOL;
             }
         }

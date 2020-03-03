@@ -165,6 +165,7 @@ ob_start();
     $pdf->SetFont('Arial','B',11);
 
     
+    $pdf->Image('../../res/img/map.png',70,40,80);
     $pdf->RoundedRect(155, 35, 50, 14, 3);
     $pdf->Cell(145);
     $pdf->setXY(155,35);
