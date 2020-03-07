@@ -63,7 +63,8 @@
         <div class="col-12 content">
             <div class="col-11 wrap-11 marco wrap-vertical padd">
                 <div class="content-header">
-                    <h2 class="title-form col-10">FACTURAS</h2>
+                    <a class="button-add-book col-2" href="/facturas/manual">Factura Manual</a>
+                    <h2 class="title-form col-8">FACTURAS</h2>
                     <a class="button-add-book col-2" href="/facturas/registrar">Nueva factura</a>
                 </div>
                 <div class="form-group in-row col-3">
