@@ -27,6 +27,12 @@ function searchTitular(input, typePayment, typeTitular, idRes){
         }else{
             fullDataTEnterprise(input, typePayment, 1, idRes);
         }
+    }else if(typePayment==3){
+        if(typeTitular==0){
+            fullDataTPerson(input, typePayment, 0, idRes);
+        }else{
+            fullDataTEnterprise(input, typePayment, 0, idRes);
+        }
     }
 }
 

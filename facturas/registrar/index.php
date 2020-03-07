@@ -140,6 +140,12 @@
                                     var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
                                     searchTitular(idTitular, 1, typeTitular, '<?php echo $_GET['id']?>'); 
                                 </script>
+                            <?php elseif(isset($_GET['co'])):?>
+                                <script type="text/javascript">
+                                    var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
+                                    var idTitular = '<?php echo $consult->getIdTitular($_GET['id'])?>';
+                                    searchTitular(idTitular, 3, typeTitular, '<?php echo $_GET['id']?>'); 
+                                </script>
                             <?php else:?>
                                 <script type="text/javascript">
                                     var typeTitular = '<?php echo $consult->getTypeTitular($_GET['id'])?>';
