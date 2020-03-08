@@ -166,6 +166,7 @@ ob_start();
 
     
     $pdf->Image('../../res/img/map.png',70,40,80);
+    $pdf->setDrawColor(24, 52, 125);
     $pdf->RoundedRect(155, 35, 50, 14, 3);
     $pdf->Cell(145);
     $pdf->setXY(155,35);
@@ -178,7 +179,7 @@ ob_start();
     $pdf->setXY(180,43);
     $pdf->Cell(20, 5, $serie, 0, 1, 'L', 0);
     
-    $pdf->SetTextColor(0,0,0);
+    $pdf->SetTextColor(24, 52, 125);
 
     $pdf->SetFont('Arial','B',9);
     $pdf->setXY(9,40);
@@ -207,7 +208,7 @@ ob_start();
     $pdf->setXY(9, 55);
     $pdf->Cell(28, 5, utf8_decode('HABITACIÓN(ES): '), 0, 1, 'L', 0);
     $pdf->setXY(115, 55);
-    $pdf->Cell(28, 5, utf8_decode('CHECK ON: '), 0, 1, 'L', 0);
+    $pdf->Cell(28, 5, utf8_decode('CHECK IN: '), 0, 1, 'L', 0);
     $pdf->setXY(166, 55);
     $pdf->Cell(28, 5, utf8_decode('CHECK OUT: '), 0, 1, 'L', 0);
     
@@ -237,10 +238,10 @@ ob_start();
     if(strcmp($aux, 'TOPAY') != 0){
         foreach($queryRoom as $current){
             $pdf->setX(10);
-            $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 1, 0, 'C', 0);
-            $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 1, 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 1, 1, 'C', 0);
+            $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 'LR', 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 'LR', 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 'LR', 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 'LR', 1, 'C', 0);
             $valueTotal+=$current['valor_total'];
         }
 
@@ -248,10 +249,10 @@ ob_start();
         foreach($queryProducts as $current){
             if($current['minibar']!=Null){
                 $pdf->setX(10);
-                $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 1, 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 1, 1, 'C', 0);
+                $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['minibar'];
             }
         }
@@ -260,10 +261,10 @@ ob_start();
         foreach($queryServiceLaundry as $current){
             if($current['valor_lavanderia']!=Null){
                 $pdf->setX(10);
-                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 1, 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 1, 1, 'C', 0);
+                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['valor_lavanderia'];
             }
         }
@@ -272,10 +273,10 @@ ob_start();
         foreach($queryServiceRes as $current){
             if($current['valor_restaurante']!=Null){
                 $pdf->setX(10);
-                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 1, 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 1, 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 1, 1, 'C', 0);
+                $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['valor_restaurante'];
             }
         }
@@ -286,7 +287,8 @@ ob_start();
     foreach($queryPayValue as $current){
         if($current['abono']!=0){
             $pdf->setX(10);
-            $pdf->Cell(125, 6, "", 1, 0, 'L', 0);
+            $pdf->Cell(100, 6, "", 'LR', 0, 'L', 0);
+            $pdf->Cell(25, 6, "", 'LR', 0, 'L', 0);
             $pdf->SetFont('Arial','B',10);
             $pdf->Cell(35, 6, utf8_decode("VALOR ABONADO"), 1, 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['abono'], 0, '.', '.')), 1, 1, 'C', 0);
@@ -296,7 +298,8 @@ ob_start();
 
     $pdf->SetFont('Arial','B',10);
     $pdf->setX(10);
-    $pdf->Cell(125, 6, "", 1, 0, 'L', 0);
+    $pdf->Cell(100, 6, "", 'LR', 0, 'L', 0);
+    $pdf->Cell(25, 6, "", 'LR', 0, 'L', 0);
     $pdf->Cell(35, 6, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
     
     if(strcmp($aux, 'TOPAY') == 0){
