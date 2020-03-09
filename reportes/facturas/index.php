@@ -13,6 +13,7 @@ ob_start();
     * Incluye la implementación de las clases requeridas para el buen funcionamiento de la aplicación
     */
     include '../../includes/classes.php';
+    include '../../includes/cifrasEnLetras.php';
     include '../report.php';
     
     
@@ -123,7 +124,7 @@ ob_start();
 
     $pdf = new Report($orientation,'mm',$pageSize);
     $pdf->SetAutoPageBreak(true,2); 
-    //$inLetter = new CifrasEnLetras();
+    $inLetter = new CifrasEnLetras();
 
     $name;
     $document;
@@ -223,9 +224,13 @@ ob_start();
     
     $pdf->setXY(10, 63);
     $pdf->SetFont('Arial','B',9);
+    $pdf->SetLineWidth(.5);
+    $pdf->Cell(194.6, 0, '', 'TR', 1, 'C', 0);
+    $pdf->SetLineWidth(.3);
     $pdf->Cell(100,6,utf8_decode('DESCRIPCIÓN'), 1, 0, 'C', 0);
-    $pdf->Cell(25,6,'CANTIDAD', 1, 0, 'C', 0);
-    $pdf->Cell(35,6,'VALOR UNITARIO', 1, 0, 'C', 0);
+    
+    $pdf->Cell(25,6,'CANTIDAD', 'TLB', 0, 'C', 0);
+    $pdf->Cell(35,6,'VALOR UNITARIO', 'TLB', 0, 'C', 0);
     $pdf->Cell(35,6,utf8_decode('VALOR TOTAL'), 1, 1, 'C', 0);
 
 
@@ -239,8 +244,8 @@ ob_start();
         foreach($queryRoom as $current){
             $pdf->setX(10);
             $pdf->Cell(100, 6, utf8_decode("HOSPEDAJE HABITACIÓN ".$current['habitaciones']), 'LR', 0, 'C', 0);
-            $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 'LR', 0, 'C', 0);
-            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 'LR', 0, 'C', 0);
+            $pdf->Cell(25, 6, utf8_decode($current['cantidad']), 0, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valorUnitario'], 0, '.', '.')), 'L', 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_total'], 0, '.', '.')), 'LR', 1, 'C', 0);
             $valueTotal+=$current['valor_total'];
         }
@@ -250,8 +255,8 @@ ob_start();
             if($current['minibar']!=Null){
                 $pdf->setX(10);
                 $pdf->Cell(100, 6, utf8_decode("MINIBAR"), 'LR', 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 0, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'L', 0, 'C', 0);
                 $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['minibar'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['minibar'];
             }
@@ -262,8 +267,8 @@ ob_start();
             if($current['valor_lavanderia']!=Null){
                 $pdf->setX(10);
                 $pdf->Cell(100, 6, utf8_decode("SERVICIO DE LAVANDERÍA"), 'LR', 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 0, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'L', 0, 'C', 0);
                 $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_lavanderia'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['valor_lavanderia'];
             }
@@ -274,8 +279,8 @@ ob_start();
             if($current['valor_restaurante']!=Null){
                 $pdf->setX(10);
                 $pdf->Cell(100, 6, utf8_decode("SERVICIO DE RESTAURANTE"), 'LR', 0, 'C', 0);
-                $pdf->Cell(25, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
-                $pdf->Cell(35, 6, utf8_decode("-"), 'LR', 0, 'C', 0);
+                $pdf->Cell(25, 6, utf8_decode("-"), 0, 0, 'C', 0);
+                $pdf->Cell(35, 6, utf8_decode("-"), 'L', 0, 'C', 0);
                 $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['valor_restaurante'], 0, '.', '.')), 'LR', 1, 'C', 0);
                 $valueTotal+=$current['valor_restaurante'];
             }
@@ -290,7 +295,7 @@ ob_start();
             $pdf->Cell(100, 6, "", 'LR', 0, 'L', 0);
             $pdf->Cell(25, 6, "", 'LR', 0, 'L', 0);
             $pdf->SetFont('Arial','B',10);
-            $pdf->Cell(35, 6, utf8_decode("VALOR ABONADO"), 1, 0, 'C', 0);
+            $pdf->Cell(35, 6, utf8_decode("VALOR ABONADO"), 'TB', 0, 'C', 0);
             $pdf->Cell(35, 6, utf8_decode('$'.number_format($current['abono'], 0, '.', '.')), 1, 1, 'C', 0);
             $valuePay=$current['abono'];
         }
@@ -300,7 +305,8 @@ ob_start();
     $pdf->setX(10);
     $pdf->Cell(100, 6, "", 'LR', 0, 'L', 0);
     $pdf->Cell(25, 6, "", 'LR', 0, 'L', 0);
-    $pdf->Cell(35, 6, utf8_decode("VALOR A PAGAR"), 1, 0, 'C', 0);
+    $pdf->Cell(35, 6, utf8_decode("VALOR A PAGAR"), 'TB', 0, 'C', 0);
+
     
     if(strcmp($aux, 'TOPAY') == 0){
         $pdf->Cell(35, 6, '$'.number_format($valuePay, 0, '.', '.'), 1, 1, 'C', 0);
@@ -309,20 +315,29 @@ ob_start();
     }
 
     $pdf->setX(10);
-    $pdf->SetFont('Arial','',8);
+    $pdf->SetFont('Arial','B',8);
     
-    $pdf->Cell(125, 10, utf8_decode(" SON: "), 1, 0, 'L', 0);
+    $pdf->Cell(10, 10, " SON: ", 'TLB', 0, 'L', 0);
+    $pdf->SetFont('Arial','',7);
+    $pdf->Cell(115, 10, utf8_decode(strtoupper($inLetter->convertirCifrasEnLetras($valueTotal)." PESOS M/CTE")), 'TBR', 0, 'L', 0);
     $pdf->SetFont('Arial','B',12);
-    $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 1, 0, 'C', 0);
-    $pdf->Cell(35, 10, '$'.number_format($valueTotal, 0, '.', '.'), 1, 1, 'C', 0);
+    $pdf->Cell(35, 10, utf8_decode("VALOR TOTAL"), 'B', 0, 'C', 0);
+    $pdf->Cell(35, 10, '$'.number_format($valueTotal, 0, '.', '.'), 'LR', 1, 'C', 0);
+
+    $pdf->SetLineWidth(.5);
+    $pdf->Cell(194.6, 0, '', 'TR', 1, 'C', 0);
+    $pdf->SetLineWidth(.3);
     
     $pdf->SetFont('Arial','',8);
     
     $pdf->setX(6);  
     $pdf->Cell(199, 4, utf8_decode('Esta factura se asimila en todos sus efectos legales a una Letra de Cambio según el Art. 774 del Código de Comercio'), 0, 1, 'C', 0);
     
-    $pdf->ln(10);
-    $pdf->setX(10);  
+    $pdf->ln(10); 
+    $pdf->setXY(10, 130); 
+    if($rowsNum > 6){
+        $pdf->setXY(10, 260); 
+    } 
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(15, 4, utf8_decode('CLIENTE'), 0, 0, 'L', 0);
     $pdf->Cell(64, 3, '', 'B', 0, 'L', 0);    
