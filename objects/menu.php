@@ -23,7 +23,7 @@
     <?php include "loader.php";?>
     <header class="col-12">
         <a href="/inicio">
-            <img id="logo-hotel" src="/res/img/logoA.png">
+            <img id="logo-hotel" src="/res/img/logo.png">
         </a>
         <button id="menu-button" onclick="switchMenu();" class="main-menu-item menu-item" >
             <img src="/res/img/home-icon-black.png">
