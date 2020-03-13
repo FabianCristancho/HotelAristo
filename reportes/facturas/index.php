@@ -343,8 +343,20 @@ ob_start();
     $pdf->Cell(64, 3, '', 'B', 0, 'L', 0);    
     $pdf->Cell(45, 4, utf8_decode('RESPONSABLE: '), 0, 0, 'R', 0);
     
+
+    //Declaración de la consulta - responsable
+    $queryResponsible = $db->connect()->prepare('SELECT CONCAT_WS(" ", nombres_persona, apellidos_persona) AS nombre 
+    FROM facturas f INNER JOIN personas p ON f.id_responsable = p.id_persona
+    WHERE f.serie_factura =:serie');
+    $queryResponsible->execute(['serie'=>$serie]);
+
+    $nameResponsible;
+    foreach($queryResponsible as $current){
+        $nameResponsible = $current['nombre'];
+    }
+     
     $pdf->SetFont('Arial','',8);
-    $pdf->Cell(80, 4, utf8_decode($user->getName()." ".$user->getLastName()), 0, 0, 'L', 0);
+    $pdf->Cell(80, 4, utf8_decode($nameResponsible), 0, 0, 'L', 0);
     
 
     // Generación del reporte
