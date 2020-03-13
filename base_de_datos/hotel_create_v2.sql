@@ -295,7 +295,7 @@ ALTER TABLE peticiones ADD (
 ALTER TABLE facturas ADD(
 	CONSTRAINT fac_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
 	CONSTRAINT fac_fk_idres FOREIGN KEY (id_responsable) REFERENCES personas (id_persona),
-   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/))
+   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/, 'FM', 'OM'))
 );
 
 

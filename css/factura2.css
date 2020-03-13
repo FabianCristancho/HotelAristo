@@ -36,6 +36,11 @@ h1{
     padding: 1%;
 }
 
+#titleBill{
+    padding: 5%;
+    font-size: 18px;
+}
+
 .series{
     text-align: center;
     width: 13%;
