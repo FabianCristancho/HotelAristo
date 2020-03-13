@@ -74,3 +74,29 @@ function example(){
 		}
     });
 }
+
+
+function clearAllFields(){
+    var name = document.getElementById('nameTitular').value = "";
+    var enterprise = document.getElementById('nameEnterprise').value = "";
+    var documentTitular = document.getElementById('document').value = "";
+    var rooms = document.getElementById('rooms').value = ""; 
+    var checkIn = document.getElementById('dateGetIn').value = ""; 
+    var desc1 = document.getElementById('desc1').value = "";
+    var desc2 = document.getElementById('desc2').value = "";
+    var desc3 = document.getElementById('desc3').value = "";
+    var desc4 = document.getElementById('desc4').value = "";
+    var cant1 = document.getElementById('cant1').value = 0;
+    var cant2 = document.getElementById('cant2').value = 0;
+    var cant3 = document.getElementById('cant3').value = 0;
+    var cant4 = document.getElementById('cant4').value = 0;
+    var unit1 = document.getElementById('unit1').value = 0;
+    var unit2 = document.getElementById('unit2').value = 0;
+    var unit3 = document.getElementById('unit3').value = 0;
+    var unit4 = document.getElementById('unit4').value = 0;
+    var vTotal1 = document.getElementById('vTotal1').value = 0;
+    var vTotal2 = document.getElementById('vTotal2').value = 0;
+    var vTotal3 = document.getElementById('vTotal3').value = 0;
+    var vTotal4 = document.getElementById('vTotal4').value = 0;
+    var valueTotal = document.getElementById('valueTotal').value = 0; 
+}

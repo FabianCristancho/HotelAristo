@@ -32,8 +32,22 @@
     <script type="text/javascript" src="manualBill.js"></script>
 </head>
 
-<body>
-    
+<body onload = "clearAllFields();">
+    <?php
+        /**
+        * Incluye la implementación de la clase menu, archivo que crea el menú superior de la aplicación web
+        */
+        include "../../objects/menu.php"; 
+    ?>
+
+    <script type="text/javascript">
+        /**
+        * Implementa el método setCurrentPage() pasando como parámetro la cadena de texto "facturas"
+        */
+        setCurrentPage("facturas");
+    </script>
+
+
     <div class="border">
             <div class="borderUp"></div>
             <div class="borderDown"></div>
@@ -116,7 +130,7 @@
                 <table>
                     <tr class="long_letters">
                         <td class="long_totals"></td>
-                        <td><b>Total</b></td>
+                        <td><b>TOTAL ($)</b></td>
                         <td class="long_values"><input type="text" class="vTotal" value="0" id="valueTotal" name="valueTotal" readonly></td>
                     </tr>
                 </table>

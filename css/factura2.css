@@ -11,12 +11,12 @@ h1{
 
 .border .borderUp{
     padding: 10px;
-    background: #18347D;
+    background: rgb(253, 253, 255);
 }
 
 .border .borderDown{
     padding: 10px;
-    background: yellow;
+    background: rgb(255, 255, 255);
 }
 
 .marco{

@@ -138,12 +138,12 @@ ob_start();
         
         $pdf->SetFont('Arial');
         $pdf->setXY(109, 40);
-        $pdf->Cell(100, 5, $enterprise, 0, 1, 'L', 0);
+        $pdf->Cell(100, 5, utf8_decode($enterprise), 0, 1, 'L', 0);
     }
 
     $pdf->setXY(26, 40);
     $pdf->SetFont('Arial');
-    $pdf->Cell(100, 5, $nameTitular, 0, 1, 'L', 0);
+    $pdf->Cell(100, 5, utf8_decode($nameTitular), 0, 1, 'L', 0);
     $pdf->setXY(37, 48);
     $pdf->Cell(30, 5, '12345', 0, 1, 'L', 0);
     
