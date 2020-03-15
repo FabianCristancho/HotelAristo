@@ -117,7 +117,7 @@
         	</div>
         </div>
 
-        <div id="room-modal" class="modal <?php if($booking->getRegRooms()->rowCount()):?>hideable <?php endif; ?>" onclick="touchOutside(this);">
+        <div id="room-modal" class="modal <?php if(isset($booking))if($booking->getRegRooms()->rowCount()):?>hideable <?php endif; ?>" onclick="touchOutside(this);">
             <div class="modal-content col-10 wrap-10">
                 <div class="modal-header">
                     <span onclick="hideModal(this.parentElement.parentElement.parentElement.id);" class="close">&times;</span>
