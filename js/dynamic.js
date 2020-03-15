@@ -24,15 +24,22 @@ function calculateDate(date,days){
 	return date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
 }
 
-function getDays(){
-	if(document.getElementById('start-date')!=null){
-		var d1=document.getElementById('start-date').value;
-		var d2=document.getElementById('finish-date').value;
+function getDays(sd,fd,cn){
+	if(sd===undefined)
+		sd="start-date";
+	if (fd===undefined)
+		fd="finish-date";
+	if (cn===undefined)
+		cn="count-nights";
+
+	if(document.getElementById(sd)!=null){
+		var d1=document.getElementById(sd).value;
+		var d2=document.getElementById(fd).value;
 
 		if(d1!=d2)
-			document.getElementById("count-nights").value=moment(d2).diff(moment(d1),'days');
+			document.getElementById(cn).value=moment(d2).diff(moment(d1),'days');
 		else
-			document.getElementById("count-nights").value=1;
+			document.getElementById(cn).value=1;
 	}
 }
 
@@ -216,36 +223,6 @@ function checkInputOnlyLetters(event,input){
 }
 
 /* AJAX */
-
-function updateRoomTypes(index){
-	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
-
-	 $.ajax({
-		type: 'post',
-		url: '/includes/get.php',
-		data: 'entity=roomQuantity&roomQuantity='+cardRoom.getElementsByTagName("select")[0].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
-		success: function (ans) {
-			cardRoom.getElementsByTagName("select")[1].innerHTML=ans;
-			updateRooms(index);
-		}
-	});
-}
-
-function updateRooms(index){
-	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
-
-	 $.ajax({
-		type: 'post',
-		url: '/includes/get.php',
-		data: 'entity=roomType&roomType='+cardRoom.getElementsByTagName("select")[1].value+"&startDate='"+document.getElementById("start-date").value+"'&finishDate='"+document.getElementById("finish-date").value+"'",
-		success: function (ans) {
-			cardRoom.getElementsByTagName("select")[2].innerHTML=ans;
-			assignAttributesToClients(index);
-			updateRoomTariff(index);
-		}
-	});
-}
-
 function updateRoomTariff(index){
 	var cardRoom=document.getElementsByClassName('room-group')[index].getElementsByClassName("card-room")[0];
 	var selects=cardRoom.getElementsByTagName("select");
@@ -485,4 +462,17 @@ function validateDateA(input){
     	else
     		prevDate=new Date(input.value+" "+timeZero);
     }
+}
+
+function targetLocation(location){
+	var a = document.createElement('a');
+	a.href=location;
+	a.target = '_blank';
+	document.body.appendChild(a);
+	a.click();
+}
+
+
+function addURLVariable(value){
+	window.history.pushState(null,null,location.search+"&"+value);
 }

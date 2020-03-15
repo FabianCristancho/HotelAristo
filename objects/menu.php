@@ -34,7 +34,6 @@
                 <img src="/res/img/home-icon-black.png">
                 <p>Inicio</p>
             </button>
-            
             <?php if($user->getRole()!=4):?>
             <div class="dropdown menu-item">
                 <button id="registrar" class="main-menu-item">
@@ -66,7 +65,7 @@
                     <?php endif;?>
                 </div>
             </div>
-            <?php endif; ?>
+            <?php endif;?>
             <button id="control-diario" onclick="window.location.href = '/control_diario?date='+getDate(0);" class="main-menu-item menu-item">
                 <img src="/res/img/control-icon-black.png">
                 <p>Control diario</p>
@@ -76,7 +75,7 @@
                 <img src="/res/img/bill-icon-black.png">
                 <p>Facturación</p>
             </button>
-            <?php endif; ?>
+            <?php endif;?>
         </div>
 
         <div class="user-area">
@@ -86,7 +85,7 @@
                 </button>
                 <br>
                 <div class="dropdown-content-right">
-                    <a><?php echo $user->getFullName(); ?></a>
+                    <a><?php echo $user->getFullName();?></a>
                     <a href="/includes/logout.php"><i class="fa fa-power-off"></i> Cerrar sesión</a>
                 </div>
             </div>
