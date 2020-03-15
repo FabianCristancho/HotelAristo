@@ -39,6 +39,10 @@
                 $this->ica = $currentEnterprise['ica'];
             } 
         }
+
+        public function setId($id){
+            $this->setIdEnterprise($id);
+        }
         
         /**
         * Obtiene el id de la empresa, de acuerdo a la consulta realizada en la base de datos
@@ -53,6 +57,10 @@
         * @return string nombre de la empresa
         **/
         function getName(){
+            return $this->name;
+        }
+
+        public function getFullName(){
             return $this->name;
         }
         

@@ -508,19 +508,41 @@ function searchEvent(event,input,entity){
 }
 
 function searchPerson(input){
-	$.ajax({
-		type: 'post',
-		url: '/includes/get.php',
-		data: 'entity=searchPerson&idPerson='+input.value
-	}).then(function(ans){
-		var data=ans.split(";");
-		console.log(ans);
-		if(data.length==13){
-			setValues(input,data);
-		}else{
-			showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
-		}
-	});
+	if(input.value!="")
+		$.ajax({
+			type: 'post',
+			url: '/includes/get.php',
+			data: 'entity=searchPerson&idPerson='+input.value
+		}).then(function(ans){
+			var data=ans.split(";");
+			console.log(ans);
+			if(data.length==13){
+				setValues(input,data);
+			}else{
+				showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+			}
+		});
+	else
+		showAlert('alert-i','No hay ningún valor en el buscador');
+}
+
+function searchBizz(input){
+	if(input.value!="")
+		$.ajax({
+			type: 'post',
+			url: '/includes/get.php',
+			data: 'entity=searchPerson&idPerson='+input.value
+		}).then(function(ans){
+			var data=ans.split(";");
+			console.log(ans);
+			if(data.length==13){
+				setValues(input,data);
+			}else{
+				showAlert("alert-i","No se encontró ningun cliente con ese número de documento");
+			}
+		});
+	else
+		showAlert('alert-i','No hay ningún valor en el buscador');
 }
 
 function setValues(input,data){
