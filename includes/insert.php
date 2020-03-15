@@ -11,6 +11,9 @@ m<?php
         case 'saveBill':
             insertBill($_POST['idBook'], $_POST['typeBill'], $_POST['totalBill'], $_POST['currentUser']);
             break;
+        case 'saveManualBill':
+            insertManualBill();
+            break;
         case 'saveUser':
             insertUser();
             break;
@@ -61,6 +64,26 @@ m<?php
         }
         try{
             $database->connect()->exec($insert);
+            echo 'alert-s;Se ha generado la factura con éxito.';
+        }catch(PDOException $e){
+            echo $e->getMessage();
+            echo 'alert-d;Error A4.1. Ha surgido un error al intentar agregar la factura';
+        }
+    }
+
+    function insertManualBill(){
+        $database = new Database();
+        $database->connect()->exec("ALTER TABLE factura_prov AUTO_INCREMENT=1");
+        $database->connect()->exec("ALTER TABLE facturas AUTO_INCREMENT=1");
+        date_default_timezone_set('America/Bogota');
+        $dateBill = date("Y")."-".date("m")."-".date("d");
+        
+        $insert = "INSERT INTO factura_prov(serie_factura_prov, fecha_factura, responsable, name, enterprise, documentTitular, rooms, checkIn, checkOut, desc1, desc2, desc3, desc4, cant1, cant2, cant3, cant4, unit1, unit2, unit3, unit4, vTotal1, vTotal2, vTotal3, vTotal4, valueTotal) VALUES ('".$_POST['idBill']."', '".$dateBill."', UPPER('".$_POST['responsible']."'), UPPER('".$_POST['name']."'), UPPER('".$_POST['enterprise']."'), '".$_POST['documentTitular']."', '".$_POST['rooms']."', '".$_POST['checkIn']."', '".$_POST['checkOut']."', '".$_POST['desc1']."', '".$_POST['desc2']."', '".$_POST['desc3']."', '".$_POST['desc4']."', ".$_POST['cant1'].", ".$_POST['cant2'].", ".$_POST['cant3'].", ".$_POST['cant4'].", ".$_POST['unit1'].", ".$_POST['unit2'].", ".$_POST['unit3'].", ".$_POST['unit4'].", ".$_POST['vTotal1'].", ".$_POST['vTotal2'].", ".$_POST['vTotal3'].", ".$_POST['vTotal4'].", ".$_POST['valueTotal'].");";
+
+        $insert2 = "INSERT INTO facturas(serie_factura, fecha_factura, tipo_factura, total_factura) VALUES ('".$_POST['idBill']."', '".$dateBill."', 'FM', ".$_POST['valueTotal'].");";
+        try{
+            $database->connect()->exec($insert);
+            $database->connect()->exec($insert2);
             echo 'alert-s;Se ha generado la factura con éxito.';
         }catch(PDOException $e){
             echo $e->getMessage();

@@ -1154,6 +1154,51 @@
             }
             return $code; 
         }
+
+        function getNextSerieProv(){
+            
+            $letter=65;
+            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura_prov,1))) AS max FROM factura_prov');
+            $query->execute();
+            
+            foreach ($query as $current){
+                $letter = $current['max'];
+            }
+            
+            if($letter==""){
+                $letter = 65;
+            }
+            
+            $num=0;
+            $query = $this->connect()->prepare('SELECT MAX(CAST(SUBSTRING(serie_factura_prov,2) AS INT)) AS lastNum FROM factura_prov WHERE ASCII(LEFT(serie_factura_prov,1))=:letter');
+            $query->execute([':letter'=>$letter]);
+            
+            foreach ($query as $current){
+                $num = $current['lastNum'];
+            }
+            
+            $code = "";
+            if($num>=0 && $num<=8){
+                $num = $num+1;
+                $code = chr($letter)."00".$num;
+            }else if($num>=9 && $num<=98){
+                $num = $num+1;
+                $code = chr($letter)."0".$num;
+            }else if($num>=98 && $num<=998){
+                $num = $num+1;
+                $code = chr($letter).$num;
+            }else{
+                
+                if($num=999){
+                    $letter = $letter+1;
+                    $code = chr($letter)."001";
+                }else{
+                    $code = "A000";
+                    
+                }
+            }
+            return $code; 
+        }
         
         /**
         * Obtiene la última factura que se encuentra almacenada en la base de datos
