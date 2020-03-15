@@ -10,6 +10,7 @@ use hotelaristo;
 
 /**Borrado de tablas en caso de que existan**/
 
+DROP TABLE IF EXISTS factura_prov;
 DROP TABLE IF EXISTS facturas;
 DROP TABLE IF EXISTS peticiones;
 DROP TABLE IF EXISTS control_diario;
@@ -213,6 +214,37 @@ CREATE TABLE IF NOT EXISTS facturas(
    	CONSTRAINT fac_pk_idf PRIMARY KEY(id_factura)
 );
 
+CREATE TABLE IF NOT EXISTS factura_prov(
+	id_factura_prov INT(8) NOT NULL AUTO_INCREMENT,
+	serie_factura_prov VARCHAR(7),
+	fecha_factura DATE,
+	responsable VARCHAR(50),
+	name VARCHAR(150),
+	enterprise VARCHAR(150),
+	documentTitular VARCHAR(20),
+	rooms VARCHAR(30),
+	checkIn DATE,
+	checkOut DATE,
+	desc1 VARCHAR(150),
+	desc2 VARCHAR(150),
+	desc3 VARCHAR(150),
+	desc4 VARCHAR(150),
+	cant1 INT(3) DEFAULT 0,
+	cant2 INT(3) DEFAULT 0,
+	cant3 INT(3) DEFAULT 0,
+	cant4 INT(3) DEFAULT 0,
+	unit1 INT(7) DEFAULT 0,
+	unit2 INT(7) DEFAULT 0,
+	unit3 INT(7) DEFAULT 0,
+	unit4 INT(7) DEFAULT 0,
+	vTotal1 INT(7) DEFAULT 0,
+	vTotal2 INT(7) DEFAULT 0,
+	vTotal3 INT(7) DEFAULT 0,
+	vTotal4 INT(7) DEFAULT 0,
+	valueTotal INT(7) DEFAULT 0,
+	CONSTRAINT fcp_pk_idf PRIMARY KEY (id_factura_prov)
+);
+
 
 /** Actualización de tablas **/
 
@@ -295,7 +327,7 @@ ALTER TABLE peticiones ADD (
 ALTER TABLE facturas ADD(
 	CONSTRAINT fac_fk_idr FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva),
 	CONSTRAINT fac_fk_idres FOREIGN KEY (id_responsable) REFERENCES personas (id_persona),
-   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/))
+   	CONSTRAINT fac_ck_tip CHECK (tipo_factura IN ('N' /*FACTURA NORMAL*/, 'O' /*ORDEN DE SERVICIO*/, 'FM', 'OM'))
 );
 
 
