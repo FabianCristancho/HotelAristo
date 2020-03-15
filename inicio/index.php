@@ -34,6 +34,7 @@
         <link rel="shortcut icon" href="/res/img/famicon.png" />
         <link rel="manifest" href="/manifest.json">
         <link rel="stylesheet" type="text/css" href="/css/main.css">
+        <link rel="stylesheet" type="text/css" href="/css/form.css">
         <link rel="stylesheet" type="text/css" href="/css/inicio.css">
         <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
         <script type="text/javascript" src="/js/moment.js"></script>

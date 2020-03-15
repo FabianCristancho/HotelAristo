@@ -176,12 +176,12 @@
         /**
         * Obtiene una lista de empresas
         */
-        function enterpriseList(){
-            $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa FROM empresas');
+        public function enterpriseList(){
+            $query = $this->connect()->prepare('SELECT id_empresa,nombre_empresa, nit_empresa FROM empresas ORDER BY nit_empresa');
             $query->execute();
 
             foreach ($query as $current) {
-                echo '<option value="'.$current['id_empresa'].'">'.$current['nombre_empresa'].'</option>';
+                echo '<option value="'.$current['id_empresa'].'">'.$current['nit_empresa'].' - '.$current['nombre_empresa'].'</option>';
             }
         }
 
@@ -657,6 +657,22 @@
             }
         }
 
+         public function getEnterprise($id){
+            $consult='SELECT id_empresa,nit_empresa,nombre_empresa, telefono_empresa
+            FROM empresas e  
+            WHERE (nit_empresa='.$id.' OR id_empresa='.$id.')';
+            
+            $query = $this->connect()->prepare($consult);
+            $query->execute();
+
+            foreach ($query as $current){
+                echo $current['id_empresa'].';';
+                echo $current['nit_empresa'].';';
+                echo $current['nombre_empresa'].';';
+                echo $current['telefono_empresa'];
+            }
+        }
+
         /**
         * Obtiene los datos referentes a una reserva, de acuerdo con el parámetro que se recibe
         * @param $id Código de la reserva a consultar
@@ -743,6 +759,26 @@
                 echo $current['ids_huespedes'].';';
                 echo $current['docs_huespedes'].';';
                 echo $current['valor_ocupacion'].'?';
+            }
+        }
+
+        public function getRegRoom($id){
+            $query = $this->connect()->prepare('SELECT t.cantidad_huespedes, t.id_tipo_habitacion,
+                rh.id_habitacion,rh.id_tarifa,h.numero_habitacion,t.valor_ocupacion
+                FROM registros_habitacion rh
+                INNER JOIN tarifas t ON rh.id_tarifa=t.id_tarifa
+                INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
+                WHERE rh.id_registro_habitacion=:id');
+        
+            $query->execute([':id'=>$id]);
+
+            foreach ($query as $current) {
+                echo $current['cantidad_huespedes'].';';
+                echo $current['id_tipo_habitacion'].';';
+                echo $current['id_habitacion'].';';
+                echo $current['id_tarifa'].';';
+                echo $current['numero_habitacion'].';';
+                echo $current['valor_ocupacion'];
             }
         }
 

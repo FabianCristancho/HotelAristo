@@ -45,6 +45,32 @@ class Reservation extends Database{
         }
     }
 
+    public function setId2($id){
+        $this->id = $id;
+        $query = $this->connect()->prepare('SELECT date_format(r.fecha_ingreso,"%X-%m-%d") fecha_ingreso, 
+                date_format(r.fecha_salida,"%X-%m-%d") fecha_salida, 
+                r.id_titular, r.id_empresa
+                FROM reservas r 
+                WHERE r.id_reserva=:id');
+
+        $query->execute([':id'=>$id]);
+
+        foreach ($query as $current) {
+            $this->startDate= $current['fecha_ingreso'];
+            $this->finishDate= $current['fecha_salida'];
+
+            if($current['id_titular']==""){
+                $t=new Enterprise();
+                $t->setId($current['id_empresa']);
+            }else{
+                $tr=new Person();
+                $t->setId($current['id_titular']);
+            }
+
+            $this->titular=$t;
+        }
+    }
+
     public function setRoom($room){
 
          $query = $this->connect()->prepare('SELECT rh.id_registro_habitacion
@@ -59,6 +85,43 @@ class Reservation extends Database{
         foreach ($query as $current) {
             $this->room= $current['id_registro_habitacion'];
         }
+    }
+
+
+    public function getRegRoom($id){
+        $query = $this->connect()->prepare('SELECT numero_habitacion, valor_ocupacion, cantidad_huespedes
+                FROM registros_habitacion rh
+                INNER JOIN habitaciones h ON rh.id_habitacion=h.id_habitacion
+                INNER JOIN tarifas t ON rh.id_tarifa=t.id_tarifa
+                WHERE rh.id_reserva=:id
+                AND rh.id_registro_habitacion=:reg_id');
+
+        $query->execute([':id'=>$this->id,':reg_id'=>$id]);
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getRegRooms(){
+        $query = $this->connect()->prepare('SELECT id_registro_habitacion
+                FROM registros_habitacion rh
+                WHERE rh.id_reserva=:id');
+
+        $query->execute([':id'=>$this->id]);
+
+        return $query;
+    }
+
+    public function getRegClients($id){
+        $query = $this->connect()->prepare('SELECT CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres
+                FROM registros_habitacion rh
+                INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
+                INNER JOIN personas p ON rc.id_huesped=p.id_persona 
+                WHERE rh.id_reserva=:id
+                AND rh.id_registro_habitacion=:reg_id');
+
+        $query->execute([':id'=>$this->id,':reg_id'=>$id]);
+
+        return $query;
     }
 
     public function getId(){

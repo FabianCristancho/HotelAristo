@@ -57,6 +57,10 @@ class Person extends Database{
     function getLastName(){
         return $this->lastName;
     }
+
+    public function getFullName(){
+        return $this->name.' '.$this->lastName;
+    }
     
     function getTypeDocument(){
         return $this->typeDocument;
