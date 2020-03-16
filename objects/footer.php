@@ -42,16 +42,16 @@
 			<div class="row-simple">
 				<div class="col-4 padd">
 					<h4>Información</h4>
-					<ul>
-						<li style="text-align: left;">Ayuda</li>
-						<li style="text-align: left;">Acerca de</li>
+					<ul style="list-style: none;">
+						<li style="text-align: left;"><a style="color: white;" href="/ayuda"><i class="fa fa-question-circle"></i> Ayuda</a></li>
+						<li style="text-align: left;"><a style="color: white;" href="/acerca_de"><i class="fa fa-info-circle"></i> Acerca de</a></li>
 					</ul>
 				</div>
 
 				<div class="col-4 padd">
 					<h4>Pruebas</h4>
-					<ul>
-						<li style="text-align: left;"><a style="color: white;" href="/reservas/registrar2">(Nuevo) Registrar reserva</a></li>
+					<ul style="list-style: none;">
+						<li style="text-align: left;"><a style="color: white;" href="/reservas/registrar2"><i class="fa fa-exclamation-circle"></i> <strong> (Nuevo)</strong> Registrar reserva</a></li>
 					</ul>
 				</div>
 			</div>
