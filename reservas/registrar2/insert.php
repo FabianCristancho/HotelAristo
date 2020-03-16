@@ -252,4 +252,24 @@ function updateRoom(){
         echo 'null;Error U4.1. Error al actualizar al registro'.$update.$e->getMessage();
     }
 }
+
+function updatePerson(){
+	$database= new Database();
+
+	if(!isset($_POST['d-type']))
+		$update="UPDATE personas SET nombres_persona ='".$_POST['fname']."', apellidos_persona='".$_POST['lname']."', telefono_persona='".$_POST['phone']."'".(isset($_POST['email'])?",correo_persona='".$_POST['email']."'":"");
+	else
+		$update="UPDATE personas SET nombres_persona ='".$_POST['fname']."', apellidos_persona='".$_POST['lname']."', telefono_persona='".$_POST['phone']."',".(isset($_POST['email'])?"correo_persona='".$_POST['email']."'":"").", id_lugar_nacimiento=".$_POST['nac'].", id_lugar_expedicion=".$_POST['d-city'].", tipo_documento='".$_POST['d-type']."', numero_documento='".$_POST['d-number']."', genero_persona='".$_POST['gender']."', fecha_nacimiento='".$_POST['bornDate']."',tipo_sangre_rh='".str_replace("p", "+", $_POST['bloodRh'])."'";
+
+    $update=$update." WHERE id_persona = ".$_POST['id'];
+
+    $query=$database->connect()->prepare($update);
+
+    try{
+    	$query->execute();
+    	echo $_POST['id'].';Se ha modificado al cliente satisfactoriamente';
+    }catch(PDOException $e){
+    	echo 'null;Error U5.2. Error al actualizar al cliente'.$update.$e->getMessage();
+    }
+}
 ?>

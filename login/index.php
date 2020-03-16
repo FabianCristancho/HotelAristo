@@ -44,6 +44,9 @@
             case 4:
                 header('location: ../control_diario?date='.date('Y-m-d'));
                 break;
+            case 1:
+                header('location: ../inicio');
+                break;
     	}
     	
     }
