@@ -69,7 +69,7 @@
 			        				 		<tr>
 			        				 			<td><?php echo $v++; ?></td>
 			        				 			<td><?php echo $key['nombres'];?></td>
-			        				 			<td><button class="btn">Editar</button></td>
+			        				 			<td><button class="btn btn-block" onclick="console.log(<?php echo $key['id_persona']; ?>);">Editar</button></td>
 			        				 		</tr>
 			        				 		<?php 
 			        				 		endforeach;

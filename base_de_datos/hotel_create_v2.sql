@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS tarifas(
 	id_tipo_habitacion INT(2) NOT NULL,
 	cantidad_huespedes VARCHAR(2) NOT NULL,
 	valor_ocupacion  INT(7) NOT NULL,
-	predeterminado BOOLEAN NOT NULL,
+	predeterminado BOOLEAN DEFAULT 0 NOT NULL,
 	CONSTRAINT tar_pk_idt PRIMARY KEY(id_tarifa)
 );
 
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS habitaciones(
 	id_habitacion INT(2) NOT NULL AUTO_INCREMENT,
 	id_tipo_habitacion INT(2) NOT NULL,
 	numero_habitacion INT(3) NOT NULL,
-	fuera_de_servicio BOOLEAN NOT NULL,
+	fuera_de_servicio BOOLEAN DEFAULT 0 NOT NULL,
 	CONSTRAINT hab_pk_idh PRIMARY KEY (id_habitacion)
 );
 
@@ -136,7 +136,7 @@ CREATE TABLE IF NOT EXISTS personas(
 	tipo_sangre_rh VARCHAR(3),
 	telefono_persona VARCHAR(15) NOT NULL,
 	correo_persona VARCHAR(100),
-	tipo_persona CHAR(1) NOT NULL,
+	tipo_persona CHAR(1) DEFAULT 'C' NOT NULL,
 	nombre_usuario VARCHAR(60) DEFAULT 'No asignado' INVISIBLE,  
 	contrasena_usuario VARCHAR(32)  DEFAULT 'No asignado' INVISIBLE, 
 	CONSTRAINT per_pk_idp PRIMARY KEY (id_persona)
@@ -152,8 +152,8 @@ CREATE TABLE IF NOT EXISTS reservas (
 	fecha_salida DATETIME NOT NULL,
 	observaciones VARCHAR(100),
 	medio_pago CHAR(2),
-	estado_pago_reserva CHAR(1) NOT NULL,
-	estado_reserva VARCHAR(2) NOT NULL,
+	estado_pago_reserva CHAR(1) DEFAULT 'P' NOT NULL,
+	estado_reserva VARCHAR(2) DEFAULT 'IN' NOT NULL,
 	abono_reserva INT(8),
 	CONSTRAINT res_pk_idr PRIMARY KEY(id_reserva)
 );
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS registros_habitacion(
 	id_reserva INT(8) NOT NULL,
 	id_habitacion INT(2) NOT NULL,
 	id_tarifa INT(3) NOT NULL,
-	estado_registro VARCHAR(3) NOT NULL,
+	estado_registro VARCHAR(3),
 	CONSTRAINT reg_pk_idr PRIMARY KEY (id_registro_habitacion)
 );
 
@@ -289,7 +289,7 @@ ALTER TABLE personas ADD(
 
 
 ALTER TABLE reservas ADD (
-	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/, 'TE' /*Terminada*/)),
+	CONSTRAINT res_ck_estr CHECK (estado_reserva IN ('IN'/*Inactiva*/,'AC'/*Activa*/,'RE'/*Recibida*/,'CA'/*Cancelada*/, 'TE' /*Terminada*/)),
 	CONSTRAINT res_ck_estp CHECK (estado_pago_reserva IN ('C'/*COMPLETADA*/, 'P'/*PENDIENTE*/,'D'/*EN DEUDA*/)),
 	CONSTRAINT res_ck_med CHECK (medio_pago IN ('E'/*EFECTIVO*/, 'T'/*TARJETA*/,'C'/*CONSIGNACIÓN*/, 'CC'/*CUENTAS POR COBRAR*/)),
 	CONSTRAINT res_fk_idu FOREIGN KEY (id_usuario) REFERENCES personas (id_persona),

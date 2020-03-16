@@ -63,7 +63,7 @@ class Reservation extends Database{
                 $t=new Enterprise();
                 $t->setId($current['id_empresa']);
             }else{
-                $tr=new Person();
+                $t=new Person();
                 $t->setId($current['id_titular']);
             }
 
@@ -112,7 +112,7 @@ class Reservation extends Database{
     }
 
     public function getRegClients($id){
-        $query = $this->connect()->prepare('SELECT CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres
+        $query = $this->connect()->prepare('SELECT p.id_persona, CONCAT_WS(" ",p.nombres_persona,p.apellidos_persona) nombres
                 FROM registros_habitacion rh
                 INNER JOIN registros_huesped rc ON rc.id_registro_habitacion=rh.id_registro_habitacion
                 INNER JOIN personas p ON rc.id_huesped=p.id_persona 
