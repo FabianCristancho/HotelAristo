@@ -5,8 +5,15 @@
 
 	        			<div class="card-selector">
 	        				<div id="select-holder" class="col-12">
-	        					<button type="button" class="col-6 btn btn-header" onclick="toggleHolder(this);">Persona natural</button>
-	        					<button type="button" class="col-6 btn btn-header" onclick="toggleHolder(this);">Empresa</button>
+	        					<div class="row">
+	        						<div class="col-6 padd">
+	        							<button type="button" class="btn btn-block btn-header" onclick="toggleHolder(this);">Persona natural</button>
+	        						</div>
+
+	        						<div class="col-6 padd">
+	        							<button type="button" class="btn btn-block btn-header" onclick="toggleHolder(this);">Empresa</button>
+	        						</div>
+	        					</div>
 	        				</div>
 	        			</div>
 

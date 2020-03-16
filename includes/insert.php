@@ -1,4 +1,4 @@
-<?php
+m<?php
     include 'database.php';
     
     switch ($_POST['entity']) {
