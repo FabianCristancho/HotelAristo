@@ -112,7 +112,7 @@ function insertBooking(){
 		$id=$pdo->lastInsertId();
 		echo $id.';Se ha insertado una nueva reserva. ('.$id.')';
 	}catch(PDOException $e){
-		echo 'null;Error C3.1. Error al ingresar nuevo cliente'.$insert."\n".$e->getMessage();
+		echo 'null;Error C3.1. Error al ingresar nueva reserva'.$insert."\n".$e->getMessage();
 	}
 	
 	$database->connect()->exec('ALTER TABLE reservas AUTO_INCREMENT = 1');

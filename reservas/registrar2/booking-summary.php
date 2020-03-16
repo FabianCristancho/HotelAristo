@@ -78,7 +78,7 @@
 	        		</div>
 	        		<div class="col-12">
 	        			<?php if(isset($_GET['booking-id'])): ?>
-	        			<button id="delete-booking" class="btn btn-block btn-red" onclick="" disabled><i class="fa fa-bin"></i> Cancelar y eliminar</button>
+	        			<button id="delete-booking" class="btn btn-block btn-red" onclick="cancelBooking(<?php echo $_GET['booking-id']; ?>);"><i class="fa fa-bin"></i> Cancelar y eliminar</button>
 	        			<?php endif; ?>
 	        		</div>
 	        	</aside>

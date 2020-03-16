@@ -206,6 +206,15 @@ function insert(data){
 	});
 }
 
+function update(data){
+	return $.ajax({
+		type: 'post',
+		url: 'update.php',
+		data: data
+	});
+}
+
+
 function remove(data){
 	return $.ajax({
 		type: 'post',
@@ -293,7 +302,7 @@ function insertBooking(form,idu){
 		+"&id-user="+idu
 	).then(function(ans){
 		var aux=ans.split(";");
-
+		console.log(ans);
 		if(aux[0]!=='null'){
 			inputs[2].value=aux[0];
 			showAlert('alert-s',aux[1]);
@@ -325,5 +334,31 @@ function insertRoom(form,bookingId){
 
 function removeRoomOfDB(id){
 	return remove("entity=regRoom&id="+id);
+}
+
+function confirmBooking(id){
+	update("action=activateBooking&id="+id)
+	.then(function(ans){
+		var aux=ans.split(";");
+
+		if(aux[0]!=='null'){
+			showAlert('alert-s',aux[1]);
+			location.href='/reservas';
+		}
+	});
+}
+
+function cancelBooking(id){
+	remove("entity=booking&id="+id)
+	.then(function(ans){
+		var aux=ans.split(";");
+		console.log(ans);
+		if(aux[0]!=='null'){
+			showAlert('alert-s',aux[1]);
+			history.pushState(null,null,'?');
+			location.reload();
+		}else
+			showAlert('alert-d',aux[1]);
+	});
 }
 

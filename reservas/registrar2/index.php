@@ -94,7 +94,7 @@
                         <strong class="btn" style="color: red; cursor: auto;">No olvide que el titular se hospedará</strong>
                         <?php endif;?>
                         <button id="add-room" class="btn btn-green" onclick="addRoom();" <?php echo ($booking->getRoomsQuantity()==10?"disabled":"");?>><i class="fa fa-plus"></i> Agregar habitación</button>
-                        <button id="finish-booking" class="btn btn-yellow" onclick="" disabled><i class="fa fa-check"></i> Finalizar</button>
+                        <button id="finish-booking" class="btn btn-yellow" onclick="confirmBooking(<?php echo $_GET['booking-id']; ?>);" disabled><i class="fa fa-check"></i> Finalizar</button>
                         <?php endif;?>
                     </div>
                 </div>
@@ -148,8 +148,9 @@
         </div>
 
         <script type="text/javascript">
+        	<?php if(isset($booking)): ?>
             document.getElementById('finish-booking').disabled=document.getElementsByClassName('btn-config-client').length!=0;
-
+            <?php endif; ?>
             function nextStep(){
                 var personIndex=document.getElementById('person-index');
                 var roomQuantity=document.getElementById("room-quantity");
