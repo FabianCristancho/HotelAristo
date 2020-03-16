@@ -63,7 +63,7 @@ class Reservation extends Database{
                 $t=new Enterprise();
                 $t->setId($current['id_empresa']);
             }else{
-                $tr=new Person();
+                $t=new Person();
                 $t->setId($current['id_titular']);
             }
 
