@@ -39,12 +39,21 @@
 	<div class="footer-content col-12">
 		<?php if(isset($_SESSION['user'])): ?>
 		<div class="footer-body" hidden>
-			<div class="col-4">
-				<h4>Información</h4>
-				<ul>
-					<li>Ayuda</li>
-					<li>Acerca de</li>
-				</ul>
+			<div class="row-simple">
+				<div class="col-4 padd">
+					<h4>Información</h4>
+					<ul>
+						<li style="text-align: left;">Ayuda</li>
+						<li style="text-align: left;">Acerca de</li>
+					</ul>
+				</div>
+
+				<div class="col-4 padd">
+					<h4>Pruebas</h4>
+					<ul>
+						<li style="text-align: left;"><a style="color: white;" href="/reservas/registrar2">(Nuevo) Registrar reserva</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<?php endif; ?>
