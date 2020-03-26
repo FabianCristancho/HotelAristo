@@ -1113,7 +1113,7 @@
         function getNextSerieBill(){
             
             $letter=65;
-            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facturas WHERE tipo_factura="N"');
+            $query = $this->connect()->prepare('SELECT MAX(ASCII(LEFT(serie_factura,1))) AS max FROM facturas WHERE tipo_factura="N" OR tipo_factura="FM"');
             $query->execute();
             
             foreach ($query as $current){
@@ -1139,16 +1139,16 @@
             }else if($num>=9 && $num<=98){
                 $num = $num+1;
                 $code = chr($letter)."0".$num;
-            }else if($num>=98 && $num<=998){
+            }else if($num>=98 && $num<=999){
                 $num = $num+1;
                 $code = chr($letter).$num;
             }else{
                 
-                if($num=999){
+                if($num=1000){
                     $letter = $letter+1;
-                    $code = chr($letter)."000";
+                    $code = chr($letter)."001";
                 }else{
-                    $code = "A000";
+                    $code = "A001";
                     
                 }
             }
