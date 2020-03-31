@@ -1135,20 +1135,20 @@
             $code = "";
             if($num>=0 && $num<=8){
                 $num = $num+1;
-                $code = chr($letter)."00".$num;
+                $code = chr($letter)." 00".$num;
             }else if($num>=9 && $num<=98){
                 $num = $num+1;
-                $code = chr($letter)."0".$num;
+                $code = chr($letter)." 0".$num;
             }else if($num>=98 && $num<=999){
                 $num = $num+1;
-                $code = chr($letter).$num;
+                $code = chr($letter)." ".$num;
             }else{
                 
                 if($num=1000){
                     $letter = $letter+1;
-                    $code = chr($letter)."001";
+                    $code = chr($letter)." 001";
                 }else{
-                    $code = "A001";
+                    $code = "A 001";
                     
                 }
             }
@@ -1180,20 +1180,20 @@
             $code = "";
             if($num>=0 && $num<=8){
                 $num = $num+1;
-                $code = chr($letter)."00".$num;
+                $code = chr($letter)." 00".$num;
             }else if($num>=9 && $num<=98){
                 $num = $num+1;
-                $code = chr($letter)."0".$num;
+                $code = chr($letter)." 0".$num;
             }else if($num>=98 && $num<=998){
                 $num = $num+1;
-                $code = chr($letter).$num;
+                $code = chr($letter)." ".$num;
             }else{
                 
                 if($num=999){
                     $letter = $letter+1;
-                    $code = chr($letter)."001";
+                    $code = chr($letter)." 001";
                 }else{
-                    $code = "A000";
+                    $code = "A 001";
                     
                 }
             }
